@@ -10,7 +10,6 @@ script = ExtResource("1_i2ibj")
 
 [node name="TitleLabel" type="Label" parent="." unique_id=1150891145]
 z_index = -1
-custom_minimum_size = Vector2(720, 50)
 offset_right = 720.0
 offset_bottom = 126.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -20,16 +19,6 @@ text = "~ scoreboad ~"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
-
-[node name="WinnerLabel" type="Label" parent="." unique_id=776499879]
-offset_left = 10.0
-offset_top = 135.0
-offset_right = 720.0
-offset_bottom = 720.0
-theme_override_colors/font_color = Color(0.5132329, 0.5132329, 0.5132329, 1)
-theme_override_fonts/font = ExtResource("2_kpv44")
-theme_override_font_sizes/font_size = 12
-text = "test"
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1895751817]
 z_index = -4
@@ -41,3 +30,89 @@ color = Color(0, 0, 0, 1)
 z_index = -2
 position = Vector2(360, 360)
 texture = ExtResource("2_5icpr")
+
+[node name="ScoreContainer" type="HBoxContainer" parent="." unique_id=1535832399]
+offset_top = 126.0
+offset_right = 720.0
+offset_bottom = 720.0
+
+[node name="PlacementLabel" type="Label" parent="ScoreContainer" unique_id=1193349326]
+custom_minimum_size = Vector2(25, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_font_sizes/font_size = 12
+text = "#
+"
+horizontal_alignment = 2
+
+[node name="UsernameLabel" type="Label" parent="ScoreContainer" unique_id=2139648340]
+custom_minimum_size = Vector2(150, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_font_sizes/font_size = 12
+text = "Username
+"
+horizontal_alignment = 1
+
+[node name="PawnLabel" type="Label" parent="ScoreContainer" unique_id=1063241617]
+custom_minimum_size = Vector2(100, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_font_sizes/font_size = 12
+text = "Pawn
+"
+horizontal_alignment = 1
+
+[node name="StyleLabel" type="Label" parent="ScoreContainer" unique_id=1775608066]
+custom_minimum_size = Vector2(100, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_font_sizes/font_size = 12
+text = "Style
+"
+horizontal_alignment = 1
+
+[node name="ItemLabel" type="Label" parent="ScoreContainer" unique_id=431872291]
+custom_minimum_size = Vector2(100, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_font_sizes/font_size = 12
+text = "Item
+"
+horizontal_alignment = 1
+
+[node name="KillsLabel" type="Label" parent="ScoreContainer" unique_id=379651143]
+custom_minimum_size = Vector2(50, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_font_sizes/font_size = 12
+text = "Kills
+"
+horizontal_alignment = 1
+
+[node name="DealtLabel" type="Label" parent="ScoreContainer" unique_id=960685436]
+custom_minimum_size = Vector2(50, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_font_sizes/font_size = 12
+text = "Damage
+"
+horizontal_alignment = 1
+
+[node name="TakenLabel" type="Label" parent="ScoreContainer" unique_id=1835262388]
+custom_minimum_size = Vector2(50, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_font_sizes/font_size = 12
+text = "Taken
+"
+horizontal_alignment = 1
+
+[node name="RatioLabel" type="Label" parent="ScoreContainer" unique_id=1291899580]
+custom_minimum_size = Vector2(50, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_font_sizes/font_size = 12
+text = "Ratio
+"
+horizontal_alignment = 1

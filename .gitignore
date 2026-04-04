@@ -4,3 +4,5 @@
 *.uid
 *.import
 /addons/
+export_presets.cfg
+.editorconfig

@@ -1,6 +1,6 @@
 extends Node2D
 var pawnType
-var boardRadius = 180
+var boardRadius = 300
 
 func _ready() -> void:
 	# Spawn disarmed winning Pawn to show off
@@ -19,31 +19,40 @@ func _ready() -> void:
 		add_child(newPawn)
 	
 	# Calculate scores for scoreboard
-	$WinnerLabel.text = call_pawn_scores()
+	call_pawn_scores()
 
 # Concatenate scoreboard string
-func call_pawn_scores() -> String:
-	var place
-	var user
-	var type
-	var style
-	var item
-	var kills
-	var dmgDealt
-	var dmgTaken
-	var dmgRatio 
+func call_pawn_scores() -> void:#String:
+	#var place
+	#var user
+	#var type
+	#var style
+	#var item
+	#var kills
+	#var dmgDealt
+	#var dmgTaken
+	#var dmgRatio 
 	var i = 1
-	var outputString = ""
+	#var outputString = ""
 	for pawn in get_parent().scoreList:
-		place = "#" + str(i) + " "
-		user = str(pawn.username) + " — "
-		type = str(pawn.type) + " ("
-		style = str(pawn.style) + ") ["
-		item = str(pawn.item) + "] — "
-		kills = str(pawn.killCount) + " kills, "
-		dmgDealt = str(int(pawn.damageDealt)) + " dealt, "
-		dmgTaken = str(int(pawn.damageTaken)) + " taken — "
-		dmgRatio = "(" + "%0.2f" % float(pawn.damageDealt/pawn.damageTaken) + " ratio)"
+		get_node("ScoreContainer/PlacementLabel").text += str(i) + "\n"
+		get_node("ScoreContainer/UsernameLabel").text += str(pawn.username) + "\n"
+		get_node("ScoreContainer/PawnLabel").text += str(pawn.type) + "\n"
+		get_node("ScoreContainer/StyleLabel").text += str(pawn.style) + "\n"
+		get_node("ScoreContainer/ItemLabel").text += str(pawn.item) + "\n"
+		get_node("ScoreContainer/KillsLabel").text += str(pawn.killCount) + "\n"
+		get_node("ScoreContainer/DealtLabel").text += str(int(pawn.damageDealt)) + "\n"
+		get_node("ScoreContainer/TakenLabel").text += str(int(pawn.damageTaken)) + "\n"
+		get_node("ScoreContainer/RatioLabel").text += "%0.2f" % float(pawn.damageDealt/pawn.damageTaken) + "\n"
+		#place = "#" + str(i) + " "
+		#user = str(pawn.username) + " — "
+		#type = str(pawn.type) + " ("
+		#style = str(pawn.style) + ") ["
+		#item = str(pawn.item) + "] — "
+		#kills = str(pawn.killCount) + " kills, "
+		#dmgDealt = str(int(pawn.damageDealt)) + " dealt, "
+		#dmgTaken = str(int(pawn.damageTaken)) + " taken — "
+		#dmgRatio = "(" + "%0.2f" % float(pawn.damageDealt/pawn.damageTaken) + " ratio)"
 		i += 1
-		outputString += place + user + type + style + item + kills + dmgDealt + dmgTaken + dmgRatio + "\n"
-	return(outputString)
+		#outputString += place + user + type + style + item + kills + dmgDealt + dmgTaken + dmgRatio + "\n"
+	#return(outputString)
