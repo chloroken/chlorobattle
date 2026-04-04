@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://f2i4r8ktardt" path="res://pawns/top/top_pawn.gd" id="1_04y0m"]
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_ksjeq"]
 [ext_resource type="Texture2D" uid="uid://c8om8ie5uynlo" path="res://pawns/top/top_pawn.png" id="2_bwwx6"]
-[ext_resource type="PackedScene" uid="uid://b3nnycclaewq4" path="res://pawns/top/top_attack.tscn" id="2_ruyh0"]
+[ext_resource type="PackedScene" uid="uid://b4sfbkn4gf6cx" path="res://pawns/top/top_attack.tscn" id="2_ruyh0"]
 
 [node name="TopPawn" unique_id=1877646274 instance=ExtResource("1_ksjeq")]
 script = ExtResource("1_04y0m")

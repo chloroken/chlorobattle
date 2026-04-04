@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://c0sqjqmo6iaqp"]
+
+[ext_resource type="Texture2D" uid="uid://dgy288syrcnox" path="res://pawns/candle/candle_attack.png" id="2_5owxt"]
+[ext_resource type="Script" uid="uid://cniotk43gsmom" path="res://pawns/candle/candle_attack.gd" id="2_603yu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2me13"]
+radius = 999.9999
+
+[node name="CandleAttack" type="CharacterBody2D" unique_id=1314532855]
+scale = Vector2(0.1, 0.1)
+collision_mask = 0
+script = ExtResource("2_603yu")
+
+[node name="BaseSprite" type="Sprite2D" parent="." unique_id=1865807943]
+modulate = Color(1, 1, 1, 0.039215688)
+texture = ExtResource("2_5owxt")
+
+[node name="BaseCollider" type="CollisionShape2D" parent="." unique_id=867063161]
+shape = SubResource("CircleShape2D_2me13")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=930558460]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

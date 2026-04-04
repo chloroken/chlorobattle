@@ -3,6 +3,7 @@ extends Node2D
 @export var lobby: PackedScene
 @export var arena: PackedScene
 @export var score: PackedScene
+@export var candle: PackedScene
 @export var chair: PackedScene
 @export var grouper: PackedScene
 @export var pirate: PackedScene

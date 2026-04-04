@@ -38,7 +38,8 @@ func _on_spawn_stagger_timer_timeout() -> void:
 func spawn_pawns(i: int) -> void:
 	# Get Pawn type
 	var pawn = get_parent().pawnList[i]
-	if pawn.type == "chair": pawnType = get_parent().chair
+	if pawn.type == "candle": pawnType = get_parent().candle
+	elif pawn.type == "chair": pawnType = get_parent().chair
 	elif pawn.type == "grouper": pawnType = get_parent().grouper
 	elif pawn.type == "pirate": pawnType = get_parent().pirate
 	elif pawn.type == "ship": pawnType = get_parent().ship

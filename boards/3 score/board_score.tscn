@@ -10,12 +10,13 @@ script = ExtResource("1_i2ibj")
 
 [node name="TitleLabel" type="Label" parent="." unique_id=1150891145]
 z_index = -1
+offset_top = -10.0
 offset_right = 720.0
-offset_bottom = 126.0
+offset_bottom = 116.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_7g0av")
 theme_override_font_sizes/font_size = 92
-text = "~ scoreboad ~"
+text = "~ scoreboard ~"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2

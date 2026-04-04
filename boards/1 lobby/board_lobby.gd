@@ -45,7 +45,8 @@ func register_pawn(username: String, type: String, style = "random", item = "ran
 	print(newPawn.username + " joined as " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "]")
 
 func get_pawn_type(message: String):
-	if "chair" in message: return("chair")
+	if "candle" in message: return("candle")
+	elif "chair" in message: return("chair")
 	elif "grouper" in message: return("grouper")
 	elif "pirate" in message: return("pirate")
 	elif "ship" in message: return("ship")
@@ -70,7 +71,7 @@ func get_pawn_item(message: String):
 	else: return(choose_random_item())
 	
 func choose_random_pawn() -> String:
-	var allPawnTypes = ["chair", "grouper", "pirate", "ship", "slug", "top"]
+	var allPawnTypes = ["candle", "chair", "grouper", "pirate", "ship", "slug", "top"]
 	var i = randi_range(0, allPawnTypes.size() - 1)
 	return(allPawnTypes[i])
 	
@@ -87,7 +88,8 @@ func choose_random_item() -> String:
 # Spawn disarmed Pawns in lobby while players wait
 func spawn_pawn(pawn) -> void:
 	var pawnType
-	if pawn.type == "chair": pawnType = get_parent().chair
+	if pawn.type == "candle": pawnType = get_parent().candle
+	elif pawn.type == "chair": pawnType = get_parent().chair
 	elif pawn.type == "grouper": pawnType = get_parent().grouper
 	elif pawn.type == "pirate": pawnType = get_parent().pirate
 	elif pawn.type == "ship": pawnType = get_parent().ship
