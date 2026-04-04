@@ -6,24 +6,29 @@ var minimumRadius
 var boardRadius = 280
 var pawnSpawnIndex = 0
 
+# Snapshot board radius to accurate scale everything
 func _ready() -> void:
 	baseRadius = boardRadius
 	minimumRadius = baseRadius/10
-	
+
 func _process(_delta: float) -> void:
-	if get_parent().pawnList.size() <= 1:
-		get_parent().switch_board("end")
+	# Rotate board graphics
+	$BoardSprite.rotation += 0.00025
+	$BoardSprite2.rotation -= 0.00025
 
 	# Board radius reduction mechanic
 	var ratio = $BoardDurationTimer.get_time_left() / $BoardDurationTimer.get_wait_time()
 	boardRadius = max(minimumRadius, baseRadius * ratio)
 	$BoardSprite.scale.x = ratio * 0.9
 	$BoardSprite.scale.y = ratio * 0.9
-	$BoardSprite.rotation += 0.00025
 	$BoardSprite2.scale.x = ratio * 0.9
 	$BoardSprite2.scale.y = ratio * 0.9
-	$BoardSprite2.rotation -= 0.00025
+	
+	# When only one Pawn remains, proceed to next board
+	if get_parent().pawnList.size() <= 1:
+		get_parent().switch_board("score")
 
+# Using a timer, stagger Pawn spawning to avoid instadeaths
 func _on_spawn_stagger_timer_timeout() -> void:
 	spawn_pawns(pawnSpawnIndex)
 	pawnSpawnIndex += 1
@@ -31,6 +36,7 @@ func _on_spawn_stagger_timer_timeout() -> void:
 		$SpawnStaggerTimer.stop()
 	
 func spawn_pawns(i: int) -> void:
+	# Get Pawn type
 	var pawn = get_parent().pawnList[i]
 	if pawn.type == "chair": pawnType = get_parent().chair
 	elif pawn.type == "grouper": pawnType = get_parent().grouper
@@ -38,13 +44,15 @@ func spawn_pawns(i: int) -> void:
 	elif pawn.type == "ship": pawnType = get_parent().ship
 	elif pawn.type == "slug": pawnType = get_parent().slug
 	elif pawn.type == "top": pawnType = get_parent().top
+	
+	# Instantiate Pawn
 	var newPawn = pawnType.instantiate()
 	var center = get_viewport_rect().size / 2.0
 	newPawn.position = center + evenly_spaced_position(i)
 	newPawn.username = pawn.username # str(randf()) # 
 	newPawn.type = pawn.type
 
-	#style
+	# Set Pawn style
 	if pawn.style == "berserk":
 		newPawn.hp *= 0.75
 		newPawn.dmg *= 1.25
@@ -68,7 +76,7 @@ func spawn_pawns(i: int) -> void:
 		newPawn.dmg *= 0.9
 	newPawn.style = pawn.style
 	
-	#items
+	# Set Pawn items
 	if pawn.item == "antimatter": newPawn.item = "antimatter"
 	elif pawn.item == "dice": newPawn.item = "dice"
 	elif pawn.item == "killbot": newPawn.item = "killbot"
@@ -77,11 +85,6 @@ func spawn_pawns(i: int) -> void:
 	
 	add_child(newPawn)
 	print("Spawned " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "] for " + newPawn.username)
-
-func adjust_pawn_stats(pawn, size: float, hp: float, dmg: float, pen: float, def: float, spd: float):
-	#pawn.size += size
-	pass
-	#
 
 func evenly_spaced_position(i: int) -> Vector2:
 	var rot = 2 * PI * i / get_parent().pawnList.size()

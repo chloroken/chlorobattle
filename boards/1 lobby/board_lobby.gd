@@ -2,39 +2,27 @@ extends Node2D
 var currentPlayers = []
 var boardRadius = 240
 
-# Intiate twitch functions
 func _ready() -> void:
+	# Intiate twitch functions
 	#VerySimpleTwitch.get_token_and_login_chat()
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
-	print("Scraping Twitch chat")
 	
 	# random test bots
-	for i in 8:
+	for i in 24:
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# specific test bots
-	#register_pawn("fibbo", "chair", "nimble", "dice")
-	#register_pawn("faoble", "pirate", "giant", "milkshake")
+	#register_pawn("chloroken", "chair", "nimble", "dice")
+	#register_pawn("darkdwain", "pirate", "giant", "milkshake")
 
-# Display lobby labels
+# Update lobby countdown timer
 func _process(_delta: float) -> void:
-	$BoardSprite1.rotation += 0.00025
-	$BoardSprite2.rotation -= 0.00025
-	get_node("TimerLabel").text = "Starting in " + str(int($LobbyTimer.time_left)) + " "
-	#var displayString = "========== C H L O R O B A T T L E =========="
-	#displayString += "\n\nType !join <pawn> <style> <item> in Twitch Chat to play!"
-	#displayString += "\n\nPawns — chair, grouper, pirate, ship, slug, top"
-	#displayString += "\nStyles — berserk, giant, insane, nimble, sturdy"
-	#displayString += "\nItems — antimatter, dice, killbot, milkshake, skates"
-	#displayString += "\n\nContestants: "
-	#for i in get_parent().pawnList:
-		#displayString += i.username + ", "
-	#$PlayersLabel.text = displayString.substr(0, displayString.length() - 2)
+	$TimerLabel.text = str(int($LobbyTimer.time_left))
 
 func _on_lobby_timer_timeout() -> void:
-	get_parent().switch_board("early")
+	get_parent().switch_board("arena")
 
-# Process Twitch Chat join requests
+# Scrape Twitch chat & look for joiners
 func print_chatter_message(chatter: VSTChatter):
 	var username = chatter.tags.display_name
 	var message = chatter.message.to_lower()
@@ -96,6 +84,7 @@ func choose_random_item() -> String:
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])
 
+# Spawn disarmed Pawns in lobby while players wait
 func spawn_pawn(pawn) -> void:
 	var pawnType
 	if pawn.type == "chair": pawnType = get_parent().chair
@@ -110,6 +99,4 @@ func spawn_pawn(pawn) -> void:
 	newPawn.username = pawn.username # str(randf()) # 
 	newPawn.type = pawn.type
 	newPawn.attacksDisabled = true
-	
 	add_child(newPawn)
-	print("Spawned " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "] for " + newPawn.username)

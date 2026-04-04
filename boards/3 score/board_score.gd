@@ -2,12 +2,8 @@ extends Node2D
 var pawnType
 var boardRadius = 180
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#var labelText = "Winner: " + get_parent().pawnList[0].username
-	#labelText += " — " + get_parent().pawnList[0].type
-	#labelText += " (" + get_parent().pawnList[0].style + ")"
-	#labelText += " [" + get_parent().pawnList[0].item + "]"
+	# Spawn disarmed winning Pawn to show off
 	for pawn in get_parent().pawnList:
 		if pawn.type == "chair": pawnType = get_parent().chair
 		elif pawn.type == "grouper": pawnType = get_parent().grouper
@@ -21,8 +17,11 @@ func _ready() -> void:
 		newPawn.username = pawn.username # str(randf()) # 
 		newPawn.type = pawn.type
 		add_child(newPawn)
+	
+	# Calculate scores for scoreboard
 	$WinnerLabel.text = call_pawn_scores()
 
+# Concatenate scoreboard string
 func call_pawn_scores() -> String:
 	var place
 	var user
@@ -34,9 +33,9 @@ func call_pawn_scores() -> String:
 	var dmgTaken
 	var dmgRatio 
 	var i = 1
-	var outputString = "Scoreboard:\n"
+	var outputString = ""
 	for pawn in get_parent().scoreList:
-		place = "[" + str(i) + "] "
+		place = "#" + str(i) + " "
 		user = str(pawn.username) + " — "
 		type = str(pawn.type) + " ("
 		style = str(pawn.style) + ") ["

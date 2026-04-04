@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bhh6l25wl27ki" path="res://items/dice/dice_effect.tscn" id="4_weq32"]
 [ext_resource type="PackedScene" uid="uid://d2mn3nlatfxkh" path="res://items/milkshake/milkshake_effect.tscn" id="5_bxe4l"]
 [ext_resource type="PackedScene" uid="uid://btb8whxqk8dx6" path="res://items/skates/skate_effect.tscn" id="6_my1fm"]
+[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="7_hndg7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
 radius = 12.0
@@ -36,15 +37,16 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -64.0
-offset_top = 16.0
+offset_top = 18.0
 offset_right = 64.0
-offset_bottom = 33.00002
+offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 12
+theme_override_fonts/font = ExtResource("7_hndg7")
+theme_override_font_sizes/font_size = 18
 text = "pawn"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -56,14 +58,15 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -64.0
-offset_top = -45.0
+offset_top = -42.0
 offset_right = 64.0
-offset_bottom = -28.0
+offset_bottom = -26.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("7_hndg7")
 theme_override_font_sizes/font_size = 12
 text = "pawn"
 horizontal_alignment = 1

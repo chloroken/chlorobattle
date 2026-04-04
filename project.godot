@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="chloro"
+config/name="chlorobattle"
 run/main_scene="uid://cffuxn634lm41"
 config/features=PackedStringArray("4.6", "Forward Plus")
 

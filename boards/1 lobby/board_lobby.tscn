@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://cu0pktmhxdqpa"]
+
+[ext_resource type="Script" uid="uid://iyuns7lssrvx" path="res://boards/1 lobby/board_lobby.gd" id="1_4hyng"]
+[ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/graphics/board_background.png" id="2_0kqu1"]
+[ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://fonts/Grunge.otf" id="2_pe4tc"]
+[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="5_x07d7"]
+
+[node name="LobbyBoard" type="Node2D" unique_id=751706610]
+script = ExtResource("1_4hyng")
+
+[node name="LobbyTimer" type="Timer" parent="." unique_id=2019922163]
+wait_time = 60.0
+one_shot = true
+autostart = true
+
+[node name="TitleLabel" type="Label" parent="." unique_id=1720641450]
+z_index = -1
+offset_top = -10.0
+offset_right = 720.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_pe4tc")
+theme_override_font_sizes/font_size = 92
+text = "~ chlorobattle ~"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="TimerLabel" type="Label" parent="." unique_id=1582148895]
+z_index = -2
+custom_minimum_size = Vector2(720, 50)
+offset_right = 720.0
+offset_bottom = 720.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
+theme_override_fonts/font = ExtResource("5_x07d7")
+theme_override_font_sizes/font_size = 256
+text = "60"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LobbySprite" type="Sprite2D" parent="." unique_id=677665225]
+z_index = -5
+position = Vector2(360, 360)
+texture = ExtResource("2_0kqu1")
+
+[node name="InstructionLabel" type="Label" parent="." unique_id=460044495]
+offset_top = 630.0
+offset_right = 720.0
+offset_bottom = 730.0
+theme_override_fonts/font = ExtResource("5_x07d7")
+theme_override_font_sizes/font_size = 36
+text = "!join <pawn> <style> <item>"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="timeout" from="LobbyTimer" to="." method="_on_lobby_timer_timeout"]

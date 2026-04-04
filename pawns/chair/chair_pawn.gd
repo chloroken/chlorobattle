@@ -8,6 +8,7 @@ func _ready() -> void:
 	super()
 	baseSpd = spd
 
+# Attack with Chair leg
 func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = chairAttack.instantiate()
 	newAttack.position = self.position
@@ -20,5 +21,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	spd = 0
 	$AttackStutterTimer.start()
 
+# Reset speed to finish stutter 
 func _on_attack_stutter_timer_timeout() -> void:
 	spd = baseSpd

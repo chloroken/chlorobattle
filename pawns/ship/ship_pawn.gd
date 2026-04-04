@@ -9,8 +9,8 @@ func _process(_delta: float) -> void:
 	super(_delta)
 	$PawnSprite.look_at(destination)
 
+# Launch bullets
 func _on_attack_cooldown_timer_timeout() -> void:
-	# Launch bullets
 	if $OverheatDurationTimer.is_stopped():
 		var newAttack = shipAttack.instantiate()
 		newAttack.position = self.position
@@ -26,13 +26,15 @@ func _on_attack_cooldown_timer_timeout() -> void:
 # Drop rings behind ship for effect
 func _on_ring_timer_timeout() -> void:
 	var newRing = shipRing.instantiate()
-	get_parent().add_sibling(newRing)
+	$AttackContainer.add_child(newRing)
 	newRing.position = self.position
-	
+
+# Stop firing
 func _on_burst_duration_timer_timeout() -> void:
 	$BurstDurationTimer.stop()
 	$OverheatDurationTimer.start($OverheatDurationTimer.get_wait_time() + random_variance())
-
+	
+# Stop overheating
 func _on_overheat_duration_timer_timeout() -> void:
 	$OverheatDurationTimer.stop()
 	$BurstDurationTimer.start()

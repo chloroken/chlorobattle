@@ -15,4 +15,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 	$AttackCooldownTimer.start($AttackCooldownTimer.get_wait_time() + random_variance())
+	
+	# Regenerate health every time slug attacks
 	hp += slugRegeneration

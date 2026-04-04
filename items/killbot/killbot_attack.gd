@@ -6,6 +6,7 @@ var direction: Vector2
 var dmg = 10
 var pen = 0
 
+# Assign a random direction
 func _ready() -> void:
 	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
 

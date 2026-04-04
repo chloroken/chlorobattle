@@ -24,7 +24,7 @@ texture = ExtResource("2_7iikp")
 text = "ship"
 
 [node name="RingTimer" type="Timer" parent="." index="3" unique_id=657030387]
-wait_time = 0.5
+wait_time = 0.25
 autostart = true
 
 [node name="OverheatDurationTimer" type="Timer" parent="." index="4" unique_id=29446756]

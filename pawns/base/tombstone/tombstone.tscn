@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cqwo7ql0smi4o" path="res://pawns/base/tombstone/tombstone.gd" id="1_ndd8p"]
 [ext_resource type="Texture2D" uid="uid://bpmf5kiiakav0" path="res://pawns/base/tombstone/tombstone.png" id="2_agk00"]
+[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="3_4s48m"]
 
 [node name="Tombstone" type="Node2D" unique_id=1901625262]
 script = ExtResource("1_ndd8p")
@@ -25,6 +26,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_4s48m")
 theme_override_font_sizes/font_size = 10
 text = "pawn"
 horizontal_alignment = 1

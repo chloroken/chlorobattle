@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dnw5wbt4mx7bn"]
 
-[ext_resource type="Script" uid="uid://dxvx4hcsv5luv" path="res://boards/board_early.gd" id="1_4cru4"]
-[ext_resource type="Texture2D" uid="uid://clkke3y5rkhvx" path="res://boards/arena_fancy.png" id="2_7y30k"]
-[ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/board_background.png" id="3_0rnid"]
+[ext_resource type="Script" uid="uid://dxvx4hcsv5luv" path="res://boards/2 arena/board_arena.gd" id="1_4cru4"]
+[ext_resource type="Texture2D" uid="uid://clkke3y5rkhvx" path="res://boards/graphics/arena_fancy.png" id="2_7y30k"]
+[ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/graphics/board_background.png" id="3_0rnid"]
 
 [node name="EarlyBoard" type="Node2D" unique_id=230680556]
 script = ExtResource("1_4cru4")
