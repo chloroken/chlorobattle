@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://ddxj6u8lafeel"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_a6a5s"]
+[ext_resource type="Script" uid="uid://cl2oiya2peikt" path="res://pawns/slug/slug_pawn.gd" id="2_8633t"]
+[ext_resource type="Texture2D" uid="uid://hy5kxurtvq1s" path="res://pawns/slug/slug_pawn.png" id="2_qfyav"]
+[ext_resource type="PackedScene" uid="uid://x1pfke2unlov" path="res://pawns/slug/slug_attack.tscn" id="3_tqnmo"]
+
+[node name="SlugPawn" unique_id=1048959576 instance=ExtResource("1_a6a5s")]
+script = ExtResource("2_8633t")
+slugAttack = ExtResource("3_tqnmo")
+size = 1.1
+hp = 160.0
+pen = 0.8
+def = 0.3
+spd = 10.0
+
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+texture = ExtResource("2_qfyav")
+
+[node name="NameLabel" parent="." index="2" unique_id=1628394180]
+text = "slug"
+
+[node name="AttackCooldownTimer" parent="." index="4" unique_id=1610759688]
+autostart = true
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

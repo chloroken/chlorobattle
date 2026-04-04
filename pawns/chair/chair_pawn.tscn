@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://hbkaf6ui8o53"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_gb7of"]
+[ext_resource type="Script" uid="uid://ui8l2id1liwc" path="res://pawns/chair/chair_pawn.gd" id="2_ag02n"]
+[ext_resource type="Texture2D" uid="uid://q3fku033ss5p" path="res://pawns/chair/chair_pawn.png" id="2_twiy4"]
+[ext_resource type="PackedScene" uid="uid://lt1vivqhgjg8" path="res://pawns/chair/chair_attack.tscn" id="3_62xb0"]
+
+[node name="ChairPawn" unique_id=1048959576 instance=ExtResource("1_gb7of")]
+script = ExtResource("2_ag02n")
+chairAttack = ExtResource("3_62xb0")
+size = 1.2
+hp = 175.0
+dmg = 60.0
+pen = 0.2
+def = 0.3
+spd = 40.0
+
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+texture = ExtResource("2_twiy4")
+
+[node name="NameLabel" parent="." index="2" unique_id=1628394180]
+text = "chair"
+
+[node name="AttackStutterTimer" type="Timer" parent="." index="3" unique_id=2142236205]
+wait_time = 0.5
+one_shot = true
+
+[node name="AttackCooldownTimer" parent="." index="5" unique_id=1610759688]
+wait_time = 1.5
+autostart = true
+
+[connection signal="timeout" from="AttackStutterTimer" to="." method="_on_attack_stutter_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

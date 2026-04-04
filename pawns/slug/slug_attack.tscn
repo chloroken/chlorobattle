@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://x1pfke2unlov"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_afs8p"]
+[ext_resource type="Script" uid="uid://dfar6w8cdc53l" path="res://pawns/slug/slug_attack.gd" id="2_j3r24"]
+[ext_resource type="Texture2D" uid="uid://1awvafxvppx6" path="res://pawns/slug/slug_attack.png" id="3_lmhw8"]
+
+[node name="SlugAttack" unique_id=1314532855 instance=ExtResource("1_afs8p")]
+z_index = -1
+scale = Vector2(0.2, 0.2)
+script = ExtResource("2_j3r24")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("3_lmhw8")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+scale = Vector2(8, 8)
+
+[node name="DamageLabel" type="Label" parent="." index="2" unique_id=1995884402]
+visible = false
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0.08468998, 0.08468991, 0.08468994, 1)
+theme_override_font_sizes/font_size = 32
+text = "30"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FizzleTimer" parent="." index="3" unique_id=930558460]
+wait_time = 45.0
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

@@ -1,0 +1,41 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="chloro"
+run/main_scene="uid://cffuxn634lm41"
+config/features=PackedStringArray("4.6", "Forward Plus")
+
+[autoload]
+
+VerySimpleTwitch="*uid://cv87x4dtct7qg"
+
+[display]
+
+window/size/viewport_width=720
+window/size/viewport_height=720
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/very-simple-twitch/plugin.cfg")
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
+environment/defaults/default_clear_color=Color(0.11858138, 0.11858138, 0.11858138, 1)
+
+[very_simple_twitch]
+
+config/client_id="2dfj0e1m7p831s4elvstw74n1tjdam"

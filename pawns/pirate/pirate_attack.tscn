@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bj26pikuftl15"]
+
+[ext_resource type="Script" uid="uid://pmbrudqtddn4" path="res://pawns/pirate/pirate_attack.gd" id="1_vnbml"]
+[ext_resource type="Texture2D" uid="uid://ccfur3djn2c6i" path="res://pawns/pirate/pirate_attack.png" id="2_24ndx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2me13"]
+radius = 15.033297
+
+[node name="PirateAttack" type="CharacterBody2D" unique_id=1314532855]
+z_index = 1
+collision_mask = 0
+script = ExtResource("1_vnbml")
+
+[node name="PirateAttackSprite" type="Sprite2D" parent="." unique_id=1865807943]
+texture = ExtResource("2_24ndx")
+
+[node name="PirateAttackCollider" type="CollisionShape2D" parent="." unique_id=867063161]
+shape = SubResource("CircleShape2D_2me13")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=309569658]
+wait_time = 3.0
+autostart = true
+
+[node name="DirectionTimer" type="Timer" parent="." unique_id=1994594453]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]
+[connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://d2mn3nlatfxkh"]
+
+[ext_resource type="Script" uid="uid://bqlbcoxglgf3q" path="res://items/milkshake/milkshake_effect.gd" id="1_ht1w6"]
+[ext_resource type="Texture2D" uid="uid://drg0bfiic4iyk" path="res://items/milkshake/milkshake.png" id="2_xwrgw"]
+
+[node name="MilkshakeEffect" type="Node2D" unique_id=456358180]
+script = ExtResource("1_ht1w6")
+
+[node name="MilkshakeSprite" type="Sprite2D" parent="." unique_id=360599421]
+texture = ExtResource("2_xwrgw")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=54883147]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

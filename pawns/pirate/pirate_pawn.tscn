@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://brk1m57ccp1ef"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_hvhxy"]
+[ext_resource type="Texture2D" uid="uid://cg3hajkhjhu0c" path="res://pawns/pirate/pirate_pawn.png" id="2_f4qk0"]
+[ext_resource type="Script" uid="uid://cdub77jnq8457" path="res://pawns/pirate/pirate_pawn.gd" id="2_ifqpx"]
+[ext_resource type="PackedScene" uid="uid://bj26pikuftl15" path="res://pawns/pirate/pirate_attack.tscn" id="3_rmdc7"]
+
+[node name="PiratePawn" unique_id=1048959576 instance=ExtResource("1_hvhxy")]
+script = ExtResource("2_ifqpx")
+pirateAttack = ExtResource("3_rmdc7")
+hp = 180.0
+dmg = 50.0
+pen = 0.1
+def = 0.2
+spd = 30.0
+
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+texture = ExtResource("2_f4qk0")
+
+[node name="NameLabel" parent="." index="2" unique_id=1628394180]
+text = "pirate"
+
+[node name="HitpointLabel" parent="." index="3" unique_id=1383475225]
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+
+[node name="AttackCooldownTimer" parent="." index="4" unique_id=1610759688]
+wait_time = 0.75
+autostart = true
+
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

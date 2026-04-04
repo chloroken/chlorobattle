@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://ck0eynkg55hxa"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_635dh"]
+[ext_resource type="Texture2D" uid="uid://cc32arvaf7lrm" path="res://pawns/grouper/grouper_pawn.png" id="2_46qhr"]
+[ext_resource type="Script" uid="uid://bujutv7xv6il6" path="res://pawns/grouper/grouper_pawn.gd" id="2_xl8v5"]
+[ext_resource type="PackedScene" uid="uid://dbftbba6nqwvn" path="res://pawns/grouper/grouper_attack.tscn" id="3_opeyy"]
+[ext_resource type="PackedScene" uid="uid://bupr8t3eexyup" path="res://pawns/grouper/grouper_bubble.tscn" id="4_q1jjm"]
+
+[node name="GrouperPawn" unique_id=1048959576 instance=ExtResource("1_635dh")]
+script = ExtResource("2_xl8v5")
+grouperAttack = ExtResource("3_opeyy")
+grouperBubble = ExtResource("4_q1jjm")
+hp = 190.0
+dmg = 45.0
+pen = 0.4
+def = 0.2
+spd = 20.0
+
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+texture = ExtResource("2_46qhr")
+
+[node name="NameLabel" parent="." index="2" unique_id=1628394180]
+text = "grouper"
+
+[node name="AttackDurationTimer" type="Timer" parent="." index="3" unique_id=1434564844]
+one_shot = true
+
+[node name="BubbleTimer" type="Timer" parent="." index="4" unique_id=1771762797]
+wait_time = 0.05
+
+[node name="AttackCooldownTimer" parent="." index="6" unique_id=1610759688]
+wait_time = 4.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="AttackDurationTimer" to="." method="_on_attack_duration_timer_timeout"]
+[connection signal="timeout" from="BubbleTimer" to="." method="_on_bubble_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

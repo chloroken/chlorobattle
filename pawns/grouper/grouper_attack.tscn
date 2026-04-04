@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dbftbba6nqwvn"]
+
+[ext_resource type="Script" uid="uid://c2gd1veua421x" path="res://pawns/grouper/grouper_attack.gd" id="1_pv7dr"]
+[ext_resource type="Texture2D" uid="uid://n18btobrrvn2" path="res://pawns/grouper/grouper_attack.png" id="2_60y5l"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2me13"]
+radius = 16.0
+
+[node name="GrouperAttack" type="CharacterBody2D" unique_id=1314532855]
+z_index = -1
+collision_mask = 0
+script = ExtResource("1_pv7dr")
+
+[node name="GrouperAttackSprite" type="Sprite2D" parent="." unique_id=1865807943]
+modulate = Color(1, 1, 1, 0.78431374)
+texture = ExtResource("2_60y5l")
+
+[node name="GrouperAttackCollider" type="CollisionShape2D" parent="." unique_id=867063161]
+shape = SubResource("CircleShape2D_2me13")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1796363793]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

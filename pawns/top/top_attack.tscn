@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://b3nnycclaewq4"]
+
+[ext_resource type="Script" uid="uid://b50niks6j4h1s" path="res://pawns/top/top_attack.gd" id="1_yap77"]
+[ext_resource type="Texture2D" uid="uid://ci3vhjfjdsq2k" path="res://pawns/top/top_attack.png" id="2_1k46g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2me13"]
+radius = 4.0
+
+[node name="TopAttack" type="CharacterBody2D" unique_id=1314532855]
+scale = Vector2(0.5, 0.5)
+collision_mask = 0
+script = ExtResource("1_yap77")
+
+[node name="TopAttackSprite" type="Sprite2D" parent="." unique_id=1865807943]
+texture = ExtResource("2_1k46g")
+
+[node name="TopAttackCollider" type="CollisionShape2D" parent="." unique_id=867063161]
+shape = SubResource("CircleShape2D_2me13")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=930558460]
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

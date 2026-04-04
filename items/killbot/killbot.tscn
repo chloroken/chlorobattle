@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dnkqxjuduneo8"]
+
+[ext_resource type="Script" uid="uid://d2kvga7hp4iwk" path="res://items/killbot/killbot.gd" id="1_bw3id"]
+[ext_resource type="PackedScene" uid="uid://c21snmp1k1q3w" path="res://items/killbot/killbot_attack.tscn" id="2_8byt7"]
+[ext_resource type="Texture2D" uid="uid://kifgw4q46igh" path="res://items/killbot/killbot.png" id="2_rigfe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c4uqr"]
+
+[node name="BaseKillbot" type="CharacterBody2D" unique_id=894732887]
+light_mask = 0
+script = ExtResource("1_bw3id")
+killbotAttack = ExtResource("2_8byt7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=494381437]
+texture = ExtResource("2_rigfe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=12266438]
+shape = SubResource("CircleShape2D_c4uqr")
+disabled = true
+
+[node name="AttackCooldownTimer" type="Timer" parent="." unique_id=699143531]
+autostart = true
+
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://c0isnoaybkehl"]
+
+[ext_resource type="Script" uid="uid://bgxgvhmhghwc8" path="res://pawns/base/base_attack.gd" id="1_be5py"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2me13"]
+radius = 4.0
+
+[node name="BaseAttack" type="CharacterBody2D" unique_id=1314532855]
+collision_mask = 0
+script = ExtResource("1_be5py")
+
+[node name="BaseSprite" type="Sprite2D" parent="." unique_id=1865807943]
+
+[node name="BaseCollider" type="CollisionShape2D" parent="." unique_id=867063161]
+shape = SubResource("CircleShape2D_2me13")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=930558460]

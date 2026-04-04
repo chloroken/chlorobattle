@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://lt1vivqhgjg8"]
+
+[ext_resource type="Script" uid="uid://c1jpkhp8wph73" path="res://pawns/chair/chair_attack.gd" id="1_5loam"]
+[ext_resource type="Texture2D" uid="uid://dshna6p0n8x65" path="res://pawns/chair/chair_attack.png" id="2_5loam"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bcv68"]
+size = Vector2(16, 60)
+
+[node name="ChairAttack" type="CharacterBody2D" unique_id=1314532855]
+collision_mask = 0
+script = ExtResource("1_5loam")
+
+[node name="ChairAttackSprite" type="Sprite2D" parent="." unique_id=1865807943]
+z_index = 1
+texture = ExtResource("2_5loam")
+offset = Vector2(0, -32)
+
+[node name="ChairAttackCollider" type="CollisionShape2D" parent="." unique_id=867063161]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_bcv68")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=2014808076]
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

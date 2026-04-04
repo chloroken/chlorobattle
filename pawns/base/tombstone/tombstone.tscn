@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://crarr4hxisv6u"]
+
+[ext_resource type="Script" uid="uid://cqwo7ql0smi4o" path="res://pawns/base/tombstone/tombstone.gd" id="1_ndd8p"]
+[ext_resource type="Texture2D" uid="uid://bpmf5kiiakav0" path="res://pawns/base/tombstone/tombstone.png" id="2_agk00"]
+
+[node name="Tombstone" type="Node2D" unique_id=1901625262]
+script = ExtResource("1_ndd8p")
+
+[node name="TombstoneSprite" type="Sprite2D" parent="." unique_id=776059750]
+z_index = -2
+texture = ExtResource("2_agk00")
+
+[node name="NameLabel" type="Label" parent="." unique_id=786704927]
+z_index = -1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -24.0
+offset_right = 64.0
+offset_bottom = -8.000011
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+text = "pawn"
+horizontal_alignment = 1
+vertical_alignment = 1

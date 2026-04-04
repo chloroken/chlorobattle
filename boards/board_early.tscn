@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dnw5wbt4mx7bn"]
+
+[ext_resource type="Script" uid="uid://dxvx4hcsv5luv" path="res://boards/board_early.gd" id="1_4cru4"]
+[ext_resource type="Texture2D" uid="uid://clkke3y5rkhvx" path="res://boards/arena_fancy.png" id="2_7y30k"]
+[ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/board_background.png" id="3_0rnid"]
+
+[node name="EarlyBoard" type="Node2D" unique_id=230680556]
+script = ExtResource("1_4cru4")
+
+[node name="BoardSprite" type="Sprite2D" parent="." unique_id=570816999]
+modulate = Color(1, 1, 1, 0.39215687)
+z_index = -4
+position = Vector2(360, 360)
+texture = ExtResource("2_7y30k")
+
+[node name="BoardSprite2" type="Sprite2D" parent="." unique_id=1176494867]
+modulate = Color(1, 1, 1, 0.39215687)
+z_index = -4
+position = Vector2(360, 360)
+texture = ExtResource("2_7y30k")
+
+[node name="BoardBackdrop" type="Sprite2D" parent="." unique_id=644562108]
+z_index = -6
+position = Vector2(360, 360)
+texture = ExtResource("3_0rnid")
+
+[node name="BoardDurationTimer" type="Timer" parent="." unique_id=1118146589]
+wait_time = 600.0
+one_shot = true
+autostart = true
+
+[node name="SpawnStaggerTimer" type="Timer" parent="." unique_id=603592877]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="SpawnStaggerTimer" to="." method="_on_spawn_stagger_timer_timeout"]
