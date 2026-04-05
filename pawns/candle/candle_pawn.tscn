@@ -9,7 +9,7 @@
 script = ExtResource("2_ori44")
 candleAttack = ExtResource("3_7ms7f")
 hp = 170.0
-dmg = 10.0
+dmg = 7.0
 pen = 0.2
 def = 0.4
 spd = 30.0

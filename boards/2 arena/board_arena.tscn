@@ -48,8 +48,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="KillFeedLabel" type="Label" parent="." unique_id=1315678680]
-offset_right = 720.0
-offset_bottom = 720.0
+offset_left = 5.0
+offset_top = -5.0
+offset_right = 725.0
+offset_bottom = 715.0
 theme_override_fonts/font = ExtResource("5_6k7p0")
 theme_override_font_sizes/font_size = 12
 vertical_alignment = 2
@@ -61,14 +63,15 @@ offset_right = 720.0
 offset_bottom = 720.0
 theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
 theme_override_fonts/font = ExtResource("4_2xcui")
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 128
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CombatLogLabel" type="Label" parent="." unique_id=1926480701]
-offset_left = -1.0
-offset_right = 719.0
-offset_bottom = 720.0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 715.0
+offset_bottom = 715.0
 theme_override_fonts/font = ExtResource("5_6k7p0")
 theme_override_font_sizes/font_size = 10
 horizontal_alignment = 2

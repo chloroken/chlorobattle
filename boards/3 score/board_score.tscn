@@ -38,56 +38,54 @@ offset_right = 720.0
 offset_bottom = 720.0
 
 [node name="PlacementLabel" type="Label" parent="ScoreContainer" unique_id=1193349326]
-custom_minimum_size = Vector2(25, 594)
+custom_minimum_size = Vector2(70, 594)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
-text = "#
+text = "PLACE
+"
+horizontal_alignment = 1
+
+[node name="UsernameLabel" type="Label" parent="ScoreContainer" unique_id=2139648340]
+custom_minimum_size = Vector2(175, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_trvca")
+theme_override_font_sizes/font_size = 12
+text = "USERNAME
+"
+
+[node name="PawnLabel" type="Label" parent="ScoreContainer" unique_id=1063241617]
+custom_minimum_size = Vector2(75, 594)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_trvca")
+theme_override_font_sizes/font_size = 12
+text = "PAWN
 "
 horizontal_alignment = 2
 
-[node name="UsernameLabel" type="Label" parent="ScoreContainer" unique_id=2139648340]
-custom_minimum_size = Vector2(155, 594)
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
-text = "Username
-"
-horizontal_alignment = 1
-
-[node name="PawnLabel" type="Label" parent="ScoreContainer" unique_id=1063241617]
-custom_minimum_size = Vector2(100, 594)
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
-text = "Pawn
-"
-horizontal_alignment = 1
-
 [node name="StyleLabel" type="Label" parent="ScoreContainer" unique_id=1775608066]
-custom_minimum_size = Vector2(100, 594)
+custom_minimum_size = Vector2(75, 594)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
-text = "Style
+text = "STYLE
 "
 horizontal_alignment = 1
 
 [node name="ItemLabel" type="Label" parent="ScoreContainer" unique_id=431872291]
-custom_minimum_size = Vector2(100, 594)
+custom_minimum_size = Vector2(75, 594)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
-text = "Item
+text = "ITEM
 "
-horizontal_alignment = 1
 
 [node name="KillsLabel" type="Label" parent="ScoreContainer" unique_id=379651143]
 custom_minimum_size = Vector2(50, 594)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
-text = "Kills
+text = "KILLS
 "
 horizontal_alignment = 1
 
@@ -96,7 +94,7 @@ custom_minimum_size = Vector2(50, 594)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
-text = "Damage
+text = "DAMAGE
 "
 horizontal_alignment = 1
 
@@ -105,7 +103,7 @@ custom_minimum_size = Vector2(50, 594)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
-text = "Taken
+text = "TAKEN
 "
 horizontal_alignment = 1
 
@@ -114,6 +112,6 @@ custom_minimum_size = Vector2(50, 594)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
-text = "Ratio
+text = "RATIO
 "
 horizontal_alignment = 1

@@ -8,8 +8,9 @@ var pawnSpawnIndex = 0
 var dmgModDuration = 10
 var globalDmgMod = 10
 var killFeedText = []
+var killFeedLineCount = 5
 var combatLogText = []
-var combatLogLineCount = 5
+var combatLogLineCount = 6
 
 # Snapshot board radius to accurate scale everything
 func _ready() -> void:
@@ -24,7 +25,9 @@ func _process(_delta: float) -> void:
 		$DamageModTimer.modulate.a *= 0.99
 	
 	var timeElapsed = int($BoardDurationTimer.get_wait_time() - $BoardDurationTimer.get_time_left())
-	if timeElapsed > 10: $DurationTimer.text = str(timeElapsed)
+	if timeElapsed > 10:
+		$DurationTimer.modulate.a = min(1.0, (timeElapsed - 10) * 0.1)
+		$DurationTimer.text = str(timeElapsed)
 	
 	# Rotate board graphics
 	$BoardSprite.rotation += 0.00025
@@ -111,7 +114,7 @@ func update_kill_feed(msg: String) -> void:
 	var newString = ""
 	for i in killFeedText.size():
 		newString += "\n" + killFeedText[i]
-		if i >= 4:
+		if i >= killFeedLineCount - 1:
 			break
 	$KillFeedLabel.text = newString
 
