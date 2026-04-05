@@ -1,7 +1,7 @@
 extends "res://pawns/base/base_attack.gd"
 
-var baseDmg = 0
-var maxScale = 20
+#var baseDmg = 0
+#var maxScale = 27
 var growScale = 1.0005
 
 func _ready() -> void:
@@ -9,8 +9,8 @@ func _ready() -> void:
 
 # Scale goo damage and color based on duration
 func _process(_delta: float) -> void:
-	dmg = ceil(baseDmg * min(maxScale, $FizzleTimer.get_wait_time() / $FizzleTimer.get_time_left()))
-	$DamageLabel.text = str(dmg)
+	dmg = 1 + 0.5 * ($FizzleTimer.get_wait_time() - $FizzleTimer.get_time_left())
+	$DamageLabel.text = str(int(dmg))
 	$BaseSprite.modulate.g = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 
 # Grow size for effect

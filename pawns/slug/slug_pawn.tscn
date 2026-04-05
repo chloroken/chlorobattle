@@ -9,9 +9,10 @@
 script = ExtResource("2_8633t")
 slugAttack = ExtResource("3_tqnmo")
 size = 1.1
-hp = 160.0
+hp = 180.0
+dmg = 10.0
 pen = 0.8
-def = 0.3
+def = 0.5
 spd = 10.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]

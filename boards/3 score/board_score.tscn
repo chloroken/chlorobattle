@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b2t45j8nbabg2" path="res://boards/3 score/board_score.gd" id="1_i2ibj"]
 [ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/graphics/board_background.png" id="2_5icpr"]
 [ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://fonts/Grunge.otf" id="2_7g0av"]
-[ext_resource type="FontFile" uid="uid://dsixe43unloa3" path="res://fonts/MonoTypewriter.ttf" id="2_kpv44"]
+[ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://fonts/JetBrainsMono-Regular.ttf" id="4_trvca"]
 
 [node name="EndBoard" type="Node2D" unique_id=49523521]
 script = ExtResource("1_i2ibj")
@@ -40,16 +40,16 @@ offset_bottom = 720.0
 [node name="PlacementLabel" type="Label" parent="ScoreContainer" unique_id=1193349326]
 custom_minimum_size = Vector2(25, 594)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
 text = "#
 "
 horizontal_alignment = 2
 
 [node name="UsernameLabel" type="Label" parent="ScoreContainer" unique_id=2139648340]
-custom_minimum_size = Vector2(150, 594)
+custom_minimum_size = Vector2(155, 594)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
 text = "Username
 "
@@ -58,7 +58,7 @@ horizontal_alignment = 1
 [node name="PawnLabel" type="Label" parent="ScoreContainer" unique_id=1063241617]
 custom_minimum_size = Vector2(100, 594)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
 text = "Pawn
 "
@@ -67,7 +67,7 @@ horizontal_alignment = 1
 [node name="StyleLabel" type="Label" parent="ScoreContainer" unique_id=1775608066]
 custom_minimum_size = Vector2(100, 594)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
 text = "Style
 "
@@ -76,7 +76,7 @@ horizontal_alignment = 1
 [node name="ItemLabel" type="Label" parent="ScoreContainer" unique_id=431872291]
 custom_minimum_size = Vector2(100, 594)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
 text = "Item
 "
@@ -85,7 +85,7 @@ horizontal_alignment = 1
 [node name="KillsLabel" type="Label" parent="ScoreContainer" unique_id=379651143]
 custom_minimum_size = Vector2(50, 594)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
 text = "Kills
 "
@@ -94,7 +94,7 @@ horizontal_alignment = 1
 [node name="DealtLabel" type="Label" parent="ScoreContainer" unique_id=960685436]
 custom_minimum_size = Vector2(50, 594)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
 text = "Damage
 "
@@ -103,7 +103,7 @@ horizontal_alignment = 1
 [node name="TakenLabel" type="Label" parent="ScoreContainer" unique_id=1835262388]
 custom_minimum_size = Vector2(50, 594)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
 text = "Taken
 "
@@ -112,7 +112,7 @@ horizontal_alignment = 1
 [node name="RatioLabel" type="Label" parent="ScoreContainer" unique_id=1291899580]
 custom_minimum_size = Vector2(50, 594)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_kpv44")
+theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
 text = "Ratio
 "

@@ -5,6 +5,11 @@ var baseRadius
 var minimumRadius
 var boardRadius = 280
 var pawnSpawnIndex = 0
+var dmgModDuration = 10
+var globalDmgMod = 10
+var killFeedText = []
+var combatLogText = []
+var combatLogLineCount = 5
 
 # Snapshot board radius to accurate scale everything
 func _ready() -> void:
@@ -12,6 +17,15 @@ func _ready() -> void:
 	minimumRadius = baseRadius/10
 
 func _process(_delta: float) -> void:
+	# Update global damage mod (to delay instakills at start)
+	globalDmgMod = min(dmgModDuration, $BoardDurationTimer.get_wait_time() - $BoardDurationTimer.get_time_left())
+	$DamageModTimer.text = str(int(globalDmgMod * 10)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
+	if globalDmgMod >= dmgModDuration:
+		$DamageModTimer.modulate.a *= 0.99
+	
+	var timeElapsed = int($BoardDurationTimer.get_wait_time() - $BoardDurationTimer.get_time_left())
+	if timeElapsed > 10: $DurationTimer.text = str(timeElapsed)
+	
 	# Rotate board graphics
 	$BoardSprite.rotation += 0.00025
 	$BoardSprite2.rotation -= 0.00025
@@ -91,3 +105,23 @@ func evenly_spaced_position(i: int) -> Vector2:
 	var rot = 2 * PI * i / get_parent().pawnList.size()
 	var vec = ((Vector2.RIGHT * boardRadius) * 0.9).rotated(rot)
 	return(vec)
+
+func update_kill_feed(msg: String) -> void:
+	killFeedText.push_front(msg)
+	var newString = ""
+	for i in killFeedText.size():
+		newString += "\n" + killFeedText[i]
+		if i >= 4:
+			break
+	$KillFeedLabel.text = newString
+
+func update_combat_log(msg: String) -> void:
+	#while combatLogText.size() < combatLogLineCount:
+		#combatLogText.push_front("")
+		#if combatLogText.size() >= combatLogLineCount:
+			#break
+	combatLogText.push_front(msg)
+	var newString = ""
+	for i in range(min(combatLogLineCount - 1, combatLogText.size() - 1), -1, -1):
+		newString += "\n" + combatLogText[i]
+	$CombatLogLabel.text = newString

@@ -114,12 +114,6 @@ func _on_body_entered(body: Node2D) -> void:
 
 	item_skate_effect()
 
-# Clean up Pawn attacks & effects after death
-func _on_tree_exiting() -> void:
-	for attack in attackObjects:
-		if attack != null:
-			attack.queue_free()
-
 func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	var baseHit = body.dmg
 	var hitText = "hit"
@@ -129,11 +123,13 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 			baseHit = item_roll_dice(baseHit, attackingPawn)
 	var mitigated = baseHit * self.def
 	var penetrated = mitigated * (1.0 - attackingPawn.pen)
-	var realHit = baseHit - penetrated
-	self.hp -= realHit
-	damageTaken += realHit
-	attackingPawn.damageDealt += realHit
-	print("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % realHit + " dmg — [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
+	var realHit = (baseHit - penetrated)
+	var delayedHit = realHit * (get_parent().globalDmgMod / 10)
+	self.hp -= delayedHit
+	damageTaken += delayedHit
+	attackingPawn.damageDealt += delayedHit
+	get_parent().update_combat_log("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % delayedHit + " dmg") #— [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
+	#print("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % delayedHit + " dmg — [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
 
 # Calculate a new place for Pawn to go
 func new_destination() -> Vector2:
@@ -157,6 +153,7 @@ func pawn_death(attackingPawn, killer: String, pawnIndex: int) -> void:
 	
 	# Save progress & destroy self
 	update_scoreboard(mainBoard, self, pawnIndex, false)
+	get_parent().update_kill_feed("[" + str(killer) + "] eliminated [" + str(username) + "]")
 	self.queue_free()
 	
 	# For last Pawn, make order exception
@@ -174,6 +171,12 @@ func update_scoreboard(mainBoard, pawn, pawnIndex, last) -> void:
 	newScore.killCount = pawn.killCount
 	mainBoard.scoreList.push_front(newScore)
 	if !last: mainBoard.pawnList.remove_at(pawnIndex)
+
+# Clean up Pawn attacks & effects after death
+func _on_tree_exiting() -> void:
+	for attack in attackObjects:
+		if attack != null:
+			attack.queue_free()
 
 # A small float for breaking timing ties
 func random_variance() -> float:

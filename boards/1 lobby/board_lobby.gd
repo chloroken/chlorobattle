@@ -8,13 +8,18 @@ func _ready() -> void:
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	
 	# random test bots
-	for i in 24:
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	#for i in 10:
+		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# specific test bots
-	#register_pawn("chloroken", "chair", "nimble", "dice")
-	#register_pawn("darkdwain", "pirate", "giant", "milkshake")
-
+	register_pawn("chloroken", "candle", choose_random_style(), choose_random_item())
+	register_pawn("darkdwain", "chair", choose_random_style(), choose_random_item())
+	register_pawn("parody", "grouper", choose_random_style(), choose_random_item())
+	register_pawn("dank_gr4vy", "pirate", choose_random_style(), choose_random_item())
+	register_pawn("b4ngbiscuit", "ship", choose_random_style(), choose_random_item())
+	register_pawn("theone_fg", "slug", choose_random_style(), choose_random_item())
+	register_pawn("hasine", "top", choose_random_style(), choose_random_item())
+	
 # Update lobby countdown timer
 func _process(_delta: float) -> void:
 	$TimerLabel.text = str(int($LobbyTimer.time_left))

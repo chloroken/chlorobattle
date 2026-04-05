@@ -9,7 +9,7 @@
 script = ExtResource("1_4hyng")
 
 [node name="LobbyTimer" type="Timer" parent="." unique_id=2019922163]
-wait_time = 60.0
+wait_time = 3.0
 one_shot = true
 autostart = true
 

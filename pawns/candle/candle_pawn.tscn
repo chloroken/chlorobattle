@@ -8,10 +8,11 @@
 [node name="CandlePawn" unique_id=1877646274 instance=ExtResource("1_cg57w")]
 script = ExtResource("2_ori44")
 candleAttack = ExtResource("3_7ms7f")
-hp = 200.0
-dmg = 5.0
-def = 0.2
-spd = 20.0
+hp = 170.0
+dmg = 10.0
+pen = 0.2
+def = 0.4
+spd = 30.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("4_squ0r")

@@ -21,14 +21,9 @@ texture = ExtResource("2_bwwx6")
 wait_time = 3.0
 one_shot = true
 
-[node name="BounceDecayTimer" type="Timer" parent="." index="5" unique_id=658652106]
-wait_time = 5.0
-autostart = true
-
-[node name="AttackCooldownTimer" parent="." index="6" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="5" unique_id=1610759688]
 wait_time = 0.25
 autostart = true
 
 [connection signal="timeout" from="BounceDurationTimer" to="." method="_on_bounce_duration_timer_timeout"]
-[connection signal="timeout" from="BounceDecayTimer" to="." method="_on_bounce_decay_timer_timeout"]
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
