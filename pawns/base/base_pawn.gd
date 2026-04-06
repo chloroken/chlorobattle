@@ -176,7 +176,7 @@ func update_scoreboard(mainBoard, pawn, pawnIndex, last) -> void:
 func _on_tree_exiting() -> void:
 	for attack in attackObjects:
 		if attack != null:
-			attack.free()
+			attack.queue_free()
 
 # A small float for breaking timing ties
 func random_variance() -> float:

@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://d04dod1n3tcho" path="res://pawns/chair/chair_attack.gd" id="2_bcv68"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5loam"]
-size = Vector2(16, 60)
+size = Vector2(14, 60)
 
 [node name="BaseAttack" unique_id=1314532855 instance=ExtResource("1_3cv8k")]
 script = ExtResource("2_bcv68")

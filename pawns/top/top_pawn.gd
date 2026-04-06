@@ -41,7 +41,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
-	var attackTimerSpeedMod = baseSpd / spd
+	var attackTimerSpeedMod = min(4.0, baseSpd / spd)
 	$AttackCooldownTimer.start(max(baseAttackTimer / 4, attackTimerSpeedMod * baseAttackTimer) + random_variance())
 
 func _on_bounce_duration_timer_timeout() -> void:

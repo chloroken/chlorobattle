@@ -4,12 +4,12 @@ var boardRadius = 240
 
 func _ready() -> void:
 	# Intiate twitch functions
-	#VerySimpleTwitch.get_token_and_login_chat()
-	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
+	VerySimpleTwitch.get_token_and_login_chat()
+	VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	
 	# random test bots
-	for i in 24:
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	#for i in 24:
+		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# specific test bots
 	#register_pawn("chloroken", "candle", choose_random_style(), choose_random_item())

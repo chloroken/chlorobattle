@@ -29,6 +29,11 @@ func _process(_delta: float) -> void:
 		$DurationTimer.modulate.a = min(1.0, (timeElapsed - 10) * 0.1)
 		$DurationTimer.text = str(timeElapsed)
 	
+	# Update label that displays players remaining in game
+	var playersRemainingString = str(int(get_parent().pawnList.size()))
+	playersRemainingString += " players left"
+	$PlayersRemainingLabel.text = playersRemainingString
+	
 	# Rotate board graphics
 	$BoardSprite.rotation += 0.00025
 	$BoardSprite2.rotation -= 0.00025
