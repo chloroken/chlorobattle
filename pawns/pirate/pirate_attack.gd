@@ -13,12 +13,12 @@ var returning = false
 func _ready() -> void:
 	parentPawn = get_parent().get_parent()
 	set_bird_size()
-	
+
 	# Give bird a random direction & color	
 	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
-	$PirateAttackSprite.modulate.r = randf_range(0.0, 0.8)
-	$PirateAttackSprite.modulate.b = randf_range(0.0, 0.8)
-	$PirateAttackSprite.modulate.g = randf_range(0.8, 1.0)
+	$BaseSprite.modulate.r = randf_range(0.0, 0.8)
+	$BaseSprite.modulate.b = randf_range(0.0, 0.8)
+	$BaseSprite.modulate.g = randf_range(0.8, 1.0)
 
 func _physics_process(delta: float) -> void:
 	# Bird movement logic
@@ -26,8 +26,8 @@ func _physics_process(delta: float) -> void:
 		birdSpeed = position.distance_to(parentPawn.position) * birdReturnSpeed
 		direction = position.direction_to(parentPawn.position)
 	position += direction * birdSpeed * delta;
-	$PirateAttackSprite.rotation = direction.angle()
-	
+	$BaseSprite.rotation = direction.angle()
+
 	# Scale bird size & damage based on distance from Pirate
 	set_bird_size()
 	dmg = baseDmg * min(1, position.distance_to(parentPawn.position) / birdMaxDist)
@@ -39,11 +39,9 @@ func _on_fizzle_timer_timeout() -> void:
 # Recall bird
 func _on_direction_timer_timeout() -> void:
 	returning = true
-	
+
 # Scale bird size based on distance, up to a cap
 func set_bird_size() -> void:
 	var birdScale = birdSizeMax * max(birdSizeMin, position.distance_to(parentPawn.position) / birdMaxDist)
-	$PirateAttackSprite.scale.x = birdScale
-	$PirateAttackSprite.scale.y = birdScale
-	$PirateAttackCollider.scale.x = birdScale
-	$PirateAttackCollider.scale.y = birdScale
+	scale.x = birdScale
+	scale.y = birdScale

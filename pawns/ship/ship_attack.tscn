@@ -4,12 +4,18 @@
 [ext_resource type="Script" uid="uid://dkm3yrjrva7i" path="res://pawns/ship/ship_attack.gd" id="2_b0o7i"]
 [ext_resource type="Texture2D" uid="uid://cumfkyhd30665" path="res://pawns/ship/ship_missile.png" id="2_uhmwm"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_b0o7i"]
+radius = 4.0
+
 [node name="ShipAttack" unique_id=1314615299 instance=ExtResource("1_jkryi")]
 z_index = -1
 script = ExtResource("2_b0o7i")
 
 [node name="BaseSprite" parent="." index="0" unique_id=1865807943]
 texture = ExtResource("2_uhmwm")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("CircleShape2D_b0o7i")
 
 [node name="FizzleTimer" parent="." index="2" unique_id=930558460]
 wait_time = 5.0

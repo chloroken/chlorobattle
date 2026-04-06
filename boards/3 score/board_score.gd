@@ -34,5 +34,5 @@ func call_pawn_scores() -> void:
 		get_node("ScoreContainer/KillsLabel").text += str(pawn.killCount) + "\n"
 		get_node("ScoreContainer/DealtLabel").text += str(int(pawn.damageDealt)) + "\n"
 		get_node("ScoreContainer/TakenLabel").text += str(int(pawn.damageTaken)) + "\n"
-		get_node("ScoreContainer/RatioLabel").text += "%0.2f" % float(pawn.damageDealt/pawn.damageTaken) + "\n"
+		get_node("ScoreContainer/RatioLabel").text += "%0.1f" % float(pawn.damageDealt/pawn.damageTaken) + "\n"
 		i += 1

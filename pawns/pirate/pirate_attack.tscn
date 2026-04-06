@@ -1,27 +1,30 @@
-[gd_scene format=3 uid="uid://bj26pikuftl15"]
+[gd_scene format=3 uid="uid://cra4gw71okw2j"]
 
-[ext_resource type="Script" uid="uid://pmbrudqtddn4" path="res://pawns/pirate/pirate_attack.gd" id="1_vnbml"]
-[ext_resource type="Texture2D" uid="uid://ccfur3djn2c6i" path="res://pawns/pirate/pirate_attack.png" id="2_24ndx"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_a23e1"]
+[ext_resource type="Script" uid="uid://bjl5fblkx0t1f" path="res://pawns/pirate/pirate_attack.gd" id="2_ms60w"]
+[ext_resource type="Texture2D" uid="uid://ccfur3djn2c6i" path="res://pawns/pirate/pirate_attack.png" id="3_4mm8i"]
+[ext_resource type="Texture2D" uid="uid://dx3pakdnhlxqr" path="res://pawns/pirate/pirate_outline.png" id="4_nxtvd"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_2me13"]
-radius = 15.033297
+[sub_resource type="CircleShape2D" id="CircleShape2D_4mm8i"]
+radius = 16.0
 
-[node name="PirateAttack" type="CharacterBody2D" unique_id=1314532855]
-z_index = 1
-collision_mask = 0
-script = ExtResource("1_vnbml")
+[node name="PirateAttack" unique_id=1314532855 instance=ExtResource("1_a23e1")]
+script = ExtResource("2_ms60w")
 
-[node name="PirateAttackSprite" type="Sprite2D" parent="." unique_id=1865807943]
-texture = ExtResource("2_24ndx")
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("3_4mm8i")
 
-[node name="PirateAttackCollider" type="CollisionShape2D" parent="." unique_id=867063161]
-shape = SubResource("CircleShape2D_2me13")
+[node name="OutlineSprite" type="Sprite2D" parent="." index="1" unique_id=1006420327]
+texture = ExtResource("4_nxtvd")
 
-[node name="FizzleTimer" type="Timer" parent="." unique_id=309569658]
+[node name="BaseCollider" parent="." index="2" unique_id=867063161]
+shape = SubResource("CircleShape2D_4mm8i")
+
+[node name="FizzleTimer" parent="." index="3" unique_id=930558460]
 wait_time = 3.0
 autostart = true
 
-[node name="DirectionTimer" type="Timer" parent="." unique_id=1994594453]
+[node name="DirectionTimer" type="Timer" parent="." index="4" unique_id=1509590495]
 wait_time = 2.0
 autostart = true
 

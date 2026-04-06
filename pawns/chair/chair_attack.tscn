@@ -1,25 +1,25 @@
-[gd_scene format=3 uid="uid://lt1vivqhgjg8"]
+[gd_scene format=3 uid="uid://dgw0wr8swuftt"]
 
-[ext_resource type="Script" uid="uid://c1jpkhp8wph73" path="res://pawns/chair/chair_attack.gd" id="1_5loam"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_3cv8k"]
 [ext_resource type="Texture2D" uid="uid://dshna6p0n8x65" path="res://pawns/chair/chair_attack.png" id="2_5loam"]
+[ext_resource type="Script" uid="uid://d04dod1n3tcho" path="res://pawns/chair/chair_attack.gd" id="2_bcv68"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bcv68"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5loam"]
 size = Vector2(16, 60)
 
-[node name="ChairAttack" type="CharacterBody2D" unique_id=1314532855]
-collision_mask = 0
-script = ExtResource("1_5loam")
+[node name="BaseAttack" unique_id=1314532855 instance=ExtResource("1_3cv8k")]
+script = ExtResource("2_bcv68")
 
-[node name="ChairAttackSprite" type="Sprite2D" parent="." unique_id=1865807943]
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
 z_index = 1
 texture = ExtResource("2_5loam")
-offset = Vector2(0, -32)
+offset = Vector2(0, -30)
 
-[node name="ChairAttackCollider" type="CollisionShape2D" parent="." unique_id=867063161]
-position = Vector2(0, -32)
-shape = SubResource("RectangleShape2D_bcv68")
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+position = Vector2(0, -30)
+shape = SubResource("RectangleShape2D_5loam")
 
-[node name="FizzleTimer" type="Timer" parent="." unique_id=2014808076]
+[node name="FizzleTimer" parent="." index="2" unique_id=930558460]
 wait_time = 0.25
 autostart = true
 

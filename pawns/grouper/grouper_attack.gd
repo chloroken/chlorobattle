@@ -1,14 +1,17 @@
 extends "res://pawns/base/base_attack.gd"
 
-var growRate = 1.0125
+#var growRate = 1.1
 
 # Randomly rotate splash
 func _ready() -> void:
 	rotation = randf_range(0, TAU)
+	scale.x = 0
+	scale.y = 0
 
 # Grow splash rapidly
 func _physics_process(_delta: float) -> void:
-	self.scale *= growRate
+	scale.x = 2 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
+	scale.y = 2 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 
 # Clean up
 func _on_fizzle_timer_timeout() -> void:

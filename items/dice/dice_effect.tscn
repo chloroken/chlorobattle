@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://chmf5hrnrjupd" path="res://items/dice/dice6.png" id="7_ksf1p"]
 
 [node name="dice_effect" type="Node2D" unique_id=1916919756]
-z_index = 1
 script = ExtResource("1_5ly0c")
 diceSprites = Array[Resource]([ExtResource("2_1erbh"), ExtResource("3_ljict"), ExtResource("4_kygfl"), ExtResource("5_ax1ag"), ExtResource("6_qvm41"), ExtResource("7_ksf1p")])
 
@@ -17,7 +16,7 @@ diceSprites = Array[Resource]([ExtResource("2_1erbh"), ExtResource("3_ljict"), E
 texture = ExtResource("2_1erbh")
 
 [node name="FizzleTimer" type="Timer" parent="." unique_id=1772968793]
-wait_time = 5.0
+wait_time = 3.0
 autostart = true
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

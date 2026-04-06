@@ -129,7 +129,7 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	damageTaken += delayedHit
 	attackingPawn.damageDealt += delayedHit
 	get_parent().update_combat_log("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % delayedHit + " dmg") #— [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
-	#print("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % delayedHit + " dmg — [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
+	print("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % delayedHit + " dmg — [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
 
 # Calculate a new place for Pawn to go
 func new_destination() -> Vector2:
@@ -176,7 +176,7 @@ func update_scoreboard(mainBoard, pawn, pawnIndex, last) -> void:
 func _on_tree_exiting() -> void:
 	for attack in attackObjects:
 		if attack != null:
-			attack.queue_free()
+			attack.free()
 
 # A small float for breaking timing ties
 func random_variance() -> float:

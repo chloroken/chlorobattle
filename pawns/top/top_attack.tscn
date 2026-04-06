@@ -4,12 +4,17 @@
 [ext_resource type="Script" uid="uid://b50niks6j4h1s" path="res://pawns/top/top_attack.gd" id="1_yap77"]
 [ext_resource type="Texture2D" uid="uid://ci3vhjfjdsq2k" path="res://pawns/top/top_attack.png" id="2_1k46g"]
 
-[node name="BaseAttack" unique_id=1314532855 instance=ExtResource("1_qnsba")]
-scale = Vector2(0.5, 0.5)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1k46g"]
+size = Vector2(16, 16)
+
+[node name="TopAttack" unique_id=1314532855 instance=ExtResource("1_qnsba")]
 script = ExtResource("1_yap77")
 
 [node name="BaseSprite" parent="." index="0" unique_id=1865807943]
 texture = ExtResource("2_1k46g")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("RectangleShape2D_1k46g")
 
 [node name="FizzleTimer" parent="." index="2" unique_id=930558460]
 wait_time = 0.25

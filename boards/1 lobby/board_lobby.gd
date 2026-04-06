@@ -8,7 +8,7 @@ func _ready() -> void:
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	
 	# random test bots
-	for i in 28:
+	for i in 24:
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# specific test bots

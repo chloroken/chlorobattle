@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_cg57w"]
 [ext_resource type="Script" uid="uid://cb01utcq4b0c2" path="res://pawns/candle/candle_pawn.gd" id="2_ori44"]
-[ext_resource type="PackedScene" uid="uid://c0sqjqmo6iaqp" path="res://pawns/candle/candle_attack.tscn" id="3_7ms7f"]
+[ext_resource type="PackedScene" uid="uid://nt3vwefawv5m" path="res://pawns/candle/candle_attack.tscn" id="3_squ0r"]
 [ext_resource type="Texture2D" uid="uid://cjx62vdfypc8h" path="res://pawns/candle/candle_pawn.png" id="4_squ0r"]
 
 [node name="CandlePawn" unique_id=1877646274 instance=ExtResource("1_cg57w")]
 script = ExtResource("2_ori44")
-candleAttack = ExtResource("3_7ms7f")
+candleAttack = ExtResource("3_squ0r")
 hp = 170.0
 dmg = 7.0
 pen = 0.2

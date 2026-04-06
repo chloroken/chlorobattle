@@ -1,24 +1,27 @@
-[gd_scene format=3 uid="uid://c0sqjqmo6iaqp"]
+[gd_scene format=3 uid="uid://nt3vwefawv5m"]
 
-[ext_resource type="Texture2D" uid="uid://dgy288syrcnox" path="res://pawns/candle/candle_attack.png" id="2_5owxt"]
-[ext_resource type="Script" uid="uid://cniotk43gsmom" path="res://pawns/candle/candle_attack.gd" id="2_603yu"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_y6w83"]
+[ext_resource type="Script" uid="uid://clyf81d6hb6uo" path="res://pawns/candle/candle_attack.gd" id="2_k4h77"]
+[ext_resource type="Texture2D" uid="uid://c177gh1cnpffb" path="res://pawns/candle/candle_attack.png" id="2_uoooa"]
+[ext_resource type="Texture2D" uid="uid://cdg8ta376j7u7" path="res://pawns/candle/candle_outline.png" id="3_k4h77"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_2me13"]
-radius = 999.9999
+[sub_resource type="CircleShape2D" id="CircleShape2D_d58cc"]
+radius = 72.11102
 
-[node name="CandleAttack" type="CharacterBody2D" unique_id=1314532855]
-scale = Vector2(0.1, 0.1)
-collision_mask = 0
-script = ExtResource("2_603yu")
+[node name="CandleAttack" unique_id=1314532855 instance=ExtResource("1_y6w83")]
+script = ExtResource("2_k4h77")
 
-[node name="BaseSprite" type="Sprite2D" parent="." unique_id=1865807943]
-modulate = Color(1, 1, 1, 0.039215688)
-texture = ExtResource("2_5owxt")
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_uoooa")
 
-[node name="BaseCollider" type="CollisionShape2D" parent="." unique_id=867063161]
-shape = SubResource("CircleShape2D_2me13")
+[node name="OutlineSprite" type="Sprite2D" parent="." index="1" unique_id=1399857481]
+texture = ExtResource("3_k4h77")
 
-[node name="FizzleTimer" type="Timer" parent="." unique_id=930558460]
+[node name="BaseCollider" parent="." index="2" unique_id=867063161]
+shape = SubResource("CircleShape2D_d58cc")
+
+[node name="FizzleTimer" parent="." index="3" unique_id=930558460]
 wait_time = 0.5
 autostart = true
 

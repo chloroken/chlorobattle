@@ -23,7 +23,18 @@ class Pawn:
 	var killCount = 0
 
 func _ready() -> void:
+	randomize()
 	switch_board("lobby")
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Speed Engine Time"):
+		Engine.set_time_scale(min(Engine.get_time_scale() * 2, 16.0))
+	if event.is_action_pressed("Slow Engine Time"):
+		Engine.set_time_scale(max(Engine.get_time_scale() / 2, 0.25))
+	if event.is_action_pressed("Reset Engine Time"):
+		Engine.set_time_scale(1)
+	if event.is_action_pressed("Pause Engine Time"):
+		Engine.set_time_scale(0)
 
 func switch_board(board: String) -> void:
 	free_children()

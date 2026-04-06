@@ -5,7 +5,6 @@
 
 [node name="ShipRing" type="Node2D" unique_id=763808103]
 z_index = -2
-scale = Vector2(0.1, 0.1)
 script = ExtResource("1_m4nnj")
 
 [node name="ShipRingSprite" type="Sprite2D" parent="." unique_id=14773479]

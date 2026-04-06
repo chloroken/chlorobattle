@@ -3,11 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_gb7of"]
 [ext_resource type="Script" uid="uid://ui8l2id1liwc" path="res://pawns/chair/chair_pawn.gd" id="2_ag02n"]
 [ext_resource type="Texture2D" uid="uid://q3fku033ss5p" path="res://pawns/chair/chair_pawn.png" id="2_twiy4"]
-[ext_resource type="PackedScene" uid="uid://lt1vivqhgjg8" path="res://pawns/chair/chair_attack.tscn" id="3_62xb0"]
+[ext_resource type="PackedScene" uid="uid://dgw0wr8swuftt" path="res://pawns/chair/chair_attack.tscn" id="3_wxuat"]
 
 [node name="ChairPawn" unique_id=1048959576 instance=ExtResource("1_gb7of")]
 script = ExtResource("2_ag02n")
-chairAttack = ExtResource("3_62xb0")
+chairAttack = ExtResource("3_wxuat")
 size = 1.2
 hp = 175.0
 dmg = 60.0

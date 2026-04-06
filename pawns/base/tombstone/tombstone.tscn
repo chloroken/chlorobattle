@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="3_4s48m"]
 
 [node name="Tombstone" type="Node2D" unique_id=1901625262]
+z_index = 1
 script = ExtResource("1_ndd8p")
 
 [node name="TombstoneSprite" type="Sprite2D" parent="." unique_id=776059750]
