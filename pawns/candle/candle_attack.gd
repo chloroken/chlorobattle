@@ -2,7 +2,7 @@ extends "res://pawns/base/base_attack.gd"
 
 func _ready() -> void:
 	# Randomize flicker size & color
-	scale *= randf_range(0.75, 1.0)
+	scale *= randf_range(1.0, 1.5)
 	$BaseSprite.modulate.b *= randf_range(0.5, 1.0)
 	$BaseSprite.modulate.g *= randf_range(0.5, 1.0)
 

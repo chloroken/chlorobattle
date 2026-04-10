@@ -3,23 +3,23 @@ var currentPlayers = []
 var boardRadius = 240
 
 func _ready() -> void:
-	# Intiate twitch functions
-	VerySimpleTwitch.get_token_and_login_chat()
-	VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
+	# Intiate twitch functionality
+	#VerySimpleTwitch.get_token_and_login_chat()
+	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	
-	# random test bots
-	#for i in 24:
-		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	# Create random bots to test with
+	for i in 12:
+		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
-	# specific test bots
-	#register_pawn("chloroken", "candle", choose_random_style(), choose_random_item())
-	#register_pawn("darkdwain", "chair", choose_random_style(), choose_random_item())
+	# Create specific test bots
+	#register_pawn("rob", "ship", "insane", "dice")
+	#register_pawn("recce", "slug", "giant", "dice")
 	#register_pawn("parody", "grouper", choose_random_style(), choose_random_item())
 	#register_pawn("dank_gr4vy", "pirate", choose_random_style(), choose_random_item())
 	#register_pawn("b4ngbiscuit", "ship", choose_random_style(), choose_random_item())
 	#register_pawn("theone_fg", "slug", choose_random_style(), choose_random_item())
 	#register_pawn("hasine", "top", choose_random_style(), choose_random_item())
-	
+
 # Update lobby countdown timer
 func _process(_delta: float) -> void:
 	$TimerLabel.text = str(int($LobbyTimer.time_left))
@@ -31,7 +31,7 @@ func _on_lobby_timer_timeout() -> void:
 func print_chatter_message(chatter: VSTChatter):
 	var username = chatter.tags.display_name
 	var message = chatter.message.to_lower()
-	if "!join" not in message:
+	if "!join" not in message && "!play" not in message:
 		return
 	for pawn in get_parent().pawnList:
 		if pawn.username == username:
@@ -46,10 +46,9 @@ func register_pawn(username: String, type: String, style = "random", item = "ran
 	newPawn.style = style
 	newPawn.item = item
 	get_parent().pawnList.append(newPawn)
-	spawn_pawn(newPawn)
+	spawn_lobby_pawn(newPawn)
 	print(newPawn.username + " joined as " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "]")
-	
-	
+
 func get_pawn_type(message: String):
 	if "candle" in message: return("candle")
 	elif "chair" in message: return("chair")
@@ -75,24 +74,24 @@ func get_pawn_item(message: String):
 	elif "milkshake" in message: return("milkshake")
 	elif "skates" in message: return("skates")
 	else: return(choose_random_item())
-	
+
 func choose_random_pawn() -> String:
 	var allPawnTypes = ["candle", "chair", "grouper", "pirate", "ship", "slug", "top"]
 	var i = randi_range(0, allPawnTypes.size() - 1)
 	return(allPawnTypes[i])
-	
+
 func choose_random_style() -> String:
 	var allStyleTypes = ["berserk", "giant", "insane", "nimble", "sturdy"]
 	var i = randi_range(0, allStyleTypes.size() - 1)
 	return(allStyleTypes[i])
-	
+
 func choose_random_item() -> String:
 	var allItemTypes = ["antimatter", "dice", "killbot", "milkshake", "skates"]
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])
 
 # Spawn disarmed Pawns in lobby while players wait
-func spawn_pawn(pawn) -> void:
+func spawn_lobby_pawn(pawn) -> void:
 	var pawnType
 	if pawn.type == "candle": pawnType = get_parent().candle
 	elif pawn.type == "chair": pawnType = get_parent().chair

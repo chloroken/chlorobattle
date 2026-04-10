@@ -10,8 +10,8 @@ func _ready() -> void:
 
 # Grow splash rapidly
 func _physics_process(_delta: float) -> void:
-	scale.x = 2 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
-	scale.y = 2 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
+	scale.x = 1.5 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
+	scale.y = 1.5 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 
 # Clean up
 func _on_fizzle_timer_timeout() -> void:

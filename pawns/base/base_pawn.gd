@@ -1,10 +1,12 @@
 extends Area2D
 
-# Pawn attributes
+# Pawn properties
 @export var username: String
 @export var type: String
 @export var style: String
 @export var item: String
+
+# Pawn stats
 @export var size: float
 @export var hp: float
 @export var dmg: float
@@ -20,7 +22,7 @@ extends Area2D
 @export var milkshakeEffect: PackedScene
 @export var skateEffect: PackedScene
 
-# Hidden Pawn properties
+# Back end Pawn properties & variables
 var center: Vector2
 var nameCharLimit = 9
 var attackObjects = []
@@ -44,17 +46,18 @@ var milkshakePercent = 0.25
 var skateSpeed = 2.0
 
 func _ready() -> void:
+	# Snapshot some variables and set Pawn's initial destination
 	center = get_viewport_rect().size / 2.0
 	baseHp = hp
 	destination = new_destination()
-	
+
 	# Check for passive Pawn items that require action now
 	if !attacksDisabled:
 		if item == "antimatter":
 			$AntimatterCooldownTimer.start(antimatterDuration)
 		elif item == "killbot":
 			item_spawn_killbot()
-			
+
 	# Disarm Pawn for display purposes (lobby, scoreboard)
 	elif attacksDisabled:
 		$AttackCooldownTimer.stop()
@@ -62,7 +65,7 @@ func _ready() -> void:
 		$HitpointLabelBlack.visible = false
 		$HitpointLabelRed.visible = false
 		$HitpointLabelGreen.visible = false
-	
+
 	# Adjust attack rate based on attack speed
 	$AttackCooldownTimer.set_wait_time((1.0 - asp) * $AttackCooldownTimer.get_wait_time())	
 	
@@ -74,13 +77,17 @@ func _process(_delta: float) -> void:
 	# Update Pawn name
 	if $NameLabel.text != username:
 		$NameLabel.text = username.substr(0, nameCharLimit)
-	
+
 	# Update Pawn hp bar
 	$HitpointLabel.text = str(int(ceil(hp)))
 	$HitpointLabelGreen.scale.x = hp / baseHp
-	
+
 	# Check for milkshake thresholds
 	item_check_milkshake()
+	
+	# phase active
+	if !$PhaseOutTimer.is_stopped():
+		set_collision_mask_value(1, false)
 
 # Pawn movement
 func _physics_process(delta: float) -> void:
@@ -111,7 +118,6 @@ func _on_body_entered(body: Node2D) -> void:
 				attackingPawn.killCount += 1
 				pawn_death(attackingPawn, attackerUsername, i)
 				break
-
 	item_skate_effect()
 
 func calculate_damage(attackingPawn, attackerUsername, body) -> void:
@@ -124,7 +130,7 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	var mitigated = baseHit * self.def
 	var penetrated = mitigated * (1.0 - attackingPawn.pen)
 	var realHit = (baseHit - penetrated)
-	var delayedHit = realHit * (get_parent().globalDmgMod / 10)
+	var delayedHit = realHit * (get_parent().globalDmgMod / get_parent().dmgModDuration)
 	self.hp -= delayedHit
 	damageTaken += delayedHit
 	attackingPawn.damageDealt += delayedHit
@@ -150,12 +156,12 @@ func pawn_death(attackingPawn, killer: String, pawnIndex: int) -> void:
 	newTombstone.username = username
 	get_parent().add_child(newTombstone)
 	print("[" + str(username) + "] was killed by [" + str(killer) + "]")
-	
+
 	# Save progress & destroy self
 	update_scoreboard(mainBoard, self, pawnIndex, false)
 	get_parent().update_kill_feed("[" + str(killer) + "] eliminated [" + str(username) + "]")
 	self.queue_free()
-	
+
 	# For last Pawn, make order exception
 	if mainBoard.pawnList.size() <= 1:
 		update_scoreboard(mainBoard, attackingPawn, pawnIndex, true)
@@ -187,41 +193,35 @@ func random_variance() -> float:
 ##################
 
 func _on_antimatter_cooldown_timer_timeout() -> void:
-	set_collision_mask_value(1, false)
 	$PawnSprite.modulate.a = 0.5
 	$PawnSprite.modulate.r = 0.0
 	$PawnSprite.modulate.b = 0.0
 	$PawnSprite.modulate.g = 0.0
 	$NameLabel.visible = false
 	$AntimatterDurationTimer.start(antimatterDuration)
+	if $PhaseOutTimer.get_time_left() < antimatterDuration:
+		$PhaseOutTimer.start(antimatterDuration)
 	print("[" + username + "] used [antimatter]")
 
 func _on_antimatter_duration_timer_timeout() -> void:
-	set_collision_mask_value(1, true)
 	$PawnSprite.modulate.a = 1.0
 	$PawnSprite.modulate.r = 1.0
 	$PawnSprite.modulate.b = 1.0
 	$PawnSprite.modulate.g = 1.0
 	$NameLabel.visible = true
 	$AntimatterCooldownTimer.start(randf_range($AntimatterCooldownTimer.get_wait_time() / antimatterRandomizer, antimatterCooldown))
+
 func item_roll_dice(baseHit, attackingPawn) -> float:
-	var die1 = randi_range(1, diceSides)
-	var die2 = randi_range(1, diceSides)
-	var die3 = randi_range(1, diceSides)
-	var newDie1 = diceEffect.instantiate()
-	var newDie2 = diceEffect.instantiate()
-	var newDie3 = diceEffect.instantiate()
-	newDie1.global_position = attackingPawn.global_position
-	newDie2.global_position = attackingPawn.global_position
-	newDie3.global_position = attackingPawn.global_position
-	newDie1.diceChoice = die1
-	newDie2.diceChoice = die2
-	newDie3.diceChoice = die3
-	add_sibling(newDie1)
-	add_sibling(newDie2)
-	add_sibling(newDie3)
-	baseHit *= 1 + (die1 + die2 + die3) * 0.1
-	print("[" + str(attackingPawn.username) + "] used [dice]: " + str(1.0 + 0.1 * (die1 + die2 + die3)) + "x (" + str(die1) + "+" + str(die2) + "+" + str(die3) + ")")
+	var hitMod = 0
+	for i in 3:
+		var dieRoll = randi_range(1, diceSides)
+		var newDie = diceEffect.instantiate()
+		newDie.global_position = attackingPawn.global_position
+		newDie.diceChoice = dieRoll
+		add_sibling(newDie)
+		hitMod += dieRoll
+	baseHit *= 1 + hitMod * 0.1
+	print("[" + str(attackingPawn.username) + "] used [dice]: " + str(1.0 + 0.1 * hitMod))
 	return(baseHit)
 
 func item_spawn_killbot() -> void:
@@ -267,3 +267,6 @@ func _on_skate_duration_timer_timeout() -> void:
 func _on_skate_snowflake_timer_timeout() -> void:
 	var newFlake = skateEffect.instantiate()
 	add_child(newFlake)
+
+func _on_phase_out_timer_timeout() -> void:
+	set_collision_mask_value(1, true)

@@ -32,7 +32,7 @@ one_shot = true
 autostart = true
 
 [node name="SpawnStaggerTimer" type="Timer" parent="." unique_id=603592877]
-wait_time = 0.1
+wait_time = 0.001
 autostart = true
 
 [node name="PlayersRemainingLabel" type="Label" parent="." unique_id=2063364564]

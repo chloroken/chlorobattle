@@ -8,7 +8,8 @@
 [node name="CandlePawn" unique_id=1877646274 instance=ExtResource("1_cg57w")]
 script = ExtResource("2_ori44")
 candleAttack = ExtResource("3_squ0r")
-hp = 170.0
+size = 0.9
+hp = 175.0
 dmg = 7.0
 pen = 0.2
 def = 0.4

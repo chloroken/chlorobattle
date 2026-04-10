@@ -1,62 +1,68 @@
 extends Node2D
 
-var pawnType
+# Board variables
 var baseRadius
-var minimumRadius
 var boardRadius = 280
+var minimumRadius
+var dmgModDuration = 20
+var globalDmgMod = 20
+
+# Variables used for spawning Pawns
+var pawnType
 var pawnSpawnIndex = 0
-var dmgModDuration = 10
-var globalDmgMod = 10
+
+# Kill feed & combat log variables
 var killFeedText = []
 var killFeedLineCount = 5
 var combatLogText = []
 var combatLogLineCount = 6
 
-# Snapshot board radius to accurate scale everything
+# Snapshot board radius to accurately scale everything
 func _ready() -> void:
 	baseRadius = boardRadius
 	minimumRadius = baseRadius/10
 
 func _process(_delta: float) -> void:
-	# Update global damage mod (to delay instakills at start)
-	globalDmgMod = min(dmgModDuration, $BoardDurationTimer.get_wait_time() - $BoardDurationTimer.get_time_left())
-	$DamageModTimer.text = str(int(globalDmgMod * 10)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
-	if globalDmgMod >= dmgModDuration:
-		$DamageModTimer.modulate.a *= 0.99
-	
-	var timeElapsed = int($BoardDurationTimer.get_wait_time() - $BoardDurationTimer.get_time_left())
-	if timeElapsed > 10:
-		$DurationTimer.modulate.a = min(1.0, (timeElapsed - 10) * 0.1)
-		$DurationTimer.text = str(timeElapsed)
-	
-	# Update label that displays players remaining in game
-	var playersRemainingString = str(int(get_parent().pawnList.size()))
-	playersRemainingString += " players left"
-	$PlayersRemainingLabel.text = playersRemainingString
-	
-	# Rotate board graphics
-	$BoardSprite.rotation += 0.00025
-	$BoardSprite2.rotation -= 0.00025
-
-	# Board radius reduction mechanic
+	# Gradually reduce size of board to force battle royale gameplay
 	var ratio = $BoardDurationTimer.get_time_left() / $BoardDurationTimer.get_wait_time()
 	boardRadius = max(minimumRadius, baseRadius * ratio)
 	$BoardSprite.scale.x = ratio * 0.9
 	$BoardSprite.scale.y = ratio * 0.9
 	$BoardSprite2.scale.x = ratio * 0.9
 	$BoardSprite2.scale.y = ratio * 0.9
-	
+
 	# When only one Pawn remains, proceed to next board
 	if get_parent().pawnList.size() <= 1:
 		get_parent().switch_board("score")
 
-# Using a timer, stagger Pawn spawning to avoid instadeaths
+	# Label showing "global damage modifer" (to delay instakills at start)
+	globalDmgMod = min(dmgModDuration, $BoardDurationTimer.get_wait_time() - $BoardDurationTimer.get_time_left())
+	$DamageModTimer.text = str(int(globalDmgMod * 5)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
+	if globalDmgMod >= dmgModDuration:
+		$DamageModTimer.modulate.a *= 0.99
+
+	# Label showing match duration timer (only after global damage mod is gone)
+	var timeElapsed = int($BoardDurationTimer.get_wait_time() - $BoardDurationTimer.get_time_left())
+	if timeElapsed > dmgModDuration:
+		$DurationTimer.modulate.a = min(1.0, (timeElapsed - dmgModDuration) * 0.1)
+		$DurationTimer.text = str(timeElapsed)
+
+	# Label showing players remaining in the game
+	var playersRemainingString = str(int(get_parent().pawnList.size()))
+	playersRemainingString += " players left"
+	$PlayersRemainingLabel.text = playersRemainingString
+
+	# Rotate board graphics for visual effect
+	$BoardSprite.rotation += 0.00025
+	$BoardSprite2.rotation -= 0.00025
+
+# Stagger Pawn spawning for visual effect
 func _on_spawn_stagger_timer_timeout() -> void:
 	spawn_pawns(pawnSpawnIndex)
 	pawnSpawnIndex += 1
 	if pawnSpawnIndex >= get_parent().pawnList.size():
 		$SpawnStaggerTimer.stop()
-	
+
 func spawn_pawns(i: int) -> void:
 	# Get Pawn type
 	var pawn = get_parent().pawnList[i]
@@ -67,7 +73,7 @@ func spawn_pawns(i: int) -> void:
 	elif pawn.type == "ship": pawnType = get_parent().ship
 	elif pawn.type == "slug": pawnType = get_parent().slug
 	elif pawn.type == "top": pawnType = get_parent().top
-	
+
 	# Instantiate Pawn
 	var newPawn = pawnType.instantiate()
 	var center = get_viewport_rect().size / 2.0
@@ -75,39 +81,37 @@ func spawn_pawns(i: int) -> void:
 	newPawn.username = pawn.username # str(randf()) # 
 	newPawn.type = pawn.type
 
-	# Set Pawn style
+	# Set Pawn style (function call is unreadable, refactor this)
 	if pawn.style == "berserk":
-		newPawn.hp *= 0.75
-		newPawn.dmg *= 1.25
+		adjust_pawn_stats(newPawn, 0.75, 1.0, 1.0, 1.25, 1.0, 1.0, 1.0)
 	elif pawn.style == "giant":
-		newPawn.hp *= 1.25
-		newPawn.asp = max(0, newPawn.asp - 0.2)
-		newPawn.spd *= 0.75
-		newPawn.size *= 1.25
+		adjust_pawn_stats(newPawn, 1.25, 1.0, max(0, newPawn.asp - 0.2), 1.25, 1.0, 0.75, 1.5)
 	elif pawn.style == "insane":
-		newPawn.def = max(0, newPawn.def - 0.5)
-		newPawn.asp = min(1, newPawn.asp + 0.2)
-		newPawn.dmg *= 1.1
+		adjust_pawn_stats(newPawn, 1.0, max(0, newPawn.def - 0.5), min(1, newPawn.asp + 0.2), 1.1, 1.0, 1.0, 1.0)
 	elif pawn.style == "nimble":
-		newPawn.hp *= 0.9
-		newPawn.pen = min(1, newPawn.pen + 0.5)
-		newPawn.spd *= 1.25
-		newPawn.size *= 0.75
+		adjust_pawn_stats(newPawn, 0.9, 1.0, 1.0, 1.0, min(1, newPawn.pen + 0.5), 1.25, 0.75)
 	elif pawn.style == "sturdy":
-		newPawn.hp *= 1.1
-		newPawn.def = min(1, newPawn.def + 0.2)
-		newPawn.dmg *= 0.9
+		adjust_pawn_stats(newPawn, 1.1, min(1, newPawn.def + 0.2), 1.0, 0.5, 1.0, 1.0, 1.0)
 	newPawn.style = pawn.style
-	
+
 	# Set Pawn items
 	if pawn.item == "antimatter": newPawn.item = "antimatter"
 	elif pawn.item == "dice": newPawn.item = "dice"
 	elif pawn.item == "killbot": newPawn.item = "killbot"
 	elif pawn.item == "milkshake": newPawn.item = "milkshake"
 	elif pawn.item == "skates": newPawn.item = "skates"
-	
+
 	add_child(newPawn)
 	print("Spawned " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "] for " + newPawn.username)
+
+func adjust_pawn_stats(pawnToMod, hpMod: float, defMod: float, aspMod: float, dmgMod: float, penMod: float, spdMod: float, sizeMod: float) -> void:
+	pawnToMod.hp *= hpMod
+	pawnToMod.def *= defMod
+	pawnToMod.asp *= aspMod
+	pawnToMod.dmg *= dmgMod
+	pawnToMod.pen *= penMod
+	pawnToMod.spd *= spdMod
+	pawnToMod.size *= sizeMod
 
 func evenly_spaced_position(i: int) -> Vector2:
 	var rot = 2 * PI * i / get_parent().pawnList.size()
@@ -124,12 +128,9 @@ func update_kill_feed(msg: String) -> void:
 	$KillFeedLabel.text = newString
 
 func update_combat_log(msg: String) -> void:
-	#while combatLogText.size() < combatLogLineCount:
-		#combatLogText.push_front("")
-		#if combatLogText.size() >= combatLogLineCount:
-			#break
 	combatLogText.push_front(msg)
 	var newString = ""
+	# Iterate backwards
 	for i in range(min(combatLogLineCount - 1, combatLogText.size() - 1), -1, -1):
 		newString += "\n" + combatLogText[i]
 	$CombatLogLabel.text = newString

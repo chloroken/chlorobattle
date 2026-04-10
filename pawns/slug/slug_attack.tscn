@@ -33,7 +33,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="FizzleTimer" parent="." index="3" unique_id=930558460]
-wait_time = 40.0
+wait_time = 30.0
 autostart = true
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

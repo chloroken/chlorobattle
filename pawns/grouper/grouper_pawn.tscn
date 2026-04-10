@@ -10,8 +10,8 @@
 script = ExtResource("2_xl8v5")
 grouperAttack = ExtResource("3_udqqg")
 grouperBubble = ExtResource("4_q1jjm")
-hp = 190.0
-dmg = 45.0
+hp = 185.0
+dmg = 40.0
 pen = 0.4
 def = 0.2
 spd = 20.0
@@ -23,6 +23,7 @@ texture = ExtResource("2_46qhr")
 text = "grouper"
 
 [node name="AttackDurationTimer" type="Timer" parent="." index="3" unique_id=1434564844]
+wait_time = 0.5
 one_shot = true
 
 [node name="BubbleTimer" type="Timer" parent="." index="4" unique_id=1771762797]

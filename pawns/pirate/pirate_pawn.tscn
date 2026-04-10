@@ -9,7 +9,7 @@
 script = ExtResource("2_ifqpx")
 pirateAttack = ExtResource("3_k2e1m")
 hp = 180.0
-dmg = 50.0
+dmg = 75.0
 pen = 0.1
 def = 0.2
 spd = 30.0

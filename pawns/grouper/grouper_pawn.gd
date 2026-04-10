@@ -3,7 +3,7 @@ extends "res://pawns/base/base_pawn.gd"
 @export var grouperAttack: PackedScene
 @export var grouperBubble: PackedScene
 
-var diveSpeedModifier = 10
+var diveSpeedModifier = 20
 var bubbleOffset = 10
 
 # Dive splash attack
@@ -18,7 +18,9 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	
 	# Hide pawn
 	spd *= diveSpeedModifier
-	set_collision_mask_value(1, false)
+	#set_collision_mask_value(1, false)
+	if $PhaseOutTimer.get_time_left() < $AttackDurationTimer.get_wait_time():
+		$PhaseOutTimer.start($AttackDurationTimer.get_wait_time())
 	$PawnSprite.visible = false
 	$NameLabel.visible = false
 	$BubbleTimer.start()
@@ -33,7 +35,7 @@ func _on_attack_duration_timer_timeout() -> void:
 
 	# Reveal pawn
 	spd /= diveSpeedModifier
-	set_collision_mask_value(1, true)
+	#set_collision_mask_value(1, true)
 	$PawnSprite.visible = true
 	$NameLabel.visible = true
 	$BubbleTimer.stop()
