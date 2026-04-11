@@ -2,10 +2,11 @@ extends Node2D
 
 # Board variables
 var baseRadius
-var boardRadius = 280
-var minimumRadius
-var dmgModDuration = 20
-var globalDmgMod = 20
+var boardRadius = 400
+var minimumRadius = 0.5
+var dmgModDuration = 30
+var globalDmgMod = 30
+var globalDmgReciprocal = 3.34 # globalDmgMod * this = 100
 
 # Variables used for spawning Pawns
 var pawnType
@@ -20,16 +21,20 @@ var combatLogLineCount = 6
 # Snapshot board radius to accurately scale everything
 func _ready() -> void:
 	baseRadius = boardRadius
-	minimumRadius = baseRadius/10
+	$BoardSprite.modulate.a = 0.0
+	$BoardSprite2.modulate.a = 0.0
 
 func _process(_delta: float) -> void:
 	# Gradually reduce size of board to force battle royale gameplay
 	var ratio = $BoardDurationTimer.get_time_left() / $BoardDurationTimer.get_wait_time()
-	boardRadius = max(minimumRadius, baseRadius * ratio)
-	$BoardSprite.scale.x = ratio * 0.9
-	$BoardSprite.scale.y = ratio * 0.9
-	$BoardSprite2.scale.x = ratio * 0.9
-	$BoardSprite2.scale.y = ratio * 0.9
+	boardRadius = baseRadius * ratio #max(minimumRadius, 
+	var newRatio = max(minimumRadius, boardRadius / baseRadius)
+	boardRadius = baseRadius * newRatio
+	$BoardSprite.scale.x = newRatio
+	$BoardSprite.scale.y = newRatio
+	$BoardSprite2.scale.x = newRatio
+	$BoardSprite2.scale.y = newRatio
+	#print(str($BoardSprite.scale.x))
 
 	# When only one Pawn remains, proceed to next board
 	if get_parent().pawnList.size() <= 1:
@@ -37,7 +42,7 @@ func _process(_delta: float) -> void:
 
 	# Label showing "global damage modifer" (to delay instakills at start)
 	globalDmgMod = min(dmgModDuration, $BoardDurationTimer.get_wait_time() - $BoardDurationTimer.get_time_left())
-	$DamageModTimer.text = str(int(globalDmgMod * 5)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
+	$DamageModTimer.text = str(int(globalDmgMod * globalDmgReciprocal)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
 	if globalDmgMod >= dmgModDuration:
 		$DamageModTimer.modulate.a *= 0.99
 
@@ -46,6 +51,12 @@ func _process(_delta: float) -> void:
 	if timeElapsed > dmgModDuration:
 		$DurationTimer.modulate.a = min(1.0, (timeElapsed - dmgModDuration) * 0.1)
 		$DurationTimer.text = str(timeElapsed)
+
+	# Fade in arena circle
+	$BoardSprite.modulate.a = min(0.5, ($BoardDurationTimer.get_wait_time() - $BoardDurationTimer.get_time_left()) / dmgModDuration * 0.5)
+	$BoardSprite2.modulate.a = min(0.5, ($BoardDurationTimer.get_wait_time() - $BoardDurationTimer.get_time_left()) / dmgModDuration * 0.5)
+	#$BoardSprite.modulate.a = min(0.5, $BoardSprite.modulate.a)
+	#$BoardSprite2.modulate.a = min(0.5, $BoardSprite2.modulate.a)
 
 	# Label showing players remaining in the game
 	var playersRemainingString = str(int(get_parent().pawnList.size()))
@@ -68,6 +79,7 @@ func spawn_pawns(i: int) -> void:
 	var pawn = get_parent().pawnList[i]
 	if pawn.type == "candle": pawnType = get_parent().candle
 	elif pawn.type == "chair": pawnType = get_parent().chair
+	elif pawn.type == "cyclone": pawnType = get_parent().cyclone
 	elif pawn.type == "grouper": pawnType = get_parent().grouper
 	elif pawn.type == "pirate": pawnType = get_parent().pirate
 	elif pawn.type == "ship": pawnType = get_parent().ship

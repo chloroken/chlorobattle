@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dnw5wbt4mx7bn"]
 
 [ext_resource type="Script" uid="uid://dxvx4hcsv5luv" path="res://boards/2 arena/board_arena.gd" id="1_4cru4"]
-[ext_resource type="Texture2D" uid="uid://clkke3y5rkhvx" path="res://boards/graphics/arena_fancy.png" id="2_7y30k"]
+[ext_resource type="Texture2D" uid="uid://dgvli2pph220d" path="res://boards/graphics/arena_fancy1080.png" id="2_6k7p0"]
 [ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/graphics/board_background.png" id="3_0rnid"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="4_2xcui"]
 [ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://fonts/JetBrainsMono-Regular.ttf" id="5_6k7p0"]
@@ -12,22 +12,23 @@ script = ExtResource("1_4cru4")
 [node name="BoardSprite" type="Sprite2D" parent="." unique_id=570816999]
 modulate = Color(1, 1, 1, 0.39215687)
 z_index = -4
-position = Vector2(360, 360)
-texture = ExtResource("2_7y30k")
+position = Vector2(480, 480)
+texture = ExtResource("2_6k7p0")
 
 [node name="BoardSprite2" type="Sprite2D" parent="." unique_id=1176494867]
 modulate = Color(1, 1, 1, 0.39215687)
 z_index = -4
-position = Vector2(360, 360)
-texture = ExtResource("2_7y30k")
+position = Vector2(480, 480)
+texture = ExtResource("2_6k7p0")
 
 [node name="BoardBackdrop" type="Sprite2D" parent="." unique_id=644562108]
 z_index = -6
-position = Vector2(360, 360)
+position = Vector2(480, 480)
+scale = Vector2(1.333, 1.333)
 texture = ExtResource("3_0rnid")
 
 [node name="BoardDurationTimer" type="Timer" parent="." unique_id=1118146589]
-wait_time = 600.0
+wait_time = 240.0
 one_shot = true
 autostart = true
 
@@ -37,8 +38,8 @@ autostart = true
 
 [node name="PlayersRemainingLabel" type="Label" parent="." unique_id=2063364564]
 offset_top = 10.0
-offset_right = 720.0
-offset_bottom = 730.0
+offset_right = 960.0
+offset_bottom = 970.0
 theme_override_colors/font_color = Color(1, 1, 1, 0.39215687)
 theme_override_fonts/font = ExtResource("4_2xcui")
 theme_override_font_sizes/font_size = 32
@@ -48,8 +49,8 @@ horizontal_alignment = 1
 [node name="DamageModTimer" type="Label" parent="." unique_id=62763592]
 z_index = -5
 custom_minimum_size = Vector2(720, 50)
-offset_right = 720.0
-offset_bottom = 720.0
+offset_right = 960.0
+offset_bottom = 960.0
 theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
 theme_override_fonts/font = ExtResource("4_2xcui")
 theme_override_font_sizes/font_size = 128
@@ -60,8 +61,8 @@ vertical_alignment = 1
 [node name="KillFeedLabel" type="Label" parent="." unique_id=1315678680]
 offset_left = 5.0
 offset_top = -5.0
-offset_right = 725.0
-offset_bottom = 715.0
+offset_right = 965.0
+offset_bottom = 955.0
 theme_override_fonts/font = ExtResource("5_6k7p0")
 theme_override_font_sizes/font_size = 12
 vertical_alignment = 2
@@ -69,8 +70,8 @@ clip_text = true
 
 [node name="DurationTimer" type="Label" parent="." unique_id=1597279473]
 z_index = -5
-offset_right = 720.0
-offset_bottom = 720.0
+offset_right = 960.0
+offset_bottom = 960.0
 theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
 theme_override_fonts/font = ExtResource("4_2xcui")
 theme_override_font_sizes/font_size = 128
@@ -80,8 +81,8 @@ vertical_alignment = 1
 [node name="CombatLogLabel" type="Label" parent="." unique_id=1926480701]
 offset_left = -5.0
 offset_top = -5.0
-offset_right = 715.0
-offset_bottom = 715.0
+offset_right = 955.0
+offset_bottom = 955.0
 theme_override_fonts/font = ExtResource("5_6k7p0")
 theme_override_font_sizes/font_size = 10
 horizontal_alignment = 2

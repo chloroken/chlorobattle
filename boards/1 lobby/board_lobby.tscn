@@ -16,7 +16,7 @@ autostart = true
 [node name="TitleLabel" type="Label" parent="." unique_id=1720641450]
 z_index = -1
 offset_top = -10.0
-offset_right = 720.0
+offset_right = 960.0
 offset_bottom = 116.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_pe4tc")
@@ -29,8 +29,8 @@ autowrap_mode = 2
 [node name="TimerLabel" type="Label" parent="." unique_id=1582148895]
 z_index = -2
 custom_minimum_size = Vector2(720, 50)
-offset_right = 720.0
-offset_bottom = 720.0
+offset_right = 960.0
+offset_bottom = 960.0
 theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
 theme_override_fonts/font = ExtResource("5_x07d7")
 theme_override_font_sizes/font_size = 256
@@ -40,13 +40,14 @@ vertical_alignment = 1
 
 [node name="LobbySprite" type="Sprite2D" parent="." unique_id=677665225]
 z_index = -5
-position = Vector2(360, 360)
+position = Vector2(481, 481)
+scale = Vector2(1.333, 1.333)
 texture = ExtResource("2_0kqu1")
 
 [node name="InstructionLabel" type="Label" parent="." unique_id=460044495]
-offset_top = 630.0
-offset_right = 720.0
-offset_bottom = 730.0
+offset_top = 860.0
+offset_right = 960.0
+offset_bottom = 960.0
 theme_override_fonts/font = ExtResource("5_x07d7")
 theme_override_font_sizes/font_size = 36
 text = "!join <pawn> <style> <item>"

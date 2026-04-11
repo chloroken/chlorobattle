@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://dadae3e4ikfp6"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_cmg7j"]
+[ext_resource type="Script" uid="uid://bckwuitm654vx" path="res://pawns/cyclone/cyclone_pawn.gd" id="2_cssyw"]
+[ext_resource type="PackedScene" uid="uid://dyotn6foh1hvu" path="res://pawns/cyclone/cyclone_attack.tscn" id="3_kvqme"]
+[ext_resource type="Texture2D" uid="uid://dgxuajx1q7ncm" path="res://pawns/cyclone/cyclone_plane.png" id="3_u4lmt"]
+[ext_resource type="PackedScene" uid="uid://dqjv85wi1dovf" path="res://pawns/cyclone/cyclone_explosion.tscn" id="4_l2oen"]
+[ext_resource type="PackedScene" uid="uid://c4kqafy7ymmgh" path="res://pawns/cyclone/cyclone_melee.tscn" id="5_rcuk4"]
+[ext_resource type="Texture2D" uid="uid://b1qcahc0eabfe" path="res://pawns/cyclone/cyclone_mecha.png" id="7_gv64d"]
+
+[node name="CyclonePawn" unique_id=1877646274 instance=ExtResource("1_cmg7j")]
+script = ExtResource("2_cssyw")
+cycloneAttack = ExtResource("3_kvqme")
+cycloneExplosion = ExtResource("4_l2oen")
+cycloneMelee = ExtResource("5_rcuk4")
+jetFormSprite = ExtResource("3_u4lmt")
+meleeFormSprite = ExtResource("7_gv64d")
+size = 1.1
+hp = 190.0
+dmg = 25.0
+pen = 0.1
+def = 0.3
+spd = 60.0
+
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+texture = ExtResource("3_u4lmt")
+
+[node name="AttackCooldownTimer" parent="." index="4" unique_id=1610759688]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="FormSwapTimer" type="Timer" parent="." index="15" unique_id=16919321]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="FormSwapTimer" to="." method="_on_form_swap_timer_timeout"]

@@ -19,6 +19,7 @@ shape = SubResource("CircleShape2D_c4uqr")
 disabled = true
 
 [node name="AttackCooldownTimer" type="Timer" parent="." unique_id=699143531]
+wait_time = 0.5
 autostart = true
 
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

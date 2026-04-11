@@ -11,7 +11,7 @@ script = ExtResource("1_i2ibj")
 [node name="TitleLabel" type="Label" parent="." unique_id=1150891145]
 z_index = -1
 offset_top = -10.0
-offset_right = 720.0
+offset_right = 960.0
 offset_bottom = 116.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_7g0av")
@@ -22,6 +22,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1895751817]
+visible = false
 z_index = -4
 offset_right = 720.0
 offset_bottom = 720.0
@@ -29,16 +30,18 @@ color = Color(0, 0, 0, 1)
 
 [node name="EndBoardBackdrop" type="Sprite2D" parent="." unique_id=1489204772]
 z_index = -2
-position = Vector2(360, 360)
+position = Vector2(480, 480)
+scale = Vector2(1.333, 1.333)
 texture = ExtResource("2_5icpr")
 
 [node name="ScoreContainer" type="HBoxContainer" parent="." unique_id=1535832399]
 offset_top = 126.0
-offset_right = 720.0
-offset_bottom = 720.0
+offset_right = 960.0
+offset_bottom = 960.0
+size_flags_vertical = 3
 
 [node name="PlacementLabel" type="Label" parent="ScoreContainer" unique_id=1193349326]
-custom_minimum_size = Vector2(70, 594)
+custom_minimum_size = Vector2(100, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
@@ -47,7 +50,7 @@ text = "PLACE
 horizontal_alignment = 1
 
 [node name="UsernameLabel" type="Label" parent="ScoreContainer" unique_id=2139648340]
-custom_minimum_size = Vector2(175, 594)
+custom_minimum_size = Vector2(175, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
@@ -55,7 +58,7 @@ text = "USERNAME
 "
 
 [node name="PawnLabel" type="Label" parent="ScoreContainer" unique_id=1063241617]
-custom_minimum_size = Vector2(75, 594)
+custom_minimum_size = Vector2(100, 837)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
@@ -64,7 +67,7 @@ text = "PAWN
 horizontal_alignment = 2
 
 [node name="StyleLabel" type="Label" parent="ScoreContainer" unique_id=1775608066]
-custom_minimum_size = Vector2(75, 594)
+custom_minimum_size = Vector2(100, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
@@ -73,7 +76,7 @@ text = "STYLE
 horizontal_alignment = 1
 
 [node name="ItemLabel" type="Label" parent="ScoreContainer" unique_id=431872291]
-custom_minimum_size = Vector2(75, 594)
+custom_minimum_size = Vector2(100, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
@@ -81,7 +84,7 @@ text = "ITEM
 "
 
 [node name="KillsLabel" type="Label" parent="ScoreContainer" unique_id=379651143]
-custom_minimum_size = Vector2(50, 594)
+custom_minimum_size = Vector2(75, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
@@ -90,7 +93,7 @@ text = "KILLS
 horizontal_alignment = 1
 
 [node name="DealtLabel" type="Label" parent="ScoreContainer" unique_id=960685436]
-custom_minimum_size = Vector2(50, 594)
+custom_minimum_size = Vector2(75, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
@@ -99,7 +102,7 @@ text = "DAMAGE
 horizontal_alignment = 1
 
 [node name="TakenLabel" type="Label" parent="ScoreContainer" unique_id=1835262388]
-custom_minimum_size = Vector2(50, 594)
+custom_minimum_size = Vector2(75, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12
@@ -108,7 +111,7 @@ text = "TAKEN
 horizontal_alignment = 1
 
 [node name="RatioLabel" type="Label" parent="ScoreContainer" unique_id=1291899580]
-custom_minimum_size = Vector2(50, 594)
+custom_minimum_size = Vector2(75, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 12

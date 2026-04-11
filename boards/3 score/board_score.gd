@@ -1,12 +1,13 @@
 extends Node2D
 var pawnType
-var boardRadius = 300
+var boardRadius = 360
 
 func _ready() -> void:
 	# Spawn disarmed winning Pawn to show off
 	for pawn in get_parent().pawnList:
 		if pawn.type == "candle": pawnType = get_parent().candle
 		elif pawn.type == "chair": pawnType = get_parent().chair
+		elif pawn.type == "cyclone": pawnType = get_parent().cyclone
 		elif pawn.type == "grouper": pawnType = get_parent().grouper
 		elif pawn.type == "pirate": pawnType = get_parent().pirate
 		elif pawn.type == "ship": pawnType = get_parent().ship

@@ -1,6 +1,6 @@
 extends Node2D
 var currentPlayers = []
-var boardRadius = 240
+var boardRadius = 360
 
 func _ready() -> void:
 	# Intiate twitch functionality
@@ -8,7 +8,7 @@ func _ready() -> void:
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	
 	# Create random bots to test with
-	for i in 12:
+	for i in 24:
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
@@ -52,6 +52,7 @@ func register_pawn(username: String, type: String, style = "random", item = "ran
 func get_pawn_type(message: String):
 	if "candle" in message: return("candle")
 	elif "chair" in message: return("chair")
+	elif "cyclone" in message: return("cyclone")
 	elif "grouper" in message: return("grouper")
 	elif "pirate" in message: return("pirate")
 	elif "ship" in message: return("ship")
@@ -76,7 +77,7 @@ func get_pawn_item(message: String):
 	else: return(choose_random_item())
 
 func choose_random_pawn() -> String:
-	var allPawnTypes = ["candle", "chair", "grouper", "pirate", "ship", "slug", "top"]
+	var allPawnTypes = ["candle", "chair", "cyclone", "grouper", "pirate", "ship", "slug", "top"]
 	var i = randi_range(0, allPawnTypes.size() - 1)
 	return(allPawnTypes[i])
 
@@ -95,6 +96,7 @@ func spawn_lobby_pawn(pawn) -> void:
 	var pawnType
 	if pawn.type == "candle": pawnType = get_parent().candle
 	elif pawn.type == "chair": pawnType = get_parent().chair
+	elif pawn.type == "cyclone": pawnType = get_parent().cyclone
 	elif pawn.type == "grouper": pawnType = get_parent().grouper
 	elif pawn.type == "pirate": pawnType = get_parent().pirate
 	elif pawn.type == "ship": pawnType = get_parent().ship

@@ -3,14 +3,16 @@
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_cg57w"]
 [ext_resource type="Script" uid="uid://cb01utcq4b0c2" path="res://pawns/candle/candle_pawn.gd" id="2_ori44"]
 [ext_resource type="PackedScene" uid="uid://nt3vwefawv5m" path="res://pawns/candle/candle_attack.tscn" id="3_squ0r"]
+[ext_resource type="PackedScene" uid="uid://bkew8lmtf5ihi" path="res://pawns/candle/candle_ember.tscn" id="4_mb6no"]
 [ext_resource type="Texture2D" uid="uid://cjx62vdfypc8h" path="res://pawns/candle/candle_pawn.png" id="4_squ0r"]
 
 [node name="CandlePawn" unique_id=1877646274 instance=ExtResource("1_cg57w")]
 script = ExtResource("2_ori44")
 candleAttack = ExtResource("3_squ0r")
+emberObject = ExtResource("4_mb6no")
 size = 0.9
 hp = 175.0
-dmg = 7.0
+dmg = 5.0
 pen = 0.2
 def = 0.4
 spd = 30.0
@@ -23,4 +25,12 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
+[node name="EmberSpawnTimer" type="Timer" parent="." index="15" unique_id=781136863]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="EmberContainer" type="Node" parent="." index="16" unique_id=1006458046]
+
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="EmberSpawnTimer" to="." method="_on_ember_spawn_timer_timeout"]

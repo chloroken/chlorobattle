@@ -9,7 +9,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	dmg = 1 + 0.5 * ($FizzleTimer.get_wait_time() - $FizzleTimer.get_time_left())
 	$DamageLabel.text = str(int(dmg))
-	$BaseSprite.modulate.g = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
+	$BaseSprite.modulate.b = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 
 # Grow size for effect
 func _physics_process(_delta: float) -> void:

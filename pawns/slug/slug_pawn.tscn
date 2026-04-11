@@ -11,7 +11,7 @@ slugAttack = ExtResource("3_tqnmo")
 size = 1.1
 hp = 180.0
 dmg = 10.0
-pen = 0.8
+pen = 0.5
 def = 0.5
 spd = 10.0
 
@@ -22,6 +22,7 @@ texture = ExtResource("2_qfyav")
 text = "slug"
 
 [node name="AttackCooldownTimer" parent="." index="4" unique_id=1610759688]
+wait_time = 1.5
 autostart = true
 
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

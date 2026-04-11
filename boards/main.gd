@@ -8,6 +8,7 @@ extends Node2D
 # Load Pawns into inspector
 @export var candle: PackedScene
 @export var chair: PackedScene
+@export var cyclone: PackedScene
 @export var grouper: PackedScene
 @export var pirate: PackedScene
 @export var ship: PackedScene

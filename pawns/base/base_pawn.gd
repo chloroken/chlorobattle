@@ -36,7 +36,7 @@ var killCount = 0
 
 # Item properties
 var antimatterCooldown = 10.0
-var antimatterRandomizer = 2.0
+var antimatterRandomizer = 1.5
 var antimatterDuration = 2.0
 var diceSides = 6
 var milkshakeUsed = false
@@ -54,7 +54,7 @@ func _ready() -> void:
 	# Check for passive Pawn items that require action now
 	if !attacksDisabled:
 		if item == "antimatter":
-			$AntimatterCooldownTimer.start(antimatterDuration)
+			$AntimatterCooldownTimer.start(randf_range($AntimatterCooldownTimer.get_wait_time() / antimatterRandomizer, antimatterCooldown))
 		elif item == "killbot":
 			item_spawn_killbot()
 
@@ -68,7 +68,7 @@ func _ready() -> void:
 
 	# Adjust attack rate based on attack speed
 	$AttackCooldownTimer.set_wait_time((1.0 - asp) * $AttackCooldownTimer.get_wait_time())	
-	
+
 	# Adjust sprite dimensions
 	$PawnSprite.scale *= size
 	$PawnCollider.scale *= size
@@ -109,7 +109,7 @@ func _on_body_entered(body: Node2D) -> void:
 		if !body.areaAttack: body.queue_free()
 		else: hitList.append(body)
 		item_try_skating()
-		
+
 	# Check for Pawn death
 	if hp <= 0:
 		var pawns = get_parent().get_parent().pawnList
@@ -135,14 +135,14 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	damageTaken += delayedHit
 	attackingPawn.damageDealt += delayedHit
 	get_parent().update_combat_log("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % delayedHit + " dmg") #— [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
-	print("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % delayedHit + " dmg — [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
+	print("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % delayedHit + " dmg")
 
 # Calculate a new place for Pawn to go
 func new_destination() -> Vector2:
 	var radius = get_parent().boardRadius
 	var rando = ((Vector2.RIGHT * radius).rotated(randf_range(0, TAU)))
 	var desto = center + rando
-	
+
 	# Avoid picking a location too close
 	while global_position.distance_to(desto) < radius:
 		desto = new_destination()
@@ -197,7 +197,7 @@ func _on_antimatter_cooldown_timer_timeout() -> void:
 	$PawnSprite.modulate.r = 0.0
 	$PawnSprite.modulate.b = 0.0
 	$PawnSprite.modulate.g = 0.0
-	$NameLabel.visible = false
+	#$NameLabel.visible = false
 	$AntimatterDurationTimer.start(antimatterDuration)
 	if $PhaseOutTimer.get_time_left() < antimatterDuration:
 		$PhaseOutTimer.start(antimatterDuration)
@@ -208,7 +208,7 @@ func _on_antimatter_duration_timer_timeout() -> void:
 	$PawnSprite.modulate.r = 1.0
 	$PawnSprite.modulate.b = 1.0
 	$PawnSprite.modulate.g = 1.0
-	$NameLabel.visible = true
+	#$NameLabel.visible = true
 	$AntimatterCooldownTimer.start(randf_range($AntimatterCooldownTimer.get_wait_time() / antimatterRandomizer, antimatterCooldown))
 
 func item_roll_dice(baseHit, attackingPawn) -> float:

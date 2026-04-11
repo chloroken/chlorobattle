@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c4kqafy7ymmgh"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_wqenj"]
+[ext_resource type="Texture2D" uid="uid://bx5a3tvyg066k" path="res://pawns/cyclone/cyclone_melee.png" id="2_j1h7w"]
+[ext_resource type="Script" uid="uid://dguhg1bq4jsnh" path="res://pawns/cyclone/cyclone_melee.gd" id="2_k4fr4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k4fr4"]
+radius = 32.0
+
+[node name="CycloneMelee" unique_id=1314532855 instance=ExtResource("1_wqenj")]
+script = ExtResource("2_k4fr4")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("2_j1h7w")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("CircleShape2D_k4fr4")
+
+[node name="FizzleTimer" parent="." index="2" unique_id=930558460]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]
