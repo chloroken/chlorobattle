@@ -9,7 +9,7 @@ extends "res://pawns/base/base_pawn.gd"
 
 var attackConeArc = .5
 var meleeForm = false
-var jetAttackCooldown = 1.0
+var jetAttackCooldown = 0.5
 var meleeAttackCooldown = 4.0
 var formSwapTimer = 10.0
 

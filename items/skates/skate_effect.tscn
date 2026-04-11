@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bx2you0xwj8qn" path="res://items/skates/skate_effect.png" id="2_re04f"]
 
 [node name="SkateEffect" type="Node2D" unique_id=1742595589]
-z_index = 1
+z_index = -1
 script = ExtResource("1_jgob2")
 
 [node name="SkateEffectSprite" type="Sprite2D" parent="." unique_id=1304229225]

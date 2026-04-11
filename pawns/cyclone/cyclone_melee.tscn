@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://bx5a3tvyg066k" path="res://pawns/cyclone/cyclone_melee.png" id="2_j1h7w"]
 [ext_resource type="Script" uid="uid://dguhg1bq4jsnh" path="res://pawns/cyclone/cyclone_melee.gd" id="2_k4fr4"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_k4fr4"]
-radius = 32.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k4fr4"]
+size = Vector2(64, 64)
 
 [node name="CycloneMelee" unique_id=1314532855 instance=ExtResource("1_wqenj")]
 script = ExtResource("2_k4fr4")
@@ -14,7 +14,7 @@ script = ExtResource("2_k4fr4")
 texture = ExtResource("2_j1h7w")
 
 [node name="BaseCollider" parent="." index="1" unique_id=867063161]
-shape = SubResource("CircleShape2D_k4fr4")
+shape = SubResource("RectangleShape2D_k4fr4")
 
 [node name="FizzleTimer" parent="." index="2" unique_id=930558460]
 wait_time = 2.0

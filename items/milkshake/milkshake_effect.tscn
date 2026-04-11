@@ -4,9 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://drg0bfiic4iyk" path="res://items/milkshake/milkshake.png" id="2_xwrgw"]
 
 [node name="MilkshakeEffect" type="Node2D" unique_id=456358180]
+z_index = -1
 script = ExtResource("1_ht1w6")
 
 [node name="MilkshakeSprite" type="Sprite2D" parent="." unique_id=360599421]
+modulate = Color(1, 1, 1, 0.5882353)
 texture = ExtResource("2_xwrgw")
 
 [node name="FizzleTimer" type="Timer" parent="." unique_id=54883147]

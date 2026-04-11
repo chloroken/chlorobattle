@@ -27,16 +27,36 @@ position = Vector2(480, 480)
 scale = Vector2(1.333, 1.333)
 texture = ExtResource("3_0rnid")
 
-[node name="BoardDurationTimer" type="Timer" parent="." unique_id=1118146589]
-wait_time = 240.0
-one_shot = true
-autostart = true
+[node name="ArenaCloseTimer" type="Timer" parent="." unique_id=1118146589]
 
 [node name="SpawnStaggerTimer" type="Timer" parent="." unique_id=603592877]
-wait_time = 0.001
-autostart = true
 
-[node name="PlayersRemainingLabel" type="Label" parent="." unique_id=2063364564]
+[node name="DamageModTimer" type="Label" parent="." unique_id=62763592]
+z_index = -5
+custom_minimum_size = Vector2(720, 50)
+offset_right = 960.0
+offset_bottom = 960.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
+theme_override_fonts/font = ExtResource("4_2xcui")
+theme_override_font_sizes/font_size = 96
+text = "-10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DurationTimer" type="Label" parent="." unique_id=1597279473]
+z_index = -5
+offset_right = 960.0
+offset_bottom = 960.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
+theme_override_fonts/font = ExtResource("4_2xcui")
+theme_override_font_sizes/font_size = 96
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArenaCanvas" type="CanvasLayer" parent="." unique_id=1847696693]
+
+[node name="PlayersRemainingLabel" type="Label" parent="ArenaCanvas" unique_id=2063364564]
+z_index = -5
 offset_top = 10.0
 offset_right = 960.0
 offset_bottom = 970.0
@@ -46,19 +66,8 @@ theme_override_font_sizes/font_size = 32
 text = "asdf"
 horizontal_alignment = 1
 
-[node name="DamageModTimer" type="Label" parent="." unique_id=62763592]
+[node name="KillFeedLabel" type="Label" parent="ArenaCanvas" unique_id=1315678680]
 z_index = -5
-custom_minimum_size = Vector2(720, 50)
-offset_right = 960.0
-offset_bottom = 960.0
-theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
-theme_override_fonts/font = ExtResource("4_2xcui")
-theme_override_font_sizes/font_size = 128
-text = "-10"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="KillFeedLabel" type="Label" parent="." unique_id=1315678680]
 offset_left = 5.0
 offset_top = -5.0
 offset_right = 965.0
@@ -68,17 +77,8 @@ theme_override_font_sizes/font_size = 12
 vertical_alignment = 2
 clip_text = true
 
-[node name="DurationTimer" type="Label" parent="." unique_id=1597279473]
+[node name="CombatLogLabel" type="Label" parent="ArenaCanvas" unique_id=1926480701]
 z_index = -5
-offset_right = 960.0
-offset_bottom = 960.0
-theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
-theme_override_fonts/font = ExtResource("4_2xcui")
-theme_override_font_sizes/font_size = 128
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CombatLogLabel" type="Label" parent="." unique_id=1926480701]
 offset_left = -5.0
 offset_top = -5.0
 offset_right = 955.0

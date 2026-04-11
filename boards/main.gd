@@ -27,6 +27,8 @@ class Pawn:
 	var damageDealt = 0
 	var killCount = 0
 
+var cameraFollowMouse = false
+
 # First code of game to run
 func _ready() -> void:
 	randomize()
@@ -38,10 +40,17 @@ func _input(event: InputEvent) -> void:
 		Engine.set_time_scale(min(Engine.get_time_scale() * 2, 16.0))
 	if event.is_action_pressed("Slow Engine Time"):
 		Engine.set_time_scale(max(Engine.get_time_scale() / 2, 0.25))
-	if event.is_action_pressed("Reset Engine Time"):
-		Engine.set_time_scale(1)
 	if event.is_action_pressed("Pause Engine Time"):
-		Engine.set_time_scale(0)
+		if Engine.get_time_scale() != 1:
+			Engine.set_time_scale(1)
+		else: Engine.set_time_scale(0)
+	if event.is_action_pressed("Toggle Zoom"):
+		if $Camera2D.zoom.x == 1:
+			$Camera2D.zoom.x = 1.5
+			$Camera2D.zoom.y = 1.5
+		else:
+			$Camera2D.zoom.x = 1
+			$Camera2D.zoom.y = 1
 
 func switch_board(board: String) -> void:
 	free_children()
@@ -56,4 +65,5 @@ func switch_board(board: String) -> void:
 func free_children() -> void:
 	var children = get_children()
 	for child in children:
-		child.queue_free()
+		if child != $Camera2D:
+			child.queue_free()

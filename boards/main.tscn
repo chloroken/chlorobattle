@@ -26,3 +26,6 @@ pirate = ExtResource("9_ycdy4")
 ship = ExtResource("10_w48qg")
 slug = ExtResource("11_vivmo")
 top = ExtResource("10_yktdr")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=690321007]
+offset = Vector2(480, 480)

@@ -18,7 +18,9 @@ extends Area2D
 # Item scenes
 @export var tombstone: PackedScene
 @export var killbot: PackedScene
+@export var glueEffect: PackedScene
 @export var diceEffect: PackedScene
+@export var mapEffect: PackedScene
 @export var milkshakeEffect: PackedScene
 @export var skateEffect: PackedScene
 
@@ -82,10 +84,10 @@ func _process(_delta: float) -> void:
 	$HitpointLabel.text = str(int(ceil(hp)))
 	$HitpointLabelGreen.scale.x = hp / baseHp
 
-	# Check for milkshake thresholds
+	# Check for milkshake threshold
 	item_check_milkshake()
 	
-	# phase active
+	# Disable Phasing
 	if !$PhaseOutTimer.is_stopped():
 		set_collision_mask_value(1, false)
 
@@ -109,6 +111,8 @@ func _on_body_entered(body: Node2D) -> void:
 		if !body.areaAttack: body.queue_free()
 		else: hitList.append(body)
 		item_try_skating()
+		item_try_map()
+		item_try_glue(attackingPawn)
 
 	# Check for Pawn death
 	if hp <= 0:
@@ -119,6 +123,7 @@ func _on_body_entered(body: Node2D) -> void:
 				pawn_death(attackingPawn, attackerUsername, i)
 				break
 	item_skate_effect()
+	item_glue_effect()
 
 func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	var baseHit = body.dmg
@@ -224,6 +229,51 @@ func item_roll_dice(baseHit, attackingPawn) -> float:
 	print("[" + str(attackingPawn.username) + "] used [dice]: " + str(1.0 + 0.1 * hitMod))
 	return(baseHit)
 
+#func item_try_glue(attackingPawn) -> void:
+	#if attackingPawn.item == "glue" && $SlowDurationTimer.is_stopped():
+		#$SlowDurationTimer.start()
+		#$SlowEffectTimer.start()
+		#spd /= 2
+		#print("[" + str(attackingPawn.username) + "] used [glue] on [" + str(username) + "]")
+#
+#func item_glue_effect() -> void:
+	#if $SlowDurationTimer.get_time_left() > 0:
+		#$SlowEffectTimer.start()
+		#var newFlake = skateEffect.instantiate()
+		#add_child(newFlake)
+#
+#func _on_slow_effect_timer_timeout() -> void:
+	#var newGlue = glueEffect.instantiate()
+	#add_child(newGlue)
+#
+#func _on_slow_debuff_timer_timeout() -> void:
+	#spd *= 2
+	#$SlowEffectTimer.stop()
+
+func item_try_glue(attackingPawn) -> void:
+	if attackingPawn.item == "glue" && $SlowDurationTimer.is_stopped():
+		spd /= 2
+		$SlowDurationTimer.start()
+		print("[" + str(attackingPawn.username) + "] used [glue] on [" + str(username) + "]")
+
+func item_glue_effect() -> void:
+	if $SlowDurationTimer.get_time_left() > 0:
+		$SlowEffectTimer.start()
+		var newWeb = glueEffect.instantiate()
+		add_child(newWeb)
+
+func _on_slow_duration_timer_timeout() -> void:
+	$PawnSprite.modulate.a = 1.0
+	$PawnSprite.modulate.r = 1.0
+	$PawnSprite.modulate.b = 1.0
+	$PawnSprite.modulate.g = 1.0
+	spd *= 2
+	$SlowEffectTimer.stop()
+
+func _on_slow_effect_timer_timeout() -> void:
+	var newWeb = glueEffect.instantiate()
+	add_child(newWeb)
+
 func item_spawn_killbot() -> void:
 	var newBot = killbot.instantiate()
 	$AttackContainer.add_child(newBot)
@@ -232,9 +282,17 @@ func item_spawn_killbot() -> void:
 	newBot.destination = self.global_position
 	print("[" + username + "] used [killbot]")
 
+func item_try_map() -> void:
+	if item == "map" && $MapCooldownTimer.is_stopped():
+		destination = new_destination()
+		$MapCooldownTimer.start()
+		var newMapEffect = mapEffect.instantiate()
+		add_child(newMapEffect)
+		print("[" + str(username) + "] used [map]")
+		
 func item_check_milkshake() -> void:
 	if item == "milkshake" && hp < milkshakeThreshold * baseHp && !milkshakeUsed:
-		print("[" + str(username) + "] started [milkshake]")
+		print("[" + str(username) + "] used [milkshake]")
 		milkshakeUsed = true
 		$MilkshakeDelayTimer.start(milkshakeDelay)
 		var newMilkshake = milkshakeEffect.instantiate()

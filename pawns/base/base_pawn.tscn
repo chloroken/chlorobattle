@@ -72,30 +72,6 @@ text = "pawn"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AttackCooldownTimer" type="Timer" parent="." unique_id=1610759688]
-
-[node name="AttackContainer" type="Node" parent="." unique_id=1458982635]
-
-[node name="AntimatterCooldownTimer" type="Timer" parent="." unique_id=2066980002]
-wait_time = 10.0
-one_shot = true
-
-[node name="AntimatterDurationTimer" type="Timer" parent="." unique_id=1783737652]
-wait_time = 2.0
-one_shot = true
-
-[node name="MilkshakeDelayTimer" type="Timer" parent="." unique_id=751026745]
-wait_time = 2.0
-one_shot = true
-
-[node name="SkateDurationTimer" type="Timer" parent="." unique_id=504911163]
-wait_time = 3.0
-one_shot = true
-
-[node name="SkateSnowflakeTimer" type="Timer" parent="." unique_id=821204771]
-wait_time = 0.1
-one_shot = true
-
 [node name="HitpointLabelBlack" type="ColorRect" parent="." unique_id=664546012]
 offset_left = -20.0
 offset_top = -26.0
@@ -120,10 +96,48 @@ color = Color(0, 1, 0, 1)
 [node name="PhaseOutTimer" type="Timer" parent="." unique_id=1852202101]
 one_shot = true
 
+[node name="SlowDurationTimer" type="Timer" parent="." unique_id=231319745]
+wait_time = 3.0
+one_shot = true
+
+[node name="SlowEffectTimer" type="Timer" parent="." unique_id=1633827799]
+wait_time = 0.1
+one_shot = true
+
+[node name="AttackCooldownTimer" type="Timer" parent="." unique_id=1610759688]
+
+[node name="AttackContainer" type="Node" parent="." unique_id=1458982635]
+
+[node name="AntimatterCooldownTimer" type="Timer" parent="." unique_id=2066980002]
+wait_time = 10.0
+one_shot = true
+
+[node name="AntimatterDurationTimer" type="Timer" parent="." unique_id=1783737652]
+wait_time = 2.0
+one_shot = true
+
+[node name="MapCooldownTimer" type="Timer" parent="." unique_id=1165421808]
+wait_time = 5.0
+one_shot = true
+
+[node name="MilkshakeDelayTimer" type="Timer" parent="." unique_id=751026745]
+wait_time = 2.0
+one_shot = true
+
+[node name="SkateDurationTimer" type="Timer" parent="." unique_id=504911163]
+wait_time = 3.0
+one_shot = true
+
+[node name="SkateSnowflakeTimer" type="Timer" parent="." unique_id=821204771]
+wait_time = 0.1
+one_shot = true
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="PhaseOutTimer" to="." method="_on_phase_out_timer_timeout"]
+[connection signal="timeout" from="SlowDurationTimer" to="." method="_on_slow_duration_timer_timeout"]
+[connection signal="timeout" from="SlowEffectTimer" to="." method="_on_slow_effect_timer_timeout"]
 [connection signal="timeout" from="AntimatterCooldownTimer" to="." method="_on_antimatter_cooldown_timer_timeout"]
 [connection signal="timeout" from="AntimatterDurationTimer" to="." method="_on_antimatter_duration_timer_timeout"]
 [connection signal="timeout" from="MilkshakeDelayTimer" to="." method="_on_milkshake_delay_timer_timeout"]
 [connection signal="timeout" from="SkateDurationTimer" to="." method="_on_skate_duration_timer_timeout"]
 [connection signal="timeout" from="SkateSnowflakeTimer" to="." method="_on_skate_snowflake_timer_timeout"]
-[connection signal="timeout" from="PhaseOutTimer" to="." method="_on_phase_out_timer_timeout"]

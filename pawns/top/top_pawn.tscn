@@ -4,15 +4,19 @@
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_ksjeq"]
 [ext_resource type="Texture2D" uid="uid://c8om8ie5uynlo" path="res://pawns/top/top_pawn.png" id="2_bwwx6"]
 [ext_resource type="PackedScene" uid="uid://b4sfbkn4gf6cx" path="res://pawns/top/top_attack.tscn" id="2_ruyh0"]
+[ext_resource type="PackedScene" uid="uid://bdsvr8sgchx2i" path="res://items/glue/glue_effect.tscn" id="4_uxg4q"]
+[ext_resource type="PackedScene" uid="uid://bu0wch6pq7hog" path="res://items/map/map_effect.tscn" id="5_xb3l6"]
 
 [node name="TopPawn" unique_id=1877646274 instance=ExtResource("1_ksjeq")]
 script = ExtResource("1_04y0m")
 topAttack = ExtResource("2_ruyh0")
-hp = 210.0
+hp = 420.0
 dmg = 25.0
 pen = 0.2
 def = 0.6
 spd = 60.0
+glueEffect = ExtResource("4_uxg4q")
+mapEffect = ExtResource("5_xb3l6")
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_bwwx6")
@@ -21,7 +25,7 @@ texture = ExtResource("2_bwwx6")
 wait_time = 3.0
 one_shot = true
 
-[node name="AttackCooldownTimer" parent="." index="5" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="10" unique_id=1610759688]
 wait_time = 0.25
 autostart = true
 

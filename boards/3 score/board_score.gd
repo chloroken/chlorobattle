@@ -3,6 +3,10 @@ var pawnType
 var boardRadius = 360
 
 func _ready() -> void:
+	# Fix camera zoom
+	get_parent().get_node("Camera2D").zoom.x = 1
+	get_parent().get_node("Camera2D").zoom.y = 1
+	
 	# Spawn disarmed winning Pawn to show off
 	for pawn in get_parent().pawnList:
 		if pawn.type == "candle": pawnType = get_parent().candle

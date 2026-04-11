@@ -1,6 +1,7 @@
 extends Node2D
 var currentPlayers = []
 var boardRadius = 360
+var lobbyTimer = 60.0
 
 func _ready() -> void:
 	# Intiate twitch functionality
@@ -19,6 +20,11 @@ func _ready() -> void:
 	#register_pawn("b4ngbiscuit", "ship", choose_random_style(), choose_random_item())
 	#register_pawn("theone_fg", "slug", choose_random_style(), choose_random_item())
 	#register_pawn("hasine", "top", choose_random_style(), choose_random_item())
+	
+	# Start lobby timer
+	$LobbyTimer.one_shot = true
+	$LobbyTimer.set_wait_time(lobbyTimer)
+	$LobbyTimer.start()
 
 # Update lobby countdown timer
 func _process(_delta: float) -> void:
@@ -62,8 +68,10 @@ func get_pawn_type(message: String):
 
 func get_pawn_style(message: String):
 	if "berserk" in message: return("berserk")
+	elif "deranged" in message: return("deranged")
 	elif "giant" in message: return("giant")
 	elif "insane" in message: return("insane")
+	elif "mighty" in message: return("mighty")
 	elif "nimble" in message: return("nimble")
 	elif "sturdy" in message: return("sturdy")
 	else: return(choose_random_style())
@@ -71,7 +79,9 @@ func get_pawn_style(message: String):
 func get_pawn_item(message: String):
 	if "antimatter" in message: return("antimatter")
 	elif "dice" in message: return("dice")
+	elif "glue" in message: return("glue")
 	elif "killbot" in message: return("killbot")
+	elif "map" in message: return("map")
 	elif "milkshake" in message: return("milkshake")
 	elif "skates" in message: return("skates")
 	else: return(choose_random_item())
@@ -82,12 +92,12 @@ func choose_random_pawn() -> String:
 	return(allPawnTypes[i])
 
 func choose_random_style() -> String:
-	var allStyleTypes = ["berserk", "giant", "insane", "nimble", "sturdy"]
+	var allStyleTypes = ["berserk", "deranged", "giant", "insane", "mighty", "nimble", "sturdy"]
 	var i = randi_range(0, allStyleTypes.size() - 1)
 	return(allStyleTypes[i])
 
 func choose_random_item() -> String:
-	var allItemTypes = ["antimatter", "dice", "killbot", "milkshake", "skates"]
+	var allItemTypes = ["antimatter", "dice", "glue", "killbot", "map", "milkshake", "skates"]
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])
 

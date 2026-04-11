@@ -4,15 +4,19 @@
 [ext_resource type="Texture2D" uid="uid://cg3hajkhjhu0c" path="res://pawns/pirate/pirate_pawn.png" id="2_f4qk0"]
 [ext_resource type="Script" uid="uid://cdub77jnq8457" path="res://pawns/pirate/pirate_pawn.gd" id="2_ifqpx"]
 [ext_resource type="PackedScene" uid="uid://cra4gw71okw2j" path="res://pawns/pirate/pirate_attack.tscn" id="3_k2e1m"]
+[ext_resource type="PackedScene" uid="uid://bdsvr8sgchx2i" path="res://items/glue/glue_effect.tscn" id="4_sq7v2"]
+[ext_resource type="PackedScene" uid="uid://bu0wch6pq7hog" path="res://items/map/map_effect.tscn" id="5_v8apg"]
 
 [node name="PiratePawn" unique_id=1048959576 instance=ExtResource("1_hvhxy")]
 script = ExtResource("2_ifqpx")
 pirateAttack = ExtResource("3_k2e1m")
-hp = 180.0
+hp = 360.0
 dmg = 75.0
 pen = 0.1
 def = 0.2
 spd = 30.0
+glueEffect = ExtResource("4_sq7v2")
+mapEffect = ExtResource("5_v8apg")
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_f4qk0")
@@ -23,7 +27,7 @@ text = "pirate"
 [node name="HitpointLabel" parent="." index="3" unique_id=1383475225]
 theme_override_constants/outline_size = 8
 
-[node name="AttackCooldownTimer" parent="." index="4" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="9" unique_id=1610759688]
 autostart = true
 
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

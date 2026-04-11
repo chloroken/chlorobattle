@@ -4,16 +4,20 @@
 [ext_resource type="Script" uid="uid://ui8l2id1liwc" path="res://pawns/chair/chair_pawn.gd" id="2_ag02n"]
 [ext_resource type="Texture2D" uid="uid://q3fku033ss5p" path="res://pawns/chair/chair_pawn.png" id="2_twiy4"]
 [ext_resource type="PackedScene" uid="uid://dgw0wr8swuftt" path="res://pawns/chair/chair_attack.tscn" id="3_wxuat"]
+[ext_resource type="PackedScene" uid="uid://bdsvr8sgchx2i" path="res://items/glue/glue_effect.tscn" id="4_dytyp"]
+[ext_resource type="PackedScene" uid="uid://bu0wch6pq7hog" path="res://items/map/map_effect.tscn" id="5_0pg0i"]
 
 [node name="ChairPawn" unique_id=1048959576 instance=ExtResource("1_gb7of")]
 script = ExtResource("2_ag02n")
 chairAttack = ExtResource("3_wxuat")
 size = 1.2
-hp = 175.0
+hp = 350.0
 dmg = 55.0
 pen = 0.2
 def = 0.3
 spd = 40.0
+glueEffect = ExtResource("4_dytyp")
+mapEffect = ExtResource("5_0pg0i")
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_twiy4")
@@ -25,7 +29,7 @@ text = "chair"
 wait_time = 0.5
 one_shot = true
 
-[node name="AttackCooldownTimer" parent="." index="5" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="10" unique_id=1610759688]
 wait_time = 1.5
 autostart = true
 
