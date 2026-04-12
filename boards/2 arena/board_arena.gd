@@ -120,8 +120,10 @@ func spawn_pawns(i: int) -> void:
 		newPawn.size *= 1.5
 		newPawn.asp *= 1.25
 	elif pawn.style == "insane":
+		newPawn.spd *= 1.25
 		newPawn.dmg *= 1.25
 		newPawn.def = max(0, newPawn.def - 0.5)
+		newPawn.size *= 1.25
 	elif pawn.style == "mighty":
 		newPawn.spd *= 0.5
 		newPawn.pen = max(0, newPawn.pen - 0.5)

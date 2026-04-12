@@ -12,6 +12,7 @@ var meleeForm = false
 var jetAttackCooldown = 0.5
 var meleeAttackCooldown = 4.0
 var formSwapTimer = 10.0
+var formSwapVariance = 2.0
 
 # Turn to face direction for effect
 func _process(_delta: float) -> void:
@@ -49,7 +50,12 @@ func make_explosion(loc: Vector2) -> void:
 	$AttackContainer.add_child(newAttack)
 
 func _on_form_swap_timer_timeout() -> void:
-	if meleeForm: spd *= 4
-	else: spd /= 4
+	if meleeForm:
+		if !attacksDisabled: $AttackCooldownTimer.start(jetAttackCooldown + random_variance())
+		spd *= 4
+	else:
+		if !attacksDisabled: $AttackCooldownTimer.start(meleeAttackCooldown + random_variance())
+		spd /= 4
 	meleeForm = !meleeForm
-	$FormSwapTimer.start(formSwapTimer + random_variance())
+	var form_offset_variance = randf_range(-formSwapVariance, formSwapVariance)
+	$FormSwapTimer.start(formSwapTimer + form_offset_variance + random_variance())
