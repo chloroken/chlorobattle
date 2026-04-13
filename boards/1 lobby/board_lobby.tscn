@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://iyuns7lssrvx" path="res://boards/1 lobby/board_lobby.gd" id="1_4hyng"]
 [ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/graphics/board_background.png" id="2_0kqu1"]
 [ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://fonts/Grunge.otf" id="2_pe4tc"]
+[ext_resource type="FontFile" uid="uid://dsixe43unloa3" path="res://fonts/MonoTypewriter.ttf" id="5_22cq8"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="5_x07d7"]
 
 [node name="LobbyBoard" type="Node2D" unique_id=751706610]
@@ -49,6 +50,37 @@ theme_override_fonts/font = ExtResource("5_x07d7")
 theme_override_font_sizes/font_size = 36
 text = "!join <pawn> <style> <item>"
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CheatSheetLabel" type="Label" parent="." unique_id=495225782]
+offset_left = 20.0
+offset_right = 959.0
+offset_bottom = 960.0
+theme_override_fonts/font = ExtResource("5_22cq8")
+theme_override_font_sizes/font_size = 14
+text = "Pawns:
+- Candle
+- Chair
+- Cyclone
+- Grouper
+- Pirate
+- Ship
+- Slug
+- Top
+
+Styles:
+- Berserk
+- Mighty
+- Slayer
+
+Items:
+- Antimatter
+- Dice
+- Glue
+- Killbot
+- Map
+- Milkshake
+- Skates"
 vertical_alignment = 1
 
 [connection signal="timeout" from="LobbyTimer" to="." method="_on_lobby_timer_timeout"]

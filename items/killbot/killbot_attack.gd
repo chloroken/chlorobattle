@@ -5,6 +5,7 @@ var speed = 75
 var direction: Vector2
 var dmg = 10
 var pen = 0
+var isKillbot = true
 
 # Assign a random direction
 func _ready() -> void:

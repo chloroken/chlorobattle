@@ -11,10 +11,10 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var ranY = randi_range(-gooOffset, gooOffset)
 	newAttack.position = self.position + Vector2(ranX, ranY)
 	newAttack.dmg = self.dmg
-	#newAttack.baseDmg = self.dmg
+	newAttack.baseDmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
-	$AttackCooldownTimer.start($AttackCooldownTimer.get_wait_time() + random_variance())
+	$AttackCooldownTimer.start(asp * baseAsp + random_variance())
 	
 	# Regenerate health every time slug attacks
 	hp += slugRegeneration

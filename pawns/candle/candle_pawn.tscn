@@ -14,7 +14,7 @@ candleAttack = ExtResource("3_squ0r")
 emberObject = ExtResource("4_mb6no")
 size = 0.9
 hp = 350.0
-dmg = 5.0
+dmg = 6.0
 pen = 0.2
 def = 0.4
 spd = 30.0
@@ -24,7 +24,7 @@ mapEffect = ExtResource("6_7bar3")
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("4_squ0r")
 
-[node name="AttackCooldownTimer" parent="." index="9" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="13" unique_id=1610759688]
 wait_time = 0.1
 one_shot = true
 autostart = true

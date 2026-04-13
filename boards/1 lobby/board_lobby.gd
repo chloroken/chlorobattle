@@ -68,12 +68,8 @@ func get_pawn_type(message: String):
 
 func get_pawn_style(message: String):
 	if "berserk" in message: return("berserk")
-	elif "deranged" in message: return("deranged")
-	elif "giant" in message: return("giant")
-	elif "insane" in message: return("insane")
 	elif "mighty" in message: return("mighty")
-	elif "nimble" in message: return("nimble")
-	elif "sturdy" in message: return("sturdy")
+	elif "precise" in message: return("slayer")
 	else: return(choose_random_style())
 
 func get_pawn_item(message: String):
@@ -92,7 +88,7 @@ func choose_random_pawn() -> String:
 	return(allPawnTypes[i])
 
 func choose_random_style() -> String:
-	var allStyleTypes = ["berserk", "deranged", "giant", "insane", "mighty", "nimble", "sturdy"]
+	var allStyleTypes = ["berserk", "mighty", "slayer"]
 	var i = randi_range(0, allStyleTypes.size() - 1)
 	return(allStyleTypes[i])
 

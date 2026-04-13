@@ -25,7 +25,10 @@ texture = ExtResource("2_bwwx6")
 wait_time = 3.0
 one_shot = true
 
-[node name="AttackCooldownTimer" parent="." index="10" unique_id=1610759688]
+[node name="BerserkResetTimer" parent="." index="9" unique_id=1612883530]
+wait_time = 3.0
+
+[node name="AttackCooldownTimer" parent="." index="14" unique_id=1610759688]
 wait_time = 0.25
 autostart = true
 

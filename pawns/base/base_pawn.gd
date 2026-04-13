@@ -35,6 +35,18 @@ var baseHp
 var damageTaken = 0
 var damageDealt = 0
 var killCount = 0
+var baseAsp
+
+# Style properties
+var berserkHitCount = 0
+var berserkHitCap = 5
+var berserkSpeedIncrement = 0.1
+var berserkTimerDuration = 3.0
+var mightyChargeCount = 0
+var mightyChargeCap = 5
+var mightyChargeAmount = 0.2
+var mightyChargeDuration = 2.0
+var slayerMultiplier = 0.01
 
 # Item properties
 var antimatterCooldown = 10.0
@@ -42,7 +54,7 @@ var antimatterRandomizer = 1.5
 var antimatterDuration = 2.0
 var diceSides = 6
 var milkshakeUsed = false
-var milkshakeDelay = 2.0
+var milkshakeDelay = 5.0
 var milkshakeThreshold = 0.25
 var milkshakePercent = 0.25
 var skateSpeed = 2.0
@@ -52,6 +64,9 @@ func _ready() -> void:
 	center = get_viewport_rect().size / 2.0
 	baseHp = hp
 	destination = new_destination()
+	
+	# Adjust attack rate based on attack speed
+	baseAsp = $AttackCooldownTimer.get_wait_time() # * asp
 
 	# Check for passive Pawn items that require action now
 	if !attacksDisabled:
@@ -59,6 +74,9 @@ func _ready() -> void:
 			$AntimatterCooldownTimer.start(randf_range($AntimatterCooldownTimer.get_wait_time() / antimatterRandomizer, antimatterCooldown))
 		elif item == "killbot":
 			item_spawn_killbot()
+
+		# Start attacking
+		$AttackCooldownTimer.start(baseAsp)	
 
 	# Disarm Pawn for display purposes (lobby, scoreboard)
 	elif attacksDisabled:
@@ -68,21 +86,37 @@ func _ready() -> void:
 		$HitpointLabelRed.visible = false
 		$HitpointLabelGreen.visible = false
 
-	# Adjust attack rate based on attack speed
-	$AttackCooldownTimer.set_wait_time((1.0 - asp) * $AttackCooldownTimer.get_wait_time())	
-
 	# Adjust sprite dimensions
 	$PawnSprite.scale *= size
 	$PawnCollider.scale *= size
+	
+	if style == "mighty":
+		$MightyChargeTimer.set_wait_time(mightyChargeDuration)
+		$MightyChargeTimer.start()
+		
 
 func _process(_delta: float) -> void:
 	# Update Pawn name
-	if $NameLabel.text != username:
-		$NameLabel.text = username.substr(0, nameCharLimit)
+	$NameLabel.text = username.substr(0, nameCharLimit)
 
 	# Update Pawn hp bar
 	$HitpointLabel.text = str(int(ceil(hp)))
 	$HitpointLabelGreen.scale.x = hp / baseHp
+	
+	# Update style indicators
+	var styleIndicator = ""
+	if style == "berserk":
+		for i in int(berserkHitCount):
+			styleIndicator += "•"
+		$StyleLabel.add_theme_color_override("default_color", Color(0.0, 1.0, 0.5, 1.0))
+	elif style == "mighty":
+		for i in int(mightyChargeCount):
+			styleIndicator += "•"
+		$StyleLabel.add_theme_color_override("default_color", Color.RED)
+	elif style == "slayer":
+		$StyleLabel.add_theme_color_override("default_color", Color(0.0, 0.5, 1.0, 0.5))
+		styleIndicator = str(killCount)
+	$StyleLabel.text = styleIndicator
 
 	# Check for milkshake threshold
 	item_check_milkshake()
@@ -102,17 +136,30 @@ func _physics_process(delta: float) -> void:
 
 # When a Pawn gets hit by an attack
 func _on_body_entered(body: Node2D) -> void:
+		
 	var attackingPawn = body.get_parent().get_parent()
 	var attackerUsername = attackingPawn.username
 	
 	# Avoid self-hits & subsequent hits from area attacks
 	if attackerUsername != username && !hitList.has(body):
 		calculate_damage(attackingPawn, attackerUsername, body)
+		
+		if body.isKillbot == false:
+			if attackingPawn.style == "berserk":
+				attackingPawn.berserkHitCount += 1
+				if attackingPawn.berserkHitCount > attackingPawn.berserkHitCap:
+					attackingPawn.berserkHitCount = attackingPawn.berserkHitCap
+				$BerserkResetTimer.start(berserkTimerDuration)
+				attackingPawn.asp = 1 - attackingPawn.berserkHitCount * attackingPawn.berserkSpeedIncrement
+				attackingPawn.get_node("AttackCooldownTimer").set_wait_time(attackingPawn.baseAsp * attackingPawn.asp)	
+				
 		if !body.areaAttack: body.queue_free()
 		else: hitList.append(body)
 		item_try_skating()
 		item_try_map()
 		item_try_glue(attackingPawn)
+		
+
 
 	# Check for Pawn death
 	if hp <= 0:
@@ -128,13 +175,23 @@ func _on_body_entered(body: Node2D) -> void:
 func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	var baseHit = body.dmg
 	var hitText = "hit"
-	if attackingPawn.item == "dice":
-		if randi_range(1, 4) == 1:
-			hitText = "crit"
-			baseHit = item_roll_dice(baseHit, attackingPawn)
+	if body.isKillbot == false:
+		if attackingPawn.item == "dice":
+			if randi_range(1, 4) == 1:
+				hitText = "crit"
+				baseHit = item_roll_dice(baseHit, attackingPawn)
 	var mitigated = baseHit * self.def
 	var penetrated = mitigated * (1.0 - attackingPawn.pen)
 	var realHit = (baseHit - penetrated)
+	if body.isKillbot == false:
+		if attackingPawn.style == "mighty":
+			if attackingPawn.mightyChargeCount > 0:
+				realHit *= 1 + attackingPawn.mightyChargeCount * attackingPawn.mightyChargeAmount
+				attackingPawn.mightyChargeCount = 0
+				attackingPawn.get_node("MightyChargeTimer").start(attackingPawn.mightyChargeDuration)
+		elif attackingPawn.style == "slayer":
+			var slayerAmount = baseHp * slayerMultiplier * (killCount + 1)
+			realHit += slayerAmount
 	var delayedHit = realHit * (get_parent().globalDmgMod / get_parent().dmgModDuration)
 	self.hp -= delayedHit
 	damageTaken += delayedHit
@@ -202,7 +259,6 @@ func _on_antimatter_cooldown_timer_timeout() -> void:
 	$PawnSprite.modulate.r = 0.0
 	$PawnSprite.modulate.b = 0.0
 	$PawnSprite.modulate.g = 0.0
-	#$NameLabel.visible = false
 	$AntimatterDurationTimer.start(antimatterDuration)
 	if $PhaseOutTimer.get_time_left() < antimatterDuration:
 		$PhaseOutTimer.start(antimatterDuration)
@@ -213,7 +269,6 @@ func _on_antimatter_duration_timer_timeout() -> void:
 	$PawnSprite.modulate.r = 1.0
 	$PawnSprite.modulate.b = 1.0
 	$PawnSprite.modulate.g = 1.0
-	#$NameLabel.visible = true
 	$AntimatterCooldownTimer.start(randf_range($AntimatterCooldownTimer.get_wait_time() / antimatterRandomizer, antimatterCooldown))
 
 func item_roll_dice(baseHit, attackingPawn) -> float:
@@ -228,27 +283,6 @@ func item_roll_dice(baseHit, attackingPawn) -> float:
 	baseHit *= 1 + hitMod * 0.1
 	print("[" + str(attackingPawn.username) + "] used [dice]: " + str(1.0 + 0.1 * hitMod))
 	return(baseHit)
-
-#func item_try_glue(attackingPawn) -> void:
-	#if attackingPawn.item == "glue" && $SlowDurationTimer.is_stopped():
-		#$SlowDurationTimer.start()
-		#$SlowEffectTimer.start()
-		#spd /= 2
-		#print("[" + str(attackingPawn.username) + "] used [glue] on [" + str(username) + "]")
-#
-#func item_glue_effect() -> void:
-	#if $SlowDurationTimer.get_time_left() > 0:
-		#$SlowEffectTimer.start()
-		#var newFlake = skateEffect.instantiate()
-		#add_child(newFlake)
-#
-#func _on_slow_effect_timer_timeout() -> void:
-	#var newGlue = glueEffect.instantiate()
-	#add_child(newGlue)
-#
-#func _on_slow_debuff_timer_timeout() -> void:
-	#spd *= 2
-	#$SlowEffectTimer.stop()
 
 func item_try_glue(attackingPawn) -> void:
 	if attackingPawn.item == "glue" && $SlowDurationTimer.is_stopped():
@@ -328,3 +362,12 @@ func _on_skate_snowflake_timer_timeout() -> void:
 
 func _on_phase_out_timer_timeout() -> void:
 	set_collision_mask_value(1, true)
+
+func _on_berserk_reset_timer_timeout() -> void:
+	berserkHitCount = 0
+	asp = 1
+
+func _on_mighty_charge_timer_timeout() -> void:
+	mightyChargeCount += 1
+	if mightyChargeCount > mightyChargeCap:
+		mightyChargeCount = mightyChargeCap

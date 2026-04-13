@@ -37,7 +37,7 @@ size_flags_vertical = 3
 custom_minimum_size = Vector2(100, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "PLACE
 "
 horizontal_alignment = 1
@@ -46,7 +46,7 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(175, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "USERNAME
 "
 
@@ -54,16 +54,16 @@ text = "USERNAME
 custom_minimum_size = Vector2(100, 837)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "PAWN
 "
 horizontal_alignment = 2
 
 [node name="StyleLabel" type="Label" parent="ScoreContainer" unique_id=1775608066]
-custom_minimum_size = Vector2(100, 834)
+custom_minimum_size = Vector2(125, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "STYLE
 "
 horizontal_alignment = 1
@@ -72,7 +72,7 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(100, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "ITEM
 "
 
@@ -80,7 +80,7 @@ text = "ITEM
 custom_minimum_size = Vector2(75, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "KILLS
 "
 horizontal_alignment = 1
@@ -89,7 +89,7 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(75, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "DAMAGE
 "
 horizontal_alignment = 1
@@ -98,7 +98,7 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(75, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "TAKEN
 "
 horizontal_alignment = 1
@@ -107,7 +107,7 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(75, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "RATIO
 "
 horizontal_alignment = 1

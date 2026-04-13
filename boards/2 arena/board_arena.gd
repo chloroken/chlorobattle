@@ -109,34 +109,13 @@ func spawn_pawns(i: int) -> void:
 	# Set Pawn style
 	if pawn.style == "berserk":
 		newPawn.asp *= 0.75
-		newPawn.hp *= 0.9
-	elif pawn.style == "deranged":
-		newPawn.dmg *= 1.25
-		newPawn.asp *= 0.75
-		newPawn.hp *= 0.5
-		newPawn.def = 0
-	elif pawn.style == "giant":
-		newPawn.hp *= 1.25
-		newPawn.size *= 1.5
-		newPawn.asp *= 1.25
-	elif pawn.style == "insane":
-		newPawn.spd *= 1.25
-		newPawn.dmg *= 1.25
-		newPawn.def = max(0, newPawn.def - 0.5)
-		newPawn.size *= 1.25
+		newPawn.pen = max(0, newPawn.pen - 0.3)
 	elif pawn.style == "mighty":
-		newPawn.spd *= 0.5
-		newPawn.pen = max(0, newPawn.pen - 0.5)
-		newPawn.dmg *= 1.25
-	elif pawn.style == "nimble":
-		newPawn.spd *= 1.25
+		newPawn.dmg *= 1.2
+		newPawn.asp *= 1.2
+	elif pawn.style == "slayer":
 		newPawn.pen = min(1, newPawn.pen + 0.5)
-		newPawn.size *= 0.9
-		newPawn.hp *= 0.9
-	elif pawn.style == "sturdy":
-		newPawn.hp *= 1.1
-		newPawn.def = min(1, newPawn.def + 0.4)
-		newPawn.dmg *= 0.5
+		newPawn.dmg *= 0.9
 	newPawn.style = pawn.style
 	
 	# Set Pawn items

@@ -9,4 +9,4 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.baseDmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
-	$AttackCooldownTimer.start($AttackCooldownTimer.get_wait_time() + random_variance())
+	$AttackCooldownTimer.start(asp * baseAsp + random_variance())

@@ -32,14 +32,14 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newAttack.direction = self.position.direction_to(self.destination).rotated(randf_range(-attackConeArc, attackConeArc))
 		attackObjects.append(newAttack)
 		$AttackContainer.add_child(newAttack)
-		$AttackCooldownTimer.start(jetAttackCooldown + random_variance())
+		$AttackCooldownTimer.start(asp * jetAttackCooldown + random_variance())
 	else:
 		var newAttack = cycloneMelee.instantiate()
 		newAttack.position = self.position
 		newAttack.dmg = self.dmg * 5
 		attackObjects.append(newAttack)
 		$AttackContainer.add_child(newAttack)
-		$AttackCooldownTimer.start(meleeAttackCooldown + random_variance())
+		$AttackCooldownTimer.start(asp * meleeAttackCooldown + random_variance())
 
 func make_explosion(loc: Vector2) -> void:
 	var newAttack = cycloneExplosion.instantiate()

@@ -14,15 +14,14 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 	$AttackDurationTimer.start()
-	$AttackCooldownTimer.start()
-	
+	$AttackCooldownTimer.start(asp * baseAsp)
+
 	# Hide pawn
 	spd *= diveSpeedModifier
 	#set_collision_mask_value(1, false)
 	if $PhaseOutTimer.get_time_left() < $AttackDurationTimer.get_wait_time():
 		$PhaseOutTimer.start($AttackDurationTimer.get_wait_time())
 	$PawnSprite.visible = false
-	$NameLabel.visible = false
 	$BubbleTimer.start()
 
 # Emerge splash attack
@@ -37,7 +36,6 @@ func _on_attack_duration_timer_timeout() -> void:
 	spd /= diveSpeedModifier
 	#set_collision_mask_value(1, true)
 	$PawnSprite.visible = true
-	$NameLabel.visible = true
 	$BubbleTimer.stop()
 	
 	# Reset cycle

@@ -11,10 +11,10 @@
 script = ExtResource("2_ag02n")
 chairAttack = ExtResource("3_wxuat")
 size = 1.2
-hp = 350.0
-dmg = 55.0
+hp = 390.0
+dmg = 65.0
 pen = 0.2
-def = 0.3
+def = 0.4
 spd = 40.0
 glueEffect = ExtResource("4_dytyp")
 mapEffect = ExtResource("5_0pg0i")
@@ -29,8 +29,9 @@ text = "chair"
 wait_time = 0.5
 one_shot = true
 
-[node name="AttackCooldownTimer" parent="." index="10" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="14" unique_id=1610759688]
 wait_time = 1.5
+one_shot = true
 autostart = true
 
 [connection signal="timeout" from="AttackStutterTimer" to="." method="_on_attack_stutter_timer_timeout"]

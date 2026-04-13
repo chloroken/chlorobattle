@@ -1,8 +1,8 @@
 extends Node2D
 
 func _ready() -> void:
-	scale.x = 1.0
-	scale.y = 1.0
+	scale.x = 0.0
+	scale.y = 0.0
 
 func _physics_process(_delta: float) -> void:
 	# Grow Ember size

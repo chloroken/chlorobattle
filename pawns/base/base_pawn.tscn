@@ -17,6 +17,7 @@ script = ExtResource("1_o1hwx")
 size = 1.0
 hp = 100.0
 dmg = 1.0
+asp = 1.0
 def = 0.1
 spd = 0.5
 tombstone = ExtResource("2_5gqyv")
@@ -65,10 +66,31 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = -5
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("7_hndg7")
 theme_override_font_sizes/font_size = 12
 text = "pawn"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StyleLabel" type="RichTextLabel" parent="." unique_id=541606110]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = 31.725
+offset_right = 64.0
+offset_bottom = 63.72502
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/normal_font = ExtResource("7_hndg7")
+theme_override_font_sizes/normal_font_size = 12
+text = "2.0x"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -92,6 +114,13 @@ offset_top = -25.0
 offset_right = 19.0
 offset_bottom = -23.0
 color = Color(0, 1, 0, 1)
+
+[node name="BerserkResetTimer" type="Timer" parent="." unique_id=1612883530]
+wait_time = 5.0
+one_shot = true
+
+[node name="MightyChargeTimer" type="Timer" parent="." unique_id=1404437205]
+wait_time = 2.0
 
 [node name="PhaseOutTimer" type="Timer" parent="." unique_id=1852202101]
 one_shot = true
@@ -121,7 +150,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="MilkshakeDelayTimer" type="Timer" parent="." unique_id=751026745]
-wait_time = 2.0
+wait_time = 5.0
 one_shot = true
 
 [node name="SkateDurationTimer" type="Timer" parent="." unique_id=504911163]
@@ -133,6 +162,8 @@ wait_time = 0.1
 one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="BerserkResetTimer" to="." method="_on_berserk_reset_timer_timeout"]
+[connection signal="timeout" from="MightyChargeTimer" to="." method="_on_mighty_charge_timer_timeout"]
 [connection signal="timeout" from="PhaseOutTimer" to="." method="_on_phase_out_timer_timeout"]
 [connection signal="timeout" from="SlowDurationTimer" to="." method="_on_slow_duration_timer_timeout"]
 [connection signal="timeout" from="SlowEffectTimer" to="." method="_on_slow_effect_timer_timeout"]

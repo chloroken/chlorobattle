@@ -1,5 +1,7 @@
 extends "res://pawns/base/base_attack.gd"
 
+var baseDmg
+
 func _ready() -> void:
 	areaAttack = false
 	self.scale.x = 0.0
@@ -7,7 +9,8 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	# Scale trail damage and color based on duration
-	dmg = 1 + 0.5 * ($FizzleTimer.get_wait_time() - $FizzleTimer.get_time_left())
+	#dmg = 1 + 0.5 * ($FizzleTimer.get_wait_time() - $FizzleTimer.get_time_left())
+	dmg = ceil(baseDmg * (1 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()))
 	$DamageLabel.text = str(int(dmg))
 	$BaseSprite.modulate.b = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 	
