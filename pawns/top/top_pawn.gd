@@ -8,7 +8,7 @@ var baseSpd
 var sparkDir = Vector2.RIGHT
 
 func _ready() -> void:
-	baseSpd = 60
+	baseSpd = 75
 	#baseAttackTimer = $AttackCooldownTimer.get_wait_time()
 	super()
 
@@ -42,7 +42,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 	var attackTimerSpeedMod = min(4.0, baseSpd / spd)
-	$AttackCooldownTimer.start(asp * max(baseAsp / 4, attackTimerSpeedMod * baseAsp) + random_variance())
+	$AttackCooldownTimer.start(asp * max(baseAttackCooldown / 4, attackTimerSpeedMod * baseAttackCooldown) + random_variance())
 
 func _on_bounce_duration_timer_timeout() -> void:
 	$BounceDurationTimer.stop()

@@ -1,11 +1,13 @@
 extends "res://pawns/base/base_attack.gd"
 
-var speed = 50
+var speed = 75
 var random_direction: Vector2
 var direction: Vector2
 
 func _ready() -> void:
 	areaAttack = false
+	
+	speed *= randf_range(0.75, 1.25)
 	
 	# Adjust bullet speed by Ship speed
 	speed += get_parent().get_parent().spd

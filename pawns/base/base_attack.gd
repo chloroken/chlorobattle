@@ -3,4 +3,4 @@ extends CharacterBody2D
 var areaAttack = true
 var dmg
 var pen
-var isKillbot = false
+var isPersistentSummon = false

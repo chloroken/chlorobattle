@@ -10,8 +10,8 @@
 [node name="PiratePawn" unique_id=1048959576 instance=ExtResource("1_hvhxy")]
 script = ExtResource("2_ifqpx")
 pirateAttack = ExtResource("3_k2e1m")
-hp = 360.0
-dmg = 60.0
+hp = 370.0
+dmg = 70.0
 pen = 0.1
 def = 0.2
 spd = 30.0
@@ -27,7 +27,7 @@ text = "pirate"
 [node name="HitpointLabel" parent="." index="3" unique_id=1383475225]
 theme_override_constants/outline_size = 8
 
-[node name="AttackCooldownTimer" parent="." index="10" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="13" unique_id=1610759688]
 autostart = true
 
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

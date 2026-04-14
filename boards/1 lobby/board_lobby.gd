@@ -13,8 +13,8 @@ func _ready() -> void:
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	#register_pawn("rob", "ship", "insane", "dice")
-	#register_pawn("recce", "slug", "giant", "dice")
+	#register_pawn("gabe", "top", "mighty", "dice")
+	#register_pawn("retro", "chair", "mighty", "dice")
 	#register_pawn("parody", "grouper", choose_random_style(), choose_random_item())
 	#register_pawn("dank_gr4vy", "pirate", choose_random_style(), choose_random_item())
 	#register_pawn("b4ngbiscuit", "ship", choose_random_style(), choose_random_item())
@@ -69,7 +69,7 @@ func get_pawn_type(message: String):
 func get_pawn_style(message: String):
 	if "berserk" in message: return("berserk")
 	elif "mighty" in message: return("mighty")
-	elif "precise" in message: return("slayer")
+	elif "slayer" in message: return("slayer")
 	else: return(choose_random_style())
 
 func get_pawn_item(message: String):

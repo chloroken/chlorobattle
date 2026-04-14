@@ -21,6 +21,5 @@ shape = SubResource("RectangleShape2D_5loam")
 
 [node name="FizzleTimer" parent="." index="2" unique_id=930558460]
 wait_time = 0.5
-autostart = true
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

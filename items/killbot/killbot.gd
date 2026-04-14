@@ -6,6 +6,7 @@ var destination
 var follow = null
 var spd = 50
 var following = false
+var isPersistentSummon = true
 
 # State-based chasing behavior
 func _physics_process(delta: float) -> void:

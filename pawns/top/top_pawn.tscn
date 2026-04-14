@@ -14,7 +14,7 @@ hp = 420.0
 dmg = 25.0
 pen = 0.2
 def = 0.6
-spd = 60.0
+spd = 75.0
 glueEffect = ExtResource("4_uxg4q")
 mapEffect = ExtResource("5_xb3l6")
 

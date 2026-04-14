@@ -12,8 +12,8 @@
 script = ExtResource("2_xl8v5")
 grouperAttack = ExtResource("3_udqqg")
 grouperBubble = ExtResource("4_q1jjm")
-hp = 370.0
-dmg = 40.0
+hp = 380.0
+dmg = 50.0
 pen = 0.4
 def = 0.2
 spd = 20.0
@@ -33,7 +33,7 @@ one_shot = true
 [node name="BubbleTimer" type="Timer" parent="." index="4" unique_id=1771762797]
 wait_time = 0.05
 
-[node name="AttackCooldownTimer" parent="." index="11" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="15" unique_id=1610759688]
 wait_time = 4.0
 one_shot = true
 autostart = true

@@ -14,7 +14,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 	$AttackDurationTimer.start()
-	$AttackCooldownTimer.start(asp * baseAsp)
+	$AttackCooldownTimer.start(asp * baseAttackCooldown)
 
 	# Hide pawn
 	spd *= diveSpeedModifier

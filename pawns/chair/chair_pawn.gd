@@ -15,11 +15,10 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.dmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
-	$AttackCooldownTimer.start(asp * baseAsp + random_variance())
+	$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
 
 	# Stutter step after every attack
 	spd = 0
-	$AttackStutterTimer.start()
 
 # Reset speed to finish stutter 
 func _on_attack_stutter_timer_timeout() -> void:

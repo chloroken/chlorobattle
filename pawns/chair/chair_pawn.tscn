@@ -29,7 +29,7 @@ text = "chair"
 wait_time = 0.5
 one_shot = true
 
-[node name="AttackCooldownTimer" parent="." index="14" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="12" unique_id=1610759688]
 wait_time = 1.5
 one_shot = true
 autostart = true

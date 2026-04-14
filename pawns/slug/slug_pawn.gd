@@ -2,7 +2,7 @@ extends "res://pawns/base/base_pawn.gd"
 
 @export var slugAttack: PackedScene
 var gooOffset = 5
-var slugRegeneration = 0.1
+var slugRegeneration = 0.5
 
 # Drop slug trail attack
 func _on_attack_cooldown_timer_timeout() -> void:
@@ -14,7 +14,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.baseDmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
-	$AttackCooldownTimer.start(asp * baseAsp + random_variance())
+	$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
 	
 	# Regenerate health every time slug attacks
 	hp += slugRegeneration

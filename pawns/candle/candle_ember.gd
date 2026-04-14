@@ -1,5 +1,7 @@
 extends Node2D
 
+var isPersistentSummon = true
+
 func _ready() -> void:
 	scale.x = 0.0
 	scale.y = 0.0

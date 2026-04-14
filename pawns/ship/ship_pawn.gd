@@ -5,6 +5,7 @@ extends "res://pawns/base/base_pawn.gd"
 var attackConeArc = 0.225
 
 func _ready() -> void:
+	spd /= 2
 	super()
 	if !attacksDisabled:
 		$BurstDurationTimer.start()
@@ -26,7 +27,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var newDir = self.position.direction_to(self.destination)
 	newDir = newDir.rotated(randf_range(-attackConeArc, attackConeArc))
 	newAttack.direction = newDir
-	$AttackCooldownTimer.start(asp * baseAsp)
+	$AttackCooldownTimer.start(asp * baseAttackCooldown)
 
 # Drop rings behind ship for effect
 func _on_ring_timer_timeout() -> void:
@@ -36,12 +37,14 @@ func _on_ring_timer_timeout() -> void:
 
 # Stop firing
 func _on_burst_duration_timer_timeout() -> void:
+	spd *= 2
 	$BurstDurationTimer.stop()
 	$OverheatDurationTimer.start($OverheatDurationTimer.get_wait_time() + random_variance())
 	$AttackCooldownTimer.stop()
 	
 # Stop overheating
 func _on_overheat_duration_timer_timeout() -> void:
-	$AttackCooldownTimer.start(asp * baseAsp)
+	$AttackCooldownTimer.start(asp * baseAttackCooldown)
 	$OverheatDurationTimer.stop()
 	$BurstDurationTimer.start()
+	spd /= 2
