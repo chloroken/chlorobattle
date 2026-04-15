@@ -5,26 +5,22 @@
 [ext_resource type="PackedScene" uid="uid://nt3vwefawv5m" path="res://pawns/candle/candle_attack.tscn" id="3_squ0r"]
 [ext_resource type="PackedScene" uid="uid://bkew8lmtf5ihi" path="res://pawns/candle/candle_ember.tscn" id="4_mb6no"]
 [ext_resource type="Texture2D" uid="uid://cjx62vdfypc8h" path="res://pawns/candle/candle_pawn.png" id="4_squ0r"]
-[ext_resource type="PackedScene" uid="uid://bdsvr8sgchx2i" path="res://items/glue/glue_effect.tscn" id="5_jymjb"]
-[ext_resource type="PackedScene" uid="uid://bu0wch6pq7hog" path="res://items/map/map_effect.tscn" id="6_7bar3"]
 
 [node name="CandlePawn" unique_id=1877646274 instance=ExtResource("1_cg57w")]
+z_index = -2
 script = ExtResource("2_ori44")
 candleAttack = ExtResource("3_squ0r")
 emberObject = ExtResource("4_mb6no")
-size = 0.9
 hp = 350.0
 dmg = 6.0
-pen = 0.2
+pen = 0.3
 def = 0.4
 spd = 30.0
-glueEffect = ExtResource("5_jymjb")
-mapEffect = ExtResource("6_7bar3")
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("4_squ0r")
 
-[node name="AttackCooldownTimer" parent="." index="13" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="11" unique_id=1610759688]
 wait_time = 0.1
 one_shot = true
 autostart = true

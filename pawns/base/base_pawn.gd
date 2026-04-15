@@ -1,16 +1,16 @@
 extends Area2D
 
 # Pawn properties
-@export var username: String
-@export var type: String
-@export var style: String
-@export var item: String
+var username: String
+var type: String
+var style: String
+var item: String
 
 # Pawn stats
-@export var size: float
+var size = 1.0
 @export var hp: float
 @export var dmg: float
-@export var asp: float
+var asp = 1.0
 @export var pen: float
 @export var def: float
 @export var spd: float
@@ -21,6 +21,7 @@ extends Area2D
 @export var glueEffect: PackedScene
 @export var diceEffect: PackedScene
 @export var mapEffect: PackedScene
+@export var mapFlickerEffect: PackedScene
 @export var milkshakeEffect: PackedScene
 @export var skateEffect: PackedScene
 
@@ -44,8 +45,8 @@ var berserkSpeedIncrement = 0.1
 var berserkTimerDuration = 3.0
 var mightyChargeCount = 0
 var mightyChargeCap = 5
-var mightyChargeAmount = 0.2
-var mightyChargeDuration = 2.0
+var mightyChargeAmount = 0.1
+var mightyChargeDuration = 1.0
 var slayerMultiplier = 0.01
 
 # Item properties
@@ -53,11 +54,18 @@ var antimatterCooldown = 20.0
 var antimatterRandomizer = 1.5
 var antimatterDuration = 3.0
 var diceSides = 6
+var glueStuckChance = 10 # one in x
+var glueStuckDuration = 5.0
+var glueStuckCooldown = 15.0
+var mapCooldownDuration = 10.0
+var mapFlickerMaxRange = 100.0
+var mapFlickerRadius = 100.0
 var milkshakeUsed = false
 var milkshakeDelay = 5.0
 var milkshakeThreshold = 0.10
 var milkshakePercent = 0.50
 var skateSpeed = 2.0
+var skateCooldown = 6.0
 
 ##################
 # INITIALIZATION #
@@ -83,7 +91,7 @@ func _ready() -> void:
 		$HitpointLabelBlack.visible = false
 		$HitpointLabelRed.visible = false
 		$HitpointLabelGreen.visible = false
-		
+
 	elif !attacksDisabled:
 		# Check for Pawn items that require action now
 		if item == "antimatter":
@@ -157,7 +165,8 @@ func _physics_process(delta: float) -> void:
 	var boardRadius = get_parent().boardRadius
 	if distFromDesto < 10 || distFromCenter >= boardRadius:
 		destination = new_destination()
-	global_position = global_position.move_toward(destination, spd * delta)
+	if $StuckDurationTimer.is_stopped():
+		global_position = global_position.move_toward(destination, spd * delta)
 	
 	# Disable Phasing
 	if !$PhaseOutTimer.is_stopped():
@@ -186,6 +195,7 @@ func _on_phase_out_timer_timeout() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	
 	# Get information about the aggressor
+	var pawns = get_parent().get_parent().pawnList
 	var attackingPawn = body.get_parent().get_parent()
 	var attackerUsername = attackingPawn.username
 	
@@ -197,6 +207,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 		# Hit procedure
 		calculate_damage(attackingPawn, attackerUsername, body)
+
 		if !body.areaAttack: body.queue_free()
 		else: hitList.append(body)
 		item_try_skating()
@@ -205,7 +216,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 	# Check for Pawn death
 	if hp <= 0:
-		var pawns = get_parent().get_parent().pawnList
+		# kill cam
 		for i in range(0, pawns.size()):
 			if pawns[i].username == username:
 				attackingPawn.killCount += 1
@@ -241,10 +252,10 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 
 	# Calculate global ramp-up damage reduction
 	var finalHit = realHit * (get_parent().globalDmgMod / get_parent().dmgModDuration)
-	
+
 	# Apply damage
 	self.hp -= finalHit
-	
+
 	# Update score
 	damageTaken += finalHit
 	attackingPawn.damageDealt += finalHit
@@ -287,19 +298,20 @@ func random_variance() -> float:
 ###################
 
 func style_berserk_trigger(body, attackingPawn) -> void:
+	var pawn = attackingPawn
 	if body.isPersistentSummon == false:
-		if attackingPawn.style == "berserk":
-			attackingPawn.berserkHitCount += 1
-			if attackingPawn.berserkHitCount > attackingPawn.berserkHitCap:
-				attackingPawn.berserkHitCount = attackingPawn.berserkHitCap
+		if pawn.style == "berserk":
+			pawn.berserkHitCount += 1
+			if pawn.berserkHitCount > pawn.berserkHitCap:
+				pawn.berserkHitCount = pawn.berserkHitCap
 			$BerserkResetTimer.start(berserkTimerDuration)
-			attackingPawn.asp = 1 - attackingPawn.berserkHitCount * attackingPawn.berserkSpeedIncrement
-			attackingPawn.get_node("AttackCooldownTimer").set_wait_time(attackingPawn.baseAttackCooldown * attackingPawn.asp)	
+			pawn.asp = 1 - pawn.berserkHitCount * pawn.berserkSpeedIncrement
+			pawn.get_node("AttackCooldownTimer").set_wait_time(pawn.baseAttackCooldown * pawn.asp)	
 
 func _on_berserk_reset_timer_timeout() -> void:
 	berserkHitCount = 0
 	asp = 1
-	
+
 func style_mighty_trigger(body, attackingPawn, baseHit) -> float:
 	if body.isPersistentSummon == false:
 		if attackingPawn.style == "mighty":
@@ -365,6 +377,11 @@ func item_try_glue(attackingPawn) -> void:
 	if attackingPawn.item == "glue" && $GlueDurationTimer.is_stopped():
 		spd /= 2
 		$GlueDurationTimer.start()
+		if $StuckCooldownTimer.is_stopped():
+			var diceRoll = randi_range(1, glueStuckChance)
+			if diceRoll == 1:
+				$StuckDurationTimer.start(glueStuckDuration)
+				$StuckCooldownTimer.start(glueStuckCooldown)
 		print("[" + str(attackingPawn.username) + "] used [glue] on [" + str(username) + "]")
 
 func item_glue_effect() -> void:
@@ -396,12 +413,26 @@ func item_spawn_killbot() -> void:
 
 func item_try_map() -> void:
 	if item == "map" && $MapCooldownTimer.is_stopped():
-		destination = new_destination()
-		$MapCooldownTimer.start()
+		var flickerPos = item_map_flicker()
+		while flickerPos.distance_to(center) > get_parent().boardRadius:
+			flickerPos = item_map_flicker()
+		var newMapX = mapFlickerEffect.instantiate()
+		newMapX.position = self.position
+		$AttackContainer.add_child(newMapX)
+		position = flickerPos
+		$MapCooldownTimer.start(mapCooldownDuration)
 		var newMapEffect = mapEffect.instantiate()
 		add_child(newMapEffect)
 		print("[" + str(username) + "] used [map]")
-		
+
+func item_map_flicker() -> Vector2:
+	var newPos = position
+	while position.distance_to(newPos) < mapFlickerRadius:
+		var ranX = randf_range(-mapFlickerMaxRange, mapFlickerMaxRange)
+		var ranY = randf_range(-mapFlickerMaxRange, mapFlickerMaxRange)
+		newPos = position + Vector2(ranX, ranY)
+	return(newPos)
+
 func item_check_milkshake() -> void:
 	if item == "milkshake" && hp < milkshakeThreshold * baseHp && !milkshakeUsed:
 		print("[" + str(username) + "] used [milkshake]")
@@ -415,10 +446,12 @@ func _on_milkshake_delay_timer_timeout() -> void:
 	print("[" + str(username) + "] finished [milkshake]")
 
 func item_try_skating() -> void:
-	if item == "skates" && $SkateDurationTimer.is_stopped():
+	if item == "skates" && $SkateCooldownTimer.is_stopped():
 		print("[" + str(username) + "] used [skates]")
 		$SkateDurationTimer.start()
 		spd *= skateSpeed
+		destination = center - (center + destination)
+		$SkateCooldownTimer.start(skateCooldown)
 
 func item_skate_effect() -> void:
 	if $SkateDurationTimer.get_time_left() > 0:

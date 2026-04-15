@@ -4,7 +4,7 @@ extends "res://pawns/base/base_pawn.gd"
 @export var emberObject: PackedScene
 
 var emberSpawnCooldownMax = 5.0
-var emberSpawnCooldownMin = 2.0
+var emberSpawnCooldownMin = 3.0
 var emberPositionOffset = 25.0
 
 func _on_attack_cooldown_timer_timeout() -> void:
@@ -19,6 +19,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newEmberAttack.position = child.position
 		newEmberAttack.dmg = self.dmg
 		newEmberAttack.emberFlicker = true
+		newEmberAttack.isPersistentSummon = true
 		newEmberAttack.scale.x = 0.5
 		newEmberAttack.scale.y = 0.5
 		attackObjects.append(newEmberAttack)

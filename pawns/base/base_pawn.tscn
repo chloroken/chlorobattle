@@ -3,10 +3,13 @@
 [ext_resource type="Script" uid="uid://by8wtod0sp8dr" path="res://pawns/base/base_pawn.gd" id="1_o1hwx"]
 [ext_resource type="PackedScene" uid="uid://crarr4hxisv6u" path="res://pawns/base/tombstone/tombstone.tscn" id="2_5gqyv"]
 [ext_resource type="PackedScene" uid="uid://dnkqxjuduneo8" path="res://items/killbot/killbot.tscn" id="3_ae3pr"]
+[ext_resource type="PackedScene" uid="uid://bdsvr8sgchx2i" path="res://items/glue/glue_effect.tscn" id="4_56xb5"]
 [ext_resource type="PackedScene" uid="uid://bhh6l25wl27ki" path="res://items/dice/dice_effect.tscn" id="4_weq32"]
 [ext_resource type="PackedScene" uid="uid://d2mn3nlatfxkh" path="res://items/milkshake/milkshake_effect.tscn" id="5_bxe4l"]
 [ext_resource type="PackedScene" uid="uid://btb8whxqk8dx6" path="res://items/skates/skate_effect.tscn" id="6_my1fm"]
+[ext_resource type="PackedScene" uid="uid://bu0wch6pq7hog" path="res://items/map/map_effect.tscn" id="6_p38oh"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="7_hndg7"]
+[ext_resource type="PackedScene" uid="uid://c7nabqm2bnb2t" path="res://items/map/item_map_x.tscn" id="7_jv0kv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
 radius = 12.0
@@ -14,15 +17,16 @@ radius = 12.0
 [node name="BasePawn" type="Area2D" unique_id=1877646274]
 collision_layer = 0
 script = ExtResource("1_o1hwx")
-size = 1.0
 hp = 100.0
 dmg = 1.0
-asp = 1.0
 def = 0.1
 spd = 0.5
 tombstone = ExtResource("2_5gqyv")
 killbot = ExtResource("3_ae3pr")
+glueEffect = ExtResource("4_56xb5")
 diceEffect = ExtResource("4_weq32")
+mapEffect = ExtResource("6_p38oh")
+mapFlickerEffect = ExtResource("7_jv0kv")
 milkshakeEffect = ExtResource("5_bxe4l")
 skateEffect = ExtResource("6_my1fm")
 
@@ -142,6 +146,12 @@ one_shot = true
 wait_time = 0.1
 one_shot = true
 
+[node name="StuckDurationTimer" type="Timer" parent="." unique_id=1600425509]
+one_shot = true
+
+[node name="StuckCooldownTimer" type="Timer" parent="." unique_id=1807948279]
+one_shot = true
+
 [node name="MapCooldownTimer" type="Timer" parent="." unique_id=1165421808]
 wait_time = 5.0
 one_shot = true
@@ -156,6 +166,9 @@ one_shot = true
 
 [node name="SkateSnowflakeTimer" type="Timer" parent="." unique_id=821204771]
 wait_time = 0.1
+one_shot = true
+
+[node name="SkateCooldownTimer" type="Timer" parent="." unique_id=435712509]
 one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

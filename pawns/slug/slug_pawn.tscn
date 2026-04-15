@@ -4,20 +4,15 @@
 [ext_resource type="Script" uid="uid://cl2oiya2peikt" path="res://pawns/slug/slug_pawn.gd" id="2_8633t"]
 [ext_resource type="Texture2D" uid="uid://hy5kxurtvq1s" path="res://pawns/slug/slug_pawn.png" id="2_qfyav"]
 [ext_resource type="PackedScene" uid="uid://x1pfke2unlov" path="res://pawns/slug/slug_attack.tscn" id="3_tqnmo"]
-[ext_resource type="PackedScene" uid="uid://bdsvr8sgchx2i" path="res://items/glue/glue_effect.tscn" id="4_21m4k"]
-[ext_resource type="PackedScene" uid="uid://bu0wch6pq7hog" path="res://items/map/map_effect.tscn" id="5_jdlqr"]
 
 [node name="SlugPawn" unique_id=1048959576 instance=ExtResource("1_a6a5s")]
 script = ExtResource("2_8633t")
 slugAttack = ExtResource("3_tqnmo")
-size = 1.1
-hp = 360.0
+hp = 320.0
 dmg = 15.0
 pen = 0.4
 def = 0.5
 spd = 10.0
-glueEffect = ExtResource("4_21m4k")
-mapEffect = ExtResource("5_jdlqr")
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_qfyav")
@@ -25,7 +20,7 @@ texture = ExtResource("2_qfyav")
 [node name="NameLabel" parent="." index="2" unique_id=1628394180]
 text = "slug"
 
-[node name="AttackCooldownTimer" parent="." index="13" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="11" unique_id=1610759688]
 wait_time = 1.5
 one_shot = true
 autostart = true

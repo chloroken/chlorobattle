@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://fonts/JetBrainsMono-Regular.ttf" id="5_6k7p0"]
 
 [node name="EarlyBoard" type="Node2D" unique_id=230680556]
+process_mode = 1
 script = ExtResource("1_4cru4")
 
 [node name="BoardSprite" type="Sprite2D" parent="." unique_id=570816999]

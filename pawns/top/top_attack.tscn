@@ -8,6 +8,7 @@
 size = Vector2(16, 16)
 
 [node name="TopAttack" unique_id=1314532855 instance=ExtResource("1_qnsba")]
+z_index = -1
 script = ExtResource("1_yap77")
 
 [node name="BaseSprite" parent="." index="0" unique_id=1865807943]
@@ -17,7 +18,7 @@ texture = ExtResource("2_1k46g")
 shape = SubResource("RectangleShape2D_1k46g")
 
 [node name="FizzleTimer" parent="." index="2" unique_id=930558460]
-wait_time = 0.25
+wait_time = 5.0
 autostart = true
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

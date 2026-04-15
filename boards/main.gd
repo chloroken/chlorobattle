@@ -41,16 +41,14 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Slow Engine Time"):
 		Engine.set_time_scale(max(Engine.get_time_scale() / 2, 0.25))
 	if event.is_action_pressed("Pause Engine Time"):
-		if Engine.get_time_scale() != 1:
+		if Engine.get_time_scale() == 0:
 			Engine.set_time_scale(1)
-		else: Engine.set_time_scale(0)
-	if event.is_action_pressed("Toggle Zoom"):
-		if $Camera2D.zoom.x == 1:
-			$Camera2D.zoom.x = 1.5
-			$Camera2D.zoom.y = 1.5
+			get_tree().paused = false
 		else:
-			$Camera2D.zoom.x = 1
-			$Camera2D.zoom.y = 1
+			Engine.set_time_scale(0)
+			get_tree().paused = true
+	if event.is_action_pressed("Toggle Zoom"):
+		pass
 
 func switch_board(board: String) -> void:
 	free_children()

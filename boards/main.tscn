@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://ddxj6u8lafeel" path="res://pawns/slug/slug_pawn.tscn" id="11_vivmo"]
 
 [node name="main" type="Node2D" unique_id=453552002]
+process_mode = 3
 script = ExtResource("1_7mycd")
 lobby = ExtResource("2_272bh")
 arena = ExtResource("3_5vw27")

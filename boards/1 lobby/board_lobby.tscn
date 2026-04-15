@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="5_x07d7"]
 
 [node name="LobbyBoard" type="Node2D" unique_id=751706610]
+process_mode = 1
 script = ExtResource("1_4hyng")
 
 [node name="LobbyTimer" type="Timer" parent="." unique_id=2019922163]

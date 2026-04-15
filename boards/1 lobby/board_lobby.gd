@@ -13,8 +13,8 @@ func _ready() -> void:
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	#register_pawn("gabe", "top", "mighty", "dice")
-	#register_pawn("retro", "chair", "mighty", "dice")
+	register_pawn("chloro", "top", "berserk", "skates")
+	#register_pawn("jonny", "cyclone", "mighty", "dice")
 	#register_pawn("parody", "grouper", choose_random_style(), choose_random_item())
 	#register_pawn("dank_gr4vy", "pirate", choose_random_style(), choose_random_item())
 	#register_pawn("b4ngbiscuit", "ship", choose_random_style(), choose_random_item())
@@ -31,6 +31,7 @@ func _process(_delta: float) -> void:
 	$TimerLabel.text = str(int($LobbyTimer.time_left))
 
 func _on_lobby_timer_timeout() -> void:
+	get_parent().pawnList.shuffle()
 	get_parent().switch_board("arena")
 
 # Scrape Twitch chat & look for joiners
