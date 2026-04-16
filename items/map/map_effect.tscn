@@ -2,12 +2,15 @@
 
 [ext_resource type="Script" uid="uid://b0dk0jc6t25pt" path="res://items/map/map_effect.gd" id="1_4wc6c"]
 [ext_resource type="Texture2D" uid="uid://ihyhyc7mx7vw" path="res://items/map/item_map.png" id="2_4wc6c"]
+[ext_resource type="Texture2D" uid="uid://3fy8pty1cfvr" path="res://items/map/item_map_line.png" id="2_6cpci"]
 
 [node name="MapEffect" type="Node2D" unique_id=456358180]
-z_index = -1
+z_index = -2
 script = ExtResource("1_4wc6c")
+mapLineTexture = ExtResource("2_6cpci")
 
 [node name="MapSprite" type="Sprite2D" parent="." unique_id=360599421]
+visible = false
 modulate = Color(1, 1, 1, 0.5882353)
 texture = ExtResource("2_4wc6c")
 

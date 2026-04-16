@@ -6,16 +6,18 @@ func _ready() -> void:
 	areaAttack = false
 	self.scale.x = 0.0
 	self.scale.y = 0.0
+	baseDmg = $FizzleTimer.get_wait_time() / 2
 
 func _physics_process(_delta: float) -> void:
-	# Scale trail damage and color based on duration
-	#dmg = 1 + 0.5 * ($FizzleTimer.get_wait_time() - $FizzleTimer.get_time_left())
-	dmg = ceil(baseDmg * (1 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()))
+	var decayRatio = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
+	
+	# Scale trail damage and color based on duration # 
+	dmg = ceil(baseDmg * decayRatio)
 	$DamageLabel.text = str(int(dmg))
-	$BaseSprite.modulate.b = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
+	$BaseSprite.modulate.b = 1 - decayRatio
 	
 	# Grow size for effect
-	var newScale = 0.25 * (1 + ( 1 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()))
+	var newScale = 0.25 * (1 + decayRatio)
 	self.scale.x = newScale
 	self.scale.y = newScale
 	

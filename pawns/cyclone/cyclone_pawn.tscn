@@ -24,12 +24,12 @@ spd = 60.0
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("3_u4lmt")
 
-[node name="AttackCooldownTimer" parent="." index="11" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="2" unique_id=1610759688]
 wait_time = 2.0
 one_shot = true
 autostart = true
 
-[node name="FormSwapTimer" type="Timer" parent="." index="17" unique_id=16919321]
+[node name="FormSwapTimer" type="Timer" parent="." index="8" unique_id=16919321]
 wait_time = 10.0
 one_shot = true
 autostart = true

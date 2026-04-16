@@ -23,6 +23,7 @@ var combatLogText = []
 var combatLogLineCount = 6
 
 func _ready() -> void:
+	Engine.set_time_scale(1)
 	# Snapshot board radius to accurately scale everything
 	baseRadius = boardRadius
 	$BoardSprite.modulate.a = 0.0

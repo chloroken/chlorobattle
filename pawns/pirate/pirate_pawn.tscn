@@ -17,13 +17,13 @@ spd = 30.0
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_f4qk0")
 
-[node name="NameLabel" parent="." index="2" unique_id=1628394180]
+[node name="AttackCooldownTimer" parent="." index="2" unique_id=1610759688]
+autostart = true
+
+[node name="NameLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
 text = "pirate"
 
-[node name="HitpointLabel" parent="." index="3" unique_id=1383475225]
+[node name="HitpointLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="1" unique_id=1383475225]
 theme_override_constants/outline_size = 8
-
-[node name="AttackCooldownTimer" parent="." index="11" unique_id=1610759688]
-autostart = true
 
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

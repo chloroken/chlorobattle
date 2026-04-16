@@ -13,6 +13,7 @@ modulate = Color(1, 1, 1, 0.5882353)
 texture = ExtResource("2_1bbw7")
 
 [node name="FizzleTimer" type="Timer" parent="." unique_id=1435015184]
+wait_time = 2.0
 autostart = true
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

@@ -7,7 +7,7 @@ extends "res://pawns/base/base_pawn.gd"
 @export var jetFormSprite: Resource
 @export var meleeFormSprite: Resource
 
-var attackConeArc = .5
+var attackConeArc = 1
 var meleeForm = false
 var jetAttackCooldown = 0.25
 var meleeAttackCooldown = 4.0

@@ -8,14 +8,15 @@ func _ready() -> void:
 	areaAttack = false
 	
 	speed *= randf_range(0.75, 1.25)
+	scale *= randf_range(0.5, 1.0)
 	
 	# Adjust bullet speed by Ship speed
 	speed += get_parent().get_parent().spd
 	
 	# Adjust bullet colors 
-	$BaseSprite.modulate.r = randf_range(0.8, 1.0)
-	$BaseSprite.modulate.b = randf_range(0.0, 1.0)
-	$BaseSprite.modulate.g = randf_range(0.0, 1.0)
+	$BaseSprite.modulate.r = 1
+	$BaseSprite.modulate.b = randf_range(0.1, 0.5)
+	$BaseSprite.modulate.g = randf_range(0.1, 0.5)
 
 # Move bullet forward
 func _physics_process(delta: float) -> void:

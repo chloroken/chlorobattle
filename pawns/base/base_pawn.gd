@@ -22,6 +22,7 @@ var asp = 1.0
 @export var diceEffect: PackedScene
 @export var mapEffect: PackedScene
 @export var mapFlickerEffect: PackedScene
+@export var mapLineEffect: PackedScene
 @export var milkshakeEffect: PackedScene
 @export var skateEffect: PackedScene
 
@@ -38,34 +39,42 @@ var damageDealt = 0
 var killCount = 0
 var baseAttackCooldown
 
-# Style properties
-var berserkHitCount = 0
-var berserkHitCap = 5
-var berserkSpeedIncrement = 0.1
-var berserkTimerDuration = 3.0
-var mightyChargeCount = 0
-var mightyChargeCap = 5
-var mightyChargeAmount = 0.1
-var mightyChargeDuration = 1.0
-var slayerMultiplier = 0.01
+var normalSpeed = 1.0
+var sprintActive
+var sprintSpeed = 2.0
+var slowActive
+var slowSpeed = 0.5
+var stuckActive
+var stuckSpeed = 0.0
+
+## Style properties
+#var berserkHitCount = 0
+#var berserkHitCap = 5
+#var berserkSpeedIncrement = 0.1
+#var berserkTimerDuration = 3.0
+#var mightyChargeCount = 0
+#var mightyChargeCap = 5
+#var mightyChargeAmount = 0.1
+#var mightyChargeDuration = 1.0
+#var slayerMultiplier = 0.01n
 
 # Item properties
-var antimatterCooldown = 20.0
-var antimatterRandomizer = 1.5
-var antimatterDuration = 3.0
-var diceSides = 6
-var glueStuckChance = 10 # one in x
-var glueStuckDuration = 5.0
-var glueStuckCooldown = 15.0
-var mapCooldownDuration = 10.0
-var mapFlickerMaxRange = 100.0
-var mapFlickerRadius = 100.0
-var milkshakeUsed = false
-var milkshakeDelay = 5.0
-var milkshakeThreshold = 0.10
-var milkshakePercent = 0.50
-var skateSpeed = 2.0
-var skateCooldown = 6.0
+#var antimatterCooldown = 20.0
+#var antimatterRandomizer = 1.5
+#var antimatterDuration = 3.0
+#var diceSides = 6
+#var glueStuckChance = 10 # one in x
+#var glueStuckDuration = 5.0
+#var glueStuckCooldown = 15.0
+#var mapCooldownDuration = 10.0
+#var mapFlickerMaxRange = 100.0
+#var mapFlickerRadius = 100.0
+#var milkshakeUsed = false
+#var milkshakeDelay = 5.0
+#var milkshakeThreshold = 0.10
+#var milkshakePercent = 0.50
+#var skateSpeed = 2.0
+#var skateCooldown = 6.0
 
 ##################
 # INITIALIZATION #
@@ -87,25 +96,25 @@ func _ready() -> void:
 	if attacksDisabled:
 		# Disable attacks in Lobby for show purposes
 		$AttackCooldownTimer.stop()
-		$HitpointLabel.visible = false
-		$HitpointLabelBlack.visible = false
-		$HitpointLabelRed.visible = false
-		$HitpointLabelGreen.visible = false
+		$gui.get_node("HitpointLabel").visible = false
+		$gui.get_node("HitpointLabelBlack").visible = false
+		$gui.get_node("HitpointLabelRed").visible = false
+		$gui.get_node("HitpointLabelGreen").visible = false
 
 	elif !attacksDisabled:
 		# Check for Pawn items that require action now
 		if item == "antimatter":
-			$AntimatterCooldownTimer.start(randf_range($AntimatterCooldownTimer.get_wait_time() / antimatterRandomizer, antimatterCooldown))
+			$Items.get_node("AntimatterCooldownTimer").start(randf_range($Items.get_node("AntimatterCooldownTimer").get_wait_time() / $Items.antimatterRandomizer, $Items.antimatterCooldown))
 		elif item == "killbot":
-			item_spawn_killbot()
+			$Items.item_spawn_killbot()
 
 		# Start style timers
 		if style == "berserk":
-			$BerserkResetTimer.set_wait_time(berserkTimerDuration)
-			$BerserkResetTimer.start()
+			$Styles.get_node("BerserkResetTimer").set_wait_time($Styles.berserkTimerDuration)
+			$Styles.get_node("BerserkResetTimer").start()
 		elif style == "mighty":
-			$MightyChargeTimer.set_wait_time(mightyChargeDuration)
-			$MightyChargeTimer.start()
+			$Styles.get_node("MightyChargeTimer").set_wait_time($Styles.mightyChargeDuration)
+			$Styles.get_node("MightyChargeTimer").start()
 
 		# Start attacking
 		$AttackCooldownTimer.start(baseAttackCooldown)
@@ -117,29 +126,29 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	
 	# Update Pawn name
-	$NameLabel.text = username.substr(0, nameCharLimit)
+	$gui.get_node("NameLabel").text = username.substr(0, nameCharLimit)
 
 	# Update Pawn hp bar
-	$HitpointLabel.text = str(int(ceil(hp)))
-	$HitpointLabelGreen.scale.x = hp / baseHp
+	$gui.get_node("HitpointLabel").text = str(int(ceil(hp)))
+	$gui.get_node("HitpointLabelGreen").scale.x = hp / baseHp
 	
 	# Update style indicators
 	var styleIndicator = ""
 	if style == "berserk":
-		for i in int(berserkHitCount):
+		for i in int($Styles.berserkHitCount):
 			styleIndicator += "•"
-		$StyleLabel.add_theme_color_override("default_color", Color(0.0, 1.0, 0.5, 1.0))
+		$gui.get_node("StyleLabel").add_theme_color_override("default_color", Color(0.0, 1.0, 0.5, 1.0))
 	elif style == "mighty":
-		for i in int(mightyChargeCount):
+		for i in int($Styles.mightyChargeCount):
 			styleIndicator += "•"
-		$StyleLabel.add_theme_color_override("default_color", Color.RED)
+		$gui.get_node("StyleLabel").add_theme_color_override("default_color", Color.RED)
 	elif style == "slayer":
 		styleIndicator += "•"
 		for i in int(killCount):
 			styleIndicator += "•"
-		$StyleLabel.add_theme_color_override("default_color", Color(0.0, 0.5, 1.0, 1.0))
+		$gui.get_node("StyleLabel").add_theme_color_override("default_color", Color(0.0, 0.5, 1.0, 1.0))
 		#styleIndicator = str(killCount + 1)
-	$StyleLabel.text = styleIndicator
+	$gui.get_node("StyleLabel").text = styleIndicator
 	
 func update_scoreboard(mainBoard, pawn, pawnIndex, last) -> void:
 	var newScore = mainBoard.Pawn.new()
@@ -165,12 +174,21 @@ func _physics_process(delta: float) -> void:
 	var boardRadius = get_parent().boardRadius
 	if distFromDesto < 10 || distFromCenter >= boardRadius:
 		destination = new_destination()
-	if $StuckDurationTimer.is_stopped():
-		global_position = global_position.move_toward(destination, spd * delta)
-	
-	# Disable Phasing
-	if !$PhaseOutTimer.is_stopped():
-		set_collision_mask_value(1, false)
+
+	# Adjust speed based on status effects (slow, sprint, stuck)
+	if $Status.get_node("SprintDurationTimer").is_stopped():
+		sprintActive = normalSpeed
+	else: sprintActive = sprintSpeed
+	if $Status.get_node("SlowDurationTimer").is_stopped():
+		slowActive = normalSpeed
+	else: slowActive = slowSpeed
+	if $Status.get_node("StuckDurationTimer").is_stopped():
+		stuckActive = normalSpeed
+	else: stuckActive = stuckSpeed
+
+	# Move Pawn
+	var statusSpdMod = sprintActive * slowActive * stuckActive
+	global_position = global_position.move_toward(destination, spd * statusSpdMod * delta)
 
 # Calculate a new place for Pawn to go
 func new_destination() -> Vector2:
@@ -183,17 +201,13 @@ func new_destination() -> Vector2:
 		desto = new_destination()
 	return(desto)
 
-# Turn collision back on after phasing in
-func _on_phase_out_timer_timeout() -> void:
-	set_collision_mask_value(1, true)
-
 ####################
 # COMBAT MECHANICS #
 ####################
 
 # When a Pawn gets hit by an attack
 func _on_body_entered(body: Node2D) -> void:
-	
+
 	# Get information about the aggressor
 	var pawns = get_parent().get_parent().pawnList
 	var attackingPawn = body.get_parent().get_parent()
@@ -203,16 +217,19 @@ func _on_body_entered(body: Node2D) -> void:
 	if attackerUsername != username && !hitList.has(body):
 
 		# Berserk attack speed ramping mechanic
-		style_berserk_trigger(body, attackingPawn)
+		$Styles.style_berserk_trigger(body, attackingPawn)
 
 		# Hit procedure
 		calculate_damage(attackingPawn, attackerUsername, body)
 
+		# Post-damage item triggers
+		$Items.item_try_skating()
+		$Items.item_try_map()
+		$Items.item_try_glue(attackingPawn, body)
+		
+		# Finalize attack
 		if !body.areaAttack: body.queue_free()
 		else: hitList.append(body)
-		item_try_skating()
-		item_try_map()
-		item_try_glue(attackingPawn)
 
 	# Check for Pawn death
 	if hp <= 0:
@@ -223,10 +240,8 @@ func _on_body_entered(body: Node2D) -> void:
 				pawn_death(attackingPawn, attackerUsername, i)
 				break
 
-	# Check for item triggers
-	item_check_milkshake()
-	item_skate_effect()
-	item_glue_effect()
+	# Check for post-deathcheck item triggers
+	$Items.item_check_milkshake()
 
 func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	
@@ -235,12 +250,12 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	var hitText = "hit"
 
 	# Crit mechanics
-	var diceHit = item_check_dice(attackingPawn, baseHit)
+	var diceHit = $Items.item_check_dice(attackingPawn, baseHit)
 	if diceHit > baseHit: hitText = "crit"
 	baseHit = diceHit
  
 	# Adjust hit if Mighty goes off
-	baseHit = style_mighty_trigger(body, attackingPawn, baseHit)
+	baseHit = $Styles.style_mighty_trigger(body, attackingPawn, baseHit)
 	
 	# Damage formula
 	var baseDefendedHit = baseHit * self.def
@@ -248,7 +263,7 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	var realHit = (baseHit - actualDefended)
 
 	# Slayer defence-bypassing percentage-damage mechanic
-	realHit = style_slayer_trigger(body, attackingPawn, realHit)
+	realHit = $Styles.style_slayer_trigger(body, attackingPawn, realHit)
 
 	# Calculate global ramp-up damage reduction
 	var finalHit = realHit * (get_parent().globalDmgMod / get_parent().dmgModDuration)
@@ -292,175 +307,3 @@ func _on_tree_exiting() -> void:
 # A small float for breaking timing ties
 func random_variance() -> float:
 	return(randf_range(0.0001, 0.001))
-
-###################
-# STYLE MECHANICS #
-###################
-
-func style_berserk_trigger(body, attackingPawn) -> void:
-	var pawn = attackingPawn
-	if body.isPersistentSummon == false:
-		if pawn.style == "berserk":
-			pawn.berserkHitCount += 1
-			if pawn.berserkHitCount > pawn.berserkHitCap:
-				pawn.berserkHitCount = pawn.berserkHitCap
-			$BerserkResetTimer.start(berserkTimerDuration)
-			pawn.asp = 1 - pawn.berserkHitCount * pawn.berserkSpeedIncrement
-			pawn.get_node("AttackCooldownTimer").set_wait_time(pawn.baseAttackCooldown * pawn.asp)	
-
-func _on_berserk_reset_timer_timeout() -> void:
-	berserkHitCount = 0
-	asp = 1
-
-func style_mighty_trigger(body, attackingPawn, baseHit) -> float:
-	if body.isPersistentSummon == false:
-		if attackingPawn.style == "mighty":
-			if attackingPawn.mightyChargeCount > 0:
-				baseHit *= 1 + attackingPawn.mightyChargeCount * attackingPawn.mightyChargeAmount
-				attackingPawn.mightyChargeCount = 0
-				attackingPawn.get_node("MightyChargeTimer").start(attackingPawn.mightyChargeDuration)
-	return(baseHit)
-
-func _on_mighty_charge_timer_timeout() -> void:
-	mightyChargeCount += 1
-	if mightyChargeCount > mightyChargeCap:
-		mightyChargeCount = mightyChargeCap
-
-func style_slayer_trigger(body, attackingPawn, realHit) -> float:
-	if body.isPersistentSummon == false:
-		if attackingPawn.style == "slayer":
-			var slayerAmount = baseHp * slayerMultiplier * (attackingPawn.killCount + 1)
-			realHit += slayerAmount
-	return(realHit)
-
-##################
-# ITEM FUNCTIONS #
-##################
-
-func _on_antimatter_cooldown_timer_timeout() -> void:
-	$PawnSprite.modulate.a = 0.5
-	$PawnSprite.modulate.r = 0.0
-	$PawnSprite.modulate.b = 0.0
-	$PawnSprite.modulate.g = 0.0
-	$AntimatterDurationTimer.start(antimatterDuration)
-	if $PhaseOutTimer.get_time_left() < antimatterDuration:
-		$PhaseOutTimer.start(antimatterDuration)
-	print("[" + username + "] used [antimatter]")
-
-func _on_antimatter_duration_timer_timeout() -> void:
-	$PawnSprite.modulate.a = 1.0
-	$PawnSprite.modulate.r = 1.0
-	$PawnSprite.modulate.b = 1.0
-	$PawnSprite.modulate.g = 1.0
-	$AntimatterCooldownTimer.start(randf_range($AntimatterCooldownTimer.get_wait_time() / antimatterRandomizer, antimatterCooldown))
-
-func item_check_dice(attackingPawn, baseHit) -> float:
-	if attackingPawn.item == "dice":
-		if randi_range(1, 4) == 1:
-			baseHit = item_roll_dice(baseHit, attackingPawn)
-	return(baseHit)
-
-func item_roll_dice(baseHit, attackingPawn) -> float:
-	var hitMod = 0
-	for i in 3:
-		var dieRoll = randi_range(1, diceSides)
-		var newDie = diceEffect.instantiate()
-		newDie.global_position = attackingPawn.global_position
-		newDie.diceChoice = dieRoll
-		add_sibling(newDie)
-		hitMod += dieRoll
-	baseHit *= 1 + hitMod * 0.1
-	print("[" + str(attackingPawn.username) + "] used [dice]: " + str(1.0 + 0.1 * hitMod))
-	return(baseHit)
-
-func item_try_glue(attackingPawn) -> void:
-	if attackingPawn.item == "glue" && $GlueDurationTimer.is_stopped():
-		spd /= 2
-		$GlueDurationTimer.start()
-		if $StuckCooldownTimer.is_stopped():
-			var diceRoll = randi_range(1, glueStuckChance)
-			if diceRoll == 1:
-				$StuckDurationTimer.start(glueStuckDuration)
-				$StuckCooldownTimer.start(glueStuckCooldown)
-		print("[" + str(attackingPawn.username) + "] used [glue] on [" + str(username) + "]")
-
-func item_glue_effect() -> void:
-	if $GlueDurationTimer.get_time_left() > 0:
-		$GlueEffectTimer.start()
-		var newWeb = glueEffect.instantiate()
-		add_child(newWeb)
-
-func _on_glue_effect_timer_timeout() -> void:
-	var newWeb = glueEffect.instantiate()
-	add_child(newWeb)
-
-# Reset Pawn speed after slow expires
-func _on_glue_duration_timer_timeout() -> void:
-	$PawnSprite.modulate.a = 1.0
-	$PawnSprite.modulate.r = 1.0
-	$PawnSprite.modulate.b = 1.0
-	$PawnSprite.modulate.g = 1.0
-	spd *= 2
-	$GlueEffectTimer.stop()
-
-func item_spawn_killbot() -> void:
-	var newBot = killbot.instantiate()
-	$AttackContainer.add_child(newBot)
-	newBot.global_position = self.global_position
-	newBot.follow = self
-	newBot.destination = self.global_position
-	print("[" + username + "] used [killbot]")
-
-func item_try_map() -> void:
-	if item == "map" && $MapCooldownTimer.is_stopped():
-		var flickerPos = item_map_flicker()
-		while flickerPos.distance_to(center) > get_parent().boardRadius:
-			flickerPos = item_map_flicker()
-		var newMapX = mapFlickerEffect.instantiate()
-		newMapX.position = self.position
-		$AttackContainer.add_child(newMapX)
-		position = flickerPos
-		$MapCooldownTimer.start(mapCooldownDuration)
-		var newMapEffect = mapEffect.instantiate()
-		add_child(newMapEffect)
-		print("[" + str(username) + "] used [map]")
-
-func item_map_flicker() -> Vector2:
-	var newPos = position
-	while position.distance_to(newPos) < mapFlickerRadius:
-		var ranX = randf_range(-mapFlickerMaxRange, mapFlickerMaxRange)
-		var ranY = randf_range(-mapFlickerMaxRange, mapFlickerMaxRange)
-		newPos = position + Vector2(ranX, ranY)
-	return(newPos)
-
-func item_check_milkshake() -> void:
-	if item == "milkshake" && hp < milkshakeThreshold * baseHp && !milkshakeUsed:
-		print("[" + str(username) + "] used [milkshake]")
-		milkshakeUsed = true
-		$MilkshakeDelayTimer.start(milkshakeDelay)
-		var newMilkshake = milkshakeEffect.instantiate()
-		add_child(newMilkshake)
-
-func _on_milkshake_delay_timer_timeout() -> void:
-	hp += milkshakePercent * baseHp
-	print("[" + str(username) + "] finished [milkshake]")
-
-func item_try_skating() -> void:
-	if item == "skates" && $SkateCooldownTimer.is_stopped():
-		print("[" + str(username) + "] used [skates]")
-		$SkateDurationTimer.start()
-		spd *= skateSpeed
-		destination = center - (center + destination)
-		$SkateCooldownTimer.start(skateCooldown)
-
-func item_skate_effect() -> void:
-	if $SkateDurationTimer.get_time_left() > 0:
-		$SkateSnowflakeTimer.start()
-
-func _on_skate_snowflake_timer_timeout() -> void:
-	var newFlake = skateEffect.instantiate()
-	add_child(newFlake)
-
-func _on_skate_duration_timer_timeout() -> void:
-	spd /= skateSpeed
-	$SkateSnowflakeTimer.stop()

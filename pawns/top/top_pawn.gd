@@ -2,6 +2,7 @@ extends "res://pawns/base/base_pawn.gd"
 
 @export var topAttack: PackedScene
 var topBounceSpeed = 2
+var topBounceDuration = 3.0
 var sparkOffset = 15
 var baseSpd
 #var baseAttackTimer
@@ -24,11 +25,13 @@ func _physics_process(delta: float) -> void:
 			top_hit_wall()
 
 func top_hit_wall() -> void:
-	$BounceDurationTimer.start()
-	spd *= 2
+	#$BounceDurationTimer.start()
+	#spd *= 2
+	$Status.get_node("SprintDurationTimer").start(topBounceDuration)
+	$Status.get_node("SprintEffectTimer").start()
 
 func _on_attack_cooldown_timer_timeout() -> void:
-	if $StuckDurationTimer.is_stopped():
+	if $Status.get_node("StuckDurationTimer").is_stopped():
 		var newAttack = topAttack.instantiate()
 		newAttack.position = self.position + Vector2(0, sparkOffset)
 		newAttack.dmg = self.dmg
@@ -45,9 +48,9 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var attackTimerSpeedMod = min(4.0, baseSpd / spd)
 	$AttackCooldownTimer.start(asp * max(baseAttackCooldown / 4, attackTimerSpeedMod * baseAttackCooldown) + random_variance())
 
-func _on_bounce_duration_timer_timeout() -> void:
-	$BounceDurationTimer.stop()
-	spd /= 2
+#func _on_bounce_duration_timer_timeout() -> void:
+	#$BounceDurationTimer.stop()
+	#spd /= 2
 
 func _on_bounce_decay_timer_timeout() -> void:
 	pass # Replace with function body.

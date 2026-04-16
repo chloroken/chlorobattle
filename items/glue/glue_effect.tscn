@@ -9,7 +9,7 @@ scale = Vector2(0.5, 0.5)
 script = ExtResource("1_q1q3t")
 
 [node name="GlueSprite" type="Sprite2D" parent="." unique_id=360599421]
-modulate = Color(1, 1, 1, 0.5882353)
+modulate = Color(1, 0, 0, 0.5882353)
 texture = ExtResource("2_8t5xp")
 
 [node name="FizzleTimer" type="Timer" parent="." unique_id=54883147]

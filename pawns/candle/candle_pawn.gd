@@ -4,8 +4,8 @@ extends "res://pawns/base/base_pawn.gd"
 @export var emberObject: PackedScene
 
 var emberSpawnCooldownMax = 5.0
-var emberSpawnCooldownMin = 3.0
-var emberPositionOffset = 25.0
+var emberSpawnCooldownMin = 1.0
+var emberPositionOffset = 50
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = candleAttack.instantiate()

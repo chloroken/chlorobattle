@@ -1,23 +1,23 @@
 extends Node2D
 
 var direction: Vector2
-var speed = 50
+var speed = 25
 
 # Assign random physics and colors
 func _ready() -> void:
 	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
 	
-	var flakeScale = randf_range(0.1, 1.0)
+	var flakeScale = randf_range(0.1, 0.8)
 	$SkateEffectSprite.scale.x = flakeScale
 	$SkateEffectSprite.scale.y = flakeScale
 	
 	var flakeSpeed = randf_range(0.5, 1.0)
 	speed *= flakeSpeed
 	
-	var flakeColor = randf_range(0.5, 1.0)
-	$SkateEffectSprite.modulate.g = flakeColor
-	$SkateEffectSprite.modulate.r = 0.5
-	$SkateEffectSprite.modulate.b = 1.0
+	#var flakeColor = randf_range(0.5, 1.0)
+	#$SkateEffectSprite.modulate.g = flakeColor
+	#$SkateEffectSprite.modulate.r = 0.5
+	#$SkateEffectSprite.modulate.b = 1.0
 
 # Move snowflakes
 func _process(delta: float) -> void:

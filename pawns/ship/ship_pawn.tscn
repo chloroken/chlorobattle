@@ -19,8 +19,9 @@ spd = 50.0
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_7iikp")
 
-[node name="NameLabel" parent="." index="2" unique_id=1628394180]
-text = "ship"
+[node name="AttackCooldownTimer" parent="." index="2" unique_id=1610759688]
+wait_time = 0.1
+one_shot = true
 
 [node name="RingTimer" type="Timer" parent="." index="3" unique_id=657030387]
 wait_time = 0.25
@@ -34,15 +35,14 @@ one_shot = true
 wait_time = 2.0
 one_shot = true
 
-[node name="StyleLabel" parent="." index="7" unique_id=541606110]
+[node name="NameLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
+text = "ship"
+
+[node name="StyleLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="2" unique_id=541606110]
 offset_top = 29.725
 offset_bottom = 61.72503
 
-[node name="AttackCooldownTimer" parent="." index="14" unique_id=1610759688]
-wait_time = 0.1
-one_shot = true
-
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
 [connection signal="timeout" from="RingTimer" to="." method="_on_ring_timer_timeout"]
 [connection signal="timeout" from="OverheatDurationTimer" to="." method="_on_overheat_duration_timer_timeout"]
 [connection signal="timeout" from="BurstDurationTimer" to="." method="_on_burst_duration_timer_timeout"]
-[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

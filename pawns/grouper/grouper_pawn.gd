@@ -5,6 +5,7 @@ extends "res://pawns/base/base_pawn.gd"
 
 var diveSpeedModifier = 20
 var bubbleOffset = 10
+var diveSpeedDuration = 2.0
 
 # Dive splash attack
 func _on_attack_cooldown_timer_timeout() -> void:
@@ -13,16 +14,15 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.dmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
-	$AttackDurationTimer.start()
+	$AttackDurationTimer.start(diveSpeedDuration)
 	$AttackCooldownTimer.start(asp * baseAttackCooldown)
 
-	# Hide pawn
-	spd *= diveSpeedModifier
-	#set_collision_mask_value(1, false)
-	if $PhaseOutTimer.get_time_left() < $AttackDurationTimer.get_wait_time():
-		$PhaseOutTimer.start($AttackDurationTimer.get_wait_time())
-	$PawnSprite.visible = false
+	# Hide pawn & sprint
+	$Status.phase_out_pawn(diveSpeedDuration)
+	$Status.start_sprinting(diveSpeedDuration)
+	
 	$BubbleTimer.start()
+	$AttackCooldownTimer.start($AttackCooldownTimer.get_wait_time() + random_variance())
 
 # Emerge splash attack
 func _on_attack_duration_timer_timeout() -> void:
@@ -33,13 +33,7 @@ func _on_attack_duration_timer_timeout() -> void:
 	attackObjects.append(newAttack)
 
 	# Reveal pawn
-	spd /= diveSpeedModifier
-	#set_collision_mask_value(1, true)
-	$PawnSprite.visible = true
 	$BubbleTimer.stop()
-	
-	# Reset cycle
-	$AttackCooldownTimer.start($AttackCooldownTimer.get_wait_time() + random_variance())
 
 # Drop bubbles while underwater for effect
 func _on_bubble_timer_timeout() -> void:

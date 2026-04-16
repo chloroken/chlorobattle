@@ -3,6 +3,7 @@ extends "res://pawns/base/base_attack.gd"
 var parentPawn
 var direction: Vector2
 var baseDmg = 0
+var minDmgRatio = 0.5
 var birdSpeed = 75
 var birdMaxDist = 75
 var birdSizeMin = 0.5
@@ -30,7 +31,7 @@ func _physics_process(delta: float) -> void:
 
 	# Scale bird size & damage based on distance from Pirate
 	set_bird_size()
-	dmg = baseDmg * min(1, position.distance_to(parentPawn.position) / birdMaxDist)
+	dmg = baseDmg * min(baseDmg * minDmgRatio, position.distance_to(parentPawn.position) / birdMaxDist)
 
 # Clean up
 func _on_fizzle_timer_timeout() -> void:

@@ -8,8 +8,8 @@ var scaleMultiplier
 
 # Choose a direction to swing
 func _ready() -> void:
-	swingDuration = randf_range(0.5, 1.0)
-	swingSpd = randf_range(5.0, 15.0)
+	swingDuration = randf_range(0.75, 1.0)
+	swingSpd = randf_range(10.0, 20.0)
 	scaleMultiplier = randf_range(1.0, 2.0)
 	
 	$FizzleTimer.start(swingDuration)

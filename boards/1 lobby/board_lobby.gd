@@ -9,16 +9,17 @@ func _ready() -> void:
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	
 	# Create random bots to test with
-	for i in 24:
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	for i in 2:
+		register_pawn("Bot " + str(i+1), "top", choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	register_pawn("chloro", "top", "berserk", "skates")
-	#register_pawn("jonny", "cyclone", "mighty", "dice")
-	#register_pawn("parody", "grouper", choose_random_style(), choose_random_item())
+	#register_pawn("chloro", "candle", choose_random_style(), choose_random_item())
+	#register_pawn("parody", "chair", choose_random_style(), choose_random_item())
+	#register_pawn("theone_fg", "cyclone", choose_random_style(), choose_random_item())
+	#register_pawn("darkdwain", "grouper", choose_random_style(), choose_random_item())
 	#register_pawn("dank_gr4vy", "pirate", choose_random_style(), choose_random_item())
 	#register_pawn("b4ngbiscuit", "ship", choose_random_style(), choose_random_item())
-	#register_pawn("theone_fg", "slug", choose_random_style(), choose_random_item())
+	#register_pawn("p9", "slug", choose_random_style(), choose_random_item())
 	#register_pawn("hasine", "top", choose_random_style(), choose_random_item())
 	
 	# Start lobby timer

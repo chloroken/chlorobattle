@@ -8,6 +8,7 @@ z_index = -1
 script = ExtResource("1_jgob2")
 
 [node name="SkateEffectSprite" type="Sprite2D" parent="." unique_id=1304229225]
+modulate = Color(0, 1, 0.6156863, 0.5882353)
 texture = ExtResource("2_re04f")
 
 [node name="FizzleTimer" type="Timer" parent="." unique_id=1758736187]

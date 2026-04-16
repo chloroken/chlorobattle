@@ -17,13 +17,13 @@ spd = 10.0
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_qfyav")
 
-[node name="NameLabel" parent="." index="2" unique_id=1628394180]
-text = "slug"
-
-[node name="AttackCooldownTimer" parent="." index="11" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="2" unique_id=1610759688]
 wait_time = 1.5
 one_shot = true
 autostart = true
+
+[node name="NameLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
+text = "slug"
 
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
