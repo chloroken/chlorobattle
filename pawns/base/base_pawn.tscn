@@ -14,38 +14,7 @@
 [ext_resource type="Script" uid="uid://cmsgdkmns5dih" path="res://styles/styles.gd" id="11_jv0kv"]
 [ext_resource type="Script" uid="uid://cpq2j6pt2c6hk" path="res://items/items.gd" id="11_p38oh"]
 [ext_resource type="PackedScene" uid="uid://b8cnlhndtyvpb" path="res://items/glue/stuck_effect.tscn" id="12_gkr3n"]
-
-[sub_resource type="Curve" id="Curve_o0kkn"]
-
-[sub_resource type="Gradient" id="Gradient_o0kkn"]
-colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_o0kkn"]
-
-[sub_resource type="GDScript" id="GDScript_p38oh"]
-script/source = "extends Line2D
-
-func _process(_delta: float) -> void:
-	default_color = Color(1, 1, 1, 1)#$FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time())
-
-func _on_fizzle_timer_timeout() -> void:
-	queue_free()
-"
-
-[sub_resource type="PackedScene" id="PackedScene_jv0kv"]
-_bundled = {
-"conn_count": 1,
-"conns": PackedInt32Array(1, 0, 13, 12, 2, 0, 0),
-"editable_instances": [],
-"id_paths": [],
-"names": PackedStringArray("ItemMapLine", "points", "width_curve", "default_color", "gradient", "texture", "script", "Line2D", "FizzleTimer", "wait_time", "one_shot", "Timer", "_on_fizzle_timer_timeout", "timeout"),
-"node_count": 2,
-"node_ids": PackedInt32Array(609707105, 2031906022),
-"node_paths": [],
-"nodes": PackedInt32Array(-1, -1, 7, 0, -1, 6, 1, 0, 2, 1, 3, 2, 4, 3, 5, 4, 6, 5, 0, 0, 0, 11, 8, -1, 2, 9, 6, 10, 7, 0),
-"variants": [PackedVector2Array(0, 0, 0, 0), SubResource("Curve_o0kkn"), Color(1, 0, 0, 1), SubResource("Gradient_o0kkn"), SubResource("CanvasTexture_o0kkn"), SubResource("GDScript_p38oh"), 5.0, true],
-"version": 3
-}
+[ext_resource type="PackedScene" uid="uid://p33mgsb3b8gx" path="res://pawns/base/weak_effect.tscn" id="13_ec5mt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
 radius = 12.0
@@ -63,7 +32,6 @@ glueEffect = ExtResource("4_56xb5")
 diceEffect = ExtResource("4_weq32")
 mapEffect = ExtResource("6_p38oh")
 mapFlickerEffect = ExtResource("7_jv0kv")
-mapLineEffect = SubResource("PackedScene_jv0kv")
 milkshakeEffect = ExtResource("5_bxe4l")
 skateEffect = ExtResource("6_my1fm")
 
@@ -168,6 +136,7 @@ script = ExtResource("11_3owok")
 slowEffect = ExtResource("4_56xb5")
 sprintEffect = ExtResource("6_my1fm")
 stuckEffect = ExtResource("12_gkr3n")
+weakEffect = ExtResource("13_ec5mt")
 
 [node name="PhaseDurationTimer" type="Timer" parent="Status" unique_id=1852202101]
 one_shot = true
@@ -188,9 +157,16 @@ wait_time = 0.1
 one_shot = true
 
 [node name="StuckCooldownTimer" type="Timer" parent="Status" unique_id=1807948279]
+wait_time = 10.0
 one_shot = true
 
 [node name="StuckEffectTimer" type="Timer" parent="Status" unique_id=1714928973]
+wait_time = 0.1
+
+[node name="WeakDurationTimer" type="Timer" parent="Status" unique_id=1131456262]
+one_shot = true
+
+[node name="WeakEffectTimer" type="Timer" parent="Status" unique_id=847341074]
 wait_time = 0.1
 
 [node name="Styles" type="Node" parent="." unique_id=1771423136]
@@ -238,6 +214,8 @@ one_shot = true
 [connection signal="timeout" from="Status/SprintEffectTimer" to="Status" method="_on_sprint_effect_timer_timeout"]
 [connection signal="timeout" from="Status/StuckDurationTimer" to="Status" method="_on_stuck_duration_timer_timeout"]
 [connection signal="timeout" from="Status/StuckEffectTimer" to="Status" method="_on_stuck_effect_timer_timeout"]
+[connection signal="timeout" from="Status/WeakDurationTimer" to="Status" method="_on_weak_duration_timer_timeout"]
+[connection signal="timeout" from="Status/WeakEffectTimer" to="Status" method="_on_weak_effect_timer_timeout"]
 [connection signal="timeout" from="Styles/BerserkResetTimer" to="Styles" method="_on_berserk_reset_timer_timeout"]
 [connection signal="timeout" from="Styles/MightyChargeTimer" to="Styles" method="_on_mighty_charge_timer_timeout"]
 [connection signal="timeout" from="Items/AntimatterCooldownTimer" to="Items" method="_on_antimatter_cooldown_timer_timeout"]

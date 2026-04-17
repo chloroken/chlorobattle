@@ -9,14 +9,14 @@ func _ready() -> void:
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	
 	# Create random bots to test with
-	for i in 24:
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	for i in 2:
+		register_pawn("Bot " + str(i+1), "chair" , choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	#register_pawn("spooky", "pirate", "mighty", "killbot")
-	#register_pawn("rob", "ship", "mighty", "dice")
+	#register_pawn("spooky", "mummy", "mighty", "killbot")
+	#register_pawn("rob", "mummy", "mighty", "dice")
 	#register_pawn("theone_fg", "cyclone", choose_random_style(), choose_random_item())
-	#register_pawn("darkdwain", "grouper", choose_random_style(), choose_random_item())
+	#register_pawn("darkdwain", "ship", choose_random_style(), choose_random_item())
 	#register_pawn("dank_gr4vy", "pirate", choose_random_style(), choose_random_item())
 	#register_pawn("b4ngbiscuit", "ship", choose_random_style(), choose_random_item())
 	#register_pawn("p9", "slug", choose_random_style(), choose_random_item())
@@ -62,6 +62,7 @@ func get_pawn_type(message: String):
 	elif "chair" in message: return("chair")
 	elif "cyclone" in message: return("cyclone")
 	elif "grouper" in message: return("grouper")
+	elif "mummy" in message: return("mummy")
 	elif "pirate" in message: return("pirate")
 	elif "ship" in message: return("ship")
 	elif "slug" in message: return("slug")
@@ -85,7 +86,7 @@ func get_pawn_item(message: String):
 	else: return(choose_random_item())
 
 func choose_random_pawn() -> String:
-	var allPawnTypes = ["candle", "chair", "cyclone", "grouper", "pirate", "ship", "slug", "top"]
+	var allPawnTypes = ["candle", "chair", "cyclone", "grouper", "mummy", "pirate", "ship", "slug", "top"]
 	var i = randi_range(0, allPawnTypes.size() - 1)
 	return(allPawnTypes[i])
 
@@ -106,6 +107,7 @@ func spawn_lobby_pawn(pawn) -> void:
 	elif pawn.type == "chair": pawnType = get_parent().chair
 	elif pawn.type == "cyclone": pawnType = get_parent().cyclone
 	elif pawn.type == "grouper": pawnType = get_parent().grouper
+	elif pawn.type == "mummy": pawnType = get_parent().mummy
 	elif pawn.type == "pirate": pawnType = get_parent().pirate
 	elif pawn.type == "ship": pawnType = get_parent().ship
 	elif pawn.type == "slug": pawnType = get_parent().slug

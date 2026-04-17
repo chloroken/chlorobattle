@@ -17,10 +17,11 @@ cycloneExplosion = ExtResource("3_yey0t")
 texture = ExtResource("4_3simc")
 
 [node name="BaseCollider" parent="." index="1" unique_id=867063161]
+visible = false
 shape = SubResource("CircleShape2D_3simc")
-disabled = true
 
 [node name="FizzleTimer" parent="." index="2" unique_id=930558460]
+wait_time = 0.5
 autostart = true
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

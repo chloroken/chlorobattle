@@ -28,7 +28,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	if !meleeForm:
 		var newAttack = cycloneAttack.instantiate()
 		newAttack.position = self.position
-		newAttack.dmg = 0
+		newAttack.dmg = self.dmg
 		newAttack.direction = self.position.direction_to(self.destination).rotated(randf_range(-attackConeArc, attackConeArc))
 		attackObjects.append(newAttack)
 		$AttackContainer.add_child(newAttack)

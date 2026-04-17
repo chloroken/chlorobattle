@@ -2,7 +2,7 @@ extends "res://pawns/base/base_attack.gd"
 
 @export var cycloneExplosion: PackedScene
 
-var speed = 75
+var speed = 150
 var random_direction: Vector2
 var direction: Vector2
 
@@ -11,7 +11,7 @@ func _ready() -> void:
 	#areaAttack = false
 	
 	# Adjust speed by Ship speed
-	speed = get_parent().get_parent().spd * 2
+	speed = get_parent().get_parent().spd * 5
 	
 	# Adjust colors 
 	#$BaseSprite.modulate.r = randf_range(0.8, 1.0)

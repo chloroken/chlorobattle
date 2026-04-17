@@ -3,6 +3,7 @@ extends Node
 @export var slowEffect: Resource
 @export var sprintEffect: Resource
 @export var stuckEffect: Resource
+@export var weakEffect: Resource
 
 func phase_out_pawn(timer: float) -> void:
 	var pawnSprite = get_parent().get_node("PawnSprite")
@@ -44,3 +45,10 @@ func _on_stuck_effect_timer_timeout() -> void:
 	var newStuck = stuckEffect.instantiate()
 	add_child(newStuck)
 	newStuck.position = get_parent().position
+
+func _on_weak_duration_timer_timeout() -> void:
+	$WeakEffectTimer.stop()
+func _on_weak_effect_timer_timeout() -> void:
+	var newWeak = weakEffect.instantiate()
+	add_child(newWeak)
+	newWeak.position = get_parent().position

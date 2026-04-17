@@ -22,7 +22,7 @@ var asp = 1.0
 @export var diceEffect: PackedScene
 @export var mapEffect: PackedScene
 @export var mapFlickerEffect: PackedScene
-@export var mapLineEffect: PackedScene
+#@export var mapLineEffect: PackedScene
 @export var milkshakeEffect: PackedScene
 @export var skateEffect: PackedScene
 
@@ -38,6 +38,9 @@ var damageTaken = 0
 var damageDealt = 0
 var killCount = 0
 var baseAttackCooldown
+var isCursed = false
+var curseDuration = 5.0
+var mummyGlyphRange = 96
 
 var normalSpeed = 1.0
 var sprintActive
@@ -200,6 +203,19 @@ func _on_body_entered(body: Node2D) -> void:
 		$Items.item_try_map()
 		$Items.item_try_glue(attackingPawn, body)
 		
+		# Mummy curse transfer check
+		if type == "mummy" && !body.isPersistentSummon && attackingPawn.username != username:
+			var attackerStatus = attackingPawn.get_node("Status")
+			if attackerStatus.get_node("WeakDurationTimer").get_time_left() < curseDuration:
+				if isCursed:
+					isCursed = false
+					$Status.get_node("WeakDurationTimer").stop()
+					$Status.get_node("WeakEffectTimer").stop()
+					print(str($Status.get_node("WeakDurationTimer").get_time_left()))
+					$CursedResetTimer.start()
+					attackerStatus.get_node("WeakDurationTimer").start(10.0)
+					attackerStatus.get_node("WeakEffectTimer").start()
+		
 		# Finalize attack
 		if !body.areaAttack: body.queue_free()
 		else: hitList.append(body)
@@ -221,6 +237,21 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	# Set up default hit
 	var baseHit = body.dmg
 	var hitText = "hit"
+		
+	# Mummy stuck distance check
+	if attackingPawn.type == "mummy" && !body.isPersistentSummon && attackingPawn.username != username:
+		var glyphDist = attackingPawn.position.distance_to(self.position)
+		if glyphDist < mummyGlyphRange:
+			$Status.get_node("StuckDurationTimer").start(5.0)
+			$Status.get_node("StuckCooldownTimer").start()
+			$Status.get_node("StuckEffectTimer").start()
+		var glyphRatio = max(0.1, 1 - glyphDist / mummyGlyphRange * 2)
+		baseHit *= glyphRatio
+	
+	# Weakness check
+	var weakTimer = attackingPawn.get_node("Status").get_node("WeakDurationTimer")
+	if !weakTimer.is_stopped():
+		baseHit /= 2
 
 	# Crit mechanics
 	var diceHit = $Items.item_check_dice(attackingPawn, baseHit, body)

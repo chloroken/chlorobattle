@@ -10,6 +10,7 @@ extends Node2D
 @export var chair: PackedScene
 @export var cyclone: PackedScene
 @export var grouper: PackedScene
+@export var mummy: PackedScene
 @export var pirate: PackedScene
 @export var ship: PackedScene
 @export var slug: PackedScene

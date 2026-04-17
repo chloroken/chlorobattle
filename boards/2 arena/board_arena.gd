@@ -95,6 +95,7 @@ func spawn_pawns(i: int) -> void:
 	elif pawn.type == "chair": pawnType = get_parent().chair
 	elif pawn.type == "cyclone": pawnType = get_parent().cyclone
 	elif pawn.type == "grouper": pawnType = get_parent().grouper
+	elif pawn.type == "mummy": pawnType = get_parent().mummy
 	elif pawn.type == "pirate": pawnType = get_parent().pirate
 	elif pawn.type == "ship": pawnType = get_parent().ship
 	elif pawn.type == "slug": pawnType = get_parent().slug
