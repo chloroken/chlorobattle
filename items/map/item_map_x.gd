@@ -1,6 +1,7 @@
 extends Node2D
 
 func _ready() -> void:
+	z_index = get_node("/root/main").layerGround
 	rotation = randf_range(0, TAU)
 	var sizeRatio = randf_range(0.75, 1.0)
 	scale *= sizeRatio

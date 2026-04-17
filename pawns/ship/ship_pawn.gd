@@ -3,6 +3,7 @@ extends "res://pawns/base/base_pawn.gd"
 @export var shipAttack: PackedScene
 @export var shipRing: PackedScene
 var attackConeArc = 0.225
+var shipBulletOffset = 20
 
 func _ready() -> void:
 	spd /= 2
@@ -18,7 +19,7 @@ func _process(_delta: float) -> void:
 # Launch bullets
 func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = shipAttack.instantiate()
-	newAttack.position = self.position
+	newAttack.position = self.position + (Vector2.RIGHT * shipBulletOffset).rotated($PawnSprite.rotation)
 	newAttack.dmg = self.dmg
 	$AttackContainer.add_child(newAttack)
 	attackObjects.append(newAttack)

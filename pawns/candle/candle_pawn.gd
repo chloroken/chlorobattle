@@ -13,7 +13,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.dmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
-	
+
 	for child in $EmberContainer.get_children():
 		var newEmberAttack = candleAttack.instantiate()
 		newEmberAttack.position = child.position
@@ -33,8 +33,12 @@ func _on_attack_cooldown_timer_timeout() -> void:
 func _on_ember_spawn_timer_timeout() -> void:
 	if attacksDisabled: return
 	var newEmber = emberObject.instantiate()
-	var positionOffset = Vector2(randf_range(-emberPositionOffset, emberPositionOffset), randf_range(-emberPositionOffset, emberPositionOffset))
-	newEmber.position = self.position + positionOffset
+
+	var newPos = position + Vector2(randf_range(-emberPositionOffset, emberPositionOffset), randf_range(-emberPositionOffset, emberPositionOffset))
+	while newPos.distance_to(center) > get_parent().boardRadius:
+		newPos = position + Vector2(randf_range(-emberPositionOffset, emberPositionOffset), randf_range(-emberPositionOffset, emberPositionOffset))
+	newEmber.position = newPos
+
 	attackObjects.append(newEmber)
 	$EmberContainer.add_child(newEmber)
 	$EmberSpawnTimer.start(randf_range(emberSpawnCooldownMin, emberSpawnCooldownMax) + random_variance())

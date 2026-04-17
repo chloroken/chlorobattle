@@ -4,6 +4,7 @@ extends "res://pawns/base/base_attack.gd"
 
 # Randomly rotate splash
 func _ready() -> void:
+	z_index = get_node("/root/main").layerGround
 	rotation = randf_range(0, TAU)
 	scale.x = 0
 	scale.y = 0

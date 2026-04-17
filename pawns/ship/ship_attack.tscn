@@ -8,7 +8,6 @@
 radius = 4.0
 
 [node name="ShipAttack" unique_id=1314615299 instance=ExtResource("1_jkryi")]
-z_index = -1
 script = ExtResource("2_b0o7i")
 
 [node name="BaseSprite" parent="." index="0" unique_id=1865807943]

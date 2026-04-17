@@ -1,5 +1,8 @@
 extends Node2D
 
+func _ready() -> void:
+	z_index = get_node("/root/main").layerPawnBehind
+
 # Grow ring for effect
 func _process(_delta: float) -> void:
 	scale.x = 1 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()

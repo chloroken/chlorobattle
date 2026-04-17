@@ -5,6 +5,7 @@ var random_direction: Vector2
 var direction: Vector2
 
 func _ready() -> void:
+	z_index = get_node("/root/main").layerAir
 	areaAttack = false
 	
 	speed *= randf_range(0.75, 1.25)

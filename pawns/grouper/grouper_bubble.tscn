@@ -1,18 +1,16 @@
-[gd_scene format=3 uid="uid://bupr8t3eexyup"]
+[gd_scene format=3 uid="uid://dcbu25qdtbruv"]
 
-[ext_resource type="Script" uid="uid://bf56pa5ouu1sc" path="res://pawns/grouper/grouper_bubble.gd" id="1_hv381"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_hv381"]
 [ext_resource type="Texture2D" uid="uid://b11aiqvtkwsvi" path="res://pawns/grouper/grouper_bubble.png" id="2_1bbw7"]
+[ext_resource type="Script" uid="uid://ogpn85d4rxio" path="res://pawns/grouper/grouper_bubble.gd" id="2_5opd0"]
 
-[node name="GrouperBubble" type="Node2D" unique_id=889869334]
-z_index = -1
-scale = Vector2(0.5, 0.5)
-script = ExtResource("1_hv381")
+[node name="GrouperBubble" unique_id=1314532855 instance=ExtResource("1_hv381")]
+script = ExtResource("2_5opd0")
 
-[node name="GrouperBubbleSprite" type="Sprite2D" parent="." unique_id=285181789]
-modulate = Color(1, 1, 1, 0.5882353)
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
 texture = ExtResource("2_1bbw7")
 
-[node name="FizzleTimer" type="Timer" parent="." unique_id=1435015184]
+[node name="FizzleTimer" parent="." index="2" unique_id=930558460]
 wait_time = 2.0
 autostart = true
 

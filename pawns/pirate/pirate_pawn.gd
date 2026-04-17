@@ -5,7 +5,6 @@ extends "res://pawns/base/base_pawn.gd"
 func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = pirateAttack.instantiate()
 	newAttack.position = self.position
-	newAttack.dmg = self.dmg
 	newAttack.baseDmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)

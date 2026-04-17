@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://cjx62vdfypc8h" path="res://pawns/candle/candle_pawn.png" id="4_squ0r"]
 
 [node name="CandlePawn" unique_id=1877646274 instance=ExtResource("1_cg57w")]
-z_index = -2
 script = ExtResource("2_ori44")
 candleAttack = ExtResource("3_squ0r")
 emberObject = ExtResource("4_mb6no")

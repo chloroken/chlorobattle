@@ -9,7 +9,6 @@
 radius = 3.801726
 
 [node name="SlugAttack" unique_id=1314532855 instance=ExtResource("1_afs8p")]
-z_index = -1
 scale = Vector2(0.2, 0.2)
 script = ExtResource("2_j3r24")
 

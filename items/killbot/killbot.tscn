@@ -7,7 +7,6 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_c4uqr"]
 
 [node name="BaseKillbot" type="CharacterBody2D" unique_id=894732887]
-light_mask = 0
 script = ExtResource("1_bw3id")
 killbotAttack = ExtResource("2_8byt7")
 
@@ -22,4 +21,9 @@ disabled = true
 wait_time = 0.5
 autostart = true
 
+[node name="KillbotStackTimer" type="Timer" parent="." unique_id=761476400]
+wait_time = 5.0
+autostart = true
+
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="KillbotStackTimer" to="." method="_on_killbot_stack_timer_timeout"]

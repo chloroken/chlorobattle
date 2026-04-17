@@ -43,18 +43,11 @@ func _on_antimatter_cooldown_timer_timeout() -> void:
 		basePawn.get_node("Status").phase_out_pawn(antimatterDuration)
 	print("[" + basePawn.username + "] used [antimatter]")
 
-#func _on_antimatter_duration_timer_timeout() -> void:
-	#var pawnSprite = basePawn.get_node("PawnSprite")
-	#pawnSprite.modulate.a = 1.0
-	#pawnSprite.modulate.r = 1.0
-	#pawnSprite.modulate.b = 1.0
-	#pawnSprite.modulate.g = 1.0
-	#$AntimatterCooldownTimer.start(randf_range($AntimatterCooldownTimer.get_wait_time() / antimatterRandomizer, antimatterCooldown))
-
-func item_check_dice(attackingPawn, baseHit) -> float:
-	if attackingPawn.item == "dice":
-		if randi_range(1, 4) == 1:
-			baseHit = item_roll_dice(baseHit, attackingPawn)
+func item_check_dice(attackingPawn, baseHit, body) -> float:
+	if body.isPersistentSummon == true: return(baseHit)
+	if attackingPawn.item != "dice": return(baseHit)
+	if randi_range(1, 4) == 1:
+		baseHit = item_roll_dice(baseHit, attackingPawn)
 	return(baseHit)
 
 func item_roll_dice(baseHit, attackingPawn) -> float:
@@ -76,18 +69,21 @@ func item_try_glue(attackingPawn, body) -> void:
 	if body.isPersistentSummon == true: return
 	if attackingPawn.item != "glue": return
 	if !$GlueDurationTimer.is_stopped(): return
-
-	# Start up timers
-	var status = basePawn.get_node("Status")
-	status.get_node("SlowDurationTimer").start(glueSlowDuration)
-	status.get_node("SlowEffectTimer").start()
 	
+	var status = basePawn.get_node("Status")
 	# Stuck mechanic
 	if status.get_node("StuckCooldownTimer").is_stopped():
 		var diceRoll = randi_range(1, glueStuckChance)
 		if diceRoll == 1:
+			status.get_node("SlowEffectTimer").stop()
 			status.get_node("StuckDurationTimer").start(glueStuckDuration)
 			status.get_node("StuckCooldownTimer").start(glueStuckCooldown)
+			status.get_node("StuckEffectTimer").start()
+		# Slow mechanic
+		else:
+			status.get_node("SlowDurationTimer").start(glueSlowDuration)
+			status.get_node("SlowEffectTimer").start()
+		
 	print("[" + str(attackingPawn.username) + "] used [glue] on [" + str(basePawn.username) + "]")
 
 func item_spawn_killbot() -> void:
@@ -97,6 +93,14 @@ func item_spawn_killbot() -> void:
 	newBot.follow = basePawn
 	newBot.destination = basePawn.global_position
 	print("[" + basePawn.username + "] used [killbot]")
+
+func item_try_killbot_stack(attackingPawn, body) -> void:
+	if attackingPawn.item != "killbot": return
+	if body.killbotParent == null: return
+	var dadbot = body.killbotParent
+	dadbot.killbotStacks += 1
+	if dadbot.killbotStacks > dadbot.killbotMaxStacks:
+		dadbot.killbotStacks = dadbot.killbotMaxStacks
 
 func item_try_map() -> void:
 	if basePawn.item == "map" && $MapCooldownTimer.is_stopped():
@@ -147,7 +151,6 @@ func item_try_skating() -> void:
 
 		status.start_sprinting(skateDuration)
 		$SkateCooldownTimer.start(skateCooldown)
-		
-		#basePawn.spd *= skateSpeed
+
 		basePawn.destination = center - (center + basePawn.destination)
 		print("[" + str(basePawn.username) + "] used [skates]")

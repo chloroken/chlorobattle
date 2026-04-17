@@ -11,6 +11,7 @@ var rotDir
 
 # Randomize physics
 func _ready() -> void:
+	z_index = get_node("/root/main").layerPawnBehind
 	speed *= randf_range(speedVariance, 1.0)
 	rotDir = rotDirs.pick_random()
 	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))

@@ -1,7 +1,8 @@
 extends Node
 
-@export var sprintEffect: Resource
 @export var slowEffect: Resource
+@export var sprintEffect: Resource
+@export var stuckEffect: Resource
 
 func phase_out_pawn(timer: float) -> void:
 	var pawnSprite = get_parent().get_node("PawnSprite")
@@ -32,6 +33,14 @@ func _on_sprint_duration_timer_timeout() -> void:
 func _on_slow_duration_timer_timeout() -> void:
 	$SlowEffectTimer.stop()
 func _on_slow_effect_timer_timeout() -> void:
-	var newWeb = slowEffect.instantiate()
-	add_child(newWeb)
-	newWeb.position = get_parent().position
+	if $StuckEffectTimer.is_stopped():
+		var newWeb = slowEffect.instantiate()
+		add_child(newWeb)
+		newWeb.position = get_parent().position
+
+func _on_stuck_duration_timer_timeout() -> void:
+	$StuckEffectTimer.stop()
+func _on_stuck_effect_timer_timeout() -> void:
+	var newStuck = stuckEffect.instantiate()
+	add_child(newStuck)
+	newStuck.position = get_parent().position

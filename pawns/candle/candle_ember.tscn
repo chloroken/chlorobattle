@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://dkymdumtmbm1p" path="res://pawns/candle/candle_ember.png" id="2_dyv2l"]
 
 [node name="CandleEmber" type="Node2D" unique_id=485860125]
-z_index = -1
 script = ExtResource("1_4jtk1")
 
 [node name="CandleEmberSprite" type="Sprite2D" parent="." unique_id=1371477285]

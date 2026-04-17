@@ -7,10 +7,10 @@ extends "res://pawns/base/base_pawn.gd"
 @export var jetFormSprite: Resource
 @export var meleeFormSprite: Resource
 
-var attackConeArc = 1
+var attackConeArc = .25
 var meleeForm = false
-var jetAttackCooldown = 0.25
-var meleeAttackCooldown = 4.0
+var jetAttackCooldown = 1.5
+var meleeAttackCooldown = 3.0
 var formSwapTimer = 10.0
 var formSwapVariance = 2.0
 
@@ -36,7 +36,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	else:
 		var newAttack = cycloneMelee.instantiate()
 		newAttack.position = self.position
-		newAttack.dmg = self.dmg * 7
+		newAttack.dmg = self.dmg * 2
 		attackObjects.append(newAttack)
 		$AttackContainer.add_child(newAttack)
 		$AttackCooldownTimer.start(asp * meleeAttackCooldown + random_variance())

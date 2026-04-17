@@ -10,7 +10,7 @@ func _ready() -> void:
 	l = Line2D.new()
 	get_parent().get_parent().get_node("AttackContainer").add_child(l)
 	l.width = 2
-	l.z_index = -2
+	l.z_index = get_node("/root/main").layerGround
 
 func add_line(pos) -> void:
 	l.add_point(pos)

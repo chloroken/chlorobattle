@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://3fy8pty1cfvr" path="res://items/map/item_map_line.png" id="2_6cpci"]
 
 [node name="MapEffect" type="Node2D" unique_id=456358180]
-z_index = -2
 script = ExtResource("1_4wc6c")
 mapLineTexture = ExtResource("2_6cpci")
 

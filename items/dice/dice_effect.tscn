@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://chmf5hrnrjupd" path="res://items/dice/dice6.png" id="7_ksf1p"]
 
 [node name="dice_effect" type="Node2D" unique_id=1916919756]
-z_index = -1
 script = ExtResource("1_5ly0c")
 diceSprites = Array[Resource]([ExtResource("2_1erbh"), ExtResource("3_ljict"), ExtResource("4_kygfl"), ExtResource("5_ax1ag"), ExtResource("6_qvm41"), ExtResource("7_ksf1p")])
 

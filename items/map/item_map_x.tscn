@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://dktxnnfrw1ug5" path="res://items/map/item_map_x.png" id="2_k1el8"]
 
 [node name="ItemMapX" type="Node2D" unique_id=1992651838]
-z_index = -2
 script = ExtResource("1_ha0c6")
 
 [node name="MapXSprite" type="Sprite2D" parent="." unique_id=669355070]

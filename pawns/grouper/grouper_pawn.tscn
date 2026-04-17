@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cc32arvaf7lrm" path="res://pawns/grouper/grouper_pawn.png" id="2_46qhr"]
 [ext_resource type="Script" uid="uid://bujutv7xv6il6" path="res://pawns/grouper/grouper_pawn.gd" id="2_xl8v5"]
 [ext_resource type="PackedScene" uid="uid://d0lk68f6gmvnp" path="res://pawns/grouper/grouper_attack.tscn" id="3_udqqg"]
-[ext_resource type="PackedScene" uid="uid://bupr8t3eexyup" path="res://pawns/grouper/grouper_bubble.tscn" id="4_q1jjm"]
+[ext_resource type="PackedScene" uid="uid://dcbu25qdtbruv" path="res://pawns/grouper/grouper_bubble.tscn" id="4_q1jjm"]
 
 [node name="GrouperPawn" unique_id=1048959576 instance=ExtResource("1_635dh")]
 script = ExtResource("2_xl8v5")
@@ -28,7 +28,8 @@ autostart = true
 one_shot = true
 
 [node name="BubbleTimer" type="Timer" parent="." index="4" unique_id=1771762797]
-wait_time = 0.05
+wait_time = 0.25
+one_shot = true
 
 [node name="NameLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
 text = "grouper"

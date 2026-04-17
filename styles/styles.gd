@@ -49,6 +49,6 @@ func _on_mighty_charge_timer_timeout() -> void:
 func style_slayer_trigger(body, attackingPawn, realHit) -> float:
 	if body.isPersistentSummon == false:
 		if attackingPawn.style == "slayer":
-			var slayerAmount = (attackingPawn.baseHp - attackingPawn.hp) * slayerMultiplier * (attackingPawn.killCount + 1)
+			var slayerAmount = (get_parent().baseHp - get_parent().hp) * slayerMultiplier * (attackingPawn.killCount + 1)
 			realHit += slayerAmount
 	return(realHit)

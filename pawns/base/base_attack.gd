@@ -4,3 +4,4 @@ var areaAttack = true
 var dmg
 var pen
 var isPersistentSummon = false
+var killbotParent = null

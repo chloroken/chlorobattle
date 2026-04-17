@@ -8,15 +8,14 @@ var durVariance = 0.5
 var minScale = 0.25
 
 func _ready() -> void:
+	z_index = get_node("/root/main").layerGround
 	$FizzleTimer.start(randf_range(duration, duration * durVariance))
 	areaAttack = false
 	baseScale = randf_range(0.5, 1.0)
 	scale.x = baseScale
 	scale.y = baseScale
 
-	# Randomize physics & color
-	#$BaseSprite.modulate.r = randf_range(0.8, 1.0)
-	#$BaseSprite.modulate.b = randf_range(0.5, 1.0)
+	# Randomize color
 	$BaseSprite.modulate.g = randf_range(0.75, 1.0)
 
 # Move & grow sprite

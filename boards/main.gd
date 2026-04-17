@@ -27,6 +27,15 @@ class Pawn:
 	var damageDealt = 0
 	var killCount = 0
 
+# Drawing layers
+var layerArena = 1
+var layerGround = 2
+var layerPawnBehind = 4
+var layerPawn = 5
+var layerPawnFront = 6
+var layerAir = 8
+var layerSky = 9
+
 var cameraFollowMouse = false
 
 # First code of game to run

@@ -3,12 +3,14 @@ extends CollisionObject2D
 var areaAttack = false
 var speed = 75
 var direction: Vector2
-var dmg = 10
+var dmg
 var pen = 0
 var isPersistentSummon = true
+var killbotParent
 
 # Assign a random direction
 func _ready() -> void:
+	z_index = get_node("/root/main").layerAir
 	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
 
 # Move bullet forward

@@ -47,35 +47,6 @@ var slowSpeed = 0.5
 var stuckActive
 var stuckSpeed = 0.0
 
-## Style properties
-#var berserkHitCount = 0
-#var berserkHitCap = 5
-#var berserkSpeedIncrement = 0.1
-#var berserkTimerDuration = 3.0
-#var mightyChargeCount = 0
-#var mightyChargeCap = 5
-#var mightyChargeAmount = 0.1
-#var mightyChargeDuration = 1.0
-#var slayerMultiplier = 0.01n
-
-# Item properties
-#var antimatterCooldown = 20.0
-#var antimatterRandomizer = 1.5
-#var antimatterDuration = 3.0
-#var diceSides = 6
-#var glueStuckChance = 10 # one in x
-#var glueStuckDuration = 5.0
-#var glueStuckCooldown = 15.0
-#var mapCooldownDuration = 10.0
-#var mapFlickerMaxRange = 100.0
-#var mapFlickerRadius = 100.0
-#var milkshakeUsed = false
-#var milkshakeDelay = 5.0
-#var milkshakeThreshold = 0.10
-#var milkshakePercent = 0.50
-#var skateSpeed = 2.0
-#var skateCooldown = 6.0
-
 ##################
 # INITIALIZATION #
 ##################
@@ -83,6 +54,7 @@ var stuckSpeed = 0.0
 func _ready() -> void:
 	
 	# Snapshot some variables and set Pawn's initial destination
+	z_index = get_node("/root/main").layerPawn
 	center = get_viewport_rect().size / 2.0
 	baseHp = hp
 	baseAttackCooldown = $AttackCooldownTimer.get_wait_time()
@@ -223,6 +195,7 @@ func _on_body_entered(body: Node2D) -> void:
 		calculate_damage(attackingPawn, attackerUsername, body)
 
 		# Post-damage item triggers
+		$Items.item_try_killbot_stack(attackingPawn, body)
 		$Items.item_try_skating()
 		$Items.item_try_map()
 		$Items.item_try_glue(attackingPawn, body)
@@ -250,7 +223,7 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	var hitText = "hit"
 
 	# Crit mechanics
-	var diceHit = $Items.item_check_dice(attackingPawn, baseHit)
+	var diceHit = $Items.item_check_dice(attackingPawn, baseHit, body)
 	if diceHit > baseHit: hitText = "crit"
 	baseHit = diceHit
  
@@ -307,3 +280,8 @@ func _on_tree_exiting() -> void:
 # A small float for breaking timing ties
 func random_variance() -> float:
 	return(randf_range(0.0001, 0.001))
+
+
+func _on_stuck_duration_timer_timeout() -> void:
+	
+	pass # Replace with function body.

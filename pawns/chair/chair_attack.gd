@@ -8,9 +8,15 @@ var scaleMultiplier
 
 # Choose a direction to swing
 func _ready() -> void:
+	z_index = get_node("/root/main").layerPawnFront
 	swingDuration = randf_range(0.75, 1.0)
 	swingSpd = randf_range(10.0, 20.0)
-	scaleMultiplier = randf_range(1.0, 2.0)
+	if randi_range(1, 10) != 1:
+		scaleMultiplier = randf_range(0.75, 1.0)
+	else:
+		scaleMultiplier = 2.0
+		$BaseSprite.modulate.b = 0.25
+		$BaseSprite.modulate.g = 0.25
 	
 	$FizzleTimer.start(swingDuration)
 	get_parent().get_parent().get_node("AttackStutterTimer").start(swingDuration)

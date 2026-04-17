@@ -108,17 +108,8 @@ func spawn_pawns(i: int) -> void:
 	newPawn.type = pawn.type
 
 	# Set Pawn style
-	if pawn.style == "berserk":
-		newPawn.asp *= 0.75
-		newPawn.pen = max(0, newPawn.pen - 0.3)
-	elif pawn.style == "mighty":
-		newPawn.dmg *= 1.2
-		newPawn.asp *= 1.2
-	elif pawn.style == "slayer":
-		newPawn.pen = min(1, newPawn.pen + 0.5)
-		newPawn.dmg *= 0.9
 	newPawn.style = pawn.style
-	
+
 	# Set Pawn items
 	if pawn.item == "antimatter": newPawn.item = "antimatter"
 	elif pawn.item == "dice": newPawn.item = "dice"

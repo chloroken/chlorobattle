@@ -5,6 +5,7 @@ var speed = 25
 
 # Assign random physics and colors
 func _ready() -> void:
+	z_index = get_node("/root/main").layerPawnBehind
 	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
 	
 	var flakeScale = randf_range(0.1, 0.8)

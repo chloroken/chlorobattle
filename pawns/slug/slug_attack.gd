@@ -3,6 +3,7 @@ extends "res://pawns/base/base_attack.gd"
 var baseDmg
 
 func _ready() -> void:
+	z_index = get_node("/root/main").layerGround
 	areaAttack = false
 	self.scale.x = 0.0
 	self.scale.y = 0.0
