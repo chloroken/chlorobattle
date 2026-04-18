@@ -19,7 +19,7 @@ hp = 400.0
 dmg = 35.0
 pen = 0.1
 def = 0.3
-spd = 60.0
+spd = 50.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("3_u4lmt")

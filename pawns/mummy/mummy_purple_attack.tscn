@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cbsboq55wvnop"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_xgimx"]
+[ext_resource type="Script" uid="uid://cq2ahdvcrn8ul" path="res://pawns/mummy/mummy_purple_attack.gd" id="2_jquif"]
+[ext_resource type="Texture2D" uid="uid://cg1hjpe8v11fm" path="res://pawns/mummy/mummy_attack_center.png" id="3_6b5jn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6b5jn"]
+radius = 32.0
+
+[node name="MummyPurpleAttack" unique_id=1314532855 instance=ExtResource("1_xgimx")]
+z_index = -1
+script = ExtResource("2_jquif")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("3_6b5jn")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("CircleShape2D_6b5jn")
+
+[node name="FizzleTimer" parent="." index="2" unique_id=930558460]
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

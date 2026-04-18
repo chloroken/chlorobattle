@@ -28,8 +28,9 @@ func style_berserk_trigger(body, attackingPawn) -> void:
 			pawn.get_node("AttackCooldownTimer").set_wait_time(pawn.baseAttackCooldown * pawn.asp)	
 
 func _on_berserk_reset_timer_timeout() -> void:
-	berserkHitCount = 0
-	get_parent().asp = 1
+	if berserkHitCount > 0:
+		berserkHitCount -= 1
+	get_parent().asp = 1 - berserkHitCount * berserkSpeedIncrement
 
 func style_mighty_trigger(body, attackingPawn, baseHit) -> float:
 	if body.isPersistentSummon == false:

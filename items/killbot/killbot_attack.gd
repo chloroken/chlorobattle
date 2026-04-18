@@ -7,6 +7,7 @@ var dmg
 var pen = 0
 var isPersistentSummon = true
 var killbotParent
+var mummyCenter = false
 
 # Assign a random direction
 func _ready() -> void:

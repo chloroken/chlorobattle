@@ -181,7 +181,6 @@ script = ExtResource("11_p38oh")
 
 [node name="AntimatterCooldownTimer" type="Timer" parent="Items" unique_id=2066980002]
 wait_time = 10.0
-one_shot = true
 
 [node name="AntimatterDurationTimer" type="Timer" parent="Items" unique_id=1783737652]
 wait_time = 2.0

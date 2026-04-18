@@ -7,14 +7,14 @@ func _ready() -> void:
 	# Intiate twitch functionality
 	#VerySimpleTwitch.get_token_and_login_chat()
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
-	
+
 	# Create random bots to test with
-	for i in 2:
-		register_pawn("Bot " + str(i+1), "chair" , choose_random_style(), choose_random_item())
+	for i in 24:
+		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	#register_pawn("spooky", "mummy", "mighty", "killbot")
-	#register_pawn("rob", "mummy", "mighty", "dice")
+	#register_pawn("jonny", "candle", "berserk", "map")
+	#register_pawn("spooky", "pirate", "mighty", "dice")
 	#register_pawn("theone_fg", "cyclone", choose_random_style(), choose_random_item())
 	#register_pawn("darkdwain", "ship", choose_random_style(), choose_random_item())
 	#register_pawn("dank_gr4vy", "pirate", choose_random_style(), choose_random_item())

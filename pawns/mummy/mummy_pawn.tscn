@@ -9,7 +9,7 @@
 script = ExtResource("2_al8ad")
 mummyAttack = ExtResource("3_4naq4")
 hp = 380.0
-dmg = 100.0
+dmg = 40.0
 pen = 0.5
 def = 0.2
 spd = 40.0
@@ -18,7 +18,7 @@ spd = 40.0
 texture = ExtResource("4_n8i8p")
 
 [node name="AttackCooldownTimer" parent="." index="2" unique_id=1610759688]
-wait_time = 10.0
+wait_time = 8.0
 autostart = true
 
 [node name="CursedResetTimer" type="Timer" parent="." index="4" unique_id=1311632392]

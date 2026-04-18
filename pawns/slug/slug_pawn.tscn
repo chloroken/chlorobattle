@@ -8,11 +8,11 @@
 [node name="SlugPawn" unique_id=1048959576 instance=ExtResource("1_a6a5s")]
 script = ExtResource("2_8633t")
 slugAttack = ExtResource("3_tqnmo")
-hp = 320.0
+hp = 300.0
 dmg = 15.0
 pen = 0.4
 def = 0.5
-spd = 10.0
+spd = 20.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_qfyav")

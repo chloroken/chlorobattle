@@ -1,8 +1,8 @@
 extends "res://pawns/base/base_pawn.gd"
 
 @export var mummyAttack: Resource
-var attackDur = 5.0
-var attackVariation = 5.0
+var attackDur = 4.0
+var attackVariation = 4.0
 
 func _ready() -> void:
 	super()

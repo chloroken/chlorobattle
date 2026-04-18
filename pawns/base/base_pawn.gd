@@ -40,7 +40,7 @@ var killCount = 0
 var baseAttackCooldown
 var isCursed = false
 var curseDuration = 5.0
-var mummyGlyphRange = 96
+var mummyGlyphRange = 64
 
 var normalSpeed = 1.0
 var sprintActive
@@ -239,14 +239,11 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	var hitText = "hit"
 		
 	# Mummy stuck distance check
-	if attackingPawn.type == "mummy" && !body.isPersistentSummon && attackingPawn.username != username:
-		var glyphDist = attackingPawn.position.distance_to(self.position)
-		if glyphDist < mummyGlyphRange:
+	if attackingPawn.type == "mummy" && body.mummyCenter == true:
+		if $Status.get_node("StuckCooldownTimer").is_stopped():
 			$Status.get_node("StuckDurationTimer").start(5.0)
 			$Status.get_node("StuckCooldownTimer").start()
 			$Status.get_node("StuckEffectTimer").start()
-		var glyphRatio = max(0.1, 1 - glyphDist / mummyGlyphRange * 2)
-		baseHit *= glyphRatio
 	
 	# Weakness check
 	var weakTimer = attackingPawn.get_node("Status").get_node("WeakDurationTimer")

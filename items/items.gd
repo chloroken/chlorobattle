@@ -32,12 +32,6 @@ func _ready() -> void:
 ##################
 
 func _on_antimatter_cooldown_timer_timeout() -> void:
-	#var pawnSprite = basePawn.get_node("PawnSprite")
-	#pawnSprite.modulate.a = 0.5
-	#pawnSprite.modulate.r = 0.0
-	#pawnSprite.modulate.b = 0.0
-	#pawnSprite.modulate.g = 0.0
-	#$AntimatterDurationTimer.start(antimatterDuration)
 	var pawnPhaseTimer = basePawn.get_node("Status").get_node("PhaseDurationTimer")
 	if pawnPhaseTimer.get_time_left() < antimatterDuration:
 		basePawn.get_node("Status").phase_out_pawn(antimatterDuration)

@@ -5,3 +5,4 @@ var dmg
 var pen
 var isPersistentSummon = false
 var killbotParent = null
+var mummyCenter = false
