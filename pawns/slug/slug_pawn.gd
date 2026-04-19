@@ -2,7 +2,7 @@ extends "res://pawns/base/base_pawn.gd"
 
 @export var slugAttack: PackedScene
 var gooOffset = 5
-var slugRegeneration = 0.5
+var slugRegeneration = 0.1
 
 # Drop slug trail attack
 func _on_attack_cooldown_timer_timeout() -> void:

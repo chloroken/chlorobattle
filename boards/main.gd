@@ -17,6 +17,7 @@ extends Node2D
 @export var top: PackedScene
 
 # Data structures for passing data between scenes
+var currentBoard = "lobby"
 var pawnList = []
 var scoreList = []
 class Pawn:
@@ -67,7 +68,8 @@ func switch_board(board: String) -> void:
 		"lobby": newBoard = lobby
 		"arena": newBoard = arena
 		"score": newBoard = score
-	print("[Board Loaded]: " + board)
+	currentBoard = board
+	print("[Board Loaded]: " + currentBoard)
 	add_child(newBoard.instantiate())
 
 func free_children() -> void:

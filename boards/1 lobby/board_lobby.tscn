@@ -2,9 +2,10 @@
 
 [ext_resource type="Script" uid="uid://iyuns7lssrvx" path="res://boards/1 lobby/board_lobby.gd" id="1_4hyng"]
 [ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/graphics/board_background.png" id="2_0kqu1"]
-[ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://fonts/Grunge.otf" id="2_pe4tc"]
-[ext_resource type="FontFile" uid="uid://dsixe43unloa3" path="res://fonts/MonoTypewriter.ttf" id="5_22cq8"]
-[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="5_x07d7"]
+[ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://assets/fonts/Grunge.otf" id="2_pe4tc"]
+[ext_resource type="FontFile" uid="uid://dsixe43unloa3" path="res://assets/fonts/MonoTypewriter.ttf" id="5_22cq8"]
+[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="5_x07d7"]
+[ext_resource type="AudioStream" uid="uid://bkqddrcwgan7d" path="res://assets/sounds/chime.mp3" id="6_dbg6s"]
 
 [node name="LobbyBoard" type="Node2D" unique_id=751706610]
 process_mode = 1
@@ -82,7 +83,11 @@ Items:
 - Killbot
 - Map
 - Milkshake
-- Skates"
+- Skates
+- Tire"
 vertical_alignment = 1
+
+[node name="ChimeSound" type="AudioStreamPlayer2D" parent="." unique_id=600843519]
+stream = ExtResource("6_dbg6s")
 
 [connection signal="timeout" from="LobbyTimer" to="." method="_on_lobby_timer_timeout"]

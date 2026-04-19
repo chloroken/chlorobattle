@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cqwo7ql0smi4o" path="res://pawns/base/tombstone/tombstone.gd" id="1_ndd8p"]
 [ext_resource type="Texture2D" uid="uid://bpmf5kiiakav0" path="res://pawns/base/tombstone/tombstone.png" id="2_agk00"]
-[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="3_4s48m"]
+[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="3_4s48m"]
 
 [node name="Tombstone" type="Node2D" unique_id=1901625262]
 visibility_layer = 513

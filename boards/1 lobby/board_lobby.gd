@@ -4,23 +4,25 @@ var boardRadius = 360
 var lobbyTimer = 60.0
 
 func _ready() -> void:
+	# Play chime
+	$ChimeSound.play()
+	
 	# Intiate twitch functionality
 	#VerySimpleTwitch.get_token_and_login_chat()
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 
 	# Create random bots to test with
 	for i in 24:
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), "tire")
 
 	# Create specific test bots
-	#register_pawn("jonny", "candle", "berserk", "map")
-	#register_pawn("spooky", "pirate", "mighty", "dice")
-	#register_pawn("theone_fg", "cyclone", choose_random_style(), choose_random_item())
+	#register_pawn("chloroken", "cyclone", choose_random_style(), choose_random_item())
 	#register_pawn("darkdwain", "ship", choose_random_style(), choose_random_item())
 	#register_pawn("dank_gr4vy", "pirate", choose_random_style(), choose_random_item())
 	#register_pawn("b4ngbiscuit", "ship", choose_random_style(), choose_random_item())
 	#register_pawn("p9", "slug", choose_random_style(), choose_random_item())
 	#register_pawn("hasine", "top", choose_random_style(), choose_random_item())
+	#register_pawn("theone_fg", "cyclone", choose_random_style(), choose_random_item())
 
 	# Start lobby timer
 	$LobbyTimer.one_shot = true
@@ -31,6 +33,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	$TimerLabel.text = str(int($LobbyTimer.time_left))
 
+# Transition to next board
 func _on_lobby_timer_timeout() -> void:
 	get_parent().pawnList.shuffle()
 	get_parent().switch_board("arena")
@@ -68,12 +71,20 @@ func get_pawn_type(message: String):
 	elif "slug" in message: return("slug")
 	elif "top" in message: return("top")
 	else: return(choose_random_pawn())
+func choose_random_pawn() -> String:
+	var allPawnTypes = ["candle", "chair", "cyclone", "grouper", "mummy", "pirate", "ship", "slug", "top"]
+	var i = randi_range(0, allPawnTypes.size() - 1)
+	return(allPawnTypes[i])
 
 func get_pawn_style(message: String):
 	if "berserk" in message: return("berserk")
 	elif "mighty" in message: return("mighty")
 	elif "slayer" in message: return("slayer")
 	else: return(choose_random_style())
+func choose_random_style() -> String:
+	var allStyleTypes = ["berserk", "mighty", "slayer"]
+	var i = randi_range(0, allStyleTypes.size() - 1)
+	return(allStyleTypes[i])
 
 func get_pawn_item(message: String):
 	if "antimatter" in message: return("antimatter")
@@ -83,20 +94,10 @@ func get_pawn_item(message: String):
 	elif "map" in message: return("map")
 	elif "milkshake" in message: return("milkshake")
 	elif "skates" in message: return("skates")
+	elif "tire" in message: return("tire")
 	else: return(choose_random_item())
-
-func choose_random_pawn() -> String:
-	var allPawnTypes = ["candle", "chair", "cyclone", "grouper", "mummy", "pirate", "ship", "slug", "top"]
-	var i = randi_range(0, allPawnTypes.size() - 1)
-	return(allPawnTypes[i])
-
-func choose_random_style() -> String:
-	var allStyleTypes = ["berserk", "mighty", "slayer"]
-	var i = randi_range(0, allStyleTypes.size() - 1)
-	return(allStyleTypes[i])
-
 func choose_random_item() -> String:
-	var allItemTypes = ["antimatter", "dice", "glue", "killbot", "map", "milkshake", "skates"]
+	var allItemTypes = ["antimatter", "dice", "glue", "killbot", "map", "milkshake", "skates", "tire"]
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])
 

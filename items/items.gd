@@ -18,10 +18,12 @@ var mapFlickerRadius = 100.0
 var milkshakeUsed = false
 var milkshakeDelay = 5.0
 var milkshakeThreshold = 0.10
-var milkshakePercent = 0.50
+var milkshakePercent = 0.25
 var skateSpeed = 2.0
 var skateCooldown = 6.0
 var skateDuration = 3.0
+var tireCooldownMin = 5.0
+var tireCooldownMax = 10.0
 
 func _ready() -> void:
 	basePawn = get_parent()
@@ -32,7 +34,7 @@ func _ready() -> void:
 ##################
 
 func _on_antimatter_cooldown_timer_timeout() -> void:
-	var pawnPhaseTimer = basePawn.get_node("Status").get_node("PhaseDurationTimer")
+	var pawnPhaseTimer = basePawn.get_node("Status").get_node("PhaseStatusTimer")
 	if pawnPhaseTimer.get_time_left() < antimatterDuration:
 		basePawn.get_node("Status").phase_out_pawn(antimatterDuration)
 	print("[" + basePawn.username + "] used [antimatter]")
@@ -69,14 +71,14 @@ func item_try_glue(attackingPawn, body) -> void:
 	if status.get_node("StuckCooldownTimer").is_stopped():
 		var diceRoll = randi_range(1, glueStuckChance)
 		if diceRoll == 1:
-			status.get_node("SlowEffectTimer").stop()
-			status.get_node("StuckDurationTimer").start(glueStuckDuration)
+			status.get_node("SlowParticleTimer").stop()
+			status.get_node("StuckStatusTimer").start(glueStuckDuration)
 			status.get_node("StuckCooldownTimer").start(glueStuckCooldown)
-			status.get_node("StuckEffectTimer").start()
+			status.get_node("StuckStatusTimer").start()
 		# Slow mechanic
 		else:
-			status.get_node("SlowDurationTimer").start(glueSlowDuration)
-			status.get_node("SlowEffectTimer").start()
+			status.get_node("SlowStatusTimer").start(glueSlowDuration)
+			status.get_node("SlowParticleTimer").start()
 		
 	print("[" + str(attackingPawn.username) + "] used [glue] on [" + str(basePawn.username) + "]")
 
@@ -141,10 +143,19 @@ func _on_milkshake_delay_timer_timeout() -> void:
 
 func item_try_skating() -> void:
 	var status = get_parent().get_node("Status")
-	if basePawn.item == "skates" && status.get_node("SprintDurationTimer").get_time_left() < skateDuration && $SkateCooldownTimer.is_stopped():
+	if basePawn.item == "skates" && status.get_node("SprintStatusTimer").get_time_left() < skateDuration && $SkateCooldownTimer.is_stopped():
 
 		status.start_sprinting(skateDuration)
 		$SkateCooldownTimer.start(skateCooldown)
 
 		basePawn.destination = center - (center + basePawn.destination)
 		print("[" + str(basePawn.username) + "] used [skates]")
+
+func _on_tire_attack_timer_timeout() -> void:
+	var newAttack = get_parent().tireAttack.instantiate()
+	newAttack.position = get_parent().position
+	newAttack.destination = get_parent().destination
+	get_parent().get_node("AttackContainer").add_child(newAttack)
+	get_parent().attackObjects.append(newAttack)
+
+	#$TireAttackTimer.start(randf_range(tireCooldownMin, tireCooldownMax))

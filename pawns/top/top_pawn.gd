@@ -17,11 +17,11 @@ func _physics_process(delta: float) -> void:
 
 func top_hit_wall() -> void:
 	destination = new_destination()
-	$Status.get_node("SprintDurationTimer").start(topBounceDuration)
-	$Status.get_node("SprintEffectTimer").start()
+	$Status.get_node("SprintStatusTimer").start(topBounceDuration)
+	$Status.get_node("SprintParticleTimer").start()
 
 func _on_attack_cooldown_timer_timeout() -> void:
-	if $Status.get_node("StuckDurationTimer").is_stopped():
+	if $Status.get_node("StuckStatusTimer").is_stopped():
 		var newAttack = topAttack.instantiate()
 		newAttack.position = self.position + Vector2(0, sparkOffset)
 		newAttack.dmg = self.dmg
@@ -34,6 +34,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		$AttackContainer.add_child(newAttack)
 	
 	var atkSpdMod = 1.0
-	var isSprinting = $Status.get_node("SprintDurationTimer")
+	var isSprinting = $Status.get_node("SprintStatusTimer")
 	if !isSprinting.is_stopped(): atkSpdMod = 0.5
 	$AttackCooldownTimer.start(asp * baseAttackCooldown * atkSpdMod)

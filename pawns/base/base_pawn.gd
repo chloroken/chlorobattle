@@ -18,13 +18,11 @@ var asp = 1.0
 # Item scenes
 @export var tombstone: PackedScene
 @export var killbot: PackedScene
-@export var glueEffect: PackedScene
 @export var diceEffect: PackedScene
 @export var mapEffect: PackedScene
 @export var mapFlickerEffect: PackedScene
-#@export var mapLineEffect: PackedScene
 @export var milkshakeEffect: PackedScene
-@export var skateEffect: PackedScene
+@export var tireAttack: PackedScene
 
 # Back end Pawn properties & variables
 var center: Vector2
@@ -34,14 +32,18 @@ var hitList = []
 var attacksDisabled = false
 var destination: Vector2
 var baseHp
+var baseAttackCooldown
+var isCursed = false
+var cursePassDuration = 5.0
+var mummyGlyphRange = 64
+var curseReturnDuration = 10.0
+
+# Score variables
 var damageTaken = 0
 var damageDealt = 0
 var killCount = 0
-var baseAttackCooldown
-var isCursed = false
-var curseDuration = 5.0
-var mummyGlyphRange = 64
 
+# Movement variables
 var normalSpeed = 1.0
 var sprintActive
 var sprintSpeed = 2.0
@@ -80,6 +82,8 @@ func _ready() -> void:
 		# Check for Pawn items that require action now
 		if item == "antimatter":
 			$Items.get_node("AntimatterCooldownTimer").start(randf_range($Items.get_node("AntimatterCooldownTimer").get_wait_time() / $Items.antimatterRandomizer, $Items.antimatterCooldown))
+		elif item == "tire":
+			$Items.get_node("TireAttackTimer").start(randf_range($Items.tireCooldownMin, $Items.tireCooldownMax))
 		elif item == "killbot":
 			$Items.item_spawn_killbot()
 
@@ -151,13 +155,13 @@ func _physics_process(delta: float) -> void:
 		destination = new_destination()
 
 	# Adjust speed based on status effects (slow, sprint, stuck)
-	if $Status.get_node("SprintDurationTimer").is_stopped():
+	if $Status.get_node("SprintStatusTimer").is_stopped():
 		sprintActive = normalSpeed
 	else: sprintActive = sprintSpeed
-	if $Status.get_node("SlowDurationTimer").is_stopped():
+	if $Status.get_node("SlowStatusTimer").is_stopped():
 		slowActive = normalSpeed
 	else: slowActive = slowSpeed
-	if $Status.get_node("StuckDurationTimer").is_stopped():
+	if $Status.get_node("StuckStatusTimer").is_stopped():
 		stuckActive = normalSpeed
 	else: stuckActive = stuckSpeed
 
@@ -176,9 +180,9 @@ func new_destination() -> Vector2:
 		desto = new_destination()
 	return(desto)
 
-####################
-# COMBAT MECHANICS #
-####################
+##########
+# COMBAT #
+##########
 
 # When a Pawn gets hit by an attack
 func _on_body_entered(body: Node2D) -> void:
@@ -202,20 +206,19 @@ func _on_body_entered(body: Node2D) -> void:
 		$Items.item_try_skating()
 		$Items.item_try_map()
 		$Items.item_try_glue(attackingPawn, body)
-		
+
 		# Mummy curse transfer check
 		if type == "mummy" && !body.isPersistentSummon && attackingPawn.username != username:
 			var attackerStatus = attackingPawn.get_node("Status")
-			if attackerStatus.get_node("WeakDurationTimer").get_time_left() < curseDuration:
+			if attackerStatus.get_node("WeakStatusTimer").get_time_left() < cursePassDuration:
 				if isCursed:
 					isCursed = false
-					$Status.get_node("WeakDurationTimer").stop()
-					$Status.get_node("WeakEffectTimer").stop()
-					print(str($Status.get_node("WeakDurationTimer").get_time_left()))
-					$CursedResetTimer.start()
-					attackerStatus.get_node("WeakDurationTimer").start(10.0)
-					attackerStatus.get_node("WeakEffectTimer").start()
-		
+					$Status.get_node("WeakStatusTimer").stop()
+					$Status.get_node("WeakParticleTimer").stop()
+					$CursedResetTimer.start(curseReturnDuration)
+					attackerStatus.get_node("WeakStatusTimer").start(cursePassDuration)
+					attackerStatus.get_node("WeakParticleTimer").start()
+
 		# Finalize attack
 		if !body.areaAttack: body.queue_free()
 		else: hitList.append(body)
@@ -241,12 +244,12 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	# Mummy stuck distance check
 	if attackingPawn.type == "mummy" && body.mummyCenter == true:
 		if $Status.get_node("StuckCooldownTimer").is_stopped():
-			$Status.get_node("StuckDurationTimer").start(5.0)
+			$Status.get_node("StuckStatusTimer").start(5.0)
 			$Status.get_node("StuckCooldownTimer").start()
-			$Status.get_node("StuckEffectTimer").start()
+			$Status.get_node("StuckParticleTimer").start()
 	
 	# Weakness check
-	var weakTimer = attackingPawn.get_node("Status").get_node("WeakDurationTimer")
+	var weakTimer = attackingPawn.get_node("Status").get_node("WeakStatusTimer")
 	if !weakTimer.is_stopped():
 		baseHit /= 2
 
@@ -280,6 +283,9 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	# Combat log backend
 	print("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % finalHit + " dmg")
 
+func pawn_respawn(pawnIndex: int) -> void:
+	get_parent().spawn_sandbox_pawn(get_parent().get_parent().pawnList[pawnIndex])
+
 func pawn_death(attackingPawn, killer: String, pawnIndex: int) -> void:
 	
 	# Create a tombstone
@@ -308,8 +314,3 @@ func _on_tree_exiting() -> void:
 # A small float for breaking timing ties
 func random_variance() -> float:
 	return(randf_range(0.0001, 0.001))
-
-
-func _on_stuck_duration_timer_timeout() -> void:
-	
-	pass # Replace with function body.

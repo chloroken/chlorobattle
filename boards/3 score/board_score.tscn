@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://b2t45j8nbabg2" path="res://boards/3 score/board_score.gd" id="1_i2ibj"]
 [ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/graphics/board_background.png" id="2_5icpr"]
-[ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://fonts/Grunge.otf" id="2_7g0av"]
-[ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://fonts/JetBrainsMono-Regular.ttf" id="4_trvca"]
+[ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://assets/fonts/Grunge.otf" id="2_7g0av"]
+[ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="4_trvca"]
 
 [node name="EndBoard" type="Node2D" unique_id=49523521]
 process_mode = 1

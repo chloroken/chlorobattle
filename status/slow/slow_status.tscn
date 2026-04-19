@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://bdsvr8sgchx2i"]
 
-[ext_resource type="Script" uid="uid://beltvvfd7ooto" path="res://items/glue/glue_effect.gd" id="1_q1q3t"]
-[ext_resource type="Texture2D" uid="uid://cp8hexmt7dekc" path="res://items/glue/item_glue.png" id="2_8t5xp"]
+[ext_resource type="Script" uid="uid://beltvvfd7ooto" path="res://status/slow/slow_status.gd" id="1_q1q3t"]
+[ext_resource type="Texture2D" uid="uid://cp8hexmt7dekc" path="res://status/slow/slow_status.png" id="2_8t5xp"]
 
-[node name="GlueEffect" type="Node2D" unique_id=456358180]
+[node name="SlowStatus" type="Node2D" unique_id=456358180]
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_q1q3t")
 
-[node name="GlueSprite" type="Sprite2D" parent="." unique_id=360599421]
+[node name="SlowSprite" type="Sprite2D" parent="." unique_id=360599421]
 modulate = Color(1, 1, 1, 0.5882353)
 texture = ExtResource("2_8t5xp")
 

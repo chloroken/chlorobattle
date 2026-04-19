@@ -107,18 +107,8 @@ func spawn_pawns(i: int) -> void:
 	newPawn.position = center + evenly_spaced_position(i)
 	newPawn.username = pawn.username # str(randf()) # 
 	newPawn.type = pawn.type
-
-	# Set Pawn style
 	newPawn.style = pawn.style
-
-	# Set Pawn items
-	if pawn.item == "antimatter": newPawn.item = "antimatter"
-	elif pawn.item == "dice": newPawn.item = "dice"
-	elif pawn.item == "glue": newPawn.item = "glue"
-	elif pawn.item == "killbot": newPawn.item = "killbot"
-	elif pawn.item == "map": newPawn.item = "map"
-	elif pawn.item == "milkshake": newPawn.item = "milkshake"
-	elif pawn.item == "skates": newPawn.item = "skates"
+	newPawn.item = pawn.item
 
 	add_child(newPawn)
 	print("Spawned " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "] for " + newPawn.username)

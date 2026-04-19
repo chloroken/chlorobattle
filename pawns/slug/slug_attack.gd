@@ -7,7 +7,7 @@ func _ready() -> void:
 	areaAttack = false
 	self.scale.x = 0.0
 	self.scale.y = 0.0
-	baseDmg = $FizzleTimer.get_wait_time() / 2
+	baseDmg = $FizzleTimer.get_wait_time() * 2
 
 func _physics_process(_delta: float) -> void:
 	var decayRatio = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()

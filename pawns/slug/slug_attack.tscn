@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_afs8p"]
 [ext_resource type="Script" uid="uid://dfar6w8cdc53l" path="res://pawns/slug/slug_attack.gd" id="2_j3r24"]
 [ext_resource type="Texture2D" uid="uid://1awvafxvppx6" path="res://pawns/slug/slug_attack.png" id="3_lmhw8"]
-[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://fonts/NexaHeavy.ttf" id="4_lmhw8"]
+[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="4_lmhw8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lmhw8"]
 radius = 3.801726
@@ -32,7 +32,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="FizzleTimer" parent="." index="3" unique_id=930558460]
-wait_time = 30.0
+wait_time = 10.0
 autostart = true
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]
