@@ -17,7 +17,7 @@ spd = 40.0
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("4_n8i8p")
 
-[node name="AttackCooldownTimer" parent="." index="2" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="3" unique_id=1610759688]
 wait_time = 8.0
 autostart = true
 

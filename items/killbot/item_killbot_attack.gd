@@ -1,18 +1,23 @@
-extends CollisionObject2D
+extends "res://pawns/base/base_attack.gd"
 
-var areaAttack = false
 var speed = 75
 var direction: Vector2
-var dmg
-var pen = 0
-var isPersistentSummon = true
-var killbotParent
-var mummyCenter = false
+var attackDuration = 1.0
 
-# Assign a random direction
 func _ready() -> void:
-	z_index = get_node("/root/main").layerAir
+	
+	# Assign a random direction
 	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
+	
+	# Flag as a single-target attack
+	areaAttack = true
+	
+	# Set visibility ordering
+	z_as_relative = false
+	z_index = get_node("/root/main").layerAir
+	
+	# Start timers
+	$FizzleTimer.start(attackDuration)
 
 # Move bullet forward
 func _physics_process(delta: float) -> void:

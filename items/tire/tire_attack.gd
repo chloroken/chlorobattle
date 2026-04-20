@@ -1,54 +1,74 @@
-extends CollisionObject2D
+extends "res://pawns/base/base_attack.gd"
 
-var destination = Vector2(0, 0)
-var direction: Vector2
-var pen = 0
-var isPersistentSummon = true
-var mummyCenter = false
+# Board variables
 var center
 var boardSize
+var items
 
-var areaAttack = false
-var speed = 25
-var baseSpeed = 100
-var dmg = 25
-var baseDmg = 25
-var bounceCap = 3
+# Physics variables
+var destination = Vector2(0, 0)
+var direction: Vector2
+var speed
+
+# Bounce variables
 var bounceCount = 0
-var bounceModifier = 25
+var disableBounceDuration = 0.1
 
-# Assign a random direction
 func _ready() -> void:
-	boardSize = get_parent().get_parent().get_parent().boardRadius
-	z_index = get_node("/root/main").layerGround
-	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
+	
+	# Fetch item data
+	items = get_parent().get_parent().get_node("Items")
+	
+	# Make this a single-target attack
+	areaAttack = false
+	
+	# Snapshot center of board
 	center = get_viewport_rect().size / 2.0
+	
+	# Assign a random direction
+	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
 
+	# Set visibility order
+	z_as_relative = false
+	z_index = get_node("/root/main").layerGround
+	
+	# Set timers
+	$DisableBounceTimer.one_shot = true
+
+# Reduce damage based on bounces
 func _process(_delta: float) -> void:
-	
-	dmg = baseDmg + bounceCount * bounceModifier
-	scale.x = 1 + 0.25 * bounceCount
-	scale.y = 1 + 0.25 * bounceCount
+	dmg = items.tireDmgBase - bounceCount * items.tireDmgMod
 
-# Move arrow forward
 func _physics_process(delta: float) -> void:
-	speed = baseSpeed - bounceCount * bounceModifier
 	
-	# Bouncing off a wall
-	#var distFromDesto = global_position.distance_to(destination)
+	# Bouncing off walls
 	var distFromCenter = global_position.distance_to(center)
 	var boardRadius = get_parent().get_parent().get_parent().boardRadius
-	if distFromCenter >= boardRadius:
-		destination = new_destination()
-		bounceCount += 1
-		if bounceCount > bounceCap:
-			queue_free()
-	global_position += global_position.direction_to(destination) * speed * delta
-	
-	$BaseSprite.look_at(destination)
+	if $DisableBounceTimer.is_stopped():
+		
+		# Ensure we bounce at the right location
+		if position.distance_to(destination) < 10 || distFromCenter > boardRadius:
+			
+			# Update destination & speed
+			destination = new_destination()
+			speed *= items.tireSpeedMod
+			
+			# Adjust bounce count
+			bounceCount += 1
+			if bounceCount > items.tireBounceCap:
+				tire_has_expired()
 
-# Calculate a new place for Pawn to go
+			# Make sure we don't bounce multiple times rapidly
+			$DisableBounceTimer.start(disableBounceDuration)
+
+	# Move tire 
+	$TireSprite.look_at(destination)
+	global_position += global_position.direction_to(destination) * speed * delta
+
 func new_destination() -> Vector2:
+
+	# Calculate a new place to go
+	boardSize = get_parent().get_parent().get_parent().boardRadius
 	var radius = boardSize
 	var rando = ((Vector2.RIGHT * radius).rotated(randf_range(0, TAU)))
 	var desto = center + rando
@@ -58,6 +78,9 @@ func new_destination() -> Vector2:
 		desto = new_destination()
 	return(desto)
 
-func _on_tree_exiting() -> void:
-	var parentPawnItems = get_parent().get_parent().get_node("Items")
-	parentPawnItems.get_node("TireAttackTimer").start(randf_range(parentPawnItems.tireCooldownMin, parentPawnItems.tireCooldownMax))
+# Start cooldown process
+func tire_has_expired() -> void:
+	if items != null:
+		var randomCooldown = randf_range(items.tireCooldownMin, items.tireCooldownMax)
+		items.get_node("TireAttackTimer").start(randomCooldown)
+	queue_free()

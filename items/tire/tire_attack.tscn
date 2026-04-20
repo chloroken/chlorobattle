@@ -10,11 +10,11 @@ size = Vector2(32, 15)
 collision_mask = 0
 script = ExtResource("1_gkxf6")
 
-[node name="BaseSprite" type="Sprite2D" parent="." unique_id=1865807943]
+[node name="TireSprite" type="Sprite2D" parent="." unique_id=1865807943]
 texture = ExtResource("2_4x4wu")
 
-[node name="BaseCollider" type="CollisionShape2D" parent="." unique_id=867063161]
+[node name="TireCollider" type="CollisionShape2D" parent="." unique_id=867063161]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_sx4ns")
 
-[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[node name="DisableBounceTimer" type="Timer" parent="." unique_id=408753928]

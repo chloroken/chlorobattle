@@ -5,6 +5,7 @@ var lobbyTimer = 60.0
 
 func _ready() -> void:
 	# Play chime
+	$ChimeSound.panning_strength = 0.0
 	$ChimeSound.play()
 	
 	# Intiate twitch functionality
@@ -13,7 +14,8 @@ func _ready() -> void:
 
 	# Create random bots to test with
 	for i in 24:
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), "tire")
+		#register_pawn("Bot " + str(i+1), "ship", choose_random_style(), choose_random_item())
+		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
 	#register_pawn("chloroken", "cyclone", choose_random_style(), choose_random_item())

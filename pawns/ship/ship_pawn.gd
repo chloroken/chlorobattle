@@ -2,14 +2,18 @@ extends "res://pawns/base/base_pawn.gd"
 
 @export var shipAttack: PackedScene
 @export var shipRing: PackedScene
-var attackConeArc = 0.225
+var attackConeArc = 0.5
 var shipBulletOffset = 20
+var overheatDuration = 2.0
+var burstDuration = 2.0
 
 func _ready() -> void:
-	spd /= 2
 	super()
 	if !attacksDisabled:
+		$AttackCooldownTimer.one_shot = true
+		$AttackCooldownTimer.start(asp * baseAttackCooldown)
 		$BurstDurationTimer.start()
+		$Status.start_slow(burstDuration)
 
 # Turn ship to face direction for effect
 func _process(_delta: float) -> void:
@@ -38,14 +42,15 @@ func _on_ring_timer_timeout() -> void:
 
 # Stop firing
 func _on_burst_duration_timer_timeout() -> void:
-	spd *= 2
+	#spd *= 2
 	$BurstDurationTimer.stop()
-	$OverheatDurationTimer.start($OverheatDurationTimer.get_wait_time() + random_variance())
+	$OverheatDurationTimer.start(overheatDuration + random_variance())
 	$AttackCooldownTimer.stop()
 	
 # Stop overheating
 func _on_overheat_duration_timer_timeout() -> void:
 	$AttackCooldownTimer.start(asp * baseAttackCooldown)
 	$OverheatDurationTimer.stop()
-	$BurstDurationTimer.start()
-	spd /= 2
+	$BurstDurationTimer.start(burstDuration)
+	$Status.start_slow(burstDuration)
+	#spd /= 2

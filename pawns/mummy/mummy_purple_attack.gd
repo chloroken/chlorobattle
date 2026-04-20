@@ -1,6 +1,8 @@
 extends "res://pawns/base/base_attack.gd"
 
 func _ready() -> void:
+	z_as_relative = false
+	z_index = get_node("/root/main").layerGround
 	mummyCenter = true
 	modulate.a = 1.0
 	scale.x = 2.0

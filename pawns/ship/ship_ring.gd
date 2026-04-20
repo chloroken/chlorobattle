@@ -1,6 +1,7 @@
 extends Node2D
 
 func _ready() -> void:
+	z_as_relative = false
 	z_index = get_node("/root/main").layerPawnBehind
 
 # Grow ring for effect

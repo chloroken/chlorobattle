@@ -5,7 +5,7 @@
 [ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://assets/fonts/Grunge.otf" id="2_pe4tc"]
 [ext_resource type="FontFile" uid="uid://dsixe43unloa3" path="res://assets/fonts/MonoTypewriter.ttf" id="5_22cq8"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="5_x07d7"]
-[ext_resource type="AudioStream" uid="uid://bkqddrcwgan7d" path="res://assets/sounds/chime.mp3" id="6_dbg6s"]
+[ext_resource type="AudioStream" uid="uid://sah2sui8y10c" path="res://assets/sounds/chime.mp3" id="6_dbg6s"]
 
 [node name="LobbyBoard" type="Node2D" unique_id=751706610]
 process_mode = 1

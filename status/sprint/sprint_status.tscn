@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://btb8whxqk8dx6"]
 
 [ext_resource type="Script" uid="uid://c48qhvtyijfu6" path="res://status/sprint/sprint_status.gd" id="1_jgob2"]
-[ext_resource type="Texture2D" uid="uid://bx2you0xwj8qn" path="res://status/sprint/sprint_sttaus.png" id="2_re04f"]
+[ext_resource type="Texture2D" uid="uid://bx2you0xwj8qn" path="res://status/sprint/sprint_status.png" id="2_re04f"]
 
 [node name="SprintStatus" type="Node2D" unique_id=1742595589]
 script = ExtResource("1_jgob2")

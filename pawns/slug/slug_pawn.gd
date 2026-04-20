@@ -1,8 +1,14 @@
 extends "res://pawns/base/base_pawn.gd"
 
 @export var slugAttack: PackedScene
-var gooOffset = 5
+var gooOffset = 3
 var slugRegeneration = 0.1
+
+func _ready() -> void:
+	super()
+	if !attacksDisabled:
+		$AttackCooldownTimer.one_shot = true
+		$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
 
 # Drop slug trail attack
 func _on_attack_cooldown_timer_timeout() -> void:

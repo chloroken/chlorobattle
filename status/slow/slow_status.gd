@@ -5,6 +5,7 @@ var speed = 50
 
 # Assign random physics
 func _ready() -> void:
+	z_as_relative = false
 	z_index = get_node("/root/main").layerPawnBehind
 	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
 	

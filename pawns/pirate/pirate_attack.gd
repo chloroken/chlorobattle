@@ -12,6 +12,7 @@ var birdReturnSpeed = 5
 var returning = false
 
 func _ready() -> void:
+	z_as_relative = false
 	z_index = get_node("/root/main").layerAir
 	parentPawn = get_parent().get_parent()
 	set_bird_size()

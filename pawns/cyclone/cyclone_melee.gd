@@ -7,6 +7,7 @@ var speed = 25
 func _ready() -> void:
 	position = get_parent().get_parent().position
 	direction = randf_range(0, TAU)
+	z_as_relative = false
 	z_index = get_node("/root/main").layerPawnBehind
 	areaAttack = true
 	scale.x = 0
@@ -14,8 +15,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	$BaseSprite.modulate.a = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
-	scale.x = 2 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
-	scale.y = 2 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
+	scale.x = 1.5 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
+	scale.y = 1.5 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 	rotation += rotationSpeed * delta
 
 func _physics_process(delta: float) -> void:

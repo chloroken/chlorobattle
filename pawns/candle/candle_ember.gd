@@ -3,11 +3,16 @@ extends Node2D
 var isPersistentSummon = true
 
 func _ready() -> void:
-	z_index = get_node("/root/main").layerPawnBehind
-	scale.x = 0.0
-	scale.y = 0.0
 
-func _physics_process(_delta: float) -> void:
+	# Start at 0 scale to grow
+	scale = Vector2.ZERO
+
+	# Set visibility layer
+	z_as_relative = false
+	z_index = get_node("/root/main").layerPawnBehind
+
+func s_process(_delta: float) -> void:
+
 	# Grow Ember size
 	var timerRatio = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 	scale.x = 1 - timerRatio

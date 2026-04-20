@@ -6,6 +6,8 @@ var innerRotateSpeed = .25
 var outerRotateSpeed = .50
 
 func _ready() -> void:
+	z_as_relative = false
+	z_index = get_node("/root/main").layerArena
 	$BaseSprite.rotation = randf_range(0, TAU)
 	set_collision_layer_value(1, false)
 	modulate.a = 0.0

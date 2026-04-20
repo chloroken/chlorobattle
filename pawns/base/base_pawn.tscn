@@ -3,14 +3,14 @@
 [ext_resource type="Script" uid="uid://by8wtod0sp8dr" path="res://pawns/base/base_pawn.gd" id="1_o1hwx"]
 [ext_resource type="PackedScene" uid="uid://crarr4hxisv6u" path="res://pawns/base/tombstone/tombstone.tscn" id="2_5gqyv"]
 [ext_resource type="PackedScene" uid="uid://ditsec7n1hkv8" path="res://items/tire/tire_attack.tscn" id="3_5e5wd"]
-[ext_resource type="PackedScene" uid="uid://dnkqxjuduneo8" path="res://items/killbot/killbot.tscn" id="3_ae3pr"]
+[ext_resource type="PackedScene" uid="uid://dnkqxjuduneo8" path="res://items/killbot/item_killbot.tscn" id="3_ae3pr"]
 [ext_resource type="PackedScene" uid="uid://bdsvr8sgchx2i" path="res://status/slow/slow_status.tscn" id="4_56xb5"]
-[ext_resource type="PackedScene" uid="uid://bhh6l25wl27ki" path="res://items/dice/dice_effect.tscn" id="4_weq32"]
-[ext_resource type="PackedScene" uid="uid://d2mn3nlatfxkh" path="res://items/milkshake/milkshake_effect.tscn" id="5_bxe4l"]
+[ext_resource type="PackedScene" uid="uid://bhh6l25wl27ki" path="res://items/dice/item_dice.tscn" id="4_weq32"]
+[ext_resource type="PackedScene" uid="uid://d2mn3nlatfxkh" path="res://items/milkshake/item_milkshake.tscn" id="5_bxe4l"]
 [ext_resource type="PackedScene" uid="uid://btb8whxqk8dx6" path="res://status/sprint/sprint_status.tscn" id="6_my1fm"]
-[ext_resource type="PackedScene" uid="uid://bu0wch6pq7hog" path="res://items/map/map_effect.tscn" id="6_p38oh"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="7_hndg7"]
-[ext_resource type="PackedScene" uid="uid://c7nabqm2bnb2t" path="res://items/map/item_map_x.tscn" id="7_jv0kv"]
+[ext_resource type="PackedScene" uid="uid://c7nabqm2bnb2t" path="res://items/map/item_map.tscn" id="7_jv0kv"]
+[ext_resource type="AudioStream" uid="uid://c5efgrhkqu74x" path="res://assets/sounds/kill.mp3" id="9_j523l"]
 [ext_resource type="Script" uid="uid://vouopua0eetv" path="res://status/status.gd" id="11_3owok"]
 [ext_resource type="Script" uid="uid://cmsgdkmns5dih" path="res://styles/styles.gd" id="11_jv0kv"]
 [ext_resource type="Script" uid="uid://cpq2j6pt2c6hk" path="res://items/items.gd" id="11_p38oh"]
@@ -30,8 +30,7 @@ spd = 0.5
 tombstone = ExtResource("2_5gqyv")
 killbot = ExtResource("3_ae3pr")
 diceEffect = ExtResource("4_weq32")
-mapEffect = ExtResource("6_p38oh")
-mapFlickerEffect = ExtResource("7_jv0kv")
+mapBlinkEffect = ExtResource("7_jv0kv")
 milkshakeEffect = ExtResource("5_bxe4l")
 tireAttack = ExtResource("3_5e5wd")
 
@@ -39,6 +38,9 @@ tireAttack = ExtResource("3_5e5wd")
 
 [node name="PawnCollider" type="CollisionShape2D" parent="." unique_id=1776540401]
 shape = SubResource("CircleShape2D_pac6h")
+
+[node name="KillSound" type="AudioStreamPlayer2D" parent="." unique_id=414782787]
+stream = ExtResource("9_j523l")
 
 [node name="AttackCooldownTimer" type="Timer" parent="." unique_id=1610759688]
 
@@ -154,10 +156,6 @@ one_shot = true
 wait_time = 0.1
 
 [node name="StuckStatusTimer" type="Timer" parent="Status" unique_id=1600425509]
-one_shot = true
-
-[node name="StuckCooldownTimer" type="Timer" parent="Status" unique_id=1807948279]
-wait_time = 10.0
 one_shot = true
 
 [node name="StuckParticleTimer" type="Timer" parent="Status" unique_id=1714928973]

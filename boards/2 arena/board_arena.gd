@@ -23,7 +23,10 @@ var combatLogText = []
 var combatLogLineCount = 6
 
 func _ready() -> void:
+	$BellSound.panning_strength = 0.0
+	$BellSound.play()
 	Engine.set_time_scale(1)
+	
 	# Snapshot board radius to accurately scale everything
 	baseRadius = boardRadius
 	$BoardSprite.modulate.a = 0.0
@@ -105,6 +108,7 @@ func spawn_pawns(i: int) -> void:
 	var newPawn = pawnType.instantiate()
 	var center = get_viewport_rect().size / 2.0
 	newPawn.position = center + evenly_spaced_position(i)
+	newPawn.name = pawn.username
 	newPawn.username = pawn.username # str(randf()) # 
 	newPawn.type = pawn.type
 	newPawn.style = pawn.style
@@ -121,10 +125,9 @@ func evenly_spaced_position(i: int) -> Vector2:
 func update_kill_feed(msg: String) -> void:
 	killFeedText.push_front(msg)
 	var newString = ""
-	for i in killFeedText.size():
+	# Iterate backwards
+	for i in range(min(killFeedLineCount - 1, killFeedText.size() - 1), -1, -1):
 		newString += "\n" + killFeedText[i]
-		if i >= killFeedLineCount - 1:
-			break
 	$ArenaCanvas.get_node("KillFeedLabel").text = newString
 
 func update_combat_log(msg: String) -> void:

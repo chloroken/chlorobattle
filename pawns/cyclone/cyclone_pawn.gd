@@ -15,6 +15,12 @@ var meleeAttackCooldown = 3.0
 var formSwapTimer = 10.0
 var formSwapVariance = 2.0
 
+func _ready() -> void:
+	super()
+	if !attacksDisabled:
+		$AttackCooldownTimer.one_shot = true
+		$AttackCooldownTimer.start(asp * jetAttackCooldown + random_variance())
+
 # Turn to face direction for effect
 func _process(_delta: float) -> void:
 	super(_delta)

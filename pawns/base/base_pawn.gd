@@ -19,8 +19,8 @@ var asp = 1.0
 @export var tombstone: PackedScene
 @export var killbot: PackedScene
 @export var diceEffect: PackedScene
-@export var mapEffect: PackedScene
-@export var mapFlickerEffect: PackedScene
+#@export var mapEffect: PackedScene
+@export var mapBlinkEffect: PackedScene
 @export var milkshakeEffect: PackedScene
 @export var tireAttack: PackedScene
 
@@ -36,6 +36,7 @@ var baseAttackCooldown
 var isCursed = false
 var cursePassDuration = 5.0
 var mummyGlyphRange = 64
+var mummyPurpleStuckDuration = 5.0
 var curseReturnDuration = 10.0
 
 # Score variables
@@ -59,6 +60,7 @@ var stuckSpeed = 0.0
 func _ready() -> void:
 	
 	# Snapshot some variables and set Pawn's initial destination
+	z_as_relative = false
 	z_index = get_node("/root/main").layerPawn
 	center = get_viewport_rect().size / 2.0
 	baseHp = hp
@@ -95,8 +97,8 @@ func _ready() -> void:
 			$Styles.get_node("MightyChargeTimer").set_wait_time($Styles.mightyChargeDuration)
 			$Styles.get_node("MightyChargeTimer").start()
 
-		# Start attacking
-		$AttackCooldownTimer.start(baseAttackCooldown)
+		# Start attacking (moved to individual Pawns)
+		# $AttackCooldownTimer.start(baseAttackCooldown)
 
 #######
 # GUI #
@@ -206,6 +208,7 @@ func _on_body_entered(body: Node2D) -> void:
 		$Items.item_try_skating()
 		$Items.item_try_map()
 		$Items.item_try_glue(attackingPawn, body)
+		#$Items.item_try_tire(attackingPawn)
 
 		# Mummy curse transfer check
 		if type == "mummy" && !body.isPersistentSummon && attackingPawn.username != username:
@@ -213,11 +216,9 @@ func _on_body_entered(body: Node2D) -> void:
 			if attackerStatus.get_node("WeakStatusTimer").get_time_left() < cursePassDuration:
 				if isCursed:
 					isCursed = false
-					$Status.get_node("WeakStatusTimer").stop()
-					$Status.get_node("WeakParticleTimer").stop()
+					$Status.stop_weak()
 					$CursedResetTimer.start(curseReturnDuration)
-					attackerStatus.get_node("WeakStatusTimer").start(cursePassDuration)
-					attackerStatus.get_node("WeakParticleTimer").start()
+					attackerStatus.start_weak(cursePassDuration)
 
 		# Finalize attack
 		if !body.areaAttack: body.queue_free()
@@ -225,7 +226,6 @@ func _on_body_entered(body: Node2D) -> void:
 
 	# Check for Pawn death
 	if hp <= 0:
-		# kill cam
 		for i in range(0, pawns.size()):
 			if pawns[i].username == username:
 				attackingPawn.killCount += 1
@@ -243,10 +243,7 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 		
 	# Mummy stuck distance check
 	if attackingPawn.type == "mummy" && body.mummyCenter == true:
-		if $Status.get_node("StuckCooldownTimer").is_stopped():
-			$Status.get_node("StuckStatusTimer").start(5.0)
-			$Status.get_node("StuckCooldownTimer").start()
-			$Status.get_node("StuckParticleTimer").start()
+		$Status.start_stuck(mummyPurpleStuckDuration)
 	
 	# Weakness check
 	var weakTimer = attackingPawn.get_node("Status").get_node("WeakStatusTimer")
@@ -283,18 +280,20 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	# Combat log backend
 	print("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % finalHit + " dmg")
 
-func pawn_respawn(pawnIndex: int) -> void:
-	get_parent().spawn_sandbox_pawn(get_parent().get_parent().pawnList[pawnIndex])
-
 func pawn_death(attackingPawn, killer: String, pawnIndex: int) -> void:
-	
+
 	# Create a tombstone
 	var mainBoard = get_parent().get_parent()
 	var newTombstone = tombstone.instantiate()
 	newTombstone.global_position = global_position
+	newTombstone.name = "Tombstone (" + username + ")"
 	newTombstone.username = username
 	get_parent().add_child(newTombstone)
 	print("[" + str(username) + "] was killed by [" + str(killer) + "]")
+	
+	# Play death chime
+	attackingPawn.get_node("KillSound").panning_strength = 0.0
+	attackingPawn.get_node("KillSound").play()
 
 	# Save progress & destroy self
 	update_scoreboard(mainBoard, self, pawnIndex, false)

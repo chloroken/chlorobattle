@@ -3,6 +3,8 @@ var pawnType
 var boardRadius = 360
 
 func _ready() -> void:
+	$ClapSound.panning_strength = 0.0
+	$ClapSound.play()
 	# Fix camera zoom
 	get_parent().get_node("Camera2D").zoom.x = 1
 	get_parent().get_node("Camera2D").zoom.y = 1
@@ -21,6 +23,7 @@ func _ready() -> void:
 		var newPawn = pawnType.instantiate()
 		var center = get_viewport_rect().size / 2.0
 		newPawn.position = center
+		newPawn.name = pawn.username
 		newPawn.username = pawn.username # str(randf()) # 
 		newPawn.type = pawn.type
 		add_child(newPawn)

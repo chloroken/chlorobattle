@@ -9,6 +9,9 @@ var baseSpd
 func _ready() -> void:
 	baseSpd = 50
 	super()
+	if !attacksDisabled:
+		$AttackCooldownTimer.one_shot = true
+		$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
 
 func _physics_process(delta: float) -> void:
 	super(delta)

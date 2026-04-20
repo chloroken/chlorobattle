@@ -3,6 +3,7 @@ extends "res://pawns/base/base_attack.gd"
 var baseDmg
 
 func _ready() -> void:
+	z_as_relative = false
 	z_index = get_node("/root/main").layerGround
 	areaAttack = false
 	self.scale.x = 0.0
@@ -18,9 +19,8 @@ func _physics_process(_delta: float) -> void:
 	$BaseSprite.modulate.b = 1 - decayRatio
 	
 	# Grow size for effect
-	var newScale = 0.25 * (1 + decayRatio)
-	self.scale.x = newScale
-	self.scale.y = newScale
+	var newScale = 0.15 * (1 + decayRatio)
+	self.scale = Vector2.ONE * newScale
 	
 	# Destroy any trails outside of the board area
 	var center = get_viewport_rect().size / 2.0

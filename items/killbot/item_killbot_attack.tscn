@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c21snmp1k1q3w"]
 
-[ext_resource type="Script" uid="uid://bv5o5cin0d023" path="res://items/killbot/killbot_attack.gd" id="1_jgtw5"]
-[ext_resource type="Texture2D" uid="uid://dqbjxe5trgw20" path="res://items/killbot/killbot_attack.png" id="2_smtl6"]
+[ext_resource type="Script" uid="uid://bv5o5cin0d023" path="res://items/killbot/item_killbot_attack.gd" id="1_jgtw5"]
+[ext_resource type="Texture2D" uid="uid://dqbjxe5trgw20" path="res://items/killbot/item_killbot_attack.png" id="2_smtl6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2me13"]
 radius = 4.0
@@ -10,13 +10,12 @@ radius = 4.0
 collision_mask = 0
 script = ExtResource("1_jgtw5")
 
-[node name="BaseSprite" type="Sprite2D" parent="." unique_id=1865807943]
+[node name="KillbotAttackSprite" type="Sprite2D" parent="." unique_id=1865807943]
 texture = ExtResource("2_smtl6")
 
-[node name="BaseCollider" type="CollisionShape2D" parent="." unique_id=867063161]
+[node name="KillbotAttackCollider" type="CollisionShape2D" parent="." unique_id=867063161]
 shape = SubResource("CircleShape2D_2me13")
 
 [node name="FizzleTimer" type="Timer" parent="." unique_id=930558460]
-autostart = true
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

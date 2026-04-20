@@ -3,28 +3,40 @@ extends "res://pawns/base/base_attack.gd"
 var swingDirs = [-1, 1]
 var swingDir = swingDirs.pick_random()
 var swingDuration
+var swingDurMin = 0.75
+var swingDurMax = 1.0
 var swingSpd
+var swingSpdMin = 10.0
+var swingSpdMax = 20.0
 var scaleMultiplier
+var scaleMin = 0.75
+var scaleMax = 1.0
+var scaleRedwood = 2.0
+var redwoodColor = Color(1.0, 0.25, 0.25, 1.0)
+var critChance = 10
 
-# Choose a direction to swing
 func _ready() -> void:
-	z_index = get_node("/root/main").layerPawnFront
-	swingDuration = randf_range(0.75, 1.0)
-	swingSpd = randf_range(10.0, 20.0)
-	if randi_range(1, 10) != 1:
-		scaleMultiplier = randf_range(0.75, 1.0)
-	else:
-		scaleMultiplier = 2.0
-		$BaseSprite.modulate.b = 0.25
-		$BaseSprite.modulate.g = 0.25
 	
+	# Randomize swing
+	scale = Vector2.ZERO
+	swingDuration = randf_range(swingDurMin, swingDurMax)
+	swingSpd = randf_range(swingSpdMin, swingSpdMax)
+	rotation = randf_range(0, TAU)
+
+	# Red wood "crit" mechanic
+	if randi_range(1, critChance) != 1:
+		scaleMultiplier = randf_range(scaleMin, scaleMax)
+	else:
+		scaleMultiplier = scaleRedwood
+		$BaseSprite.modulate = redwoodColor
+
+	# Set visibility layer
+	z_as_relative = false
+	z_index = get_node("/root/main").layerPawnFront
+
+	# Set timers
 	$FizzleTimer.start(swingDuration)
 	get_parent().get_parent().get_node("AttackStutterTimer").start(swingDuration)
-	
-	
-	scale.x = 0.0
-	scale.y = 0.0
-	rotation = randf_range(0, TAU)
 
 # Swing attack
 func _physics_process(delta: float) -> void:

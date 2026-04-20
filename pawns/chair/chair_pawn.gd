@@ -3,13 +3,21 @@ extends "res://pawns/base/base_pawn.gd"
 @export var chairAttack: PackedScene
 var baseSpd
 
-# Save speed for stuttering
 func _ready() -> void:
 	super()
+
+	# Lock in base speed to stutter
 	baseSpd = spd
 
-# Attack with Chair leg
+	# Start timers
+	if !attacksDisabled:
+		$AttackStutterTimer.one_shot = true
+		$AttackCooldownTimer.one_shot = true
+		$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
+
 func _on_attack_cooldown_timer_timeout() -> void:
+	
+	# Attack with Chair leg
 	var newAttack = chairAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg

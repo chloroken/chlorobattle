@@ -7,8 +7,8 @@ var berserkSpeedIncrement = 0.1
 var berserkTimerDuration = 3.0
 var mightyChargeCount = 0
 var mightyChargeCap = 5
-var mightyChargeAmount = 0.1
-var mightyChargeDuration = 1.0
+var mightyChargeAmount = 0.2
+var mightyChargeDuration = 3.0
 var slayerMultiplier = 0.01
 
 ###################

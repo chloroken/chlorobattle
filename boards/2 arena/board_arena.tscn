@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/graphics/board_background.png" id="3_0rnid"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="4_2xcui"]
 [ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="5_6k7p0"]
+[ext_resource type="AudioStream" uid="uid://cr6bhvej0b2xx" path="res://assets/sounds/bell.mp3" id="6_b0655"]
 
 [node name="EarlyBoard" type="Node2D" unique_id=230680556]
 process_mode = 1
@@ -89,5 +90,8 @@ theme_override_font_sizes/font_size = 10
 horizontal_alignment = 2
 vertical_alignment = 2
 clip_text = true
+
+[node name="BellSound" type="AudioStreamPlayer2D" parent="." unique_id=1820594038]
+stream = ExtResource("6_b0655")
 
 [connection signal="timeout" from="SpawnStaggerTimer" to="." method="_on_spawn_stagger_timer_timeout"]

@@ -7,6 +7,7 @@ var random_direction: Vector2
 var direction: Vector2
 
 func _ready() -> void:
+	z_as_relative = false
 	z_index = get_node("/root/main").layerAir
 	#areaAttack = false
 	

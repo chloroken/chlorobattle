@@ -1,6 +1,7 @@
 extends "res://pawns/base/base_attack.gd"
 
 func _ready() -> void:
+	z_as_relative = false
 	z_index = get_node("/root/main").layerPawnFront
 	rotation = randf_range(0, TAU)
 	scale.x = 0.5

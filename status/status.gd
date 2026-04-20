@@ -5,7 +5,9 @@ extends Node
 @export var stuckEffect: Resource
 @export var weakEffect: Resource
 
-func phase_out_pawn(timer: float) -> void:
+var stuckCooldown = 15.0
+
+func start_phase(timer: float) -> void:
 	var pawnSprite = get_parent().get_node("PawnSprite")
 	pawnSprite.modulate.a = 0.5
 	pawnSprite.modulate.r = 0.0
@@ -20,7 +22,13 @@ func _on_phase_status_timer_timeout() -> void:
 	pawnSprite.modulate.b = 1.0
 	pawnSprite.modulate.g = 1.0
 	get_parent().set_collision_mask_value(1, true)
+func stop_phase() -> void:
+	$PhaseStatusTimer.stop()
 
+func start_slow(timer: float) -> void:
+	if $SlowStatusTimer.get_time_left() > timer: return
+	$SlowStatusTimer.start(timer)
+	$SlowParticleTimer.start()
 func _on_slow_status_timer_timeout() -> void:
 	$SlowParticleTimer.stop()
 func _on_slow_particle_timer_timeout() -> void:
@@ -29,8 +37,11 @@ func _on_slow_particle_timer_timeout() -> void:
 		var newWeb = slowEffect.instantiate()
 		add_child(newWeb)
 		newWeb.position = get_parent().position
+func stop_slow() -> void:
+	$StuckStatusTimer.stop()
+	$SlowParticleTimer.start()
 
-func start_sprinting(timer: float) -> void:
+func start_sprint(timer: float) -> void:
 	$SprintStatusTimer.start(timer)
 	$SprintParticleTimer.start()
 func _on_sprint_particle_timer_timeout() -> void:
@@ -39,17 +50,32 @@ func _on_sprint_particle_timer_timeout() -> void:
 	newFlake.position = get_parent().position
 func _on_sprint_status_timer_timeout() -> void:
 	$SprintParticleTimer.stop()
+func stop_sprint() -> void:
+	$SprintStatusTimer.stop()
+	$SprintParticleTimer.start()
 
+func start_stuck(timer: float) -> void:
+	$StuckStatusTimer.start(timer)
+	$StuckParticleTimer.start()
 func _on_stuck_status_timer_timeout() -> void:
 	$StuckParticleTimer.stop()
 func _on_stuck_particle_timer_timeout() -> void:
 	var newStuck = stuckEffect.instantiate()
 	add_child(newStuck)
 	newStuck.position = get_parent().position
+func stop_stuck() -> void:
+	$StuckStatusTimer.stop()
+	$StuckParticleTimer.start()
 
+func start_weak(timer: float) -> void:
+	$WeakStatusTimer.start(timer)
+	$WeakParticleTimer.start()
 func _on_weak_status_timer_timeout() -> void:
 	$WeakParticleTimer.stop()
 func _on_weak_particle_timer_timeout() -> void:
 	var newWeak = weakEffect.instantiate()
 	add_child(newWeak)
 	newWeak.position = get_parent().position
+func stop_weak() -> void:
+	$WeakStatusTimer.stop()
+	$WeakParticleTimer.start()
