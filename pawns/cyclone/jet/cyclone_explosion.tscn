@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dqjv85wi1dovf"]
 
 [ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_kvl7m"]
-[ext_resource type="Script" uid="uid://dc64hyymnpaqw" path="res://pawns/cyclone/cyclone_explosion.gd" id="2_c16eq"]
-[ext_resource type="Texture2D" uid="uid://c3wvif5syxel0" path="res://pawns/cyclone/cyclone_explosion.png" id="3_oe08o"]
+[ext_resource type="Script" uid="uid://dc64hyymnpaqw" path="res://pawns/cyclone/jet/cyclone_explosion.gd" id="2_c16eq"]
+[ext_resource type="Texture2D" uid="uid://c3wvif5syxel0" path="res://pawns/cyclone/jet/cyclone_explosion.png" id="3_oe08o"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oe08o"]
 radius = 32.01562

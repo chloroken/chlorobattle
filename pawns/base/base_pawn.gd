@@ -34,10 +34,6 @@ var destination: Vector2
 var baseHp
 var baseAttackCooldown
 var isCursed = false
-var cursePassDuration = 5.0
-var mummyGlyphRange = 64
-var mummyPurpleStuckDuration = 5.0
-var curseReturnDuration = 10.0
 
 # Score variables
 var damageTaken = 0
@@ -211,14 +207,13 @@ func _on_body_entered(body: Node2D) -> void:
 		#$Items.item_try_tire(attackingPawn)
 
 		# Mummy curse transfer check
-		if type == "mummy" && !body.isPersistentSummon && attackingPawn.username != username:
+		if type == "mummy" && !body.isPersistentSummon:
 			var attackerStatus = attackingPawn.get_node("Status")
-			if attackerStatus.get_node("WeakStatusTimer").get_time_left() < cursePassDuration:
-				if isCursed:
-					isCursed = false
-					$Status.stop_weak()
-					$CursedResetTimer.start(curseReturnDuration)
-					attackerStatus.start_weak(cursePassDuration)
+			if isCursed:
+				isCursed = false
+				$Status.stop_weak()
+				$CursedResetTimer.start(self.curseResetTimer)
+				attackerStatus.start_weak(self.cursePassDuration)
 
 		# Finalize attack
 		if !body.areaAttack: body.queue_free()
@@ -241,9 +236,9 @@ func calculate_damage(attackingPawn, attackerUsername, body) -> void:
 	var baseHit = body.dmg
 	var hitText = "hit"
 		
-	# Mummy stuck distance check
+	# Mummy stuck check
 	if attackingPawn.type == "mummy" && body.mummyCenter == true:
-		$Status.start_stuck(mummyPurpleStuckDuration)
+		$Status.start_stuck(attackingPawn.glyphStuckDuration)
 	
 	# Weakness check
 	var weakTimer = attackingPawn.get_node("Status").get_node("WeakStatusTimer")
@@ -290,7 +285,7 @@ func pawn_death(attackingPawn, killer: String, pawnIndex: int) -> void:
 	newTombstone.username = username
 	get_parent().add_child(newTombstone)
 	print("[" + str(username) + "] was killed by [" + str(killer) + "]")
-	
+
 	# Play death chime
 	attackingPawn.get_node("KillSound").panning_strength = 0.0
 	attackingPawn.get_node("KillSound").play()

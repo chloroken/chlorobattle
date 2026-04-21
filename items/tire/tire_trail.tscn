@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b1fhsiiqdevfy"]
+
+[ext_resource type="Script" uid="uid://j6c3a04lb1lu" path="res://items/tire/tire_trail.gd" id="1_61ckj"]
+[ext_resource type="Texture2D" uid="uid://bcb5lew42h7ju" path="res://items/tire/tire_trail.png" id="2_cs73q"]
+
+[node name="TireTrail" type="Node2D" unique_id=1320720119]
+script = ExtResource("1_61ckj")
+
+[node name="TireTrailSprite" type="Sprite2D" parent="." unique_id=802009580]
+texture = ExtResource("2_cs73q")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=58851589]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

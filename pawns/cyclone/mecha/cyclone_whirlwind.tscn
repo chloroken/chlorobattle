@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://c4kqafy7ymmgh"]
 
 [ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_wqenj"]
-[ext_resource type="Texture2D" uid="uid://bx5a3tvyg066k" path="res://pawns/cyclone/cyclone_melee.png" id="2_j1h7w"]
-[ext_resource type="Script" uid="uid://dguhg1bq4jsnh" path="res://pawns/cyclone/cyclone_melee.gd" id="2_k4fr4"]
+[ext_resource type="Texture2D" uid="uid://bx5a3tvyg066k" path="res://pawns/cyclone/mecha/cyclone_whirlwind.png" id="2_j1h7w"]
+[ext_resource type="Script" uid="uid://dguhg1bq4jsnh" path="res://pawns/cyclone/mecha/cyclone_whirlwind.gd" id="2_k4fr4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k4fr4"]
 size = Vector2(64, 64)

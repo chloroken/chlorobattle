@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dyotn6foh1hvu"]
 
 [ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_iv66d"]
-[ext_resource type="Script" uid="uid://c6uupnuy3paqy" path="res://pawns/cyclone/cyclone_attack.gd" id="2_tyqsq"]
-[ext_resource type="PackedScene" uid="uid://dqjv85wi1dovf" path="res://pawns/cyclone/cyclone_explosion.tscn" id="3_yey0t"]
-[ext_resource type="Texture2D" uid="uid://vfv8r42x837f" path="res://pawns/cyclone/cyclone_attack.png" id="4_3simc"]
+[ext_resource type="Script" uid="uid://c6uupnuy3paqy" path="res://pawns/cyclone/jet/cyclone_bomb.gd" id="2_tyqsq"]
+[ext_resource type="PackedScene" uid="uid://dqjv85wi1dovf" path="res://pawns/cyclone/jet/cyclone_explosion.tscn" id="3_yey0t"]
+[ext_resource type="Texture2D" uid="uid://vfv8r42x837f" path="res://pawns/cyclone/jet/cyclone_bomb.png" id="4_3simc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3simc"]
 radius = 4.0
@@ -19,9 +19,5 @@ texture = ExtResource("4_3simc")
 [node name="BaseCollider" parent="." index="1" unique_id=867063161]
 visible = false
 shape = SubResource("CircleShape2D_3simc")
-
-[node name="FizzleTimer" parent="." index="2" unique_id=930558460]
-wait_time = 0.5
-autostart = true
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

@@ -93,5 +93,6 @@ clip_text = true
 
 [node name="BellSound" type="AudioStreamPlayer2D" parent="." unique_id=1820594038]
 stream = ExtResource("6_b0655")
+volume_db = -10.0
 
 [connection signal="timeout" from="SpawnStaggerTimer" to="." method="_on_spawn_stagger_timer_timeout"]

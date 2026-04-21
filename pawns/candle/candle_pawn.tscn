@@ -19,11 +19,6 @@ spd = 30.0
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("4_squ0r")
 
-[node name="AttackCooldownTimer" parent="." index="3" unique_id=1610759688]
-wait_time = 0.1
-one_shot = true
-autostart = true
-
 [node name="EmberSpawnTimer" type="Timer" parent="." index="4" unique_id=781136863]
 
 [node name="EmberContainer" type="Node" parent="." index="5" unique_id=1006458046]

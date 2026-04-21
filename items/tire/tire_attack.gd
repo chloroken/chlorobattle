@@ -14,6 +14,9 @@ var speed
 var bounceCount = 0
 var disableBounceDuration = 0.1
 
+# Trail variables
+@export var tireTrail: Resource
+
 func _ready() -> void:
 	
 	# Fetch item data
@@ -33,6 +36,8 @@ func _ready() -> void:
 	z_index = get_node("/root/main").layerGround
 	
 	# Set timers
+	$TrailTimer.set_wait_time(0.05)
+	$TrailTimer.start()
 	$DisableBounceTimer.one_shot = true
 
 # Reduce damage based on bounces
@@ -56,7 +61,7 @@ func _physics_process(delta: float) -> void:
 			# Adjust bounce count
 			bounceCount += 1
 			if bounceCount > items.tireBounceCap:
-				tire_has_expired()
+				queue_free()
 
 			# Make sure we don't bounce multiple times rapidly
 			$DisableBounceTimer.start(disableBounceDuration)
@@ -78,9 +83,13 @@ func new_destination() -> Vector2:
 		desto = new_destination()
 	return(desto)
 
-# Start cooldown process
-func tire_has_expired() -> void:
-	if items != null:
-		var randomCooldown = randf_range(items.tireCooldownMin, items.tireCooldownMax)
-		items.get_node("TireAttackTimer").start(randomCooldown)
+func _on_trail_timer_timeout() -> void:
+	var newTrail = tireTrail.instantiate()
+	newTrail.position = position
+	get_parent().add_child(newTrail)
+
+# This causes a soft error when the Pawn dies before tire does
+func _on_tree_exiting() -> void:
+	var randomCooldown = randf_range(items.tireCooldownMin, items.tireCooldownMax)
+	items.get_node("TireAttackTimer").start(randomCooldown)
 	queue_free()

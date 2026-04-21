@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dmq1bbehm2ugy" path="res://pawns/ship/ship_pawn.png" id="2_7iikp"]
 [ext_resource type="Script" uid="uid://dkpj8787qkjdm" path="res://pawns/ship/ship_pawn.gd" id="2_do8vn"]
 [ext_resource type="PackedScene" uid="uid://crf2lb3wy2wmg" path="res://pawns/ship/ship_attack.tscn" id="3_jyjsx"]
-[ext_resource type="PackedScene" uid="uid://bgwhsneqjuy5d" path="res://pawns/ship/ship_ring.tscn" id="4_52m3r"]
+[ext_resource type="PackedScene" uid="uid://bgwhsneqjuy5d" path="res://pawns/ship/ring/ship_ring.tscn" id="4_52m3r"]
 
 [node name="ShipPawn" unique_id=1048959576 instance=ExtResource("1_vnodh")]
 script = ExtResource("2_do8vn")

@@ -5,9 +5,9 @@
 [ext_resource type="Script" uid="uid://d04dod1n3tcho" path="res://pawns/chair/chair_attack.gd" id="2_bcv68"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5loam"]
-size = Vector2(14, 60)
+size = Vector2(10, 58)
 
-[node name="BaseAttack" unique_id=1314532855 instance=ExtResource("1_3cv8k")]
+[node name="ChairAttack" unique_id=1314532855 instance=ExtResource("1_3cv8k")]
 script = ExtResource("2_bcv68")
 
 [node name="BaseSprite" parent="." index="0" unique_id=1865807943]
@@ -18,8 +18,5 @@ offset = Vector2(0, -30)
 [node name="BaseCollider" parent="." index="1" unique_id=867063161]
 position = Vector2(0, -30)
 shape = SubResource("RectangleShape2D_5loam")
-
-[node name="FizzleTimer" parent="." index="2" unique_id=930558460]
-wait_time = 0.5
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

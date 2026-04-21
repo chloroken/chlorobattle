@@ -5,13 +5,14 @@ var isPersistentSummon = true
 func _ready() -> void:
 
 	# Start at 0 scale to grow
-	scale = Vector2.ZERO
+	scale.x = 0.0
+	scale.y = 0.0
 
 	# Set visibility layer
 	z_as_relative = false
 	z_index = get_node("/root/main").layerPawnBehind
 
-func s_process(_delta: float) -> void:
+func _process(_delta: float) -> void:
 
 	# Grow Ember size
 	var timerRatio = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()

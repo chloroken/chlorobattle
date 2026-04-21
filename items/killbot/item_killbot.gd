@@ -40,14 +40,42 @@ func _process(_delta: float) -> void:
 	scale.x = sizePerStack + (sizePerStack * killbotStacks)
 	scale.y = sizePerStack + (sizePerStack * killbotStacks)
 
-# State-based chasing behavior
 func _physics_process(delta: float) -> void:
+
+	# Setting desination to the location of "follow" body
 	var distFromPawn = position.distance_to(follow.position)
-	var newDestination = position.move_toward(destination, spd * delta)
-	if follow != null: destination = follow.position	
-	if !following && distFromPawn > followDistanceMax: following = true
-	if following: position = newDestination
-	if following && distFromPawn < followDistanceMin: following = false
+	#if follow != null: destination = follow.position
+
+	# State-based chasing behavior
+	
+	# Start following when too far from Pawn
+	if !following && distFromPawn > followDistanceMax:
+		following = true
+		destination = get_good_destination(follow.position)#follow.position # + add offset
+		# set new destination new pawn
+	# If following, move towards Pawn center
+	if following: position = position.move_toward(destination, spd * delta)
+	# If near Pawn, stop following
+	if following && position.distance_to(destination) < followDistanceMin: following = false
+
+func get_good_destination(pawnPos) -> Vector2:
+	var offsetPos
+	var offsetAmount = 100
+	var center = get_viewport_rect().size / 2.0
+	var maxRadius = get_parent().get_parent().get_parent().boardRadius
+	
+	# Choose a spot and verify it
+	var workingPos = pawnPos
+	offsetPos = Vector2(randf_range(-offsetAmount, offsetAmount), randf_range(-offsetAmount, offsetAmount))
+	workingPos += offsetPos
+	var maxLoops = 100
+	var curLoops = 0
+	while workingPos.distance_to(center) > maxRadius && curLoops < maxLoops:	
+		offsetPos = Vector2(randf_range(-offsetAmount, offsetAmount), randf_range(-offsetAmount, offsetAmount))
+		workingPos = pawnPos + offsetPos
+		curLoops += 1
+
+	return(workingPos)
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	var newBullet = killbotAttack.instantiate()

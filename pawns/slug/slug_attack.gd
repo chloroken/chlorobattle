@@ -3,17 +3,25 @@ extends "res://pawns/base/base_attack.gd"
 var baseDmg
 
 func _ready() -> void:
+	
+	# Flag as single-target attack
+	areaAttack = false
+	
+	# Prepare for growth visual
+	scale.x = 0.0
+	scale.y = 0.0
+	
+	# Set visibility order
 	z_as_relative = false
 	z_index = get_node("/root/main").layerGround
-	areaAttack = false
-	self.scale.x = 0.0
-	self.scale.y = 0.0
-	baseDmg = $FizzleTimer.get_wait_time() * 2
+	
+	# Set timers
+	$FizzleTimer.start(get_parent().get_parent().trailDuration)
 
 func _physics_process(_delta: float) -> void:
-	var decayRatio = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 	
-	# Scale trail damage and color based on duration # 
+	# Scale damage & color based on duration
+	var decayRatio = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 	dmg = ceil(baseDmg * decayRatio)
 	$DamageLabel.text = str(int(dmg))
 	$BaseSprite.modulate.b = 1 - decayRatio

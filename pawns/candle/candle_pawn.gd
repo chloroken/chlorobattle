@@ -11,7 +11,7 @@ var attackCooldownMax = 2.0
 var emberSpawnCooldownMax = 5.0
 var emberSpawnCooldownMin = 4.0
 var emberPositionOffset = 50
-var emberScale = Vector2(0.5, 0.5)
+var emberScale = 0.5
 
 # Start timers
 func _ready() -> void:
@@ -38,7 +38,9 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newEmberAttack.position = child.position
 		newEmberAttack.dmg = self.dmg
 		newEmberAttack.emberFlicker = true
-		newEmberAttack.scale = emberScale
+		newEmberAttack.scale.x = emberScale
+		newEmberAttack.scale.y = emberScale
+		newEmberAttack.isPersistentSummon = true
 		attackObjects.append(newEmberAttack)
 		$AttackContainer.add_child(newEmberAttack)
 

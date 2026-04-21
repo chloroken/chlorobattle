@@ -17,15 +17,7 @@ spd = 40.0
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_twiy4")
 
-[node name="AttackStutterTimer" type="Timer" parent="." index="3" unique_id=2142236205]
-
-[node name="AttackCooldownTimer" parent="." index="4" unique_id=1610759688]
-wait_time = 2.0
-one_shot = true
-autostart = true
-
 [node name="NameLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
 text = "chair"
 
-[connection signal="timeout" from="AttackStutterTimer" to="." method="_on_attack_stutter_timer_timeout"]
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

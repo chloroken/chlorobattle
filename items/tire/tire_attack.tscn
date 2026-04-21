@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cm16d8q5cxgkm" path="res://items/tire/tire_attack.gd" id="1_gkxf6"]
 [ext_resource type="Texture2D" uid="uid://3wwhb2wgu3ub" path="res://items/tire/tire_attack.png" id="2_4x4wu"]
+[ext_resource type="PackedScene" uid="uid://b1fhsiiqdevfy" path="res://items/tire/tire_trail.tscn" id="2_wg1cp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sx4ns"]
 size = Vector2(32, 15)
@@ -9,6 +10,7 @@ size = Vector2(32, 15)
 [node name="TireAttack" type="CharacterBody2D" unique_id=1314532855]
 collision_mask = 0
 script = ExtResource("1_gkxf6")
+tireTrail = ExtResource("2_wg1cp")
 
 [node name="TireSprite" type="Sprite2D" parent="." unique_id=1865807943]
 texture = ExtResource("2_4x4wu")
@@ -18,3 +20,8 @@ position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_sx4ns")
 
 [node name="DisableBounceTimer" type="Timer" parent="." unique_id=408753928]
+
+[node name="TrailTimer" type="Timer" parent="." unique_id=2016889011]
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="timeout" from="TrailTimer" to="." method="_on_trail_timer_timeout"]

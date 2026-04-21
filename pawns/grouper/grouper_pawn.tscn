@@ -23,8 +23,6 @@ texture = ExtResource("2_46qhr")
 one_shot = true
 
 [node name="BubbleTimer" type="Timer" parent="." index="4" unique_id=1771762797]
-wait_time = 0.25
-one_shot = true
 
 [node name="AttackCooldownTimer" parent="." index="5" unique_id=1610759688]
 wait_time = 5.0

@@ -1,26 +1,21 @@
 extends "res://pawns/base/base_attack.gd"
 
-var startingPos
-var speed = 25
-var random_direction: Vector2
+# Physics variables
+var speed
 var direction: Vector2
-var fizzleTime = 3.0
 
+# Bounce variables
 var center
 var boardSize
 var disableBounceDuration = 0.1
 
 func _ready() -> void:
-	center = get_viewport_rect().size / 2.0
-	startingPos = position
 
+	# Flag as single-target attack
 	areaAttack = false
 
-	speed *= randf_range(0.75, 1.25)
-	scale *= randf_range(0.5, 1.0)
-
-	# Adjust projectile speed by Ship speed
-	speed += get_parent().get_parent().spd
+	# Fetch center of board
+	center = get_viewport_rect().size / 2.0
 
 	# Adjust projectile colors 
 	$BaseSprite.modulate.r = 1
@@ -32,7 +27,8 @@ func _ready() -> void:
 	z_index = get_node("/root/main").layerAir
 
 	# Start timers
-	$FizzleTimer.start(fizzleTime)
+	$DisableBounceTimer.one_shot = true
+	$FizzleTimer.start(get_parent().get_parent().projectileDuration)
 
 # Move projectile forward
 func _physics_process(delta: float) -> void:
@@ -40,14 +36,16 @@ func _physics_process(delta: float) -> void:
 	# Bouncing off walls
 	var distFromCenter = global_position.distance_to(center)
 	var boardRadius = get_parent().get_parent().get_parent().boardRadius
-	if $DisableBounceTimer.is_stopped():
 
-		# Ensure we bounce at the right location
-		if distFromCenter > boardRadius:
-			direction = position.direction_to(center) + 0.5 * position.direction_to(position + direction)
-
-			# Make sure we don't bounce multiple times rapidly
+	# Ensure we bounce at the right location
+	if distFromCenter > boardRadius:
+		
+		# Make sure we don't bounce multiple times rapidly
+		if $DisableBounceTimer.is_stopped():
 			$DisableBounceTimer.start(disableBounceDuration)
+			
+			# Bounce
+			direction = position.direction_to(center) + direction
 
 	# Move projectile
 	position += direction * speed * delta

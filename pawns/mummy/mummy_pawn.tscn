@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_m2tti"]
 [ext_resource type="Script" uid="uid://c4ee470xvsxoa" path="res://pawns/mummy/mummy_pawn.gd" id="2_al8ad"]
-[ext_resource type="PackedScene" uid="uid://vfvqnpv1y8dc" path="res://pawns/mummy/mummy_attack.tscn" id="3_4naq4"]
+[ext_resource type="PackedScene" uid="uid://vfvqnpv1y8dc" path="res://pawns/mummy/glyph/mummy_attack.tscn" id="3_4naq4"]
 [ext_resource type="Texture2D" uid="uid://dnbvmeot7du41" path="res://pawns/mummy/mummy_pawn.png" id="4_n8i8p"]
 
 [node name="MummyPawn" unique_id=1877646274 instance=ExtResource("1_m2tti")]
 script = ExtResource("2_al8ad")
-mummyAttack = ExtResource("3_4naq4")
+glyphAttack = ExtResource("3_4naq4")
 hp = 380.0
 dmg = 40.0
 pen = 0.5
@@ -22,13 +22,11 @@ wait_time = 8.0
 autostart = true
 
 [node name="CursedResetTimer" type="Timer" parent="." index="4" unique_id=1311632392]
-wait_time = 10.0
-one_shot = true
 
-[node name="WeakStatusTimer" parent="Status" parent_id_path=PackedInt32Array(1204987842) index="8" unique_id=1131456262]
+[node name="WeakStatusTimer" parent="Status" parent_id_path=PackedInt32Array(1204987842) index="7" unique_id=1131456262]
 autostart = true
 
-[node name="WeakParticleTimer" parent="Status" parent_id_path=PackedInt32Array(1204987842) index="9" unique_id=847341074]
+[node name="WeakParticleTimer" parent="Status" parent_id_path=PackedInt32Array(1204987842) index="8" unique_id=847341074]
 wait_time = 0.25
 
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

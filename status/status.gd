@@ -39,7 +39,7 @@ func _on_slow_particle_timer_timeout() -> void:
 		newWeb.position = get_parent().position
 func stop_slow() -> void:
 	$StuckStatusTimer.stop()
-	$SlowParticleTimer.start()
+	$SlowParticleTimer.stop()
 
 func start_sprint(timer: float) -> void:
 	$SprintStatusTimer.start(timer)
@@ -52,7 +52,7 @@ func _on_sprint_status_timer_timeout() -> void:
 	$SprintParticleTimer.stop()
 func stop_sprint() -> void:
 	$SprintStatusTimer.stop()
-	$SprintParticleTimer.start()
+	$SprintParticleTimer.stop()
 
 func start_stuck(timer: float) -> void:
 	$StuckStatusTimer.start(timer)
@@ -65,7 +65,7 @@ func _on_stuck_particle_timer_timeout() -> void:
 	newStuck.position = get_parent().position
 func stop_stuck() -> void:
 	$StuckStatusTimer.stop()
-	$StuckParticleTimer.start()
+	$StuckParticleTimer.stop()
 
 func start_weak(timer: float) -> void:
 	$WeakStatusTimer.start(timer)
@@ -78,4 +78,4 @@ func _on_weak_particle_timer_timeout() -> void:
 	newWeak.position = get_parent().position
 func stop_weak() -> void:
 	$WeakStatusTimer.stop()
-	$WeakParticleTimer.start()
+	$WeakParticleTimer.stop()

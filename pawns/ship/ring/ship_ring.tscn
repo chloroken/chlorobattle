@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bgwhsneqjuy5d"]
 
-[ext_resource type="Script" uid="uid://ld5eileejw62" path="res://pawns/ship/ship_ring.gd" id="1_m4nnj"]
-[ext_resource type="Texture2D" uid="uid://bh75lpck0vx4a" path="res://pawns/ship/ship_ring.png" id="2_jumsp"]
+[ext_resource type="Script" uid="uid://ld5eileejw62" path="res://pawns/ship/ring/ship_ring.gd" id="1_m4nnj"]
+[ext_resource type="Texture2D" uid="uid://bh75lpck0vx4a" path="res://pawns/ship/ring/ship_ring.png" id="2_jumsp"]
 
 [node name="ShipRing" type="Node2D" unique_id=763808103]
 script = ExtResource("1_m4nnj")
