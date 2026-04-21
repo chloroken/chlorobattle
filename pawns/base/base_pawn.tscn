@@ -16,6 +16,12 @@
 [ext_resource type="Script" uid="uid://cpq2j6pt2c6hk" path="res://items/items.gd" id="11_p38oh"]
 [ext_resource type="PackedScene" uid="uid://b8cnlhndtyvpb" path="res://status/stuck/stuck_status.tscn" id="12_gkr3n"]
 [ext_resource type="PackedScene" uid="uid://p33mgsb3b8gx" path="res://status/weak/weak_status.tscn" id="13_ec5mt"]
+[ext_resource type="PackedScene" uid="uid://mgwdx835xyyo" path="res://status/icons/status_indicator.tscn" id="15_mfbh7"]
+[ext_resource type="Texture2D" uid="uid://82nd0jblterr" path="res://status/icons/slow_icon.png" id="16_tuq4u"]
+[ext_resource type="Texture2D" uid="uid://cgk0fgyeieco1" path="res://status/icons/sprint_icon.png" id="17_gjp77"]
+[ext_resource type="Texture2D" uid="uid://cgv238uqehsyv" path="res://status/icons/stuck_icon.png" id="18_aj5j2"]
+[ext_resource type="Texture2D" uid="uid://imenya06wh6k" path="res://status/icons/void_icon.png" id="19_ybvt0"]
+[ext_resource type="Texture2D" uid="uid://fkfvrhqe1qqy" path="res://status/icons/weak_icon.png" id="20_1sae3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
 radius = 12.0
@@ -72,6 +78,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HitpointLabel" type="Label" parent="gui" unique_id=1383475225]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -89,7 +96,7 @@ theme_override_constants/line_spacing = -5
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("7_hndg7")
 theme_override_font_sizes/font_size = 12
-text = "pawn"
+text = "123"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -109,30 +116,40 @@ theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 5
 theme_override_fonts/normal_font = ExtResource("7_hndg7")
 theme_override_font_sizes/normal_font_size = 12
-text = "2.0x"
+text = "•••••"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HitpointLabelBlack" type="ColorRect" parent="gui" unique_id=664546012]
-offset_left = -20.0
-offset_top = -26.0
-offset_right = 20.0
+offset_left = -24.0
+offset_top = -28.0
+offset_right = 24.0
 offset_bottom = -22.0
 color = Color(0, 0, 0, 1)
 
 [node name="HitpointLabelRed" type="ColorRect" parent="gui" unique_id=1205204769]
-offset_left = -19.0
-offset_top = -25.0
-offset_right = 19.0
+offset_left = -23.0
+offset_top = -27.0
+offset_right = 23.0
 offset_bottom = -23.0
 color = Color(1, 0, 0, 1)
 
 [node name="HitpointLabelGreen" type="ColorRect" parent="gui" unique_id=255061500]
-offset_left = -19.0
-offset_top = -25.0
-offset_right = 19.0
+offset_left = -23.0
+offset_top = -27.0
+offset_right = 23.0
 offset_bottom = -23.0
 color = Color(0, 1, 0, 1)
+
+[node name="StatusFlowContainer" type="HFlowContainer" parent="gui" unique_id=450095345]
+offset_left = -24.0
+offset_top = -81.0
+offset_right = 24.0
+offset_bottom = -33.0
+size_flags_stretch_ratio = 0.0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+reverse_fill = true
 
 [node name="Status" type="Node" parent="." unique_id=1204987842]
 script = ExtResource("11_3owok")
@@ -140,6 +157,12 @@ slowEffect = ExtResource("4_56xb5")
 sprintEffect = ExtResource("6_my1fm")
 stuckEffect = ExtResource("12_gkr3n")
 weakEffect = ExtResource("13_ec5mt")
+statusIcon = ExtResource("15_mfbh7")
+slowIcon = ExtResource("16_tuq4u")
+sprintIcon = ExtResource("17_gjp77")
+stuckIcon = ExtResource("18_aj5j2")
+voidIcon = ExtResource("19_ybvt0")
+weakIcon = ExtResource("20_1sae3")
 
 [node name="PhaseStatusTimer" type="Timer" parent="Status" unique_id=1852202101]
 one_shot = true
@@ -147,26 +170,14 @@ one_shot = true
 [node name="SlowStatusTimer" type="Timer" parent="Status" unique_id=71689046]
 one_shot = true
 
-[node name="SlowParticleTimer" type="Timer" parent="Status" unique_id=839881939]
-wait_time = 0.1
-
 [node name="SprintStatusTimer" type="Timer" parent="Status" unique_id=276235816]
 one_shot = true
-
-[node name="SprintParticleTimer" type="Timer" parent="Status" unique_id=705286658]
-wait_time = 0.1
 
 [node name="StuckStatusTimer" type="Timer" parent="Status" unique_id=1600425509]
 one_shot = true
 
-[node name="StuckParticleTimer" type="Timer" parent="Status" unique_id=1714928973]
-wait_time = 0.1
-
 [node name="WeakStatusTimer" type="Timer" parent="Status" unique_id=1131456262]
 one_shot = true
-
-[node name="WeakParticleTimer" type="Timer" parent="Status" unique_id=847341074]
-wait_time = 0.1
 
 [node name="Styles" type="Node" parent="." unique_id=1771423136]
 script = ExtResource("11_jv0kv")
@@ -179,7 +190,6 @@ script = ExtResource("11_jv0kv")
 script = ExtResource("11_p38oh")
 
 [node name="AntimatterCooldownTimer" type="Timer" parent="Items" unique_id=2066980002]
-wait_time = 10.0
 
 [node name="AntimatterDurationTimer" type="Timer" parent="Items" unique_id=1783737652]
 wait_time = 2.0
@@ -210,13 +220,9 @@ one_shot = true
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Status/PhaseStatusTimer" to="Status" method="_on_phase_status_timer_timeout"]
 [connection signal="timeout" from="Status/SlowStatusTimer" to="Status" method="_on_slow_status_timer_timeout"]
-[connection signal="timeout" from="Status/SlowParticleTimer" to="Status" method="_on_slow_particle_timer_timeout"]
 [connection signal="timeout" from="Status/SprintStatusTimer" to="Status" method="_on_sprint_status_timer_timeout"]
-[connection signal="timeout" from="Status/SprintParticleTimer" to="Status" method="_on_sprint_particle_timer_timeout"]
 [connection signal="timeout" from="Status/StuckStatusTimer" to="Status" method="_on_stuck_status_timer_timeout"]
-[connection signal="timeout" from="Status/StuckParticleTimer" to="Status" method="_on_stuck_particle_timer_timeout"]
 [connection signal="timeout" from="Status/WeakStatusTimer" to="Status" method="_on_weak_status_timer_timeout"]
-[connection signal="timeout" from="Status/WeakParticleTimer" to="Status" method="_on_weak_particle_timer_timeout"]
 [connection signal="timeout" from="Styles/BerserkResetTimer" to="Styles" method="_on_berserk_reset_timer_timeout"]
 [connection signal="timeout" from="Styles/MightyChargeTimer" to="Styles" method="_on_mighty_charge_timer_timeout"]
 [connection signal="timeout" from="Items/AntimatterCooldownTimer" to="Items" method="_on_antimatter_cooldown_timer_timeout"]

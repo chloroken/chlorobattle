@@ -14,9 +14,9 @@ func _ready() -> void:
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 
 	# Create random bots to test with
-	#for i in 4:
-		#register_pawn("Bot " + str(i+1), "slug", choose_random_style(), choose_random_item())
-		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	for i in 24:
+		#register_pawn("Bot " + str(i+1), "slug", choose_random_style(), "antimatter")
+		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
 	#register_pawn("del", "slug", "berserk", "skates")

@@ -9,7 +9,7 @@ func _ready() -> void:
 
 # Grow sprite
 func _process(_delta: float) -> void:
-	var shakeScale = shakeScaleMod * (1 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time())
+	var shakeScale = 0.5 + 0.5 * shakeScaleMod * (1 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time())
 	$MilkshakeSprite.scale.x = shakeScale
 	$MilkshakeSprite.scale.y = shakeScale
 

@@ -1,6 +1,12 @@
 extends Node2D
 
 func _ready() -> void:
+	
+	# Prepare scale for growth
+	scale.x = 0
+	scale.y = 0
+	
+	# Set visibility order
 	z_as_relative = false
 	z_index = get_node("/root/main").layerPawnBehind
 

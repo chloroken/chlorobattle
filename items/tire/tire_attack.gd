@@ -88,7 +88,9 @@ func _on_trail_timer_timeout() -> void:
 	newTrail.position = position
 	get_parent().add_child(newTrail)
 
-# This causes a soft error when the Pawn dies before tire does
+# This causes a soft error when Pawn dies before tire
+# This was coded like this because I don't understand godot
+# TODO: fix pls
 func _on_tree_exiting() -> void:
 	var randomCooldown = randf_range(items.tireCooldownMin, items.tireCooldownMax)
 	items.get_node("TireAttackTimer").start(randomCooldown)

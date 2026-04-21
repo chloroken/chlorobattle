@@ -26,7 +26,7 @@ var asp = 1.0
 
 # Back end Pawn properties & variables
 var center: Vector2
-var nameCharLimit = 9
+var nameCharLimit = 6
 var attackObjects = []
 var hitList = []
 var attacksDisabled = false
@@ -79,7 +79,9 @@ func _ready() -> void:
 	elif !attacksDisabled:
 		# Check for Pawn items that require action now
 		if item == "antimatter":
-			$Items.get_node("AntimatterCooldownTimer").start(randf_range($Items.get_node("AntimatterCooldownTimer").get_wait_time() / $Items.antimatterRandomizer, $Items.antimatterCooldown))
+			var antimatterTimer = $Items.get_node("AntimatterCooldownTimer")
+			antimatterTimer.one_shot = true
+			antimatterTimer.start(randf_range($Items.antimatterCooldownMin, $Items.antimatterCooldownMin))
 		elif item == "tire":
 			$Items.get_node("TireAttackTimer").start(randf_range($Items.tireCooldownMin, $Items.tireCooldownMax))
 		elif item == "killbot":

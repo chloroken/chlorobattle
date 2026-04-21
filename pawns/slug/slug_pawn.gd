@@ -7,7 +7,7 @@ var healthRegen = 0.1
 
 func _ready() -> void:
 	super()
-	
+
 	# Start attack cycle
 	if !attacksDisabled:
 		$AttackCooldownTimer.one_shot = true
@@ -23,6 +23,9 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 	$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
-	
+
 	# Regenerate health every time slug attacks
 	hp += healthRegen
+
+	# Just in case
+	#if hp > baseHp: hp = baseHp

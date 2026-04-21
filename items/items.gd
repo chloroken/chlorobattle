@@ -11,13 +11,18 @@ func _ready() -> void:
 # ANTIMATTER #
 ##############
 
-var antimatterCooldown = 20.0
-var antimatterRandomizer = 1.5
+
 var antimatterDuration = 3.0
+var antimatterCooldownMin = 15.0
+var antimatterCooldownMax = 20.0
+
 func _on_antimatter_cooldown_timer_timeout() -> void:
 	var pawnPhaseTimer = basePawn.get_node("Status").get_node("PhaseStatusTimer")
 	if pawnPhaseTimer.get_time_left() < antimatterDuration:
 		basePawn.get_node("Status").start_phase(antimatterDuration)
+
+	var antiMatterCooldown = randf_range(antimatterCooldownMin, antimatterCooldownMax)
+	$AntimatterCooldownTimer.start(antiMatterCooldown)
 	print("[" + basePawn.username + "] used [antimatter]")
 
 ########
@@ -53,20 +58,20 @@ var glueStuckChance = 10 # one in x
 var glueStuckDuration = 5.0
 var glueStuckCooldown = 15.0
 func item_try_glue(attackingPawn, body) -> void:
-	
+
 	# Disqualify ineligible candidates
 	if body.isPersistentSummon == true: return
 	if attackingPawn.item != "glue": return
 	if !$GlueDurationTimer.is_stopped(): return
-	
+
 	# Apply slow
 	var status = basePawn.get_node("Status")
 	status.start_slow(glueSlowDuration)
-	
+
 	# Chance to apply stuck
 	var diceRoll = randi_range(1, glueStuckChance)
 	if diceRoll == 1: status.start_stuck(glueStuckDuration)
-		
+
 	print("[" + str(attackingPawn.username) + "] used [glue] on [" + str(basePawn.username) + "]")
 
 ###########
@@ -98,7 +103,7 @@ var mapFlickerMaxRange = 200.0
 var mapFlickerRadius = 100.0
 func item_try_map() -> void:
 	if basePawn.item == "map" && $MapCooldownTimer.is_stopped():
-		
+
 		# Get a spot to blink to
 		var blinkPos = item_map_blink()
 		while blinkPos.distance_to(center) > get_parent().get_parent().boardRadius:
@@ -119,7 +124,7 @@ func item_try_map() -> void:
 		# Start cooldown
 		$MapCooldownTimer.start(mapCooldownDuration)
 		newMap.get_node("FizzleTimer").start(mapCooldownDuration)
-		
+
 		# Combat log output
 		print("[" + str(basePawn.username) + "] used [map]")
 func item_map_blink() -> Vector2:
@@ -142,7 +147,6 @@ func item_check_milkshake() -> void:
 	if basePawn.item == "milkshake" && basePawn.hp < milkshakeThreshold * basePawn.baseHp && !milkshakeUsed:
 		print("[" + str(basePawn.username) + "] used [milkshake]")
 		milkshakeUsed = true
-		$MilkshakeDelayTimer.start(milkshakeDelay)
 		$MilkshakeDelayTimer.start(milkshakeDelay)
 		var newMilkshake = basePawn.milkshakeEffect.instantiate()
 		add_child(newMilkshake)

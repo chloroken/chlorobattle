@@ -8,10 +8,9 @@
 [node name="MummyPawn" unique_id=1877646274 instance=ExtResource("1_m2tti")]
 script = ExtResource("2_al8ad")
 glyphAttack = ExtResource("3_4naq4")
-hp = 380.0
+hp = 360.0
 dmg = 40.0
 pen = 0.5
-def = 0.2
 spd = 40.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]

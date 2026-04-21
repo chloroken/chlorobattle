@@ -1,11 +1,41 @@
 extends Node
 
+var statusContainer
+
 @export var slowEffect: Resource
 @export var sprintEffect: Resource
 @export var stuckEffect: Resource
 @export var weakEffect: Resource
 
+@export var statusIcon: Resource
+@export var slowIcon: Resource
+@export var sprintIcon: Resource
+@export var stuckIcon: Resource
+@export var voidIcon: Resource
+@export var weakIcon: Resource
+
 var stuckCooldown = 15.0
+
+func _ready() -> void:
+	statusContainer = get_parent().get_node("gui").get_node("StatusFlowContainer")
+#func enable_status_icon(timer, icon) -> void:
+func enable_status_icon(timer, icon) -> void:
+	
+	var statusName = str(icon.resource_path)
+	var longestCurrentStatus = 0 
+	for status in statusContainer.get_children():
+		if status.statusName == statusName:
+			var timeLeft = status.get_node("FizzleTimer").get_wait_time()
+			if timeLeft > longestCurrentStatus: longestCurrentStatus = timeLeft
+			if timeLeft < timer:
+				status.queue_free()
+
+	if longestCurrentStatus < timer:
+		var newIcon = statusIcon.instantiate()
+		newIcon.statusDuration = timer
+		newIcon.statusTexture = icon
+		newIcon.statusName = statusName
+		statusContainer.add_child(newIcon)
 
 func start_phase(timer: float) -> void:
 	var pawnSprite = get_parent().get_node("PawnSprite")
@@ -15,6 +45,7 @@ func start_phase(timer: float) -> void:
 	pawnSprite.modulate.g = 0.0
 	get_parent().set_collision_mask_value(1, false)
 	$PhaseStatusTimer.start(timer)
+	enable_status_icon(timer, voidIcon)
 func _on_phase_status_timer_timeout() -> void:
 	var pawnSprite = get_parent().get_node("PawnSprite")
 	pawnSprite.modulate.a = 1.0
@@ -28,54 +59,27 @@ func stop_phase() -> void:
 func start_slow(timer: float) -> void:
 	if $SlowStatusTimer.get_time_left() > timer: return
 	$SlowStatusTimer.start(timer)
-	$SlowParticleTimer.start()
-func _on_slow_status_timer_timeout() -> void:
-	$SlowParticleTimer.stop()
-func _on_slow_particle_timer_timeout() -> void:
-	# Avoid making webs if the target is stuck (it's obv slowed too)
-	if $StuckStatusTimer.is_stopped():
-		var newWeb = slowEffect.instantiate()
-		add_child(newWeb)
-		newWeb.position = get_parent().position
+	enable_status_icon(timer, slowIcon)
 func stop_slow() -> void:
 	$StuckStatusTimer.stop()
-	$SlowParticleTimer.stop()
 
 func start_sprint(timer: float) -> void:
+	if $SprintStatusTimer.get_time_left() > timer: return
 	$SprintStatusTimer.start(timer)
-	$SprintParticleTimer.start()
-func _on_sprint_particle_timer_timeout() -> void:
-	var newFlake = sprintEffect.instantiate()
-	add_child(newFlake)
-	newFlake.position = get_parent().position
-func _on_sprint_status_timer_timeout() -> void:
-	$SprintParticleTimer.stop()
+	enable_status_icon(timer, sprintIcon)
 func stop_sprint() -> void:
 	$SprintStatusTimer.stop()
-	$SprintParticleTimer.stop()
 
 func start_stuck(timer: float) -> void:
+	if $StuckStatusTimer.get_time_left() > timer: return
 	$StuckStatusTimer.start(timer)
-	$StuckParticleTimer.start()
-func _on_stuck_status_timer_timeout() -> void:
-	$StuckParticleTimer.stop()
-func _on_stuck_particle_timer_timeout() -> void:
-	var newStuck = stuckEffect.instantiate()
-	add_child(newStuck)
-	newStuck.position = get_parent().position
+	enable_status_icon(timer, stuckIcon)
 func stop_stuck() -> void:
 	$StuckStatusTimer.stop()
-	$StuckParticleTimer.stop()
 
 func start_weak(timer: float) -> void:
+	if $WeakStatusTimer.get_time_left() > timer: return
 	$WeakStatusTimer.start(timer)
-	$WeakParticleTimer.start()
-func _on_weak_status_timer_timeout() -> void:
-	$WeakParticleTimer.stop()
-func _on_weak_particle_timer_timeout() -> void:
-	var newWeak = weakEffect.instantiate()
-	add_child(newWeak)
-	newWeak.position = get_parent().position
+	enable_status_icon(timer, weakIcon)
 func stop_weak() -> void:
 	$WeakStatusTimer.stop()
-	$WeakParticleTimer.stop()
