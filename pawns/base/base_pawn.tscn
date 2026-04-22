@@ -4,30 +4,32 @@
 [ext_resource type="PackedScene" uid="uid://crarr4hxisv6u" path="res://pawns/base/tombstone/tombstone.tscn" id="2_5gqyv"]
 [ext_resource type="PackedScene" uid="uid://ditsec7n1hkv8" path="res://items/tire/tire_attack.tscn" id="3_5e5wd"]
 [ext_resource type="PackedScene" uid="uid://dnkqxjuduneo8" path="res://items/killbot/item_killbot.tscn" id="3_ae3pr"]
-[ext_resource type="PackedScene" uid="uid://bdsvr8sgchx2i" path="res://status/slow/slow_status.tscn" id="4_56xb5"]
 [ext_resource type="PackedScene" uid="uid://bhh6l25wl27ki" path="res://items/dice/item_dice.tscn" id="4_weq32"]
 [ext_resource type="PackedScene" uid="uid://d2mn3nlatfxkh" path="res://items/milkshake/item_milkshake.tscn" id="5_bxe4l"]
-[ext_resource type="PackedScene" uid="uid://btb8whxqk8dx6" path="res://status/sprint/sprint_status.tscn" id="6_my1fm"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="7_hndg7"]
 [ext_resource type="PackedScene" uid="uid://c7nabqm2bnb2t" path="res://items/map/item_map.tscn" id="7_jv0kv"]
 [ext_resource type="AudioStream" uid="uid://c5efgrhkqu74x" path="res://assets/sounds/kill.mp3" id="9_j523l"]
 [ext_resource type="Script" uid="uid://vouopua0eetv" path="res://status/status.gd" id="11_3owok"]
+[ext_resource type="Texture2D" uid="uid://dmtp6ctsen1r2" path="res://status/icons/dot_icon.png" id="11_gjp77"]
 [ext_resource type="Script" uid="uid://cmsgdkmns5dih" path="res://styles/styles.gd" id="11_jv0kv"]
 [ext_resource type="Script" uid="uid://cpq2j6pt2c6hk" path="res://items/items.gd" id="11_p38oh"]
-[ext_resource type="PackedScene" uid="uid://b8cnlhndtyvpb" path="res://status/stuck/stuck_status.tscn" id="12_gkr3n"]
-[ext_resource type="PackedScene" uid="uid://p33mgsb3b8gx" path="res://status/weak/weak_status.tscn" id="13_ec5mt"]
+[ext_resource type="Texture2D" uid="uid://bilqvawlfie8s" path="res://status/icons/drunk_icon.png" id="12_aj5j2"]
+[ext_resource type="Texture2D" uid="uid://bs5clmg1ab3jy" path="res://status/icons/lazy_icon.png" id="13_ybvt0"]
+[ext_resource type="Texture2D" uid="uid://hncn8l3lqv6p" path="res://status/icons/scared_icon.png" id="14_1sae3"]
 [ext_resource type="PackedScene" uid="uid://mgwdx835xyyo" path="res://status/icons/status_indicator.tscn" id="15_mfbh7"]
 [ext_resource type="Texture2D" uid="uid://82nd0jblterr" path="res://status/icons/slow_icon.png" id="16_tuq4u"]
 [ext_resource type="Texture2D" uid="uid://cgk0fgyeieco1" path="res://status/icons/sprint_icon.png" id="17_gjp77"]
 [ext_resource type="Texture2D" uid="uid://cgv238uqehsyv" path="res://status/icons/stuck_icon.png" id="18_aj5j2"]
+[ext_resource type="Texture2D" uid="uid://c0xyayvj2pnbn" path="res://status/icons/tanky_icon.png" id="19_lhhwe"]
 [ext_resource type="Texture2D" uid="uid://imenya06wh6k" path="res://status/icons/void_icon.png" id="19_ybvt0"]
 [ext_resource type="Texture2D" uid="uid://fkfvrhqe1qqy" path="res://status/icons/weak_icon.png" id="20_1sae3"]
+[ext_resource type="Texture2D" uid="uid://c3buyv3d0akf0" path="res://status/icons/timid_icon.png" id="20_edq0t"]
+[ext_resource type="PackedScene" uid="uid://brb6i5u1uth2i" path="res://styles/style_charge.tscn" id="24_aj5j2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
 radius = 12.0
 
 [node name="BasePawn" type="Area2D" unique_id=1877646274]
-collision_layer = 0
 script = ExtResource("1_o1hwx")
 hp = 100.0
 dmg = 1.0
@@ -78,7 +80,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HitpointLabel" type="Label" parent="gui" unique_id=1383475225]
-visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -101,15 +102,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="StyleLabel" type="RichTextLabel" parent="gui" unique_id=541606110]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -64.0
-offset_top = 27.0
+offset_top = 25.0
 offset_right = 64.0
-offset_bottom = 59.00003
+offset_bottom = 57.00003
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/default_color = Color(1, 1, 1, 1)
@@ -122,50 +124,48 @@ vertical_alignment = 1
 
 [node name="HitpointLabelBlack" type="ColorRect" parent="gui" unique_id=664546012]
 offset_left = -24.0
-offset_top = -28.0
+offset_top = -26.0
 offset_right = 24.0
-offset_bottom = -22.0
+offset_bottom = -20.0
 color = Color(0, 0, 0, 1)
 
 [node name="HitpointLabelRed" type="ColorRect" parent="gui" unique_id=1205204769]
 offset_left = -23.0
-offset_top = -27.0
+offset_top = -25.0
 offset_right = 23.0
-offset_bottom = -23.0
-color = Color(1, 0, 0, 1)
+offset_bottom = -21.0
+color = Color(0.77254903, 0, 0, 1)
 
 [node name="HitpointLabelGreen" type="ColorRect" parent="gui" unique_id=255061500]
 offset_left = -23.0
-offset_top = -27.0
+offset_top = -25.0
 offset_right = 23.0
-offset_bottom = -23.0
-color = Color(0, 1, 0, 1)
+offset_bottom = -21.0
+color = Color(5.77569e-06, 0.818051, 3.85046e-07, 1)
 
 [node name="StatusFlowContainer" type="HFlowContainer" parent="gui" unique_id=450095345]
 offset_left = -24.0
-offset_top = -81.0
+offset_top = 38.0
 offset_right = 24.0
-offset_bottom = -33.0
+offset_bottom = 85.999985
 size_flags_stretch_ratio = 0.0
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
-reverse_fill = true
 
 [node name="Status" type="Node" parent="." unique_id=1204987842]
 script = ExtResource("11_3owok")
-slowEffect = ExtResource("4_56xb5")
-sprintEffect = ExtResource("6_my1fm")
-stuckEffect = ExtResource("12_gkr3n")
-weakEffect = ExtResource("13_ec5mt")
+dotIcon = ExtResource("11_gjp77")
+drunkIcon = ExtResource("12_aj5j2")
+lazyIcon = ExtResource("13_ybvt0")
+scaredIcon = ExtResource("14_1sae3")
 statusIcon = ExtResource("15_mfbh7")
 slowIcon = ExtResource("16_tuq4u")
 sprintIcon = ExtResource("17_gjp77")
 stuckIcon = ExtResource("18_aj5j2")
+tankyIcon = ExtResource("19_lhhwe")
+timidIcon = ExtResource("20_edq0t")
 voidIcon = ExtResource("19_ybvt0")
 weakIcon = ExtResource("20_1sae3")
-
-[node name="PhaseStatusTimer" type="Timer" parent="Status" unique_id=1852202101]
-one_shot = true
 
 [node name="SlowStatusTimer" type="Timer" parent="Status" unique_id=71689046]
 one_shot = true
@@ -176,13 +176,22 @@ one_shot = true
 [node name="StuckStatusTimer" type="Timer" parent="Status" unique_id=1600425509]
 one_shot = true
 
+[node name="TimidStatusTimer" type="Timer" parent="Status" unique_id=573651188]
+one_shot = true
+
+[node name="VoidStatusTimer" type="Timer" parent="Status" unique_id=1852202101]
+one_shot = true
+
 [node name="WeakStatusTimer" type="Timer" parent="Status" unique_id=1131456262]
 one_shot = true
 
 [node name="Styles" type="Node" parent="." unique_id=1771423136]
 script = ExtResource("11_jv0kv")
+styleCharge = ExtResource("24_aj5j2")
 
 [node name="BerserkResetTimer" type="Timer" parent="Styles" unique_id=1612883530]
+
+[node name="BullyResetTimer" type="Timer" parent="Styles" unique_id=2112136530]
 
 [node name="MightyChargeTimer" type="Timer" parent="Styles" unique_id=1404437205]
 
@@ -217,13 +226,16 @@ one_shot = true
 [node name="SkateCooldownTimer" type="Timer" parent="Items" unique_id=435712509]
 one_shot = true
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="timeout" from="Status/PhaseStatusTimer" to="Status" method="_on_phase_status_timer_timeout"]
 [connection signal="timeout" from="Status/SlowStatusTimer" to="Status" method="_on_slow_status_timer_timeout"]
 [connection signal="timeout" from="Status/SprintStatusTimer" to="Status" method="_on_sprint_status_timer_timeout"]
 [connection signal="timeout" from="Status/StuckStatusTimer" to="Status" method="_on_stuck_status_timer_timeout"]
+[connection signal="timeout" from="Status/TimidStatusTimer" to="Status" method="_on_timid_status_timer_timeout"]
+[connection signal="timeout" from="Status/VoidStatusTimer" to="Status" method="_on_void_status_timer_timeout"]
 [connection signal="timeout" from="Status/WeakStatusTimer" to="Status" method="_on_weak_status_timer_timeout"]
 [connection signal="timeout" from="Styles/BerserkResetTimer" to="Styles" method="_on_berserk_reset_timer_timeout"]
+[connection signal="timeout" from="Styles/BullyResetTimer" to="Styles" method="_on_bully_reset_timer_timeout"]
 [connection signal="timeout" from="Styles/MightyChargeTimer" to="Styles" method="_on_mighty_charge_timer_timeout"]
 [connection signal="timeout" from="Items/AntimatterCooldownTimer" to="Items" method="_on_antimatter_cooldown_timer_timeout"]
 [connection signal="timeout" from="Items/AntimatterDurationTimer" to="Items" method="_on_antimatter_duration_timer_timeout"]

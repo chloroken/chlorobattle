@@ -65,6 +65,8 @@ func _ready() -> void:
 	# Adjust sprite dimensions
 	$PawnSprite.scale *= size
 	$PawnCollider.scale *= size
+	
+	$AttackCooldownTimer.one_shot = true
 
 	# Pawn startup procedure
 	destination = new_destination()
@@ -87,13 +89,27 @@ func _ready() -> void:
 		elif item == "killbot":
 			$Items.item_spawn_killbot()
 
+		# Set up status timers
+		$Status.get_node("SlowStatusTimer").one_shot = true
+		$Status.get_node("SprintStatusTimer").one_shot = true
+		$Status.get_node("StuckStatusTimer").one_shot = true
+		$Status.get_node("TimidStatusTimer").one_shot = true
+		$Status.get_node("VoidStatusTimer").one_shot = true
+		$Status.get_node("WeakStatusTimer").one_shot = true
+
 		# Start style timers
 		if style == "berserk":
-			$Styles.get_node("BerserkResetTimer").set_wait_time($Styles.berserkTimerDuration)
-			$Styles.get_node("BerserkResetTimer").start()
+			$Styles.get_node("BerserkResetTimer").one_shot = true
+			$Styles.get_node("BerserkResetTimer").start($Styles.berserkTimerDuration)
+		elif style == "bully":
+			$Styles.get_node("BullyResetTimer").one_shot = true
+			$Styles.get_node("BullyResetTimer").start($Styles.bullyStackDuration)
+			$Styles.add_bully_charge()
 		elif style == "mighty":
-			$Styles.get_node("MightyChargeTimer").set_wait_time($Styles.mightyChargeDuration)
-			$Styles.get_node("MightyChargeTimer").start()
+			$Styles.get_node("MightyChargeTimer").one_shot = true
+			$Styles.get_node("MightyChargeTimer").start($Styles.mightyChargeDuration)
+		elif style == "slayer":
+			$Styles.add_slayer_charge()
 
 		# Start attacking (moved to individual Pawns)
 		# $AttackCooldownTimer.start(baseAttackCooldown)
@@ -117,6 +133,10 @@ func _process(_delta: float) -> void:
 		for i in int($Styles.berserkHitCount):
 			styleIndicator += "•"
 		$gui.get_node("StyleLabel").add_theme_color_override("default_color", Color(0.0, 1.0, 0.5, 1.0))
+	elif style == "bully":
+		for i in int($Styles.bullyStackCount):
+			styleIndicator += "•"
+		$gui.get_node("StyleLabel").add_theme_color_override("default_color", Color.HOT_PINK)
 	elif style == "mighty":
 		for i in int($Styles.mightyChargeCount):
 			styleIndicator += "•"
@@ -184,6 +204,10 @@ func new_destination() -> Vector2:
 # COMBAT #
 ##########
 
+func _on_area_entered(area: Area2D) -> void:
+	if style == "bully":
+		$Styles.style_bully_trigger(area)
+
 # When a Pawn gets hit by an attack
 func _on_body_entered(body: Node2D) -> void:
 
@@ -206,7 +230,6 @@ func _on_body_entered(body: Node2D) -> void:
 		$Items.item_try_skating()
 		$Items.item_try_map()
 		$Items.item_try_glue(attackingPawn, body)
-		#$Items.item_try_tire(attackingPawn)
 
 		# Mummy curse transfer check
 		if type == "mummy" && !body.isPersistentSummon:
@@ -226,6 +249,8 @@ func _on_body_entered(body: Node2D) -> void:
 		for i in range(0, pawns.size()):
 			if pawns[i].username == username:
 				attackingPawn.killCount += 1
+				if attackingPawn.style == "slayer":
+					attackingPawn.get_node("Styles").add_slayer_charge()
 				pawn_death(attackingPawn, attackerUsername, i)
 				break
 

@@ -11,16 +11,22 @@ var birdReturnSpeed = 5
 
 func _ready() -> void:
 	super()
-	
+
 	# Start attack cycle
 	if !attacksDisabled:
-		$AttackCooldownTimer.one_shot = true
 		$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
 
 func _on_attack_cooldown_timer_timeout() -> void:
+
+	# Prevent attacks if timid
+	if !$Status.get_node("TimidStatusTimer").is_stopped():
+		$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
+		return
+
 	var newAttack = pirateAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.baseDmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
+
 	$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())

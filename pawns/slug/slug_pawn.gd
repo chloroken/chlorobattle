@@ -10,11 +10,16 @@ func _ready() -> void:
 
 	# Start attack cycle
 	if !attacksDisabled:
-		$AttackCooldownTimer.one_shot = true
 		$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
 
 # Drop slug trail attack
 func _on_attack_cooldown_timer_timeout() -> void:
+
+	# Prevent attacks if timid
+	if !$Status.get_node("TimidStatusTimer").is_stopped():
+		$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
+		return
+	
 	var newAttack = slugAttack.instantiate()
 	var ranX = randi_range(-trailOffset, trailOffset)
 	var ranY = randi_range(-trailOffset, trailOffset)
@@ -22,10 +27,11 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.baseDmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
-	$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())
 
 	# Regenerate health every time slug attacks
 	hp += healthRegen
 
 	# Just in case
 	#if hp > baseHp: hp = baseHp
+
+	$AttackCooldownTimer.start(asp * baseAttackCooldown + random_variance())

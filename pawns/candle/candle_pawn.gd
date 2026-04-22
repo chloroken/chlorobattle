@@ -16,21 +16,26 @@ var emberScale = 0.5
 # Start timers
 func _ready() -> void:
 	super()
+	
+	# Start attack cycle
+	$EmberSpawnTimer.one_shot = true
 	if !attacksDisabled:
-		$AttackCooldownTimer.one_shot = true
 		$AttackCooldownTimer.start(asp * calculate_flicker_cooldown())
-		$EmberSpawnTimer.one_shot = true
 		$EmberSpawnTimer.start(asp * randf_range(emberSpawnCooldownMin, emberSpawnCooldownMax))
 
 func _on_attack_cooldown_timer_timeout() -> void:
-	
+
+	# Prevent attacks if timid
+	if !$Status.get_node("TimidStatusTimer").is_stopped(): 
+		$AttackCooldownTimer.start(asp * calculate_flicker_cooldown())
+		return
+
 	# Flicker around Candle
 	var newAttack = candleAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
-	$AttackCooldownTimer.start(asp * calculate_flicker_cooldown())
 
 	# Flicker around embers
 	for child in $EmberContainer.get_children():
@@ -43,6 +48,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newEmberAttack.isPersistentSummon = true
 		attackObjects.append(newEmberAttack)
 		$AttackContainer.add_child(newEmberAttack)
+	
+	$AttackCooldownTimer.start(asp * calculate_flicker_cooldown())
 
 func calculate_flicker_cooldown() -> float:
 	var missingHealthPercent = 1 - hp / baseHp

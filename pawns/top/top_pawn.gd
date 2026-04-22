@@ -20,7 +20,6 @@ func _ready() -> void:
 
 	# Start attack cycle
 	if !attacksDisabled:
-		$AttackCooldownTimer.one_shot = true
 		$AttackCooldownTimer.start(asp * sparkCooldown + random_variance())
 
 func _physics_process(delta: float) -> void:
@@ -36,23 +35,30 @@ func top_hit_wall() -> void:
 	$Status.start_sprint(topBounceDuration)
 
 func _on_attack_cooldown_timer_timeout() -> void:
-	if $Status.get_node("StuckStatusTimer").is_stopped():
+
+	# Prevent attacks if timid/stuck
+	if !$Status.get_node("TimidStatusTimer").is_stopped():
+		$AttackCooldownTimer.start(asp * sparkCooldown)
+		return
+	elif !$Status.get_node("StuckStatusTimer").is_stopped():
+		$AttackCooldownTimer.start(asp * sparkCooldown)
+		return
 		
-		# Attack with a spark
-		var newAttack = topAttack.instantiate()
-		newAttack.position = self.position + Vector2(0, sparkOffset)
-		newAttack.dmg = self.dmg
+	# Attack with a spark
+	var newAttack = topAttack.instantiate()
+	newAttack.position = self.position + Vector2(0, sparkOffset)
+	newAttack.dmg = self.dmg
 
-		# Grant spark random physics
-		newAttack.direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
-		newAttack.rotation = randf_range(0, TAU)
+	# Grant spark random physics
+	newAttack.direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
+	newAttack.rotation = randf_range(0, TAU)
 
-		# Grant spark speed based on Top's speed
-		newAttack.speed += spd / sparkSpeedRatio
+	# Grant spark speed based on Top's speed
+	newAttack.speed += spd / sparkSpeedRatio
 
-		# Add to containers
-		attackObjects.append(newAttack)
-		$AttackContainer.add_child(newAttack)
+	# Add to containers
+	attackObjects.append(newAttack)
+	$AttackContainer.add_child(newAttack)
 
 	# Increase attack speed while sprinting
 	var atkSpdMod = 1.0

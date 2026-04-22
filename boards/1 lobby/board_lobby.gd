@@ -15,7 +15,7 @@ func _ready() -> void:
 
 	# Create random bots to test with
 	for i in 24:
-		#register_pawn("Bot " + str(i+1), "slug", choose_random_style(), "antimatter")
+		#register_pawn("Bot " + str(i+1), "ship", "mighty", choose_random_item())
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
@@ -81,11 +81,12 @@ func choose_random_pawn() -> String:
 
 func get_pawn_style(message: String):
 	if "berserk" in message: return("berserk")
+	elif "bully" in message: return("bully")
 	elif "mighty" in message: return("mighty")
 	elif "slayer" in message: return("slayer")
 	else: return(choose_random_style())
 func choose_random_style() -> String:
-	var allStyleTypes = ["berserk", "mighty", "slayer"]
+	var allStyleTypes = ["berserk", "bully", "mighty", "slayer"]
 	var i = randi_range(0, allStyleTypes.size() - 1)
 	return(allStyleTypes[i])
 
@@ -95,12 +96,12 @@ func get_pawn_item(message: String):
 	elif "glue" in message: return("glue")
 	elif "killbot" in message: return("killbot")
 	elif "map" in message: return("map")
-	elif "milkshake" in message: return("milkshake")
+	#elif "milkshake" in message: return("milkshake")
 	elif "skates" in message: return("skates")
 	elif "tire" in message: return("tire")
 	else: return(choose_random_item())
 func choose_random_item() -> String:
-	var allItemTypes = ["antimatter", "dice", "glue", "killbot", "map", "milkshake", "skates", "tire"]
+	var allItemTypes = ["antimatter", "dice", "glue", "killbot", "map", "skates", "tire"]
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])
 

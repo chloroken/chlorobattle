@@ -19,13 +19,18 @@ var bubbleSizeMax = 0.5
 func _ready() -> void:
 	super()
 	
-	# Start attack routine
 	$BubbleTimer.one_shot = true
+	
+	# Start attack routine
 	if !attacksDisabled:
-		$AttackCooldownTimer.one_shot = true
 		$AttackCooldownTimer.start(asp * randf_range(splashCooldownMin, splashCooldownMax) + random_variance())
 
 func _on_attack_cooldown_timer_timeout() -> void:
+
+	# Prevent attacks if timid
+	if !$Status.get_node("TimidStatusTimer").is_stopped():
+		$AttackCooldownTimer.start(asp * randf_range(splashCooldownMin, splashCooldownMax) + random_variance())
+		return
 	
 	# Create splash attack for "dive"
 	var newAttack = grouperAttack.instantiate()
@@ -36,7 +41,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	$AttackContainer.add_child(newAttack)
 
 	# Hide pawn & sprint
-	$Status.start_phase(diveSpeedDuration)
+	$Status.start_void(diveSpeedDuration)
 	$Status.start_sprint(diveSpeedDuration)
 
 	# Start timers

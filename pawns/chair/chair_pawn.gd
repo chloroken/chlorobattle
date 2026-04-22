@@ -21,10 +21,14 @@ func _ready() -> void:
 
 	# Start timers
 	if !attacksDisabled:
-		$AttackCooldownTimer.one_shot = true
 		$AttackCooldownTimer.start(asp * swingCooldown + random_variance())
 
 func _on_attack_cooldown_timer_timeout() -> void:
+
+	# Prevent attacks if timid
+	if !$Status.get_node("TimidStatusTimer").is_stopped():
+		$AttackCooldownTimer.start(asp * swingCooldown + random_variance())
+		return
 
 	# Attack with Chair leg
 	var newAttack = chairAttack.instantiate()

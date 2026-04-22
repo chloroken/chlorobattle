@@ -11,15 +11,14 @@ func _ready() -> void:
 # ANTIMATTER #
 ##############
 
-
 var antimatterDuration = 3.0
 var antimatterCooldownMin = 15.0
 var antimatterCooldownMax = 20.0
 
 func _on_antimatter_cooldown_timer_timeout() -> void:
-	var pawnPhaseTimer = basePawn.get_node("Status").get_node("PhaseStatusTimer")
-	if pawnPhaseTimer.get_time_left() < antimatterDuration:
-		basePawn.get_node("Status").start_phase(antimatterDuration)
+	var pawnVoidTimer = basePawn.get_node("Status").get_node("VoidStatusTimer")
+	if pawnVoidTimer.get_time_left() < antimatterDuration:
+		basePawn.get_node("Status").start_void(antimatterDuration)
 
 	var antiMatterCooldown = randf_range(antimatterCooldownMin, antimatterCooldownMax)
 	$AntimatterCooldownTimer.start(antiMatterCooldown)
@@ -53,9 +52,9 @@ func item_roll_dice(baseHit, attackingPawn) -> float:
 # GLUE #
 ########
 
-var glueSlowDuration = 2.0
+var glueSlowDuration = 1.0
 var glueStuckChance = 10 # one in x
-var glueStuckDuration = 5.0
+var glueStuckDuration = 3.0
 var glueStuckCooldown = 15.0
 func item_try_glue(attackingPawn, body) -> void:
 

@@ -34,7 +34,6 @@ func _ready() -> void:
 
 	# Start attack cycle
 	if !attacksDisabled:
-		$AttackCooldownTimer.one_shot = true
 		$AttackCooldownTimer.start(asp * randf_range(bombCooldownMin, bombCooldownMax) + random_variance())
 
 func _process(_delta: float) -> void:
@@ -52,18 +51,28 @@ func _on_attack_cooldown_timer_timeout() -> void:
 
 	# Melee attack
 	if mechaForm:
+
+		# Prevent attacks if timid
+		if !$Status.get_node("TimidStatusTimer").is_stopped():
+			$AttackCooldownTimer.start(asp * randf_range(whirlwindCooldownMin, whirlwindCooldownMax) + random_variance())
+			return
+
 		var newAttack = whirlwindAttack.instantiate()
 		newAttack.position = self.position
 		newAttack.dmg = self.dmg * whirlwindDmgMod
 		newAttack.direction = randf_range(0, TAU)
 		attackObjects.append(newAttack)
 		$AttackContainer.add_child(newAttack)
-		
-		
 		$AttackCooldownTimer.start(asp * randf_range(whirlwindCooldownMin, whirlwindCooldownMax) + random_variance())
 
 	# Jet attack
 	else:
+		
+		# Prevent attacks if timid
+		if !$Status.get_node("TimidStatusTimer").is_stopped():
+			$AttackCooldownTimer.start(asp * randf_range(bombCooldownMin, bombCooldownMax) + random_variance())
+			return
+		
 		var newAtkArc = randf_range(bombConeMin, bombConeArc)
 
 		# Guided bomb 1
@@ -87,6 +96,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		$AttackContainer.add_child(newAttack2)
 		
 		$AttackCooldownTimer.start(asp * randf_range(bombCooldownMin, bombCooldownMax) + random_variance())
+		
 
 # Called by bombs when they expire
 func make_explosion(loc: Vector2) -> void:
