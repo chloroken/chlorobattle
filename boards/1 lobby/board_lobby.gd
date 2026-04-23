@@ -15,14 +15,14 @@ func _ready() -> void:
 
 	# Create random bots to test with
 	for i in 24:
-		#register_pawn("Bot " + str(i+1), "ship", "mighty", choose_random_item())
+		#register_pawn("Bot " + str(i+1), "candle", choose_random_style(), choose_random_item())
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	#register_pawn("del", "slug", "berserk", "skates")
-	#register_pawn("depegel", choose_random_pawn(), choose_random_style(), choose_random_item())
-	#register_pawn("hayes", "cyclone", "berserk", "antimatter")
-	#register_pawn("rugged", choose_random_pawn(), choose_random_style(), choose_random_item())
+	#register_pawn("chad", "pirate", "slayer", "tire")
+	#register_pawn("rotdog", "grouper", "bully", "killbot")
+	#register_pawn("spooky", "candle", "mighty", "glue")
+	#register_pawn("gabe", "chair", "bully", "antimatter")
 	#register_pawn("p9", "slug", choose_random_style(), choose_random_item())
 	#register_pawn("hasine", "top", choose_random_style(), choose_random_item())
 	#register_pawn("theone_fg", "cyclone", choose_random_style(), choose_random_item())
@@ -81,6 +81,7 @@ func choose_random_pawn() -> String:
 
 func get_pawn_style(message: String):
 	if "berserk" in message: return("berserk")
+	elif "berserker" in message: return("berserk") # alias
 	elif "bully" in message: return("bully")
 	elif "mighty" in message: return("mighty")
 	elif "slayer" in message: return("slayer")
@@ -93,6 +94,7 @@ func choose_random_style() -> String:
 func get_pawn_item(message: String):
 	if "antimatter" in message: return("antimatter")
 	elif "dice" in message: return("dice")
+	elif "flask" in message: return("flask")
 	elif "glue" in message: return("glue")
 	elif "killbot" in message: return("killbot")
 	elif "map" in message: return("map")
@@ -101,7 +103,7 @@ func get_pawn_item(message: String):
 	elif "tire" in message: return("tire")
 	else: return(choose_random_item())
 func choose_random_item() -> String:
-	var allItemTypes = ["antimatter", "dice", "glue", "killbot", "map", "skates", "tire"]
+	var allItemTypes = ["antimatter", "dice", "flask", "glue", "killbot", "map", "skates", "tire"]
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])
 

@@ -4,6 +4,7 @@ var statusContainer
 
 @export var dotIcon: Resource
 @export var drunkIcon: Resource
+@export var drunkEffect: Resource
 @export var lazyIcon: Resource
 @export var scaredIcon: Resource
 @export var statusIcon: Resource
@@ -18,7 +19,18 @@ var statusContainer
 var stuckCooldown = 15.0
 
 func _ready() -> void:
-	statusContainer = get_parent().get_node("gui").get_node("StatusFlowContainer")
+	
+	# Get container for status icons
+	statusContainer = get_parent().get_node("GUI").get_node("StatusFlowContainer")
+	
+	# Set up status timers
+	$SlowStatusTimer.one_shot = true
+	$SprintStatusTimer.one_shot = true
+	$StuckStatusTimer.one_shot = true
+	$DisarmedStatusTimer.one_shot = true
+	$VoidStatusTimer.one_shot = true
+	$WeakStatusTimer.one_shot = true
+
 func enable_status_icon(timer, icon) -> void:
 	var statusName = str(icon.resource_path)
 	var longestCurrentStatus = 0 
@@ -39,6 +51,34 @@ func disable_status_icon(icon) -> void:
 	for status in statusContainer.get_children():
 		if status.statusName == statusName:
 			status.queue_free()
+
+func start_disarmed(timer: float) -> void:
+	if $DisarmedStatusTimer.get_time_left() > timer: return
+	$DisarmedStatusTimer.start(timer)
+	enable_status_icon(timer, timidIcon)
+func stop_disarmed() -> void:
+	disable_status_icon(timidIcon)
+	$DisarmedStatusTimer.stop()
+
+#########
+# DRUNK #
+#########
+
+# other status variables need to be moved from base pawn to this script
+var drunkMissChance = 20
+var drunkDamageMod = 1.5
+var drunkTurnTimerMin = 3.0
+var drunkTurnTimerMax = 5.0
+func start_drunk(timer: float) -> void:
+	if $DrunkStatusTimer.get_time_left() > timer: return
+	$DrunkStatusTimer.start(timer)
+	var newDrunkEffect = drunkEffect.instantiate()
+	newDrunkEffect.global_position = get_parent().global_position + Vector2.UP * 55
+	get_parent().add_child(newDrunkEffect)
+	enable_status_icon(timer, drunkIcon)
+func stop_drunk() -> void:
+	disable_status_icon(drunkIcon)
+	$DrunkStatusTimer.stop()
 
 func start_slow(timer: float) -> void:
 	if $SlowStatusTimer.get_time_left() > timer: return
@@ -63,14 +103,6 @@ func start_stuck(timer: float) -> void:
 func stop_stuck() -> void:
 	disable_status_icon(stuckIcon)
 	$StuckStatusTimer.stop()
-
-func start_timid(timer: float) -> void:
-	if $TimidStatusTimer.get_time_left() > timer: return
-	$TimidStatusTimer.start(timer)
-	enable_status_icon(timer, timidIcon)
-func stop_timid() -> void:
-	disable_status_icon(timidIcon)
-	$TimidStatusTimer.stop()
 
 func start_void(timer: float) -> void:
 	var pawnSprite = get_parent().get_node("PawnSprite")

@@ -19,21 +19,16 @@ var cursePassDuration = 5.0 # used in base pawn
 func _ready() -> void:
 	super()
 
-	# Start curse routine
-	$CursedResetTimer.one_shot = true
-	isCursed = true
-	$Status.start_weak(curseDuration)
-
 	# Start attack cycle
-	if !attacksDisabled:
-		$AttackCooldownTimer.start(asp * randf_range(glyphCooldownMin, glyphCooldownMax) + random_variance())
+	if !attacksDisabled: 
+		$CursedResetTimer.one_shot = true
+		isCursed = true
+		$Status.start_weak(curseDuration)
+		start_attack_cooldown()
 
 func _on_attack_cooldown_timer_timeout() -> void:
-
-	# Prevent attacks if timid
-	if !$Status.get_node("TimidStatusTimer").is_stopped():
-		$AttackCooldownTimer.start(asp * randf_range(glyphCooldownMin, glyphCooldownMax) + random_variance())
-		return
+	start_attack_cooldown()
+	if disarm_check(): return
 
 	# Glyph attack
 	var newAttack = glyphAttack.instantiate()
@@ -45,7 +40,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	# Set statuses
 	$Status.start_stuck(glyphChannelDur)
 	$Status.start_void(glyphChannelDur)
-	
+
+func start_attack_cooldown() -> void:
 	$AttackCooldownTimer.start(asp * randf_range(glyphCooldownMin, glyphCooldownMax) + random_variance())
 
 func _on_cursed_reset_timer_timeout() -> void:

@@ -16,20 +16,15 @@ bombAttack = ExtResource("3_kvqme")
 bombExplosion = ExtResource("4_l2oen")
 whirlwindAttack = ExtResource("5_rcuk4")
 hp = 400.0
+def = 0.3
 dmg = 35.0
 pen = 0.1
-def = 0.3
 spd = 30.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("3_u4lmt")
 
 [node name="FormSwapTimer" type="Timer" parent="." index="3" unique_id=16919321]
-
-[node name="AttackCooldownTimer" parent="." index="4" unique_id=1610759688]
-wait_time = 2.0
-one_shot = true
-autostart = true
 
 [connection signal="timeout" from="FormSwapTimer" to="." method="_on_form_swap_timer_timeout"]
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

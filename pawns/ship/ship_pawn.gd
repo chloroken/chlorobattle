@@ -2,8 +2,10 @@ extends "res://pawns/base/base_pawn.gd"
 
 # Ship variables
 @export var shipRing: PackedScene
+var projectileAttackSpeed = 0.1
 var burstDuration = 2.0
 var overheatDuration = 2.0
+var ringDuration = 0.25
 
 # Projectile variables
 @export var shipAttack: PackedScene
@@ -17,25 +19,23 @@ var projectileScaleMax = 1.0
 
 func _ready() -> void:
 	super()
+	
+	$RingTimer.set_wait_time(ringDuration)
+	$RingTimer.start()
 
-	# Start attack cycle
 	if !attacksDisabled:
-		$AttackCooldownTimer.start(asp * baseAttackCooldown)
+		$OverheatDurationTimer.one_shot = true
+		$BurstDurationTimer.one_shot = true
 		$BurstDurationTimer.start()
 		$Status.start_slow(burstDuration)
+		start_attack_cooldown()
 
 func _process(_delta: float) -> void:
-	super(_delta)
-	
-	# Turn ship to face direction for effect
 	$PawnSprite.look_at(destination)
 
 func _on_attack_cooldown_timer_timeout() -> void:
-
-	# Prevent attacks if timid
-	if !$Status.get_node("TimidStatusTimer").is_stopped():
-		$AttackCooldownTimer.start(asp * baseAttackCooldown)
-		return
+	start_attack_cooldown()
+	if disarm_check(): return
 	
 	# Launch projectile
 	var newAttack = shipAttack.instantiate()
@@ -51,23 +51,23 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newDir = newDir.rotated(randf_range(-projectileArc, projectileArc))
 	newAttack.direction = newDir
 
-	$AttackCooldownTimer.start(asp * baseAttackCooldown)
+func start_attack_cooldown() -> void:
+	$AttackCooldownTimer.start(asp * projectileAttackSpeed)
+
+# Stop firing
+func _on_burst_duration_timer_timeout() -> void:
+	$BurstDurationTimer.stop()
+	$OverheatDurationTimer.start(overheatDuration)
+	$Status.start_disarmed(overheatDuration)
+	
+# Stop overheating
+func _on_overheat_duration_timer_timeout() -> void:
+	$OverheatDurationTimer.stop()
+	$BurstDurationTimer.start(burstDuration)
+	$Status.start_slow(burstDuration)
 
 # Drop rings behind ship for effect
 func _on_ring_timer_timeout() -> void:
 	var newRing = shipRing.instantiate()
 	$AttackContainer.add_child(newRing)
 	newRing.position = self.position
-
-# Stop firing
-func _on_burst_duration_timer_timeout() -> void:
-	$BurstDurationTimer.stop()
-	$OverheatDurationTimer.start(overheatDuration)
-	$Status.start_timid(overheatDuration)
-	
-# Stop overheating
-func _on_overheat_duration_timer_timeout() -> void:
-	$OverheatDurationTimer.stop()
-	$BurstDurationTimer.start(burstDuration)
-	$Status.stop_timid()
-	$Status.start_slow(burstDuration)

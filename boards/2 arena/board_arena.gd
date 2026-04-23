@@ -5,7 +5,7 @@ var baseRadius
 var boardRadius = 400
 var minimumRadiusRatio = 0.25
 var arenaCloseTimer = 240.0
-var spawnStaggerTimer = 0.1
+var spawnStaggerTimer = 0.01
 
 # Global damage ramp variables
 var dmgModDuration = 30

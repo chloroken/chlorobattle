@@ -9,7 +9,7 @@
 script = ExtResource("2_ag02n")
 chairAttack = ExtResource("3_wxuat")
 hp = 390.0
-dmg = 55.0
+dmg = 65.0
 pen = 0.1
 def = 0.4
 spd = 40.0

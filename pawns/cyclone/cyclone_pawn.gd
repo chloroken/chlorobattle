@@ -29,16 +29,15 @@ func _ready() -> void:
 	# Pick a random form to start in
 	if randi_range(0, 1) == 1: mechaForm = true
 	else: mechaForm = false
-	$FormSwapTimer.one_shot = true
-	$FormSwapTimer.start(0.1)
 
 	# Start attack cycle
 	if !attacksDisabled:
-		$AttackCooldownTimer.start(asp * randf_range(bombCooldownMin, bombCooldownMax) + random_variance())
+		$FormSwapTimer.one_shot = true
+		$FormSwapTimer.start(0.1)
+		start_attack_cooldown()
 
 func _process(_delta: float) -> void:
-	super(_delta)
-
+	
 	# Turn to face direction in Jet form
 	if !mechaForm:
 		$PawnSprite.look_at(destination)
@@ -48,31 +47,20 @@ func _process(_delta: float) -> void:
 		$PawnSprite.texture = mechaFormSprite
 
 func _on_attack_cooldown_timer_timeout() -> void:
+	start_attack_cooldown()
+	if disarm_check(): return
 
 	# Melee attack
 	if mechaForm:
-
-		# Prevent attacks if timid
-		if !$Status.get_node("TimidStatusTimer").is_stopped():
-			$AttackCooldownTimer.start(asp * randf_range(whirlwindCooldownMin, whirlwindCooldownMax) + random_variance())
-			return
-
 		var newAttack = whirlwindAttack.instantiate()
 		newAttack.position = self.position
 		newAttack.dmg = self.dmg * whirlwindDmgMod
 		newAttack.direction = randf_range(0, TAU)
 		attackObjects.append(newAttack)
 		$AttackContainer.add_child(newAttack)
-		$AttackCooldownTimer.start(asp * randf_range(whirlwindCooldownMin, whirlwindCooldownMax) + random_variance())
 
 	# Jet attack
 	else:
-		
-		# Prevent attacks if timid
-		if !$Status.get_node("TimidStatusTimer").is_stopped():
-			$AttackCooldownTimer.start(asp * randf_range(bombCooldownMin, bombCooldownMax) + random_variance())
-			return
-		
 		var newAtkArc = randf_range(bombConeMin, bombConeArc)
 
 		# Guided bomb 1
@@ -94,9 +82,14 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newAttack2.duration = bombDuration
 		attackObjects.append(newAttack2)
 		$AttackContainer.add_child(newAttack2)
-		
-		$AttackCooldownTimer.start(asp * randf_range(bombCooldownMin, bombCooldownMax) + random_variance())
-		
+
+func start_attack_cooldown() -> void:
+	if mechaForm:
+		var mechaAttackCooldown = randf_range(whirlwindCooldownMin, whirlwindCooldownMax)
+		$AttackCooldownTimer.start(asp * mechaAttackCooldown + random_variance())
+	else:
+		var jetAttackCooldown = randf_range(bombCooldownMin, bombCooldownMax)
+		$AttackCooldownTimer.start(asp * jetAttackCooldown + random_variance())
 
 # Called by bombs when they expire
 func make_explosion(loc: Vector2) -> void:

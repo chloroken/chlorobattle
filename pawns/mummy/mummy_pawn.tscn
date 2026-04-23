@@ -16,17 +16,10 @@ spd = 40.0
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("4_n8i8p")
 
-[node name="AttackCooldownTimer" parent="." index="3" unique_id=1610759688]
-wait_time = 8.0
-autostart = true
-
 [node name="CursedResetTimer" type="Timer" parent="." index="4" unique_id=1311632392]
 
-[node name="WeakStatusTimer" parent="Status" parent_id_path=PackedInt32Array(1204987842) index="7" unique_id=1131456262]
+[node name="WeakStatusTimer" parent="Status" parent_id_path=PackedInt32Array(1204987842) index="6" unique_id=1131456262]
 autostart = true
-
-[node name="WeakParticleTimer" parent="Status" parent_id_path=PackedInt32Array(1204987842) index="8" unique_id=847341074]
-wait_time = 0.25
 
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
 [connection signal="timeout" from="CursedResetTimer" to="." method="_on_cursed_reset_timer_timeout"]

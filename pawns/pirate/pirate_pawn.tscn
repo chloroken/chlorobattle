@@ -9,21 +9,21 @@
 script = ExtResource("2_ifqpx")
 pirateAttack = ExtResource("3_k2e1m")
 hp = 370.0
+def = 0.2
 dmg = 70.0
 pen = 0.1
-def = 0.2
 spd = 30.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_f4qk0")
 
-[node name="AttackCooldownTimer" parent="." index="2" unique_id=1610759688]
-autostart = true
+[node name="GrogCooldownTimer" type="Timer" parent="." index="5" unique_id=820909029]
 
-[node name="NameLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
+[node name="NameLabel" parent="GUI" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
 text = "pirate"
 
-[node name="HitpointLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="1" unique_id=1383475225]
+[node name="HitpointLabel" parent="GUI" parent_id_path=PackedInt32Array(1790961739) index="1" unique_id=1383475225]
 theme_override_constants/outline_size = 8
 
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="GrogCooldownTimer" to="." method="_on_grog_cooldown_timer_timeout"]

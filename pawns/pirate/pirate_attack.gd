@@ -6,6 +6,11 @@ var baseDmg
 var birdSpeed
 var returning = false
 
+# rework: make birds spiral
+# have them snap back faster
+# add a "Crit" mechanic like chair redwood
+# i.e., an eagle
+
 func _ready() -> void:
 	
 	# Grab Pawn
@@ -28,7 +33,7 @@ func _physics_process(delta: float) -> void:
 	if returning:
 		birdSpeed = position.distance_to(parentPawn.position) * parentPawn.birdReturnSpeed
 		direction = position.direction_to(parentPawn.position)
-	position += direction * parentPawn.birdSpeed * delta
+	position += direction * birdSpeed * delta
 	$BaseSprite.rotation = direction.angle()
 
 	# Scale bird size based on distance

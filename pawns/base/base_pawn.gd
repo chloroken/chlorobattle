@@ -1,5 +1,7 @@
 extends Area2D
 
+@export var tombstone: PackedScene
+
 # Pawn properties
 var username: String
 var type: String
@@ -7,148 +9,235 @@ var style: String
 var item: String
 
 # Pawn stats
-var size = 1.0
 @export var hp: float
-@export var dmg: float
-var asp = 1.0
-@export var pen: float
 @export var def: float
+@export var dmg: float
+@export var pen: float
 @export var spd: float
 
-# Item scenes
-@export var tombstone: PackedScene
-@export var killbot: PackedScene
-@export var diceEffect: PackedScene
-#@export var mapEffect: PackedScene
-@export var mapBlinkEffect: PackedScene
-@export var milkshakeEffect: PackedScene
-@export var tireAttack: PackedScene
-
-# Back end Pawn properties & variables
-var center: Vector2
-var nameCharLimit = 6
-var attackObjects = []
-var hitList = []
-var attacksDisabled = false
-var destination: Vector2
+# Hidden stats
+var asp = 1.0
+var size = 1.0
 var baseHp
 var baseAttackCooldown
+
+# Combat variables
+var attacksDisabled = false
+var attackObjects = []
+var hitList = []
+
+# Movement variables
+var center: Vector2
+var destination: Vector2
 var isCursed = false
 
 # Score variables
+var nameCharLimit = 6
 var damageTaken = 0
 var damageDealt = 0
 var killCount = 0
 
 # Movement variables
 var normalSpeed = 1.0
-var sprintActive
 var sprintSpeed = 2.0
-var slowActive
 var slowSpeed = 0.5
-var stuckActive
 var stuckSpeed = 0.0
-
-##################
-# INITIALIZATION #
-##################
 
 func _ready() -> void:
 	
-	# Snapshot some variables and set Pawn's initial destination
-	z_as_relative = false
-	z_index = get_node("/root/main").layerPawn
+	# Initial setup
 	center = get_viewport_rect().size / 2.0
 	baseHp = hp
-	baseAttackCooldown = $AttackCooldownTimer.get_wait_time()
-
-	# Adjust sprite dimensions
-	$PawnSprite.scale *= size
-	$PawnCollider.scale *= size
-	
-	$AttackCooldownTimer.one_shot = true
-
-	# Pawn startup procedure
 	destination = new_destination()
-	if attacksDisabled:
-		# Disable attacks in Lobby for show purposes
-		$AttackCooldownTimer.stop()
-		$gui.get_node("HitpointLabel").visible = false
-		$gui.get_node("HitpointLabelBlack").visible = false
-		$gui.get_node("HitpointLabelRed").visible = false
-		$gui.get_node("HitpointLabelGreen").visible = false
-
-	elif !attacksDisabled:
-		# Check for Pawn items that require action now
-		if item == "antimatter":
-			var antimatterTimer = $Items.get_node("AntimatterCooldownTimer")
-			antimatterTimer.one_shot = true
-			antimatterTimer.start(randf_range($Items.antimatterCooldownMin, $Items.antimatterCooldownMin))
-		elif item == "tire":
-			$Items.get_node("TireAttackTimer").start(randf_range($Items.tireCooldownMin, $Items.tireCooldownMax))
-		elif item == "killbot":
-			$Items.item_spawn_killbot()
-
-		# Set up status timers
-		$Status.get_node("SlowStatusTimer").one_shot = true
-		$Status.get_node("SprintStatusTimer").one_shot = true
-		$Status.get_node("StuckStatusTimer").one_shot = true
-		$Status.get_node("TimidStatusTimer").one_shot = true
-		$Status.get_node("VoidStatusTimer").one_shot = true
-		$Status.get_node("WeakStatusTimer").one_shot = true
-
-		# Start style timers
-		if style == "berserk":
-			$Styles.get_node("BerserkResetTimer").one_shot = true
-			$Styles.get_node("BerserkResetTimer").start($Styles.berserkTimerDuration)
-		elif style == "bully":
-			$Styles.get_node("BullyResetTimer").one_shot = true
-			$Styles.get_node("BullyResetTimer").start($Styles.bullyStackDuration)
-			$Styles.add_bully_charge()
-		elif style == "mighty":
-			$Styles.get_node("MightyChargeTimer").one_shot = true
-			$Styles.get_node("MightyChargeTimer").start($Styles.mightyChargeDuration)
-		elif style == "slayer":
-			$Styles.add_slayer_charge()
-
-		# Start attacking (moved to individual Pawns)
-		# $AttackCooldownTimer.start(baseAttackCooldown)
-
-#######
-# GUI #
-#######
-
-func _process(_delta: float) -> void:
+	$AttackCooldownTimer.one_shot = true
 	
-	# Update Pawn name
-	$gui.get_node("NameLabel").text = username.substr(0, nameCharLimit)
+	# Set visibility order
+	z_as_relative = false
+	z_index = get_node("/root/main").layerPawn
 
-	# Update Pawn hp bar
-	$gui.get_node("HitpointLabel").text = str(int(ceil(hp)))
-	$gui.get_node("HitpointLabelGreen").scale.x = hp / baseHp
+func disarm_check() -> bool:
+	if $Status.get_node("DisarmedStatusTimer").is_stopped(): return(false)
+	return(true)
+
+############
+# MOVEMENT #
+############
+
+func _physics_process(delta: float) -> void:
 	
-	# Update style indicators
-	var styleIndicator = ""
-	if style == "berserk":
-		for i in int($Styles.berserkHitCount):
-			styleIndicator += "•"
-		$gui.get_node("StyleLabel").add_theme_color_override("default_color", Color(0.0, 1.0, 0.5, 1.0))
-	elif style == "bully":
-		for i in int($Styles.bullyStackCount):
-			styleIndicator += "•"
-		$gui.get_node("StyleLabel").add_theme_color_override("default_color", Color.HOT_PINK)
-	elif style == "mighty":
-		for i in int($Styles.mightyChargeCount):
-			styleIndicator += "•"
-		$gui.get_node("StyleLabel").add_theme_color_override("default_color", Color.RED)
-	elif style == "slayer":
-		styleIndicator += "•"
-		for i in int(killCount):
-			styleIndicator += "•"
-		$gui.get_node("StyleLabel").add_theme_color_override("default_color", Color(0.0, 0.5, 1.0, 1.0))
-		#styleIndicator = str(killCount + 1)
-	$gui.get_node("StyleLabel").text = styleIndicator
+	# Pawn movement
+	var distFromDesto = global_position.distance_to(destination)
+	var distFromCenter = global_position.distance_to(center)
+	var boardRadius = get_parent().boardRadius
+	if distFromDesto < 10 || distFromCenter >= boardRadius:
+		destination = new_destination()
+
+	# Move Pawn with movement speed modifiers in mind
+	var statusSpdMod = 1
+	if !$Status.get_node("SprintStatusTimer").is_stopped(): statusSpdMod *= sprintSpeed
+	if !$Status.get_node("SlowStatusTimer").is_stopped(): statusSpdMod *= slowSpeed
+	if !$Status.get_node("StuckStatusTimer").is_stopped(): statusSpdMod *= stuckSpeed
+	global_position = global_position.move_toward(destination, spd * statusSpdMod * delta)
+
+# Calculate a new place (not too close) for Pawn to go
+func new_destination() -> Vector2:
+	var radius = get_parent().boardRadius
+	var rando = ((Vector2.RIGHT * radius).rotated(randf_range(0, TAU)))
+	var desto = center + rando
+	while global_position.distance_to(desto) < radius:
+		desto = new_destination()
+	return(desto)
+
+#################
+# HIT DETECTION #
+#################
+
+func _on_area_entered(area: Area2D) -> void:
+	if style == "bully":
+		$Styles.style_bully_trigger(area)
+func _on_body_entered(body: Node2D) -> void:
+	var attackingPawn = body.get_parent().get_parent()
+	var attackerUsername = attackingPawn.username
+	if attackerUsername != username && !hitList.has(body):
+		pre_accuracy_phase(body, attackingPawn)
+		if accuracy_phase(attackingPawn, attackerUsername):
+			var damage = mitigation_phase(attackingPawn, body)
+			damage = modifier_phase(damage, attackingPawn, body)
+			damage_phase(damage, attackingPawn, attackerUsername)
+			post_damage_phase(attackingPawn, body)
+		clean_up_phase(body, attackingPawn, attackerUsername)
+
+##################
+# ACCURACY PHASE #
+##################
+
+# These effects will happen regardless of it the attack hits
+func pre_accuracy_phase(body, attackingPawn) -> void:
+	$Styles.style_berserk_trigger(body, attackingPawn)
+	if attackingPawn.type == "mummy" && body.mummyCenter == true:
+		$Status.start_stuck(attackingPawn.glyphStuckDuration)
+
+# Determine if this attack will hit
+func accuracy_phase(attackingPawn, attackerUsername) -> bool:
+	var hitChance = 100
+	var drunkTimer = attackingPawn.get_node("Status").get_node("DrunkStatusTimer")
+	if !drunkTimer.is_stopped(): hitChance = $Status.drunkMissChance
+	var hitRoll = randi_range(1, 100)
+	if hitRoll > hitChance:
+		print("[" + str(attackerUsername) + "] missed [" + str(self.username) + "]")
+		return(false)
+	return(true)
+
+##################
+# DAMAGE FORMULA #
+##################
+
+# Calculate the base damage of this hit
+func mitigation_phase(attackingPawn, body) -> float:
+	var baseHit = body.dmg
+	var baseDefendedHit = baseHit * self.def
+	var actualDefended = baseDefendedHit * (1.0 - attackingPawn.pen)
+	var realHit = (baseHit - actualDefended)
+	return(realHit)
+
+# Modify the base damage by effects
+func modifier_phase(baseHit, attackingPawn, body) -> float:
 	
+	# Weak
+	var weakTimer = attackingPawn.get_node("Status").get_node("WeakStatusTimer")
+	if !weakTimer.is_stopped(): baseHit /= 2
+
+	# Dice
+	var diceHit = $Items.item_check_dice(attackingPawn, baseHit, body)
+	baseHit = diceHit
+
+	# Mighty
+	baseHit = $Styles.style_mighty_trigger(body, attackingPawn, baseHit)
+
+	# Slayer
+	baseHit = $Styles.style_slayer_trigger(body, attackingPawn, baseHit)
+
+	# Global damage reduction
+	var finalHit = baseHit * (get_parent().globalDmgMod / get_parent().dmgModDuration)
+	return(finalHit)
+
+################
+# DAMAGE PHASE #
+################
+
+# Apply damage, record stats, output to combat log
+func damage_phase(finalDmg, attackingPawn, attackerUsername) -> void:
+	
+	# Apply damage
+	self.hp -= finalDmg
+
+	# Update score
+	damageTaken += finalDmg
+	attackingPawn.damageDealt += finalDmg
+	get_parent().update_combat_log("[" + str(attackerUsername) + "] hit [" + str(self.username) + "] for " + "%0.2f" % finalDmg + " dmg") #— [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
+
+	# Combat log backend
+	print("[" + str(attackerUsername) + "] hit [" + str(self.username) + "] for " + "%0.2f" % finalDmg + " dmg")
+
+#####################
+# POST-DAMAGE PHASE #
+#####################
+
+# Apply on-hit effects after doing damage
+func post_damage_phase(attackingPawn, body) -> void:
+	$Items.item_try_killbot_stack(attackingPawn, body)
+	$Items.item_try_skating()
+	$Items.item_try_map()
+	$Items.item_try_glue(attackingPawn, body)
+	if type == "mummy" && !body.isPersistentSummon:
+		var attackerStatus = attackingPawn.get_node("Status")
+		if isCursed:
+			isCursed = false
+			$Status.stop_weak()
+			$CursedResetTimer.start(self.curseResetTimer)
+			attackerStatus.start_weak(self.cursePassDuration)
+
+##################
+# CLEAN-UP PHASE #
+##################
+
+# Mark attack as hit or remove it, clean up dead Pawns
+func clean_up_phase(body, attackingPawn, attackerUsername) -> void:
+	if !body.areaAttack: body.queue_free()
+	else: hitList.append(body)
+	var pawns = get_parent().get_parent().pawnList
+	if hp <= 0:
+		for i in range(0, pawns.size()):
+			if pawns[i].username == username:
+				attackingPawn.killCount += 1
+				if attackingPawn.style == "slayer":
+					attackingPawn.get_node("Styles").add_slayer_charge()
+				pawn_death(attackingPawn, attackerUsername, i)
+				break
+
+func pawn_death(attackingPawn, killer: String, pawnIndex: int) -> void:
+	attackingPawn.get_node("KillSound").panning_strength = 0.0
+	attackingPawn.get_node("KillSound").play()
+	make_tombstone(killer)
+
+	# Save progress & clean up
+	var mainBoard = get_parent().get_parent()
+	update_scoreboard(mainBoard, self, pawnIndex, false)
+	get_parent().update_kill_feed("[" + str(killer) + "] eliminated [" + str(username) + "]")
+	self.queue_free()
+
+	# For last Pawn, make order exception to transition to scoreboard
+	if mainBoard.pawnList.size() <= 1:
+		update_scoreboard(mainBoard, attackingPawn, pawnIndex, true)
+
+func make_tombstone(killer) -> void:
+	var newTombstone = tombstone.instantiate()
+	newTombstone.global_position = global_position
+	newTombstone.name = "Tombstone (" + username + ")"
+	newTombstone.username = username
+	get_parent().add_child(newTombstone)
+	print("[" + str(username) + "] was killed by [" + str(killer) + "]")
+
 func update_scoreboard(mainBoard, pawn, pawnIndex, last) -> void:
 	var newScore = mainBoard.Pawn.new()
 	newScore.username = pawn.username
@@ -161,176 +250,15 @@ func update_scoreboard(mainBoard, pawn, pawnIndex, last) -> void:
 	mainBoard.scoreList.push_front(newScore)
 	if !last: mainBoard.pawnList.remove_at(pawnIndex)
 
-###########
-# PHYSICS #
-###########
-
-func _physics_process(delta: float) -> void:
-	
-	# Pawn movement
-	var distFromDesto = global_position.distance_to(destination)
-	var distFromCenter = global_position.distance_to(center)
-	var boardRadius = get_parent().boardRadius
-	if distFromDesto < 10 || distFromCenter >= boardRadius:
-		destination = new_destination()
-
-	# Adjust speed based on status effects (slow, sprint, stuck)
-	if $Status.get_node("SprintStatusTimer").is_stopped():
-		sprintActive = normalSpeed
-	else: sprintActive = sprintSpeed
-	if $Status.get_node("SlowStatusTimer").is_stopped():
-		slowActive = normalSpeed
-	else: slowActive = slowSpeed
-	if $Status.get_node("StuckStatusTimer").is_stopped():
-		stuckActive = normalSpeed
-	else: stuckActive = stuckSpeed
-
-	# Move Pawn
-	var statusSpdMod = sprintActive * slowActive * stuckActive
-	global_position = global_position.move_toward(destination, spd * statusSpdMod * delta)
-
-# Calculate a new place for Pawn to go
-func new_destination() -> Vector2:
-	var radius = get_parent().boardRadius
-	var rando = ((Vector2.RIGHT * radius).rotated(randf_range(0, TAU)))
-	var desto = center + rando
-
-	# Avoid picking a location too close
-	while global_position.distance_to(desto) < radius:
-		desto = new_destination()
-	return(desto)
-
-##########
-# COMBAT #
-##########
-
-func _on_area_entered(area: Area2D) -> void:
-	if style == "bully":
-		$Styles.style_bully_trigger(area)
-
-# When a Pawn gets hit by an attack
-func _on_body_entered(body: Node2D) -> void:
-
-	# Get information about the aggressor
-	var pawns = get_parent().get_parent().pawnList
-	var attackingPawn = body.get_parent().get_parent()
-	var attackerUsername = attackingPawn.username
-	
-	# Avoid self-hits & subsequent hits from area attacks
-	if attackerUsername != username && !hitList.has(body):
-
-		# Berserk attack speed ramping mechanic
-		$Styles.style_berserk_trigger(body, attackingPawn)
-
-		# Hit procedure
-		calculate_damage(attackingPawn, attackerUsername, body)
-
-		# Post-damage item triggers
-		$Items.item_try_killbot_stack(attackingPawn, body)
-		$Items.item_try_skating()
-		$Items.item_try_map()
-		$Items.item_try_glue(attackingPawn, body)
-
-		# Mummy curse transfer check
-		if type == "mummy" && !body.isPersistentSummon:
-			var attackerStatus = attackingPawn.get_node("Status")
-			if isCursed:
-				isCursed = false
-				$Status.stop_weak()
-				$CursedResetTimer.start(self.curseResetTimer)
-				attackerStatus.start_weak(self.cursePassDuration)
-
-		# Finalize attack
-		if !body.areaAttack: body.queue_free()
-		else: hitList.append(body)
-
-	# Check for Pawn death
-	if hp <= 0:
-		for i in range(0, pawns.size()):
-			if pawns[i].username == username:
-				attackingPawn.killCount += 1
-				if attackingPawn.style == "slayer":
-					attackingPawn.get_node("Styles").add_slayer_charge()
-				pawn_death(attackingPawn, attackerUsername, i)
-				break
-
-	# Check for post-deathcheck item triggers
-	$Items.item_check_milkshake()
-
-func calculate_damage(attackingPawn, attackerUsername, body) -> void:
-	
-	# Set up default hit
-	var baseHit = body.dmg
-	var hitText = "hit"
-		
-	# Mummy stuck check
-	if attackingPawn.type == "mummy" && body.mummyCenter == true:
-		$Status.start_stuck(attackingPawn.glyphStuckDuration)
-	
-	# Weakness check
-	var weakTimer = attackingPawn.get_node("Status").get_node("WeakStatusTimer")
-	if !weakTimer.is_stopped():
-		baseHit /= 2
-
-	# Crit mechanics
-	var diceHit = $Items.item_check_dice(attackingPawn, baseHit, body)
-	if diceHit > baseHit: hitText = "crit"
-	baseHit = diceHit
- 
-	# Adjust hit if Mighty goes off
-	baseHit = $Styles.style_mighty_trigger(body, attackingPawn, baseHit)
-	
-	# Damage formula
-	var baseDefendedHit = baseHit * self.def
-	var actualDefended = baseDefendedHit * (1.0 - attackingPawn.pen)
-	var realHit = (baseHit - actualDefended)
-
-	# Slayer defence-bypassing percentage-damage mechanic
-	realHit = $Styles.style_slayer_trigger(body, attackingPawn, realHit)
-
-	# Calculate global ramp-up damage reduction
-	var finalHit = realHit * (get_parent().globalDmgMod / get_parent().dmgModDuration)
-
-	# Apply damage
-	self.hp -= finalHit
-
-	# Update score
-	damageTaken += finalHit
-	attackingPawn.damageDealt += finalHit
-	get_parent().update_combat_log("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % finalHit + " dmg") #— [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
-	
-	# Combat log backend
-	print("[" + str(attackerUsername) + "] " + str(hitText) + " [" + str(self.username) + "] for " + "%0.2f" % finalHit + " dmg")
-
-func pawn_death(attackingPawn, killer: String, pawnIndex: int) -> void:
-
-	# Create a tombstone
-	var mainBoard = get_parent().get_parent()
-	var newTombstone = tombstone.instantiate()
-	newTombstone.global_position = global_position
-	newTombstone.name = "Tombstone (" + username + ")"
-	newTombstone.username = username
-	get_parent().add_child(newTombstone)
-	print("[" + str(username) + "] was killed by [" + str(killer) + "]")
-
-	# Play death chime
-	attackingPawn.get_node("KillSound").panning_strength = 0.0
-	attackingPawn.get_node("KillSound").play()
-
-	# Save progress & destroy self
-	update_scoreboard(mainBoard, self, pawnIndex, false)
-	get_parent().update_kill_feed("[" + str(killer) + "] eliminated [" + str(username) + "]")
-	self.queue_free()
-
-	# For last Pawn, make order exception to transition to scoreboard
-	if mainBoard.pawnList.size() <= 1:
-		update_scoreboard(mainBoard, attackingPawn, pawnIndex, true)
-
 # Clean up Pawn attacks & effects after death
 func _on_tree_exiting() -> void:
 	for attack in attackObjects:
 		if attack != null:
 			attack.queue_free()
+
+#####################
+# UTILITY FUNCTIONS #
+#####################
 
 # A small float for breaking timing ties
 func random_variance() -> float:

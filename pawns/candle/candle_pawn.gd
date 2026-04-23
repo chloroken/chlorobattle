@@ -13,22 +13,17 @@ var emberSpawnCooldownMin = 4.0
 var emberPositionOffset = 50
 var emberScale = 0.5
 
-# Start timers
 func _ready() -> void:
 	super()
-	
-	# Start attack cycle
+
 	$EmberSpawnTimer.one_shot = true
 	if !attacksDisabled:
-		$AttackCooldownTimer.start(asp * calculate_flicker_cooldown())
-		$EmberSpawnTimer.start(asp * randf_range(emberSpawnCooldownMin, emberSpawnCooldownMax))
+		start_ember_cooldown()
+		start_attack_cooldown()
 
 func _on_attack_cooldown_timer_timeout() -> void:
-
-	# Prevent attacks if timid
-	if !$Status.get_node("TimidStatusTimer").is_stopped(): 
-		$AttackCooldownTimer.start(asp * calculate_flicker_cooldown())
-		return
+	start_attack_cooldown()
+	if disarm_check(): return
 
 	# Flicker around Candle
 	var newAttack = candleAttack.instantiate()
@@ -36,7 +31,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.dmg = self.dmg
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
-
+	
 	# Flicker around embers
 	for child in $EmberContainer.get_children():
 		var newEmberAttack = candleAttack.instantiate()
@@ -48,7 +43,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newEmberAttack.isPersistentSummon = true
 		attackObjects.append(newEmberAttack)
 		$AttackContainer.add_child(newEmberAttack)
-	
+
+func start_attack_cooldown() -> void:
 	$AttackCooldownTimer.start(asp * calculate_flicker_cooldown())
 
 func calculate_flicker_cooldown() -> float:
@@ -58,22 +54,24 @@ func calculate_flicker_cooldown() -> float:
 	var flickerRange = randf_range(attackCooldownMin, actualMaxCooldown)
 	return(flickerRange)
 
-# Create an ember
+# Embers
+func start_ember_cooldown() -> void:
+	$EmberSpawnTimer.start(asp * randf_range(emberSpawnCooldownMin, emberSpawnCooldownMax))
+
 func _on_ember_spawn_timer_timeout() -> void:
 	if attacksDisabled: return
 	var newEmber = emberObject.instantiate()
 	newEmber.position = good_ember_position()
 	attackObjects.append(newEmber)
 	$EmberContainer.add_child(newEmber)
-	var newEmberCooldown = randf_range(emberSpawnCooldownMin, emberSpawnCooldownMax)
-	$EmberSpawnTimer.start(asp * newEmberCooldown + random_variance())
+	start_ember_cooldown()
 
-# Find a good position to create an ember
 func good_ember_position() -> Vector2:
 	var newPos = try_ember_position()
 	while newPos.distance_to(center) > get_parent().boardRadius:
 		newPos = try_ember_position()
 	return(newPos)
+
 func try_ember_position() -> Vector2:
 	var offsetX = randf_range(-emberPositionOffset, emberPositionOffset)
 	var offsetY = randf_range(-emberPositionOffset, emberPositionOffset)

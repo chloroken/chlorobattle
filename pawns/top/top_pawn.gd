@@ -8,7 +8,7 @@ var sparkCooldown = 0.25
 var sparkScaleMin = 0.5
 var sparkScaleMax = 1.0
 var sparkScaleFloor = 0.25
-var sparkDuration = 5.0
+var sparkDuration = 2.0
 var sparkDurVariance = 0.5
 
 # Bounce variables
@@ -19,8 +19,7 @@ func _ready() -> void:
 	super()
 
 	# Start attack cycle
-	if !attacksDisabled:
-		$AttackCooldownTimer.start(asp * sparkCooldown + random_variance())
+	if !attacksDisabled: start_attack_cooldown()
 
 func _physics_process(delta: float) -> void:
 	super(delta)
@@ -35,12 +34,11 @@ func top_hit_wall() -> void:
 	$Status.start_sprint(topBounceDuration)
 
 func _on_attack_cooldown_timer_timeout() -> void:
+	start_attack_cooldown()
+	if disarm_check(): return
 
-	# Prevent attacks if timid/stuck
-	if !$Status.get_node("TimidStatusTimer").is_stopped():
-		$AttackCooldownTimer.start(asp * sparkCooldown)
-		return
-	elif !$Status.get_node("StuckStatusTimer").is_stopped():
+	# Prevent attacks if stuck
+	if !$Status.get_node("StuckStatusTimer").is_stopped():
 		$AttackCooldownTimer.start(asp * sparkCooldown)
 		return
 		
@@ -60,6 +58,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 
+func start_attack_cooldown() -> void:
 	# Increase attack speed while sprinting
 	var atkSpdMod = 1.0
 	var isSprinting = $Status.get_node("SprintStatusTimer")

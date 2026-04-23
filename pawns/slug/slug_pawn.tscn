@@ -9,19 +9,15 @@
 script = ExtResource("2_8633t")
 slugAttack = ExtResource("3_tqnmo")
 hp = 300.0
+def = 0.5
 dmg = 15.0
 pen = 0.4
-def = 0.5
 spd = 20.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_qfyav")
 
-[node name="AttackCooldownTimer" parent="." index="3" unique_id=1610759688]
-one_shot = true
-autostart = true
-
-[node name="NameLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
+[node name="NameLabel" parent="GUI" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
 text = "slug"
 
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

@@ -23,22 +23,15 @@ func _ready() -> void:
 	
 	# Start attack routine
 	if !attacksDisabled:
-		$AttackCooldownTimer.start(asp * randf_range(splashCooldownMin, splashCooldownMax) + random_variance())
+		$AttackCooldownTimer.one_shot = true
+		$AttackDurationTimer.one_shot = true
+		start_attack_cooldown()
 
 func _on_attack_cooldown_timer_timeout() -> void:
-
-	# Prevent attacks if timid
-	if !$Status.get_node("TimidStatusTimer").is_stopped():
-		$AttackCooldownTimer.start(asp * randf_range(splashCooldownMin, splashCooldownMax) + random_variance())
-		return
+	start_attack_cooldown()
+	if disarm_check(): return
 	
-	# Create splash attack for "dive"
-	var newAttack = grouperAttack.instantiate()
-	newAttack.position = self.position
-	newAttack.dmg = self.dmg
-	newAttack.scaleMod = randf_range(splashScaleMin, splashScaleMax)
-	attackObjects.append(newAttack)
-	$AttackContainer.add_child(newAttack)
+	splash_attack()
 
 	# Hide pawn & sprint
 	$Status.start_void(diveSpeedDuration)
@@ -47,22 +40,22 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	# Start timers
 	$BubbleTimer.start(bubbleTimer)
 	$AttackDurationTimer.start(diveSpeedDuration)
-	$AttackCooldownTimer.start(asp * randf_range(splashCooldownMin, splashCooldownMax) + random_variance())
 
 func _on_attack_duration_timer_timeout() -> void:
+	splash_attack()
+	$BubbleTimer.stop()
 
-	# Create splash attack for "resurface"
+func start_attack_cooldown() -> void:
+	$AttackCooldownTimer.start(asp * randf_range(splashCooldownMin, splashCooldownMax) + random_variance())
+
+func splash_attack() -> void:
 	var newAttack = grouperAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg
 	newAttack.scaleMod = randf_range(splashScaleMin, splashScaleMax)
-	$AttackContainer.add_child(newAttack)
 	attackObjects.append(newAttack)
+	$AttackContainer.add_child(newAttack)
 
-	# Stop bubbles
-	$BubbleTimer.stop()
-
-# Drop bubbles while underwater for visual clarity
 func _on_bubble_timer_timeout() -> void:
 	var newBubble = grouperBubble.instantiate()
 	var ranX = randi_range(-bubbleOffset, bubbleOffset)

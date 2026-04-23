@@ -11,25 +11,19 @@ script = ExtResource("2_xl8v5")
 grouperAttack = ExtResource("3_udqqg")
 grouperBubble = ExtResource("4_q1jjm")
 hp = 380.0
+def = 0.2
 dmg = 50.0
 pen = 0.4
-def = 0.2
 spd = 50.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_46qhr")
 
 [node name="AttackDurationTimer" type="Timer" parent="." index="3" unique_id=1434564844]
-one_shot = true
 
 [node name="BubbleTimer" type="Timer" parent="." index="4" unique_id=1771762797]
 
-[node name="AttackCooldownTimer" parent="." index="5" unique_id=1610759688]
-wait_time = 5.0
-one_shot = true
-autostart = true
-
-[node name="NameLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
+[node name="NameLabel" parent="GUI" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
 text = "grouper"
 
 [connection signal="timeout" from="AttackDurationTimer" to="." method="_on_attack_duration_timer_timeout"]

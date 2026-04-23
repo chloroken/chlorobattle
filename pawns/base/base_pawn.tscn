@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ditsec7n1hkv8" path="res://items/tire/tire_attack.tscn" id="3_5e5wd"]
 [ext_resource type="PackedScene" uid="uid://dnkqxjuduneo8" path="res://items/killbot/item_killbot.tscn" id="3_ae3pr"]
 [ext_resource type="PackedScene" uid="uid://bhh6l25wl27ki" path="res://items/dice/item_dice.tscn" id="4_weq32"]
-[ext_resource type="PackedScene" uid="uid://d2mn3nlatfxkh" path="res://items/milkshake/item_milkshake.tscn" id="5_bxe4l"]
+[ext_resource type="Script" uid="uid://bpcbkxnkktgie" path="res://pawns/base/gui.gd" id="4_ybvt0"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="7_hndg7"]
 [ext_resource type="PackedScene" uid="uid://c7nabqm2bnb2t" path="res://items/map/item_map.tscn" id="7_jv0kv"]
 [ext_resource type="AudioStream" uid="uid://c5efgrhkqu74x" path="res://assets/sounds/kill.mp3" id="9_j523l"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cmsgdkmns5dih" path="res://styles/styles.gd" id="11_jv0kv"]
 [ext_resource type="Script" uid="uid://cpq2j6pt2c6hk" path="res://items/items.gd" id="11_p38oh"]
 [ext_resource type="Texture2D" uid="uid://bilqvawlfie8s" path="res://status/icons/drunk_icon.png" id="12_aj5j2"]
+[ext_resource type="PackedScene" uid="uid://dvi5mcrtxvk0u" path="res://status/effects/drunk_effect.tscn" id="13_1sae3"]
 [ext_resource type="Texture2D" uid="uid://bs5clmg1ab3jy" path="res://status/icons/lazy_icon.png" id="13_ybvt0"]
 [ext_resource type="Texture2D" uid="uid://hncn8l3lqv6p" path="res://status/icons/scared_icon.png" id="14_1sae3"]
 [ext_resource type="PackedScene" uid="uid://mgwdx835xyyo" path="res://status/icons/status_indicator.tscn" id="15_mfbh7"]
@@ -23,7 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://c0xyayvj2pnbn" path="res://status/icons/tanky_icon.png" id="19_lhhwe"]
 [ext_resource type="Texture2D" uid="uid://imenya06wh6k" path="res://status/icons/void_icon.png" id="19_ybvt0"]
 [ext_resource type="Texture2D" uid="uid://fkfvrhqe1qqy" path="res://status/icons/weak_icon.png" id="20_1sae3"]
-[ext_resource type="Texture2D" uid="uid://c3buyv3d0akf0" path="res://status/icons/timid_icon.png" id="20_edq0t"]
+[ext_resource type="Texture2D" uid="uid://c3buyv3d0akf0" path="res://status/icons/disarmed_icon.png" id="20_edq0t"]
 [ext_resource type="PackedScene" uid="uid://brb6i5u1uth2i" path="res://styles/style_charge.tscn" id="24_aj5j2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
@@ -31,16 +32,11 @@ radius = 12.0
 
 [node name="BasePawn" type="Area2D" unique_id=1877646274]
 script = ExtResource("1_o1hwx")
-hp = 100.0
-dmg = 1.0
-def = 0.1
-spd = 0.5
 tombstone = ExtResource("2_5gqyv")
-killbot = ExtResource("3_ae3pr")
-diceEffect = ExtResource("4_weq32")
-mapBlinkEffect = ExtResource("7_jv0kv")
-milkshakeEffect = ExtResource("5_bxe4l")
-tireAttack = ExtResource("3_5e5wd")
+hp = 100.0
+def = 0.1
+dmg = 1.0
+spd = 0.5
 
 [node name="PawnSprite" type="Sprite2D" parent="." unique_id=181134308]
 
@@ -55,10 +51,11 @@ volume_db = -15.0
 
 [node name="AttackContainer" type="Node" parent="." unique_id=1458982635]
 
-[node name="gui" type="Node2D" parent="." unique_id=1790961739]
+[node name="GUI" type="Node2D" parent="." unique_id=1790961739]
 z_index = -1
+script = ExtResource("4_ybvt0")
 
-[node name="NameLabel" type="Label" parent="gui" unique_id=1628394180]
+[node name="NameLabel" type="Label" parent="GUI" unique_id=1628394180]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -79,7 +76,7 @@ text = "pawn"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HitpointLabel" type="Label" parent="gui" unique_id=1383475225]
+[node name="HitpointLabel" type="Label" parent="GUI" unique_id=1383475225]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -101,49 +98,28 @@ text = "123"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StyleLabel" type="RichTextLabel" parent="gui" unique_id=541606110]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = 25.0
-offset_right = 64.0
-offset_bottom = 57.00003
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 5
-theme_override_fonts/normal_font = ExtResource("7_hndg7")
-theme_override_font_sizes/normal_font_size = 12
-text = "•••••"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HitpointLabelBlack" type="ColorRect" parent="gui" unique_id=664546012]
+[node name="HitpointLabelBlack" type="ColorRect" parent="GUI" unique_id=664546012]
 offset_left = -24.0
 offset_top = -26.0
 offset_right = 24.0
 offset_bottom = -20.0
 color = Color(0, 0, 0, 1)
 
-[node name="HitpointLabelRed" type="ColorRect" parent="gui" unique_id=1205204769]
+[node name="HitpointLabelRed" type="ColorRect" parent="GUI" unique_id=1205204769]
 offset_left = -23.0
 offset_top = -25.0
 offset_right = 23.0
 offset_bottom = -21.0
 color = Color(0.77254903, 0, 0, 1)
 
-[node name="HitpointLabelGreen" type="ColorRect" parent="gui" unique_id=255061500]
+[node name="HitpointLabelGreen" type="ColorRect" parent="GUI" unique_id=255061500]
 offset_left = -23.0
 offset_top = -25.0
 offset_right = 23.0
 offset_bottom = -21.0
 color = Color(5.77569e-06, 0.818051, 3.85046e-07, 1)
 
-[node name="StatusFlowContainer" type="HFlowContainer" parent="gui" unique_id=450095345]
+[node name="StatusFlowContainer" type="HFlowContainer" parent="GUI" unique_id=450095345]
 offset_left = -24.0
 offset_top = 38.0
 offset_right = 24.0
@@ -156,6 +132,7 @@ theme_override_constants/v_separation = 0
 script = ExtResource("11_3owok")
 dotIcon = ExtResource("11_gjp77")
 drunkIcon = ExtResource("12_aj5j2")
+drunkEffect = ExtResource("13_1sae3")
 lazyIcon = ExtResource("13_ybvt0")
 scaredIcon = ExtResource("14_1sae3")
 statusIcon = ExtResource("15_mfbh7")
@@ -167,6 +144,12 @@ timidIcon = ExtResource("20_edq0t")
 voidIcon = ExtResource("19_ybvt0")
 weakIcon = ExtResource("20_1sae3")
 
+[node name="DisarmedStatusTimer" type="Timer" parent="Status" unique_id=573651188]
+one_shot = true
+
+[node name="DrunkStatusTimer" type="Timer" parent="Status" unique_id=682299331]
+one_shot = true
+
 [node name="SlowStatusTimer" type="Timer" parent="Status" unique_id=71689046]
 one_shot = true
 
@@ -174,9 +157,6 @@ one_shot = true
 one_shot = true
 
 [node name="StuckStatusTimer" type="Timer" parent="Status" unique_id=1600425509]
-one_shot = true
-
-[node name="TimidStatusTimer" type="Timer" parent="Status" unique_id=573651188]
 one_shot = true
 
 [node name="VoidStatusTimer" type="Timer" parent="Status" unique_id=1852202101]
@@ -197,6 +177,10 @@ styleCharge = ExtResource("24_aj5j2")
 
 [node name="Items" type="Node2D" parent="." unique_id=2053751710]
 script = ExtResource("11_p38oh")
+killbot = ExtResource("3_ae3pr")
+diceEffect = ExtResource("4_weq32")
+mapBlinkEffect = ExtResource("7_jv0kv")
+tireAttack = ExtResource("3_5e5wd")
 
 [node name="AntimatterCooldownTimer" type="Timer" parent="Items" unique_id=2066980002]
 
@@ -204,8 +188,7 @@ script = ExtResource("11_p38oh")
 wait_time = 2.0
 one_shot = true
 
-[node name="TireAttackTimer" type="Timer" parent="Items" unique_id=1665201497]
-one_shot = true
+[node name="FlaskCooldownTimer" type="Timer" parent="Items" unique_id=1346152866]
 
 [node name="GlueDurationTimer" type="Timer" parent="Items" unique_id=231319745]
 wait_time = 3.0
@@ -226,12 +209,15 @@ one_shot = true
 [node name="SkateCooldownTimer" type="Timer" parent="Items" unique_id=435712509]
 one_shot = true
 
+[node name="TireAttackTimer" type="Timer" parent="Items" unique_id=1665201497]
+one_shot = true
+
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Status/DisarmedStatusTimer" to="Status" method="_on_timid_status_timer_timeout"]
 [connection signal="timeout" from="Status/SlowStatusTimer" to="Status" method="_on_slow_status_timer_timeout"]
 [connection signal="timeout" from="Status/SprintStatusTimer" to="Status" method="_on_sprint_status_timer_timeout"]
 [connection signal="timeout" from="Status/StuckStatusTimer" to="Status" method="_on_stuck_status_timer_timeout"]
-[connection signal="timeout" from="Status/TimidStatusTimer" to="Status" method="_on_timid_status_timer_timeout"]
 [connection signal="timeout" from="Status/VoidStatusTimer" to="Status" method="_on_void_status_timer_timeout"]
 [connection signal="timeout" from="Status/WeakStatusTimer" to="Status" method="_on_weak_status_timer_timeout"]
 [connection signal="timeout" from="Styles/BerserkResetTimer" to="Styles" method="_on_berserk_reset_timer_timeout"]
@@ -239,9 +225,10 @@ one_shot = true
 [connection signal="timeout" from="Styles/MightyChargeTimer" to="Styles" method="_on_mighty_charge_timer_timeout"]
 [connection signal="timeout" from="Items/AntimatterCooldownTimer" to="Items" method="_on_antimatter_cooldown_timer_timeout"]
 [connection signal="timeout" from="Items/AntimatterDurationTimer" to="Items" method="_on_antimatter_duration_timer_timeout"]
-[connection signal="timeout" from="Items/TireAttackTimer" to="Items" method="_on_tire_attack_timer_timeout"]
+[connection signal="timeout" from="Items/FlaskCooldownTimer" to="Items" method="_on_flask_cooldown_timer_timeout"]
 [connection signal="timeout" from="Items/GlueDurationTimer" to="Items" method="_on_glue_duration_timer_timeout"]
 [connection signal="timeout" from="Items/MapCooldownTimer" to="Items" method="_on_map_cooldown_timer_timeout"]
 [connection signal="timeout" from="Items/MilkshakeDelayTimer" to="Items" method="_on_milkshake_delay_timer_timeout"]
 [connection signal="timeout" from="Items/SkateDurationTimer" to="Items" method="_on_skate_duration_timer_timeout"]
 [connection signal="timeout" from="Items/SkateCooldownTimer" to="Items" method="_on_skate_cooldown_timer_timeout"]
+[connection signal="timeout" from="Items/TireAttackTimer" to="Items" method="_on_tire_attack_timer_timeout"]

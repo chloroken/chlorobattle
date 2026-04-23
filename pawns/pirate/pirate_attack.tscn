@@ -21,7 +21,7 @@ texture = ExtResource("4_nxtvd")
 shape = SubResource("CircleShape2D_4mm8i")
 
 [node name="FizzleTimer" parent="." index="3" unique_id=930558460]
-wait_time = 3.0
+wait_time = 2.25
 autostart = true
 
 [node name="DirectionTimer" type="Timer" parent="." index="4" unique_id=1509590495]

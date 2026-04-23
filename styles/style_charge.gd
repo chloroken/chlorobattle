@@ -25,7 +25,7 @@ func _physics_process(delta: float) -> void:
 	if orbitRotation > 360: orbitRotation = 0
 	position = parentPawn.position + (Vector2.ONE * orbitDistance).rotated(orbitDir * orbitRotation)
 	
-	var newParticle = styleParticle.instantiate()
-	newParticle.position = position
-	add_sibling(newParticle)
-	newParticle.get_node("StyleParticleSprite").modulate = particleColor
+	#var newParticle = styleParticle.instantiate()
+	#newParticle.position = position
+	#add_sibling(newParticle)
+	#newParticle.get_node("StyleParticleSprite").modulate = particleColor

@@ -11,9 +11,9 @@ script = ExtResource("2_do8vn")
 shipRing = ExtResource("4_52m3r")
 shipAttack = ExtResource("3_jyjsx")
 hp = 380.0
+def = 0.4
 dmg = 8.0
 pen = 0.2
-def = 0.4
 spd = 50.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
@@ -21,21 +21,16 @@ texture = ExtResource("2_7iikp")
 
 [node name="RingTimer" type="Timer" parent="." index="3" unique_id=657030387]
 wait_time = 0.25
-autostart = true
 
 [node name="OverheatDurationTimer" type="Timer" parent="." index="4" unique_id=29446756]
-wait_time = 2.0
-one_shot = true
 
 [node name="BurstDurationTimer" type="Timer" parent="." index="5" unique_id=256042320]
-wait_time = 2.0
-one_shot = true
 
 [node name="AttackCooldownTimer" parent="." index="6" unique_id=1610759688]
 wait_time = 0.1
 one_shot = true
 
-[node name="NameLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
+[node name="NameLabel" parent="GUI" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
 text = "ship"
 
 [connection signal="timeout" from="RingTimer" to="." method="_on_ring_timer_timeout"]
