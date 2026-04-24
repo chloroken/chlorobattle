@@ -1,7 +1,5 @@
 extends Node2D
 
-@export var styleParticle: Resource
-
 var orbitDirs = [-1, 1]
 var orbitDir = orbitDirs.pick_random()
 var orbitDistance = 15

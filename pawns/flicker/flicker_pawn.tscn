@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://qjonte0obwms"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_wh3ex"]
+[ext_resource type="Script" uid="uid://yfr8d0pc16v5" path="res://pawns/flicker/flicker_pawn.gd" id="2_4ghe6"]
+[ext_resource type="Texture2D" uid="uid://2nyxsrcuabpj" path="res://pawns/flicker/flicker_pawn.png" id="3_a1r21"]
+[ext_resource type="PackedScene" uid="uid://c3esoh24ik3nr" path="res://pawns/flicker/blink_attack.tscn" id="3_vbbgf"]
+[ext_resource type="Texture2D" uid="uid://bg7lnl5e6qya6" path="res://pawns/flicker/warp_attack.png" id="5_4plck"]
+
+[node name="StormPawn" unique_id=1877646274 instance=ExtResource("1_wh3ex")]
+script = ExtResource("2_4ghe6")
+blinkScene = ExtResource("3_vbbgf")
+baseSprite = ExtResource("3_a1r21")
+warpSprite = ExtResource("5_4plck")
+hp = 380.0
+def = 0.3
+dmg = 50.0
+pen = 0.4
+spd = 30.0
+
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+texture = ExtResource("3_a1r21")
+
+[node name="BlinkDelayTimer" type="Timer" parent="." index="4" unique_id=1080117146]
+wait_time = 0.25
+one_shot = true
+
+[node name="WarpCooldownTimer" type="Timer" parent="." index="5" unique_id=1215683184]
+one_shot = true
+
+[node name="DirectionDelayTimer" parent="." index="8" unique_id=739089802]
+wait_time = 0.5
+
+[connection signal="timeout" from="BlinkDelayTimer" to="." method="_on_blink_delay_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

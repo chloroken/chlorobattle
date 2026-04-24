@@ -1,5 +1,10 @@
 extends Node2D
 
+@export var healthwormNpc: Resource
+var healthwormCooldownMin = 2.0
+var healthwormCooldownMax = 5.0
+var healthwormArray = []
+
 # Board variables
 var baseRadius
 var boardRadius = 400
@@ -23,6 +28,9 @@ var combatLogText = []
 var combatLogLineCount = 6
 
 func _ready() -> void:
+	$HealthwormSpawnTimer.one_shot = true
+	$HealthwormSpawnTimer.start(randf_range(healthwormCooldownMin, healthwormCooldownMax))
+	
 	$BellSound.panning_strength = 0.0
 	$BellSound.play()
 	Engine.set_time_scale(1)
@@ -97,6 +105,7 @@ func spawn_pawns(i: int) -> void:
 	if pawn.type == "candle": pawnType = get_parent().candle
 	elif pawn.type == "chair": pawnType = get_parent().chair
 	elif pawn.type == "cyclone": pawnType = get_parent().cyclone
+	elif pawn.type == "flicker": pawnType = get_parent().flicker
 	elif pawn.type == "grouper": pawnType = get_parent().grouper
 	elif pawn.type == "mummy": pawnType = get_parent().mummy
 	elif pawn.type == "pirate": pawnType = get_parent().pirate
@@ -137,3 +146,11 @@ func update_combat_log(msg: String) -> void:
 	for i in range(min(combatLogLineCount - 1, combatLogText.size() - 1), -1, -1):
 		newString += "\n" + combatLogText[i]
 	$ArenaCanvas.get_node("CombatLogLabel").text = newString
+
+func _on_healthworm_spawn_timer_timeout() -> void:
+	var newWorm = healthwormNpc.instantiate()
+	var center = get_viewport_rect().size / 2.0
+	newWorm.position = center
+	add_child(newWorm)
+	healthwormArray.append(newWorm)
+	$HealthwormSpawnTimer.start(randf_range(healthwormCooldownMin, healthwormCooldownMax))

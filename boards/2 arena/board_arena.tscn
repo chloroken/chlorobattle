@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dxvx4hcsv5luv" path="res://boards/2 arena/board_arena.gd" id="1_4cru4"]
 [ext_resource type="Texture2D" uid="uid://dgvli2pph220d" path="res://boards/graphics/arena_fancy1080.png" id="2_6k7p0"]
+[ext_resource type="PackedScene" uid="uid://ba2vewxrkt4pu" path="res://monsters/healthworm.tscn" id="2_j1rwd"]
 [ext_resource type="Texture2D" uid="uid://c2nbt24rjfjl3" path="res://boards/graphics/board_background.png" id="3_0rnid"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="4_2xcui"]
 [ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="5_6k7p0"]
@@ -10,6 +11,7 @@
 [node name="EarlyBoard" type="Node2D" unique_id=230680556]
 process_mode = 1
 script = ExtResource("1_4cru4")
+healthwormNpc = ExtResource("2_j1rwd")
 
 [node name="BoardSprite" type="Sprite2D" parent="." unique_id=570816999]
 modulate = Color(1, 1, 1, 0.39215687)
@@ -30,6 +32,8 @@ scale = Vector2(1.333, 1.333)
 texture = ExtResource("3_0rnid")
 
 [node name="ArenaCloseTimer" type="Timer" parent="." unique_id=1118146589]
+
+[node name="HealthwormSpawnTimer" type="Timer" parent="." unique_id=1734577183]
 
 [node name="SpawnStaggerTimer" type="Timer" parent="." unique_id=603592877]
 
@@ -95,4 +99,5 @@ clip_text = true
 stream = ExtResource("6_b0655")
 volume_db = -10.0
 
+[connection signal="timeout" from="HealthwormSpawnTimer" to="." method="_on_healthworm_spawn_timer_timeout"]
 [connection signal="timeout" from="SpawnStaggerTimer" to="." method="_on_spawn_stagger_timer_timeout"]

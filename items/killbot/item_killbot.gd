@@ -85,6 +85,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newBullet.scale.x = sizePerStack + (sizePerStack * killbotStacks)
 	newBullet.scale.y = sizePerStack + (sizePerStack * killbotStacks)
 	newBullet.dmg = dmgBase + (dmgPerStack * killbotStacks)
+	newBullet.attackName = "Killbot"
 	newBullet.speed = attackSpeedBase + (attackSpeedPerStack * killbotStacks)
 
 func _on_killbot_stack_timer_timeout() -> void:

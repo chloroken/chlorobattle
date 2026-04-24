@@ -18,9 +18,9 @@ func _ready() -> void:
 	center = get_viewport_rect().size / 2.0
 
 	# Adjust projectile colors 
-	$BaseSprite.modulate.r = 1
-	$BaseSprite.modulate.b = randf_range(0.1, 0.5)
-	$BaseSprite.modulate.g = randf_range(0.1, 0.5)
+	$BaseSprite.modulate.r = 0#randf_range(0.6, 1.0)
+	$BaseSprite.modulate.g = randf_range(0.4, 1.0)
+	$BaseSprite.modulate.b = randf_range(0.5, 0.8)
 
 	# Set visibility order
 	z_as_relative = false
@@ -39,13 +39,20 @@ func _physics_process(delta: float) -> void:
 
 	# Ensure we bounce at the right location
 	if distFromCenter > boardRadius:
-		
+
 		# Make sure we don't bounce multiple times rapidly
 		if $DisableBounceTimer.is_stopped():
 			$DisableBounceTimer.start(disableBounceDuration)
-			
+
 			# Bounce
 			direction = position.direction_to(center) + direction
+
+			# Adjust projectile colors 
+			var bounceColor = randf_range(0.6, 0.8)
+			$BaseSprite.modulate.r = bounceColor
+			$BaseSprite.modulate.g = bounceColor
+			$BaseSprite.modulate.b = bounceColor
+			dmg /= 2
 
 	# Move projectile
 	position += direction * speed * delta

@@ -21,6 +21,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var ranY = randi_range(-trailOffset, trailOffset)
 	newAttack.position = self.position + Vector2(ranX, ranY)
 	newAttack.baseDmg = self.dmg
+	newAttack.attackName = "Ooze"
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 

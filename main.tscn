@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://58lj5q30abqo" path="res://pawns/ship/ship_pawn.tscn" id="10_w48qg"]
 [ext_resource type="PackedScene" uid="uid://b34t2uaa0o3nq" path="res://pawns/top/top_pawn.tscn" id="10_yktdr"]
 [ext_resource type="PackedScene" uid="uid://ddxj6u8lafeel" path="res://pawns/slug/slug_pawn.tscn" id="11_vivmo"]
+[ext_resource type="PackedScene" uid="uid://qjonte0obwms" path="res://pawns/flicker/flicker_pawn.tscn" id="13_w48qg"]
 
 [node name="main" type="Node2D" unique_id=453552002]
 process_mode = 3
@@ -22,6 +23,7 @@ arena = ExtResource("3_5vw27")
 score = ExtResource("4_4c57u")
 candle = ExtResource("5_l0jus")
 chair = ExtResource("7_efxa6")
+flicker = ExtResource("13_w48qg")
 cyclone = ExtResource("7_ps721")
 grouper = ExtResource("8_dg77c")
 mummy = ExtResource("9_amuj7")

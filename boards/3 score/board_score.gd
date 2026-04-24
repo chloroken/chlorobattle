@@ -14,6 +14,7 @@ func _ready() -> void:
 		if pawn.type == "candle": pawnType = get_parent().candle
 		elif pawn.type == "chair": pawnType = get_parent().chair
 		elif pawn.type == "cyclone": pawnType = get_parent().cyclone
+		elif pawn.type == "flicker": pawnType = get_parent().flicker
 		elif pawn.type == "grouper": pawnType = get_parent().grouper
 		elif pawn.type == "mummy": pawnType = get_parent().mummy
 		elif pawn.type == "pirate": pawnType = get_parent().pirate
@@ -22,7 +23,8 @@ func _ready() -> void:
 		elif pawn.type == "top": pawnType = get_parent().top
 		var newPawn = pawnType.instantiate()
 		var center = get_viewport_rect().size / 2.0
-		newPawn.position = center
+		var pawnOffset = Vector2(randf_range(-10, 10), randf_range(-10, 10))
+		newPawn.position = center + pawnOffset
 		newPawn.name = pawn.username
 		newPawn.username = pawn.username # str(randf()) # 
 		newPawn.type = pawn.type

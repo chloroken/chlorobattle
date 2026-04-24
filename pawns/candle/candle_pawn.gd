@@ -29,6 +29,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = candleAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg
+	newAttack.attackName = "Flame"
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 	
@@ -37,6 +38,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		var newEmberAttack = candleAttack.instantiate()
 		newEmberAttack.position = child.position
 		newEmberAttack.dmg = self.dmg
+		newAttack.attackName = "Ember"
 		newEmberAttack.emberFlicker = true
 		newEmberAttack.scale.x = emberScale
 		newEmberAttack.scale.y = emberScale

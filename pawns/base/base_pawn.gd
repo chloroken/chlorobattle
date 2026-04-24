@@ -30,6 +30,8 @@ var hitList = []
 var center: Vector2
 var destination: Vector2
 var isCursed = false
+# New movement
+var direction
 
 # Score variables
 var nameCharLimit = 6
@@ -44,13 +46,13 @@ var slowSpeed = 0.5
 var stuckSpeed = 0.0
 
 func _ready() -> void:
-	
+
 	# Initial setup
 	center = get_viewport_rect().size / 2.0
 	baseHp = hp
-	destination = new_destination()
+	direction = new_direction()
 	$AttackCooldownTimer.one_shot = true
-	
+
 	# Set visibility order
 	z_as_relative = false
 	z_index = get_node("/root/main").layerPawn
@@ -66,27 +68,21 @@ func disarm_check() -> bool:
 func _physics_process(delta: float) -> void:
 	
 	# Pawn movement
-	var distFromDesto = global_position.distance_to(destination)
-	var distFromCenter = global_position.distance_to(center)
 	var boardRadius = get_parent().boardRadius
-	if distFromDesto < 10 || distFromCenter >= boardRadius:
-		destination = new_destination()
+	var distFromCenter = global_position.distance_to(center)
+	if distFromCenter >= boardRadius && $DirectionDelayTimer.is_stopped():
+		$DirectionDelayTimer.start()
+		direction = new_direction()
 
 	# Move Pawn with movement speed modifiers in mind
 	var statusSpdMod = 1
 	if !$Status.get_node("SprintStatusTimer").is_stopped(): statusSpdMod *= sprintSpeed
 	if !$Status.get_node("SlowStatusTimer").is_stopped(): statusSpdMod *= slowSpeed
 	if !$Status.get_node("StuckStatusTimer").is_stopped(): statusSpdMod *= stuckSpeed
-	global_position = global_position.move_toward(destination, spd * statusSpdMod * delta)
+	position += direction * spd * statusSpdMod * delta
 
-# Calculate a new place (not too close) for Pawn to go
-func new_destination() -> Vector2:
-	var radius = get_parent().boardRadius
-	var rando = ((Vector2.RIGHT * radius).rotated(randf_range(0, TAU)))
-	var desto = center + rando
-	while global_position.distance_to(desto) < radius:
-		desto = new_destination()
-	return(desto)
+func new_direction() -> Vector2:
+	return(position.direction_to(center).rotated(randf_range(-1.0, 1.0)))
 
 #################
 # HIT DETECTION #
@@ -103,7 +99,7 @@ func _on_body_entered(body: Node2D) -> void:
 		if accuracy_phase(attackingPawn, attackerUsername):
 			var damage = mitigation_phase(attackingPawn, body)
 			damage = modifier_phase(damage, attackingPawn, body)
-			damage_phase(damage, attackingPawn, attackerUsername)
+			damage_phase(damage, attackingPawn, attackerUsername, body)
 			post_damage_phase(attackingPawn, body)
 		clean_up_phase(body, attackingPawn, attackerUsername)
 
@@ -121,10 +117,12 @@ func pre_accuracy_phase(body, attackingPawn) -> void:
 func accuracy_phase(attackingPawn, attackerUsername) -> bool:
 	var hitChance = 100
 	var drunkTimer = attackingPawn.get_node("Status").get_node("DrunkStatusTimer")
-	if !drunkTimer.is_stopped(): hitChance = $Status.drunkMissChance
+	if !drunkTimer.is_stopped(): hitChance -= $Status.drunkMissChance
 	var hitRoll = randi_range(1, 100)
 	if hitRoll > hitChance:
-		print("[" + str(attackerUsername) + "] missed [" + str(self.username) + "]")
+		attackingPawn.direction = attackingPawn.new_direction()
+		print("[" + str(attackerUsername) + "] drunkenly missed [" + str(self.username) + "]")
+		get_parent().update_combat_log("[" + str(attackerUsername) + "] missed [" + str(self.username) + "]")
 		return(false)
 	return(true)
 
@@ -166,7 +164,7 @@ func modifier_phase(baseHit, attackingPawn, body) -> float:
 ################
 
 # Apply damage, record stats, output to combat log
-func damage_phase(finalDmg, attackingPawn, attackerUsername) -> void:
+func damage_phase(finalDmg, attackingPawn, attackerUsername, body) -> void:
 	
 	# Apply damage
 	self.hp -= finalDmg
@@ -174,10 +172,10 @@ func damage_phase(finalDmg, attackingPawn, attackerUsername) -> void:
 	# Update score
 	damageTaken += finalDmg
 	attackingPawn.damageDealt += finalDmg
-	get_parent().update_combat_log("[" + str(attackerUsername) + "] hit [" + str(self.username) + "] for " + "%0.2f" % finalDmg + " dmg") #— [" + "%0.2f" % baseHit + " - " + "%0.2f" % mitigated + " + " + "%0.2f" % (mitigated - penetrated) + "]")
+	get_parent().update_combat_log("[" + str(attackerUsername) + "] hit [" + str(self.username) + "] for " + "%0.2f" % finalDmg + " (" + str(body.attackName) + ")") 
 
 	# Combat log backend
-	print("[" + str(attackerUsername) + "] hit [" + str(self.username) + "] for " + "%0.2f" % finalDmg + " dmg")
+	print("[" + str(attackerUsername) + "] hit [" + str(self.username) + "] for " + "%0.2f" % finalDmg + " (" + str(body.attackName) + ")") 
 
 #####################
 # POST-DAMAGE PHASE #
@@ -187,7 +185,6 @@ func damage_phase(finalDmg, attackingPawn, attackerUsername) -> void:
 func post_damage_phase(attackingPawn, body) -> void:
 	$Items.item_try_killbot_stack(attackingPawn, body)
 	$Items.item_try_skating()
-	$Items.item_try_map()
 	$Items.item_try_glue(attackingPawn, body)
 	if type == "mummy" && !body.isPersistentSummon:
 		var attackerStatus = attackingPawn.get_node("Status")
@@ -196,6 +193,12 @@ func post_damage_phase(attackingPawn, body) -> void:
 			$Status.stop_weak()
 			$CursedResetTimer.start(self.curseResetTimer)
 			attackerStatus.start_weak(self.cursePassDuration)
+	if body.isSlugAttack:
+		var durationRemaining = body.get_node("FizzleTimer").get_time_left()
+		$Status.start_dot(durationRemaining)
+	if body.isTireAttack:
+		$Status.start_stuck(body.stuckDuration)
+	$Items.item_try_map()
 
 ##################
 # CLEAN-UP PHASE #

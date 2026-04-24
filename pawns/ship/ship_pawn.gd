@@ -26,28 +26,29 @@ func _ready() -> void:
 	if !attacksDisabled:
 		$OverheatDurationTimer.one_shot = true
 		$BurstDurationTimer.one_shot = true
-		$BurstDurationTimer.start()
+		$BurstDurationTimer.start(burstDuration)
 		$Status.start_slow(burstDuration)
 		start_attack_cooldown()
 
 func _process(_delta: float) -> void:
-	$PawnSprite.look_at(destination)
+	$PawnSprite.rotation = direction.angle()
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
-	
+
 	# Launch projectile
 	var newAttack = shipAttack.instantiate()
 	newAttack.position = self.position + (Vector2.RIGHT * projectileOffset).rotated($PawnSprite.rotation)
 	newAttack.dmg = self.dmg
+	newAttack.attackName = "Globule"
 	newAttack.speed = self.spd * randf_range(projectileSpdMin, projectileSpdMax)
 	newAttack.scale = Vector2.ONE * randf_range(projectileScaleMin, projectileScaleMax)
 	$AttackContainer.add_child(newAttack)
 	attackObjects.append(newAttack)
-	
+
 	# Aim bullet in arc based on ship direction
-	var newDir = self.position.direction_to(self.destination)
+	var newDir = self.direction
 	newDir = newDir.rotated(randf_range(-projectileArc, projectileArc))
 	newAttack.direction = newDir
 
@@ -69,5 +70,5 @@ func _on_overheat_duration_timer_timeout() -> void:
 # Drop rings behind ship for effect
 func _on_ring_timer_timeout() -> void:
 	var newRing = shipRing.instantiate()
+	newRing.position = self.global_position
 	$AttackContainer.add_child(newRing)
-	newRing.position = self.position

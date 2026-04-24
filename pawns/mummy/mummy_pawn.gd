@@ -34,6 +34,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = glyphAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg
+	newAttack.attackName = "Glyph"
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 

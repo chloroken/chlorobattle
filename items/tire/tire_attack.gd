@@ -14,20 +14,28 @@ var speed
 var bounceCount = 0
 var disableBounceDuration = 0.1
 
+var stuckDuration
+var stuckMax = 5.0
+var stuckModifier = 1.0
+
 # Trail variables
 @export var tireTrail: Resource
 
 func _ready() -> void:
-	
+
 	# Fetch item data
 	items = get_parent().get_parent().get_node("Items")
-	
+
+	# Set up tire attack
+	isTireAttack = true
+	stuckDuration = stuckMax
+
 	# Make this a single-target attack
 	areaAttack = false
-	
+
 	# Snapshot center of board
 	center = get_viewport_rect().size / 2.0
-	
+
 	# Assign a random direction
 	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
 
@@ -62,6 +70,8 @@ func _physics_process(delta: float) -> void:
 			bounceCount += 1
 			if bounceCount > items.tireBounceCap:
 				queue_free()
+				
+			stuckDuration = stuckMax - stuckModifier * bounceCount
 
 			# Make sure we don't bounce multiple times rapidly
 			$DisableBounceTimer.start(disableBounceDuration)

@@ -148,7 +148,8 @@ func item_try_map() -> void:
 		basePawn.position = blinkPos
 
 		# Get a new destination
-		basePawn.destination = basePawn.new_destination()
+		#basePawn.destination = basePawn.new_destination()
+		basePawn.direction = basePawn.new_direction()
 
 		# Clear slow and stuck
 		get_parent().get_node("Status").stop_slow()
@@ -203,7 +204,7 @@ func item_try_skating() -> void:
 		$SkateCooldownTimer.start(skateCooldown)
 
 		# Redirect to "mirror" of destination
-		basePawn.destination = center + (center - basePawn.destination)
+		basePawn.direction = -basePawn.position.direction_to(center)
 		print("[" + str(basePawn.username) + "] used [skates]")
 
 ########
@@ -215,8 +216,8 @@ var tireCooldownMax = 10.0
 var tireBaseSpeed = 200
 var tireBounceCap = 3
 var tireSpeedMod = 0.75
-var tireDmgBase = 100
-var tireDmgMod = 25
+var tireDmgBase = 50
+var tireDmgMod = 10
 func item_try_tire(attackingPawn) -> void:
 	if attackingPawn.item != "tire": return
 	else:
@@ -226,5 +227,6 @@ func _on_tire_attack_timer_timeout() -> void:
 	newAttack.position = get_parent().position
 	newAttack.destination = get_parent().destination
 	newAttack.speed = tireBaseSpeed
+	newAttack.attackName = "Tire"
 	get_parent().get_node("AttackContainer").add_child(newAttack)
 	get_parent().attackObjects.append(newAttack)

@@ -40,7 +40,7 @@ func _process(_delta: float) -> void:
 	
 	# Turn to face direction in Jet form
 	if !mechaForm:
-		$PawnSprite.look_at(destination)
+		$PawnSprite.rotation = direction.angle()
 		$PawnSprite.texture = jetFormSprite
 	else:
 		$PawnSprite.rotation = 0.0
@@ -55,6 +55,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		var newAttack = whirlwindAttack.instantiate()
 		newAttack.position = self.position
 		newAttack.dmg = self.dmg * whirlwindDmgMod
+		newAttack.attackName = "Glaive"
 		newAttack.direction = randf_range(0, TAU)
 		attackObjects.append(newAttack)
 		$AttackContainer.add_child(newAttack)
@@ -96,6 +97,7 @@ func make_explosion(loc: Vector2) -> void:
 	var newAttack = bombExplosion.instantiate()
 	newAttack.position = loc
 	newAttack.dmg = self.dmg
+	newAttack.attackName = "Bomb"
 	newAttack.areaAttack = true
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)

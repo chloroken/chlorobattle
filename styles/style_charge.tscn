@@ -2,11 +2,9 @@
 
 [ext_resource type="Script" uid="uid://7085uwtfo1sd" path="res://styles/style_charge.gd" id="1_3ny68"]
 [ext_resource type="Texture2D" uid="uid://d1gc82lp5rhuc" path="res://styles/style_charge.png" id="1_7hm8f"]
-[ext_resource type="PackedScene" uid="uid://cyihgbgb0d01e" path="res://styles/style_particle.tscn" id="2_ovwbg"]
 
 [node name="StyleCharge" type="Node2D" unique_id=233394817]
 script = ExtResource("1_3ny68")
-styleParticle = ExtResource("2_ovwbg")
 
 [node name="StyleChargeSprite" type="Sprite2D" parent="." unique_id=969079299]
 texture = ExtResource("1_7hm8f")

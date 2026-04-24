@@ -52,6 +52,7 @@ func splash_attack() -> void:
 	var newAttack = grouperAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg
+	newAttack.attackName = "Splash"
 	newAttack.scaleMod = randf_range(splashScaleMin, splashScaleMax)
 	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)

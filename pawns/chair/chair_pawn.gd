@@ -28,6 +28,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = chairAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg
+	newAttack.attackName = "Swing"
 	
 	# Swing duration & speed
 	newAttack.swingDur = randf_range(swingDurMin, swingDurMax)
@@ -43,6 +44,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newAttack.swingSpd = swingSpdMin
 		newAttack.swingDur = swingDurMax
 		newAttack.dmg *= critDmgMod
+		newAttack.attackName = "Redwood"
 
 	# Finish creating swing
 	attackObjects.append(newAttack)

@@ -13,6 +13,7 @@ func _ready() -> void:
 			$BerserkResetTimer.one_shot = true
 			$BerserkResetTimer.start(berserkTimerDuration)
 		elif basePawn.style == "bully":
+			get_parent().get_node("BullyCircle").modulate.a = 0.9
 			$BullyResetTimer.one_shot = true
 			$BullyResetTimer.start(bullyStackDuration)
 			add_bully_charge()
@@ -63,7 +64,9 @@ var bullyStackDuration = 20
 var bullyStackCount = 1
 var bullyHitCap = 5
 var bullyScaleMod = 0.2
-var bullyTimerDuration = 2.0
+var bullySprintDuration = 2.0
+var bullySlowDuration = 2.0
+var bullyDisarmedDuration = 1.0
 func add_bully_charge() -> void:
 	var newCharge = styleCharge.instantiate()
 	newCharge.particleColor = bullyColor
@@ -76,11 +79,11 @@ func style_bully_trigger(victim) -> void:
 	if victim.username == get_parent().username: return
 
 	# Sprint & increase size
-	get_parent().get_node("Status").start_sprint(bullyStackCount * bullyTimerDuration)
-	mighty_set_pawn_size()
+	get_parent().get_node("Status").start_sprint(bullyStackCount * bullySprintDuration)
+	bully_set_pawn_size()
 	
 	# Inflict slow
-	victim.get_node("Status").start_slow(bullyStackCount * bullyTimerDuration)
+	victim.get_node("Status").start_slow(bullyStackCount * bullySlowDuration)
 	
 	# Extra effects for non-bully victims
 	if victim.style != "bully":
@@ -97,7 +100,7 @@ func style_bully_trigger(victim) -> void:
 
 		# Inflict timid
 		if victim.hp < 1: victim.hp = 1
-		victim.get_node("Status").start_disarmed(bullyStackCount * bullyTimerDuration)
+		victim.get_node("Status").start_disarmed(bullyStackCount * bullyDisarmedDuration)
 
 	# Increase stacks & start cooldown
 	if bullyStackCount < bullyHitCap:
@@ -109,17 +112,19 @@ func style_bully_trigger(victim) -> void:
 		newCharge.get_node("StyleChargeSprite").modulate = bullyColor
 
 	$BullyResetTimer.start(bullyStackDuration)
+	get_parent().get_parent().update_kill_feed("[" + str(get_parent().username) + "] bullied [" + str(victim.username) + "]")
+
 func _on_bully_reset_timer_timeout() -> void:
 	bullyStackCount = 1
 	if activeStyleCharges.size() > bullyStackCount:
 		for i in activeStyleCharges.size() - bullyStackCount:
 			var chargeToDelete = activeStyleCharges.pop_front()
 			chargeToDelete.queue_free()
-	mighty_set_pawn_size()
-func mighty_set_pawn_size() -> void:
-	get_parent().get_node("PawnSprite").scale = Vector2.ONE * (1.0 + bullyScaleMod * bullyStackCount)
-	get_parent().get_node("PawnCollider").scale = Vector2.ONE * (1.0 + bullyScaleMod * bullyStackCount)
-
+	bully_set_pawn_size()
+func bully_set_pawn_size() -> void:
+	var bullyScale = Vector2.ONE * (1.0 + bullyScaleMod * bullyStackCount)
+	get_parent().get_node("BullyCircle").scale = bullyScale * 0.66
+	get_parent().get_node("PawnCollider").scale = bullyScale
 
 ##########
 # MIGHTY #

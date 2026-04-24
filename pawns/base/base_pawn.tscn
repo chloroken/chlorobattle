@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://imenya06wh6k" path="res://status/icons/void_icon.png" id="19_ybvt0"]
 [ext_resource type="Texture2D" uid="uid://fkfvrhqe1qqy" path="res://status/icons/weak_icon.png" id="20_1sae3"]
 [ext_resource type="Texture2D" uid="uid://c3buyv3d0akf0" path="res://status/icons/disarmed_icon.png" id="20_edq0t"]
+[ext_resource type="Texture2D" uid="uid://dhi1t62xhq12m" path="res://styles/bully_circle.png" id="22_1sae3"]
 [ext_resource type="PackedScene" uid="uid://brb6i5u1uth2i" path="res://styles/style_charge.tscn" id="24_aj5j2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
@@ -43,6 +44,11 @@ spd = 0.5
 [node name="PawnCollider" type="CollisionShape2D" parent="." unique_id=1776540401]
 shape = SubResource("CircleShape2D_pac6h")
 
+[node name="BullyCircle" type="Sprite2D" parent="." unique_id=849009739]
+modulate = Color(1, 1, 1, 0)
+z_index = -2
+texture = ExtResource("22_1sae3")
+
 [node name="KillSound" type="AudioStreamPlayer2D" parent="." unique_id=414782787]
 stream = ExtResource("9_j523l")
 volume_db = -15.0
@@ -50,6 +56,10 @@ volume_db = -15.0
 [node name="AttackCooldownTimer" type="Timer" parent="." unique_id=1610759688]
 
 [node name="AttackContainer" type="Node" parent="." unique_id=1458982635]
+
+[node name="DirectionDelayTimer" type="Timer" parent="." unique_id=739089802]
+wait_time = 0.1
+one_shot = true
 
 [node name="GUI" type="Node2D" parent="." unique_id=1790961739]
 z_index = -1
@@ -121,9 +131,9 @@ color = Color(5.77569e-06, 0.818051, 3.85046e-07, 1)
 
 [node name="StatusFlowContainer" type="HFlowContainer" parent="GUI" unique_id=450095345]
 offset_left = -24.0
-offset_top = 38.0
+offset_top = 36.0
 offset_right = 24.0
-offset_bottom = 85.999985
+offset_bottom = 83.999985
 size_flags_stretch_ratio = 0.0
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
@@ -147,8 +157,11 @@ weakIcon = ExtResource("20_1sae3")
 [node name="DisarmedStatusTimer" type="Timer" parent="Status" unique_id=573651188]
 one_shot = true
 
+[node name="DotDamageTimer" type="Timer" parent="Status" unique_id=196265680]
+
+[node name="DotStatusTimer" type="Timer" parent="Status" unique_id=1534550342]
+
 [node name="DrunkStatusTimer" type="Timer" parent="Status" unique_id=682299331]
-one_shot = true
 
 [node name="SlowStatusTimer" type="Timer" parent="Status" unique_id=71689046]
 one_shot = true
@@ -215,6 +228,8 @@ one_shot = true
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Status/DisarmedStatusTimer" to="Status" method="_on_timid_status_timer_timeout"]
+[connection signal="timeout" from="Status/DotDamageTimer" to="Status" method="_on_dot_damage_timer_timeout"]
+[connection signal="timeout" from="Status/DotStatusTimer" to="Status" method="_on_dot_status_timer_timeout"]
 [connection signal="timeout" from="Status/SlowStatusTimer" to="Status" method="_on_slow_status_timer_timeout"]
 [connection signal="timeout" from="Status/SprintStatusTimer" to="Status" method="_on_sprint_status_timer_timeout"]
 [connection signal="timeout" from="Status/StuckStatusTimer" to="Status" method="_on_stuck_status_timer_timeout"]

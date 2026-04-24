@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://ba2vewxrkt4pu"]
+
+[ext_resource type="Script" uid="uid://d0am0mc5kc0m1" path="res://monsters/healthworm.gd" id="1_e00wv"]
+[ext_resource type="Texture2D" uid="uid://bf56x0ulbh0cc" path="res://monsters/healthworm.png" id="1_pyuig"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e00wv"]
+radius = 8.0
+
+[node name="Healthworm" type="Area2D" unique_id=1859913581]
+collision_layer = 0
+script = ExtResource("1_e00wv")
+
+[node name="HealthwormSprite" type="Sprite2D" parent="." unique_id=1395347232]
+texture = ExtResource("1_pyuig")
+
+[node name="HealthwormCollider" type="CollisionShape2D" parent="." unique_id=979422968]
+shape = SubResource("CircleShape2D_e00wv")
+
+[node name="WormDirectionTimer" type="Timer" parent="." unique_id=133040867]
+wait_time = 3.0
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="WormDirectionTimer" to="." method="_on_worm_direction_timer_timeout"]

@@ -14,18 +14,20 @@ func _ready() -> void:
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 
 	# Create random bots to test with
-	for i in 24:
-		#register_pawn("Bot " + str(i+1), "candle", choose_random_style(), choose_random_item())
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	for i in 2:
+		register_pawn("Bot " + str(i+1), "flicker", choose_random_style(), "flask")
+		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	#register_pawn("chad", "pirate", "slayer", "tire")
-	#register_pawn("rotdog", "grouper", "bully", "killbot")
-	#register_pawn("spooky", "candle", "mighty", "glue")
-	#register_pawn("gabe", "chair", "bully", "antimatter")
-	#register_pawn("p9", "slug", choose_random_style(), choose_random_item())
-	#register_pawn("hasine", "top", choose_random_style(), choose_random_item())
-	#register_pawn("theone_fg", "cyclone", choose_random_style(), choose_random_item())
+	#  register_pawn("chloroken", "flicker", "berserk", "skates")
+	#register_pawn("ceph", choose_random_pawn(), choose_random_style(), choose_random_item())
+	#register_pawn("misashi", choose_random_pawn(), choose_random_style(), choose_random_item())
+	#register_pawn("chlebastian", "pirate", "bully", "antimatter")
+	#register_pawn("gabe", "top", "bully", "antimatter")
+	#register_pawn("inverse", "cyclone", "berserk", "tire")
+	#register_pawn("zeno", "mummy", "mighty", "tire")
+	#register_pawn("gravy", choose_random_pawn(), choose_random_style(), choose_random_item())
+	#register_pawn("del", "slug", "slayer", "killbot")
 
 	# Start lobby timer
 	$LobbyTimer.one_shot = true
@@ -67,6 +69,7 @@ func get_pawn_type(message: String):
 	if "candle" in message: return("candle")
 	elif "chair" in message: return("chair")
 	elif "cyclone" in message: return("cyclone")
+	elif "flicker" in message: return("flicker")
 	elif "grouper" in message: return("grouper")
 	elif "mummy" in message: return("mummy")
 	elif "pirate" in message: return("pirate")
@@ -75,7 +78,7 @@ func get_pawn_type(message: String):
 	elif "top" in message: return("top")
 	else: return(choose_random_pawn())
 func choose_random_pawn() -> String:
-	var allPawnTypes = ["candle", "chair", "cyclone", "grouper", "mummy", "pirate", "ship", "slug", "top"]
+	var allPawnTypes = ["candle", "chair", "cyclone", "flicker", "grouper", "mummy", "pirate", "ship", "slug", "top"]
 	var i = randi_range(0, allPawnTypes.size() - 1)
 	return(allPawnTypes[i])
 
@@ -101,6 +104,7 @@ func get_pawn_item(message: String):
 	#elif "milkshake" in message: return("milkshake")
 	elif "skates" in message: return("skates")
 	elif "tire" in message: return("tire")
+	elif "tyre" in message: return("tire")
 	else: return(choose_random_item())
 func choose_random_item() -> String:
 	var allItemTypes = ["antimatter", "dice", "flask", "glue", "killbot", "map", "skates", "tire"]
@@ -113,6 +117,7 @@ func spawn_lobby_pawn(pawn) -> void:
 	if pawn.type == "candle": pawnType = get_parent().candle
 	elif pawn.type == "chair": pawnType = get_parent().chair
 	elif pawn.type == "cyclone": pawnType = get_parent().cyclone
+	elif pawn.type == "flicker": pawnType = get_parent().flicker
 	elif pawn.type == "grouper": pawnType = get_parent().grouper
 	elif pawn.type == "mummy": pawnType = get_parent().mummy
 	elif pawn.type == "pirate": pawnType = get_parent().pirate
@@ -121,7 +126,8 @@ func spawn_lobby_pawn(pawn) -> void:
 	elif pawn.type == "top": pawnType = get_parent().top
 	var newPawn = pawnType.instantiate()
 	var center = get_viewport_rect().size / 2.0
-	newPawn.position = center
+	var pawnOffset = Vector2(randf_range(-10, 10), randf_range(-10, 10))
+	newPawn.position = center + pawnOffset
 	newPawn.username = pawn.username # str(randf()) # 
 	newPawn.type = pawn.type
 	newPawn.attacksDisabled = true

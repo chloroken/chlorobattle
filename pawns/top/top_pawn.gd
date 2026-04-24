@@ -23,14 +23,16 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	super(delta)
-	
+
 	# Check if bounce should occur
-	if global_position.distance_to(center) > get_parent().boardRadius:
+	if global_position.distance_to(center) > get_parent().boardRadius && $DirectionDelayTimer.is_stopped():
+		$DirectionDelayTimer.start()
 		top_hit_wall()
 
 # Bounce mechanic
 func top_hit_wall() -> void:
-	destination = new_destination()
+	#destination = new_destination()
+	#direction = new_direction()
 	$Status.start_sprint(topBounceDuration)
 
 func _on_attack_cooldown_timer_timeout() -> void:
@@ -46,6 +48,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = topAttack.instantiate()
 	newAttack.position = self.position + Vector2(0, sparkOffset)
 	newAttack.dmg = self.dmg
+	newAttack.attackName = "Top"
 
 	# Grant spark random physics
 	newAttack.direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
