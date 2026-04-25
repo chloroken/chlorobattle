@@ -32,6 +32,7 @@ var destination: Vector2
 var isCursed = false
 # New movement
 var direction
+var statusSpdMod = 1
 
 # Score variables
 var nameCharLimit = 6
@@ -75,7 +76,7 @@ func _physics_process(delta: float) -> void:
 		direction = new_direction()
 
 	# Move Pawn with movement speed modifiers in mind
-	var statusSpdMod = 1
+	statusSpdMod = normalSpeed
 	if !$Status.get_node("SprintStatusTimer").is_stopped(): statusSpdMod *= sprintSpeed
 	if !$Status.get_node("SlowStatusTimer").is_stopped(): statusSpdMod *= slowSpeed
 	if !$Status.get_node("StuckStatusTimer").is_stopped(): statusSpdMod *= stuckSpeed
@@ -195,9 +196,11 @@ func post_damage_phase(attackingPawn, body) -> void:
 			attackerStatus.start_weak(self.cursePassDuration)
 	if body.isSlugAttack:
 		var durationRemaining = body.get_node("FizzleTimer").get_time_left()
-		$Status.start_dot(durationRemaining)
+		$Status.start_dot(durationRemaining, attackingPawn)
 	if body.isTireAttack:
 		$Status.start_stuck(body.stuckDuration)
+	if body.isEmberAttack:
+		$Status.start_dot(body.get_parent().get_parent().emberBurnDuration, attackingPawn)
 	$Items.item_try_map()
 
 ##################

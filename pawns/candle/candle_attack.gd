@@ -4,7 +4,6 @@ var emberFlicker = false
 
 
 func _ready() -> void:
-	attackName = "Flicker"
 
 	# Randomize flicker size & color
 	scale *= randf_range(0.75, 1.0)

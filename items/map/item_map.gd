@@ -14,7 +14,6 @@ var mapLineMinAlpha = 0.1
 func _ready() -> void:
 	
 	# Randomize physics
-	rotation = randf_range(0, TAU)
 	var sizeRatio = randf_range(sizeMin, sizeMax)
 	scale *= sizeRatio
 	

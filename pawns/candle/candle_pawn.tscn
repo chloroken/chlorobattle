@@ -2,18 +2,16 @@
 
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_cg57w"]
 [ext_resource type="Script" uid="uid://cb01utcq4b0c2" path="res://pawns/candle/candle_pawn.gd" id="2_ori44"]
-[ext_resource type="PackedScene" uid="uid://nt3vwefawv5m" path="res://pawns/candle/candle_attack.tscn" id="3_squ0r"]
-[ext_resource type="PackedScene" uid="uid://bkew8lmtf5ihi" path="res://pawns/candle/candle_ember.tscn" id="4_mb6no"]
 [ext_resource type="Texture2D" uid="uid://cjx62vdfypc8h" path="res://pawns/candle/candle_pawn.png" id="4_squ0r"]
+[ext_resource type="PackedScene" uid="uid://dnls5a2svlqb8" path="res://pawns/candle/nember_attack.tscn" id="5_nulue"]
 
 [node name="CandlePawn" unique_id=1877646274 instance=ExtResource("1_cg57w")]
 script = ExtResource("2_ori44")
-candleAttack = ExtResource("3_squ0r")
-emberObject = ExtResource("4_mb6no")
-hp = 350.0
-dmg = 6.0
+nemberAttack = ExtResource("5_nulue")
+hp = 390.0
+def = 0.3
+dmg = 25.0
 pen = 0.3
-def = 0.4
 spd = 30.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
@@ -21,7 +19,5 @@ texture = ExtResource("4_squ0r")
 
 [node name="EmberSpawnTimer" type="Timer" parent="." index="4" unique_id=781136863]
 
-[node name="EmberContainer" type="Node" parent="." index="5" unique_id=1006458046]
-
-[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
 [connection signal="timeout" from="EmberSpawnTimer" to="." method="_on_ember_spawn_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

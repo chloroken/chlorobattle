@@ -66,7 +66,7 @@ var bullyHitCap = 5
 var bullyScaleMod = 0.2
 var bullySprintDuration = 2.0
 var bullySlowDuration = 2.0
-var bullyDisarmedDuration = 1.0
+var bullyWeakDuration = 2.0
 func add_bully_charge() -> void:
 	var newCharge = styleCharge.instantiate()
 	newCharge.particleColor = bullyColor
@@ -77,6 +77,9 @@ func style_bully_trigger(victim) -> void:
 
 	# Avoid hitting self
 	if victim.username == get_parent().username: return
+	
+	# Avoid hitting void targets
+	if !victim.get_node("Status").get_node("VoidStatusTimer").is_stopped(): return
 
 	# Sprint & increase size
 	get_parent().get_node("Status").start_sprint(bullyStackCount * bullySprintDuration)
@@ -97,10 +100,11 @@ func style_bully_trigger(victim) -> void:
 		victim.hp -= finalHit
 		victim.damageTaken += finalHit
 		get_parent().damageDealt += finalHit
+		get_parent().get_parent().update_combat_log("[" + str(get_parent().username) + "] bullied [" + str(victim.username) + "] for " +  str("%0.2f" % finalHit))
 
-		# Inflict timid
+		# Inflict weak
 		if victim.hp < 1: victim.hp = 1
-		victim.get_node("Status").start_disarmed(bullyStackCount * bullyDisarmedDuration)
+		victim.get_node("Status").start_weak(bullyStackCount * bullyWeakDuration)
 
 	# Increase stacks & start cooldown
 	if bullyStackCount < bullyHitCap:
@@ -112,7 +116,6 @@ func style_bully_trigger(victim) -> void:
 		newCharge.get_node("StyleChargeSprite").modulate = bullyColor
 
 	$BullyResetTimer.start(bullyStackDuration)
-	get_parent().get_parent().update_kill_feed("[" + str(get_parent().username) + "] bullied [" + str(victim.username) + "]")
 
 func _on_bully_reset_timer_timeout() -> void:
 	bullyStackCount = 1
@@ -134,7 +137,7 @@ var mightyColor = Color.RED
 var mightyChargeCount = 0
 var mightyChargeCap = 5
 var mightyChargeAmount = 0.2
-var mightyChargeDuration = 3.0
+var mightyChargeDuration = 2.0
 func style_mighty_trigger(body, attackingPawn, baseHit) -> float:
 	
 	if body.isPersistentSummon == false:

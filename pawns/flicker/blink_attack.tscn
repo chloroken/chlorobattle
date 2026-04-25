@@ -17,7 +17,7 @@ texture = ExtResource("3_a3dwu")
 shape = SubResource("CircleShape2D_20gep")
 
 [node name="FizzleTimer" parent="." index="2" unique_id=930558460]
-wait_time = 3.0
+wait_time = 2.0
 autostart = true
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

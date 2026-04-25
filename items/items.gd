@@ -194,7 +194,7 @@ func _on_milkshake_delay_timer_timeout() -> void:
 # SKATES #
 ##########
 
-var skateCooldown = 3.0
+var skateCooldown = 6.0
 var skateDuration = 3.0
 func item_try_skating() -> void:
 	var status = get_parent().get_node("Status")

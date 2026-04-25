@@ -69,8 +69,10 @@ func stop_disarmed() -> void:
 
 var dotPercentDamage = 0.01
 var dotDamageInterval = 1.0
-func start_dot(timer: float) -> void:
+var dotPawnSource
+func start_dot(timer: float, source) -> void:
 	if $DotStatusTimer.get_time_left() > timer: return
+	dotPawnSource = source
 	$DotDamageTimer.start(dotDamageInterval)
 	$DotStatusTimer.start(timer)
 	enable_status_icon(timer, dotIcon)
@@ -81,8 +83,13 @@ func _on_dot_damage_timer_timeout() -> void:
 	var arenaBoard = basePawn.get_parent()
 	var globalDmgMod = arenaBoard.globalDmgMod / arenaBoard.dmgModDuration
 	var dotDamageAmount = basePawn.baseHp * dotPercentDamage * globalDmgMod
+	if dotDamageAmount >= basePawn.hp:
+		dotDamageAmount = basePawn.hp - 0.1
 	basePawn.hp -= dotDamageAmount
 	if basePawn.hp < 0.1: basePawn.hp = 0.1
+	if dotPawnSource != null:
+		dotPawnSource.damageDealt += dotDamageAmount
+	get_parent().get_parent().update_combat_log("[]")
 func stop_dot() -> void:
 	disable_status_icon(dotIcon)
 	$DotTriggerTimer.stop()

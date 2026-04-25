@@ -15,12 +15,12 @@ func _ready() -> void:
 
 	# Create random bots to test with
 	for i in 2:
-		register_pawn("Bot " + str(i+1), "flicker", choose_random_style(), "flask")
+		register_pawn("Bot " + str(i+1), "candle", choose_random_style(), choose_random_item())
 		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	#  register_pawn("chloroken", "flicker", "berserk", "skates")
-	#register_pawn("ceph", choose_random_pawn(), choose_random_style(), choose_random_item())
+	#register_pawn("chloroken", "candle", "berserk", "dice")
+	#register_pawn("jonkle", choose_random_pawn(), choose_random_style(), choose_random_item())
 	#register_pawn("misashi", choose_random_pawn(), choose_random_style(), choose_random_item())
 	#register_pawn("chlebastian", "pirate", "bully", "antimatter")
 	#register_pawn("gabe", "top", "bully", "antimatter")

@@ -68,7 +68,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		var newAttack = bombAttack.instantiate()
 		newAttack.position = self.position
 		newAttack.dmg = self.dmg
-		newAttack.direction = self.position.direction_to(self.destination).rotated(newAtkArc)
+		newAttack.direction = self.direction.rotated(newAtkArc)
 		newAttack.speed = self.spd * bombSpeedMod
 		newAttack.duration = bombDuration
 		attackObjects.append(newAttack)
@@ -78,7 +78,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		var newAttack2 = bombAttack.instantiate()
 		newAttack2.position = self.position
 		newAttack2.dmg = self.dmg
-		newAttack2.direction = self.position.direction_to(self.destination).rotated(-newAtkArc)
+		newAttack2.direction = self.direction.rotated(-newAtkArc)
 		newAttack2.speed = self.spd * bombSpeedMod
 		newAttack2.duration = bombDuration
 		attackObjects.append(newAttack2)

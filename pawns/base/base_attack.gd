@@ -9,3 +9,4 @@ var killbotParent = null
 var mummyCenter = false
 var isSlugAttack = false
 var isTireAttack = false
+var isEmberAttack = false

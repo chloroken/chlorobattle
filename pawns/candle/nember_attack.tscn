@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dnls5a2svlqb8"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_cu8xi"]
+[ext_resource type="Texture2D" uid="uid://dkymdumtmbm1p" path="res://pawns/candle/candle_ember.png" id="2_mecc6"]
+[ext_resource type="Script" uid="uid://c1qdlqsy6gss2" path="res://pawns/candle/nember_attack.gd" id="2_tlqnj"]
+[ext_resource type="Texture2D" uid="uid://cdg8ta376j7u7" path="res://pawns/candle/candle_outline.png" id="3_8xnsg"]
+[ext_resource type="Texture2D" uid="uid://c177gh1cnpffb" path="res://pawns/candle/candle_attack.png" id="4_fk1bm"]
+
+[node name="NemberAttack" unique_id=1314532855 instance=ExtResource("1_cu8xi")]
+script = ExtResource("2_tlqnj")
+
+[node name="EmberOutlineSprite" type="Sprite2D" parent="." index="0" unique_id=1981678389]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_8xnsg")
+
+[node name="EmberLightSprite" type="Sprite2D" parent="." index="1" unique_id=1915330012]
+modulate = Color(1, 1, 1, 0.39215687)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_fk1bm")
+
+[node name="BaseSprite" parent="." index="2" unique_id=1865807943]
+texture = ExtResource("2_mecc6")
+
+[node name="BaseCollider" parent="." index="3" unique_id=867063161]
+scale = Vector2(4.5, 4.5)
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

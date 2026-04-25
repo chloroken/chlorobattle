@@ -22,12 +22,20 @@ func _ready() -> void:
 	if !attacksDisabled: start_attack_cooldown()
 
 func _physics_process(delta: float) -> void:
-	super(delta)
-
-	# Check if bounce should occur
-	if global_position.distance_to(center) > get_parent().boardRadius && $DirectionDelayTimer.is_stopped():
+	# Pawn movement
+	var boardRadius = get_parent().boardRadius
+	var distFromCenter = global_position.distance_to(center)
+	if distFromCenter >= boardRadius && $DirectionDelayTimer.is_stopped():
 		$DirectionDelayTimer.start()
+		direction = new_direction()
 		top_hit_wall()
+
+	# Move Pawn with movement speed modifiers in mind
+	var statusSpdMod = 1
+	if !$Status.get_node("SprintStatusTimer").is_stopped(): statusSpdMod *= sprintSpeed
+	if !$Status.get_node("SlowStatusTimer").is_stopped(): statusSpdMod *= slowSpeed
+	if !$Status.get_node("StuckStatusTimer").is_stopped(): statusSpdMod *= stuckSpeed
+	position += direction * spd * statusSpdMod * delta
 
 # Bounce mechanic
 func top_hit_wall() -> void:

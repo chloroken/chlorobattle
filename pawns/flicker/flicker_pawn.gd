@@ -6,7 +6,11 @@ var blinkCooldownMax = 5.0
 var blinkChainPercent = 50
 var blinkDistMin = 50
 var blinkBox = 50
-
+var blinkDmgNormal = 1.0
+var blinkDmgMod = 1.0
+var blinkDecayMod = 0.75
+var blinkDmgModFloor = 0.25
+var blinkCount = 0
 
 @export var baseSprite: Resource
 @export var warpSprite: Resource
@@ -22,6 +26,12 @@ func _ready() -> void:
 		start_attack_cooldown()
 		$WarpCooldownTimer.one_shot = true
 
+func _process(_delta: float) -> void:
+	if $BlinkRevealTimer.is_stopped():
+		$BlinkCountLabel.modulate.a = 0.0
+	else:
+		$BlinkCountLabel.modulate.a = max(0.5, $BlinkRevealTimer.get_time_left() / $BlinkRevealTimer.get_wait_time())
+
 func _physics_process(delta: float) -> void:
 	#super(delta) 
 	
@@ -29,13 +39,14 @@ func _physics_process(delta: float) -> void:
 	var boardRadius = get_parent().boardRadius
 	var distFromCenter = global_position.distance_to(center)
 	if distFromCenter >= boardRadius && $DirectionDelayTimer.is_stopped():
+		
+		# Warp
 		if !attacksDisabled && !warpActive && $WarpCooldownTimer.is_stopped():
 			$WarpCooldownTimer.start(warpCooldown)
 			warpActive = true
 			$AttackCooldownTimer.stop()
 			$BlinkDelayTimer.stop()
 			$Status.start_void(warpVoidTimer)
-			#spd *= 5
 			$PawnSprite.texture = warpSprite
 			direction = position.direction_to(center)
 			$DirectionDelayTimer.start()
@@ -43,7 +54,6 @@ func _physics_process(delta: float) -> void:
 			if warpActive:
 				warpActive = false
 				start_attack_cooldown()
-				#spd /= 5
 				$PawnSprite.texture = baseSprite
 				$Status.stop_void()
 				$Status.start_void(0.01)
@@ -62,15 +72,16 @@ func _physics_process(delta: float) -> void:
 #func new_warpion() -> Vector2:
 
 func _on_attack_cooldown_timer_timeout() -> void:
-	start_attack_cooldown()
 	if disarm_check(): return
+	if !$Status.get_node("StuckStatusTimer").is_stopped(): return
 	
-	var newBlink = blinkScene.instantiate()
-	newBlink.position = position
-	newBlink.dmg = self.dmg
-	newBlink.attackName = "Blink"
-	$AttackContainer.add_child(newBlink)
-	attackObjects.append(newBlink)
+	#var newBlink = blinkScene.instantiate()
+	#newBlink.position = position
+	#newBlink.dmg = self.dmg * blinkDmgMod
+	#newBlink.scale = Vector2.ONE * blinkDmgMod
+	#newBlink.attackName = "Blink"
+	#$AttackContainer.add_child(newBlink)
+	#attackObjects.append(newBlink)
 	recursive_attack_routine()
 
 func start_attack_cooldown() -> void:
@@ -80,25 +91,46 @@ func start_attack_cooldown() -> void:
 
 func recursive_attack_routine() -> void:
 
+	# Drop an attack at feet
 	var newBlink = blinkScene.instantiate()
 	newBlink.position = position
-	newBlink.dmg = self.dmg
+	newBlink.dmg = self.dmg * blinkDmgMod
+	newBlink.scale = Vector2.ONE * blinkDmgMod
 	newBlink.attackName = "Blink"
 	$AttackContainer.add_child(newBlink)
 	attackObjects.append(newBlink)
+	blinkCount += 1
 
+	# Teleport a short distance away
 	position = find_eligible_location()
-	if randi_range(0, 1) == 0: $BlinkDelayTimer.start()
+	
+	blinkDmgMod = max(blinkDmgModFloor, blinkDmgMod * blinkDecayMod)
+
+	# Chaining mechanic
+	if randi_range(0, 1) == 0:
+		$BlinkDelayTimer.start()
+
+	# End the chain
 	else:
 		var newBlink2 = blinkScene.instantiate()
 		newBlink2.position = position
-		newBlink2.dmg = self.dmg
+		newBlink2.dmg = self.dmg * blinkDmgMod
+		newBlink2.scale = Vector2.ONE * blinkDmgMod
 		newBlink2.attackName = "Blink"
 		$AttackContainer.add_child(newBlink2)
 		attackObjects.append(newBlink2)
 
+		# Show combo count
+		if blinkCount > 1:
+			$BlinkRevealTimer.start()
+			$BlinkCountLabel.text = str(blinkCount) + "x"
+
+		blinkCount = 0
+		blinkDmgMod = blinkDmgNormal
+		start_attack_cooldown()
+
 func _on_blink_delay_timer_timeout() -> void:
-	direction = new_direction()
+	#direction = new_direction()
 	recursive_attack_routine()
 
 func find_eligible_location() -> Vector2:
