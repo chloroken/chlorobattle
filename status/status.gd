@@ -89,7 +89,9 @@ func _on_dot_damage_timer_timeout() -> void:
 	if basePawn.hp < 0.1: basePawn.hp = 0.1
 	if dotPawnSource != null:
 		dotPawnSource.damageDealt += dotDamageAmount
-	get_parent().get_parent().update_combat_log("[]")
+	# This combat log won't work because Pawns are freed
+	# they have to stay around on the back end to do stuff like this
+	#get_parent().get_parent().update_combat_log("[" + str(dotPawnSource.username) + "] hit [" + str(get_parent().username) + "] for " + str("%0.2f" % dotDamageAmount) + " (dot)")
 func stop_dot() -> void:
 	disable_status_icon(dotIcon)
 	$DotTriggerTimer.stop()

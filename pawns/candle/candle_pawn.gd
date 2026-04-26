@@ -1,15 +1,15 @@
 extends "res://pawns/base/base_pawn.gd"
 
 # Ember
-@export var nemberAttack: PackedScene
-var nemberCooldownMin = 0.1
-var nemberCooldownMax = 1.0
-var nemberScale = 1.0
-var nemberDurationMin = 2.0
-var nemberDurationMax = 3.0
-var nemberDestination
+@export var emberAttack: PackedScene
+var emberCooldownMin = 0.1
+var emberCooldownMax = 1.0
+var emberScale = 1.0
+var emberDurationMin = 2.0
+var emberDurationMax = 3.0
+var emberDestination
 var emberPositionOffset = 50
-var nemberThrowDistMod = 1
+var emberThrowDistMod = 1
 var emberBurnDuration = 5.0
 
 func _ready() -> void:
@@ -22,8 +22,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
 
-	# Nember Attack
-	var newAttack = nemberAttack.instantiate()
+	# ember Attack
+	var newAttack = emberAttack.instantiate()
 	newAttack.position = position
 	newAttack.destination = good_ember_position()
 	newAttack.dmg = self.dmg
@@ -33,7 +33,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	$AttackContainer.add_child(newAttack)
 
 func start_attack_cooldown() -> void:
-	$AttackCooldownTimer.start(randf_range(nemberCooldownMin, nemberCooldownMax))
+	$AttackCooldownTimer.start(randf_range(emberCooldownMin, emberCooldownMax))
 
 func good_ember_position() -> Vector2:
 	var newPos = try_ember_position(false)
@@ -55,5 +55,5 @@ func try_ember_position(centered) -> Vector2:
 	var offsetX = randf_range(-emberPositionOffset, emberPositionOffset)
 	var offsetY = randf_range(-emberPositionOffset, emberPositionOffset)
 	var mod = Vector2.ZERO
-	if !centered: mod = direction * spd * statusSpdMod * nemberThrowDistMod
+	if !centered: mod = direction * spd * statusSpdMod * emberThrowDistMod
 	return(position + mod + Vector2(offsetX, offsetY))

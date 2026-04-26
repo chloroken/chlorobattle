@@ -61,8 +61,8 @@ func _physics_process(delta: float) -> void:
 	# Undo super() movement
 	if warpActive:
 		#var warpRatio = 1 - position.distance_to(center) / get_parent().boardRadius
-		var dist = max(1, 0.1 * (get_parent().boardRadius - position.distance_to(center)))
-		position += direction * warpTravelSpeed * dist * delta
+		var dist = get_parent().boardRadius - position.distance_to(center)
+		position += direction * max(warpTravelSpeed, dist) * delta
 	else:
 		# Adjust speed based on statuses
 		statusSpdMod = normalSpeed
@@ -104,6 +104,7 @@ func recursive_attack_routine() -> void:
 	# Chaining mechanic
 	if randi_range(0, 1) == 0:
 		$BlinkDelayTimer.start()
+		$Status.start_void($BlinkDelayTimer.get_wait_time())
 
 	# End the chain
 	else:
@@ -123,15 +124,15 @@ func recursive_attack_routine() -> void:
 		blinkCount = 0
 		blinkDmgMod = blinkDmgNormal
 		start_attack_cooldown()
+		direction = new_direction()
 
 func _on_blink_delay_timer_timeout() -> void:
-	#direction = new_direction()
 	recursive_attack_routine()
 
 func find_eligible_location() -> Vector2:
 	var newOffset = Vector2(randf_range(-blinkBox, blinkBox), randf_range(-blinkBox, blinkBox))
 	var newPos = position + newOffset
-	while newPos.distance_to(center) > get_parent().boardRadius && position.distance_to(newPos) > blinkDistMin:
+	while newPos.distance_to(center) > get_parent().boardRadius || position.distance_to(newPos) > blinkDistMin:
 		newOffset = Vector2(randf_range(-blinkBox, blinkBox), randf_range(-blinkBox, blinkBox))
 		newPos = position + newOffset
 	return(newPos)

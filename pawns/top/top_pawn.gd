@@ -8,7 +8,7 @@ var sparkCooldown = 0.25
 var sparkScaleMin = 0.5
 var sparkScaleMax = 1.0
 var sparkScaleFloor = 0.25
-var sparkDuration = 2.0
+var sparkDuration = 3.0
 var sparkDurVariance = 0.5
 
 # Bounce variables
@@ -25,7 +25,8 @@ func _ready() -> void:
 func _on_area_exited(area: Area2D) -> void:
 	if area.areaType == "board":
 		direction = new_direction()
-		top_hit_wall()
+		if !attacksDisabled:
+			top_hit_wall()
 
 # Bounce mechanic
 func top_hit_wall() -> void:
