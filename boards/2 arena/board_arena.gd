@@ -6,7 +6,6 @@ var healthwormCooldownMax = 5.0
 var healthwormArray = []
 
 # Board variables
-var baseRadius
 var boardRadius = 400
 var minimumRadiusRatio = 0.25
 var arenaCloseTimer = 240.0
@@ -28,15 +27,13 @@ var combatLogText = []
 var combatLogLineCount = 6
 
 func _ready() -> void:
-	$HealthwormSpawnTimer.one_shot = true
-	$HealthwormSpawnTimer.start(randf_range(healthwormCooldownMin, healthwormCooldownMax))
-	
+
+	# Play chime & set game speed
 	$BellSound.panning_strength = 0.0
 	$BellSound.play()
 	Engine.set_time_scale(1)
-	
+
 	# Snapshot board radius to accurately scale everything
-	baseRadius = boardRadius
 	$BoardSprite.modulate.a = 0.0
 	$BoardSprite2.modulate.a = 0.0
 
@@ -46,42 +43,41 @@ func _ready() -> void:
 	$ArenaCloseTimer.start()
 	$SpawnStaggerTimer.set_wait_time(spawnStaggerTimer)
 	$SpawnStaggerTimer.start()
+	$HealthwormSpawnTimer.one_shot = true
+	$HealthwormSpawnTimer.start(randf_range(healthwormCooldownMin, healthwormCooldownMax))
 
 func _process(_delta: float) -> void:
+	
 	# Gradually reduce size of board to force battle royale gameplay
 	var ratio = $ArenaCloseTimer.get_time_left() / $ArenaCloseTimer.get_wait_time()
-	boardRadius = baseRadius * ratio
+	var newRatio = max(minimumRadiusRatio, ratio)
+	$BoardCircle.scale = Vector2.ONE * newRatio
+	$BoardSprite.scale = Vector2.ONE * newRatio * 0.9
+	$BoardSprite2.scale = Vector2.ONE * newRatio * 0.9
+	boardRadius = $BoardCircle.get_node("BoardShape").shape.get_radius() * newRatio
 
-	# Ensure arena doesn't get too small
-	var newRatio = max(minimumRadiusRatio, boardRadius / baseRadius)
-	boardRadius = baseRadius * newRatio
-	$BoardSprite.scale.x = newRatio
-	$BoardSprite.scale.y = newRatio
-	$BoardSprite2.scale.x = newRatio
-	$BoardSprite2.scale.y = newRatio
-	
-	get_parent().get_node("Camera2D").zoom.x = 2 - ratio
-	get_parent().get_node("Camera2D").zoom.y = 2 - ratio
+	get_parent().get_node("cam").zoom.x = 2 - ratio
+	get_parent().get_node("cam").zoom.y = 2 - ratio
 
 	# Fade in arena circle
 	$BoardSprite.modulate.a = min(0.5, ($ArenaCloseTimer.get_wait_time() - $ArenaCloseTimer.get_time_left()) / dmgModDuration * 0.5)
 	$BoardSprite2.modulate.a = min(0.5, ($ArenaCloseTimer.get_wait_time() - $ArenaCloseTimer.get_time_left()) / dmgModDuration * 0.5)
-	
+
 	# When only one Pawn remains, proceed to next board
 	if get_parent().pawnList.size() <= 1:
 		get_parent().switch_board("score")
 
 	# Label showing "global damage modifer" (to delay instakills at start)
 	globalDmgMod = min(dmgModDuration, $ArenaCloseTimer.get_wait_time() - $ArenaCloseTimer.get_time_left())
-	$DamageModTimer.text = str(int(globalDmgMod * globalDmgReciprocal)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
+	$ArenaCanvas.get_node("DamageModTimer").text = str(int(globalDmgMod * globalDmgReciprocal)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
 	if globalDmgMod >= dmgModDuration:
-		$DamageModTimer.modulate.a *= 0.99
+		$ArenaCanvas.get_node("DamageModTimer").modulate.a *= 0.99
 
 	# Label showing match duration timer (only after global damage mod is gone)
 	var timeElapsed = int($ArenaCloseTimer.get_wait_time() - $ArenaCloseTimer.get_time_left())
 	if timeElapsed > dmgModDuration:
-		$DurationTimer.modulate.a = min(1.0, (timeElapsed - dmgModDuration) * 0.1)
-		$DurationTimer.text = str(timeElapsed)
+		$ArenaCanvas.get_node("DurationTimer").modulate.a = min(1.0, (timeElapsed - dmgModDuration) * 0.1)
+		$ArenaCanvas.get_node("DurationTimer").text = str(timeElapsed)
 
 	# Label showing players remaining in the game
 	var playersRemainingString = str(int(get_parent().pawnList.size()))

@@ -21,21 +21,11 @@ func _ready() -> void:
 	# Start attack cycle
 	if !attacksDisabled: start_attack_cooldown()
 
-func _physics_process(delta: float) -> void:
-	# Pawn movement
-	var boardRadius = get_parent().boardRadius
-	var distFromCenter = global_position.distance_to(center)
-	if distFromCenter >= boardRadius && $DirectionDelayTimer.is_stopped():
-		$DirectionDelayTimer.start()
+# Change directions when hitting edge of board
+func _on_area_exited(area: Area2D) -> void:
+	if area.areaType == "board":
 		direction = new_direction()
 		top_hit_wall()
-
-	# Move Pawn with movement speed modifiers in mind
-	var statusSpdMod = 1
-	if !$Status.get_node("SprintStatusTimer").is_stopped(): statusSpdMod *= sprintSpeed
-	if !$Status.get_node("SlowStatusTimer").is_stopped(): statusSpdMod *= slowSpeed
-	if !$Status.get_node("StuckStatusTimer").is_stopped(): statusSpdMod *= stuckSpeed
-	position += direction * spd * statusSpdMod * delta
 
 # Bounce mechanic
 func top_hit_wall() -> void:
@@ -51,7 +41,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	if !$Status.get_node("StuckStatusTimer").is_stopped():
 		$AttackCooldownTimer.start(asp * sparkCooldown)
 		return
-		
+
 	# Attack with a spark
 	var newAttack = topAttack.instantiate()
 	newAttack.position = self.position + Vector2(0, sparkOffset)

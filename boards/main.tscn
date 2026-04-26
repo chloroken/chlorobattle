@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://cffuxn634lm41"]
+
+[ext_resource type="Script" uid="uid://bgs43xc31k7aq" path="res://boards/main.gd" id="1_n8rpp"]
+[ext_resource type="PackedScene" uid="uid://cu0pktmhxdqpa" path="res://boards/1 lobby/board_lobby.tscn" id="2_jjcn2"]
+[ext_resource type="PackedScene" uid="uid://dnw5wbt4mx7bn" path="res://boards/2 arena/board_arena.tscn" id="3_u4fyd"]
+[ext_resource type="PackedScene" uid="uid://dj7wpvnjw4n0b" path="res://boards/3 score/board_score.tscn" id="4_8fdcj"]
+[ext_resource type="PackedScene" uid="uid://cstxrttnm6t0w" path="res://pawns/candle/candle_pawn.tscn" id="5_662a5"]
+[ext_resource type="PackedScene" uid="uid://hbkaf6ui8o53" path="res://pawns/chair/chair_pawn.tscn" id="6_64ig7"]
+[ext_resource type="PackedScene" uid="uid://qjonte0obwms" path="res://pawns/flicker/flicker_pawn.tscn" id="7_k15sd"]
+[ext_resource type="PackedScene" uid="uid://dadae3e4ikfp6" path="res://pawns/cyclone/cyclone_pawn.tscn" id="8_02a7c"]
+[ext_resource type="PackedScene" uid="uid://ck0eynkg55hxa" path="res://pawns/grouper/grouper_pawn.tscn" id="9_04b46"]
+[ext_resource type="PackedScene" uid="uid://dxpy0mtjt02en" path="res://pawns/mummy/mummy_pawn.tscn" id="10_ntk3o"]
+[ext_resource type="PackedScene" uid="uid://brk1m57ccp1ef" path="res://pawns/pirate/pirate_pawn.tscn" id="11_3ofjd"]
+[ext_resource type="PackedScene" uid="uid://58lj5q30abqo" path="res://pawns/ship/ship_pawn.tscn" id="12_c2lgm"]
+[ext_resource type="PackedScene" uid="uid://ddxj6u8lafeel" path="res://pawns/slug/slug_pawn.tscn" id="13_c6vfh"]
+[ext_resource type="PackedScene" uid="uid://b34t2uaa0o3nq" path="res://pawns/top/top_pawn.tscn" id="14_wwfu3"]
+
+[node name="main" type="Node2D" unique_id=453552002]
+process_mode = 3
+script = ExtResource("1_n8rpp")
+lobby = ExtResource("2_jjcn2")
+arena = ExtResource("3_u4fyd")
+score = ExtResource("4_8fdcj")
+candle = ExtResource("5_662a5")
+chair = ExtResource("6_64ig7")
+flicker = ExtResource("7_k15sd")
+cyclone = ExtResource("8_02a7c")
+grouper = ExtResource("9_04b46")
+mummy = ExtResource("10_ntk3o")
+pirate = ExtResource("11_3ofjd")
+ship = ExtResource("12_c2lgm")
+slug = ExtResource("13_c6vfh")
+top = ExtResource("14_wwfu3")
+
+[node name="cam" type="Camera2D" parent="." unique_id=690321007]
+offset = Vector2(480, 480)

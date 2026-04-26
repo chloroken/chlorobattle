@@ -1,5 +1,6 @@
-extends CharacterBody2D
+extends Area2D
 
+var areaType = "attack"
 var attackName = "baseAttack"
 var areaAttack = true
 var dmg

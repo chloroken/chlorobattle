@@ -4,8 +4,8 @@ extends "res://pawns/base/base_pawn.gd"
 @export var jetFormSprite: Resource
 @export var mechaFormSprite: Resource
 var mechaForm = false
-var formSwapTimer = 10.0
-var formSwapVariance = 2.0
+var formSwapTimer = 7.0
+var formSwapVariance = 1.0
 
 # Jet variables
 @export var bombAttack: PackedScene

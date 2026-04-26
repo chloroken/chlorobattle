@@ -23,15 +23,20 @@ func _physics_process(delta: float) -> void:
 	position += wormDirection * wormSpeed * delta
 	if position.distance_to(center) > get_parent().boardRadius:
 		queue_free()
+		
+func _on_worm_direction_timer_timeout() -> void:
+	wormRotation = randf_range(0, TAU)
+	wormDirection = Vector2.RIGHT.rotated(wormRotation)
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_area_entered(area: Area2D) -> void:
+	if area.areaType != "attack": return
 
-	if !body.areaAttack && !body.isTireAttack:
-		body.queue_free()
+	if !area.areaAttack && !area.isTireAttack:
+		area.queue_free()
 
-	healthwormHp -= body.dmg
+	healthwormHp -= area.dmg
 	if healthwormHp <= 0:
-		var attackingPawn = body.get_parent().get_parent()
+		var attackingPawn = area.get_parent().get_parent()
 		attackingPawn.hp += attackingPawn.baseHp * healthwormHealPercent
 		if attackingPawn.hp > attackingPawn.baseHp:
 			attackingPawn.hp = attackingPawn.baseHp
@@ -39,7 +44,3 @@ func _on_body_entered(body: Node2D) -> void:
 		get_parent().update_combat_log("[" + str(attackingPawn.username) + "] healed for [" + str(attackingPawn.baseHp * healthwormHealPercent) + "] (Healthworm)")
 		get_parent().healthwormArray.pop_front()
 		queue_free()
-
-func _on_worm_direction_timer_timeout() -> void:
-	wormRotation = randf_range(0, TAU)
-	wormDirection = Vector2.RIGHT.rotated(wormRotation)

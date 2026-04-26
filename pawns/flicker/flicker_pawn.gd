@@ -8,16 +8,16 @@ var blinkDistMin = 50
 var blinkBox = 50
 var blinkDmgNormal = 1.0
 var blinkDmgMod = 1.0
-var blinkDecayMod = 0.75
-var blinkDmgModFloor = 0.25
+var blinkDecayMod = 0.9
+var blinkDmgModFloor = 0.5
 var blinkCount = 0
 
 @export var baseSprite: Resource
 @export var warpSprite: Resource
 var warpActive = false
 var warpVoidTimer = 100
-var warpCooldown = 10
-var warpTravelSpeed = 5
+var warpCooldown = 20
+var warpTravelSpeed = 100
 
 func _ready() -> void:
 	super()
@@ -32,56 +32,51 @@ func _process(_delta: float) -> void:
 	else:
 		$BlinkCountLabel.modulate.a = max(0.5, $BlinkRevealTimer.get_time_left() / $BlinkRevealTimer.get_wait_time())
 
-func _physics_process(delta: float) -> void:
-	#super(delta) 
-	
-	# Pawn movement
-	var boardRadius = get_parent().boardRadius
-	var distFromCenter = global_position.distance_to(center)
-	if distFromCenter >= boardRadius && $DirectionDelayTimer.is_stopped():
-		
+func _on_area_exited(area: Area2D) -> void:
+	if area.areaType == "board":
 		# Warp
-		if !attacksDisabled && !warpActive && $WarpCooldownTimer.is_stopped():
-			$WarpCooldownTimer.start(warpCooldown)
-			warpActive = true
-			$AttackCooldownTimer.stop()
-			$BlinkDelayTimer.stop()
-			$Status.start_void(warpVoidTimer)
-			$PawnSprite.texture = warpSprite
-			direction = position.direction_to(center)
-			$DirectionDelayTimer.start()
-		else:
-			if warpActive:
+		if !attacksDisabled:
+			if !warpActive && $WarpCooldownTimer.is_stopped():
+				$WarpCooldownTimer.start(warpCooldown)
+				warpActive = true
+				$Status.start_void(warpVoidTimer)
+				$AttackCooldownTimer.stop()
+				$BlinkDelayTimer.stop()
+				$PawnSprite.texture = warpSprite
+				direction = position.direction_to(center)
+			elif warpActive:
 				warpActive = false
+				$Status.stop_void()
+				$Status.start_void(0.1)
 				start_attack_cooldown()
 				$PawnSprite.texture = baseSprite
-				$Status.stop_void()
-				$Status.start_void(0.01)
+				direction = new_direction()
+			else:
+				direction = new_direction()
+		else:
 			direction = new_direction()
-			$DirectionDelayTimer.start()
 
-	# Move Pawn with movement speed modifiers in mind
-	var statusSpdMod = 1
-	var warpMod = 0
-	if warpActive: warpMod = warpTravelSpeed * (get_parent().boardRadius - position.distance_to(center))
+func _physics_process(delta: float) -> void:
+
+	# Undo super() movement
+	if warpActive:
+		#var warpRatio = 1 - position.distance_to(center) / get_parent().boardRadius
+		var dist = max(1, 0.1 * (get_parent().boardRadius - position.distance_to(center)))
+		position += direction * warpTravelSpeed * dist * delta
 	else:
+		# Adjust speed based on statuses
+		statusSpdMod = normalSpeed
 		if !$Status.get_node("SprintStatusTimer").is_stopped(): statusSpdMod *= sprintSpeed
 		if !$Status.get_node("SlowStatusTimer").is_stopped(): statusSpdMod *= slowSpeed
 		if !$Status.get_node("StuckStatusTimer").is_stopped(): statusSpdMod *= stuckSpeed
-	position += direction * (spd + warpMod) * statusSpdMod * delta
-#func new_warpion() -> Vector2:
+
+		# Move Pawn
+		position += direction * spd * statusSpdMod * delta
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	if disarm_check(): return
 	if !$Status.get_node("StuckStatusTimer").is_stopped(): return
-	
-	#var newBlink = blinkScene.instantiate()
-	#newBlink.position = position
-	#newBlink.dmg = self.dmg * blinkDmgMod
-	#newBlink.scale = Vector2.ONE * blinkDmgMod
-	#newBlink.attackName = "Blink"
-	#$AttackContainer.add_child(newBlink)
-	#attackObjects.append(newBlink)
+
 	recursive_attack_routine()
 
 func start_attack_cooldown() -> void:
@@ -136,7 +131,7 @@ func _on_blink_delay_timer_timeout() -> void:
 func find_eligible_location() -> Vector2:
 	var newOffset = Vector2(randf_range(-blinkBox, blinkBox), randf_range(-blinkBox, blinkBox))
 	var newPos = position + newOffset
-	while newPos.distance_to(center) > get_parent().boardRadius || position.distance_to(newPos) < blinkDistMin:
+	while newPos.distance_to(center) > get_parent().boardRadius && position.distance_to(newPos) > blinkDistMin:
 		newOffset = Vector2(randf_range(-blinkBox, blinkBox), randf_range(-blinkBox, blinkBox))
 		newPos = position + newOffset
 	return(newPos)

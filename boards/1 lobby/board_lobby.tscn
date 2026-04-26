@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://dsixe43unloa3" path="res://assets/fonts/MonoTypewriter.ttf" id="5_22cq8"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="5_x07d7"]
 [ext_resource type="AudioStream" uid="uid://sah2sui8y10c" path="res://assets/sounds/chime.mp3" id="6_dbg6s"]
+[ext_resource type="PackedScene" uid="uid://cx5lla7qrwqqi" path="res://boards/board_circle.tscn" id="7_pr7yq"]
 
 [node name="LobbyBoard" type="Node2D" unique_id=751706610]
 process_mode = 1
@@ -91,5 +92,8 @@ vertical_alignment = 1
 
 [node name="ChimeSound" type="AudioStreamPlayer2D" parent="." unique_id=600843519]
 stream = ExtResource("6_dbg6s")
+
+[node name="BoardCircle" parent="." unique_id=359442345 instance=ExtResource("7_pr7yq")]
+visible = false
 
 [connection signal="timeout" from="LobbyTimer" to="." method="_on_lobby_timer_timeout"]

@@ -9,9 +9,9 @@
 script = ExtResource("1_04y0m")
 topAttack = ExtResource("2_ruyh0")
 hp = 440.0
+def = 0.6
 dmg = 20.0
 pen = 0.2
-def = 0.6
 spd = 50.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]

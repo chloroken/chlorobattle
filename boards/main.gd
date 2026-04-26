@@ -39,7 +39,6 @@ var layerPawnFront = 6
 var layerAir = 8
 var layerSky = 9
 
-var cameraFollowMouse = false
 
 # First code of game to run
 func _ready() -> void:
@@ -59,8 +58,6 @@ func _input(event: InputEvent) -> void:
 		else:
 			Engine.set_time_scale(0)
 			get_tree().paused = true
-	if event.is_action_pressed("Toggle Zoom"):
-		pass
 
 func switch_board(board: String) -> void:
 	free_children()
@@ -70,11 +67,11 @@ func switch_board(board: String) -> void:
 		"arena": newBoard = arena
 		"score": newBoard = score
 	currentBoard = board
-	print("[Board Loaded]: " + currentBoard)
+	print("[===== Board Loaded =====]: " + currentBoard)
 	add_child(newBoard.instantiate())
 
 func free_children() -> void:
 	var children = get_children()
 	for child in children:
-		if child != $Camera2D:
+		if child != $cam:
 			child.queue_free()

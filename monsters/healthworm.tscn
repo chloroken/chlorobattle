@@ -20,5 +20,6 @@ shape = SubResource("CircleShape2D_e00wv")
 wait_time = 3.0
 autostart = true
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="WormDirectionTimer" to="." method="_on_worm_direction_timer_timeout"]

@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://assets/fonts/Grunge.otf" id="2_7g0av"]
 [ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="4_trvca"]
 [ext_resource type="AudioStream" uid="uid://dkmeoojkx3brd" path="res://assets/sounds/clap.mp3" id="5_jtt03"]
+[ext_resource type="PackedScene" uid="uid://cx5lla7qrwqqi" path="res://boards/board_circle.tscn" id="6_p3jvy"]
 
 [node name="EndBoard" type="Node2D" unique_id=49523521]
 process_mode = 1
@@ -116,3 +117,6 @@ horizontal_alignment = 1
 
 [node name="ClapSound" type="AudioStreamPlayer2D" parent="." unique_id=647799091]
 stream = ExtResource("5_jtt03")
+
+[node name="BoardArea" parent="." unique_id=359442345 instance=ExtResource("6_p3jvy")]
+visible = false

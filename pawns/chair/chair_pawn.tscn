@@ -8,16 +8,19 @@
 [node name="ChairPawn" unique_id=1048959576 instance=ExtResource("1_gb7of")]
 script = ExtResource("2_ag02n")
 chairAttack = ExtResource("3_wxuat")
-hp = 390.0
-dmg = 65.0
-pen = 0.1
+hp = 410.0
 def = 0.4
-spd = 40.0
+dmg = 35.0
+pen = 0.1
+spd = 30.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_twiy4")
 
-[node name="NameLabel" parent="gui" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
+[node name="RushDurationTimer" type="Timer" parent="." index="7" unique_id=1375521549]
+
+[node name="NameLabel" parent="GUI" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
 text = "chair"
 
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="RushDurationTimer" to="." method="_on_rush_duration_timer_timeout"]

@@ -218,6 +218,7 @@ var tireBounceCap = 3
 var tireSpeedMod = 0.75
 var tireDmgBase = 50
 var tireDmgMod = 10
+var tireStuckDuration = 1.0
 func item_try_tire(attackingPawn) -> void:
 	if attackingPawn.item != "tire": return
 	else:
@@ -225,8 +226,8 @@ func item_try_tire(attackingPawn) -> void:
 func _on_tire_attack_timer_timeout() -> void:
 	var newAttack = tireAttack.instantiate()
 	newAttack.position = get_parent().position
-	newAttack.destination = get_parent().destination
 	newAttack.speed = tireBaseSpeed
 	newAttack.attackName = "Tire"
+	newAttack.stuckDuration = tireStuckDuration
 	get_parent().get_node("AttackContainer").add_child(newAttack)
 	get_parent().attackObjects.append(newAttack)

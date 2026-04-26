@@ -3,6 +3,7 @@ extends Area2D
 @export var tombstone: PackedScene
 
 # Pawn properties
+var areaType = "pawn"
 var username: String
 var type: String
 var style: String
@@ -14,23 +15,17 @@ var item: String
 @export var dmg: float
 @export var pen: float
 @export var spd: float
-
-# Hidden stats
 var asp = 1.0
-var size = 1.0
 var baseHp
-var baseAttackCooldown
 
 # Combat variables
 var attacksDisabled = false
 var attackObjects = []
 var hitList = []
+var isCursed = false
 
 # Movement variables
 var center: Vector2
-var destination: Vector2
-var isCursed = false
-# New movement
 var direction
 var statusSpdMod = 1
 
@@ -67,20 +62,20 @@ func disarm_check() -> bool:
 ############
 
 func _physics_process(delta: float) -> void:
-	
-	# Pawn movement
-	var boardRadius = get_parent().boardRadius
-	var distFromCenter = global_position.distance_to(center)
-	if distFromCenter >= boardRadius && $DirectionDelayTimer.is_stopped():
-		$DirectionDelayTimer.start()
-		direction = new_direction()
 
-	# Move Pawn with movement speed modifiers in mind
+	# Adjust speed based on statuses
 	statusSpdMod = normalSpeed
 	if !$Status.get_node("SprintStatusTimer").is_stopped(): statusSpdMod *= sprintSpeed
 	if !$Status.get_node("SlowStatusTimer").is_stopped(): statusSpdMod *= slowSpeed
 	if !$Status.get_node("StuckStatusTimer").is_stopped(): statusSpdMod *= stuckSpeed
+
+	# Move Pawn
 	position += direction * spd * statusSpdMod * delta
+
+# Change directions when hitting edge of board
+func _on_area_exited(area: Area2D) -> void:
+	if area.areaType == "board":
+		direction = new_direction()
 
 func new_direction() -> Vector2:
 	return(position.direction_to(center).rotated(randf_range(-1.0, 1.0)))
@@ -90,19 +85,20 @@ func new_direction() -> Vector2:
 #################
 
 func _on_area_entered(area: Area2D) -> void:
-	if style == "bully":
+	if area.areaType == "board": return
+	if area.areaType == "pawn" && style == "bully":
 		$Styles.style_bully_trigger(area)
-func _on_body_entered(body: Node2D) -> void:
-	var attackingPawn = body.get_parent().get_parent()
-	var attackerUsername = attackingPawn.username
-	if attackerUsername != username && !hitList.has(body):
-		pre_accuracy_phase(body, attackingPawn)
-		if accuracy_phase(attackingPawn, attackerUsername):
-			var damage = mitigation_phase(attackingPawn, body)
-			damage = modifier_phase(damage, attackingPawn, body)
-			damage_phase(damage, attackingPawn, attackerUsername, body)
-			post_damage_phase(attackingPawn, body)
-		clean_up_phase(body, attackingPawn, attackerUsername)
+	if area.areaType == "attack":
+		var attackingPawn = area.get_parent().get_parent()
+		var attackerUsername = attackingPawn.username
+		if attackerUsername != username && !hitList.has(area):
+			pre_accuracy_phase(area, attackingPawn)
+			if accuracy_phase(attackingPawn, attackerUsername):
+				var damage = defense_phase(attackingPawn, area)
+				damage = modifier_phase(damage, attackingPawn, area)
+				damage_phase(damage, attackingPawn, attackerUsername, area)
+				effects_phase(attackingPawn, area)
+			clean_up_phase(area, attackingPawn, attackerUsername)
 
 ##################
 # ACCURACY PHASE #
@@ -117,6 +113,8 @@ func pre_accuracy_phase(body, attackingPawn) -> void:
 # Determine if this attack will hit
 func accuracy_phase(attackingPawn, attackerUsername) -> bool:
 	var hitChance = 100
+
+	# Drunk miss mechanic
 	var drunkTimer = attackingPawn.get_node("Status").get_node("DrunkStatusTimer")
 	if !drunkTimer.is_stopped(): hitChance -= $Status.drunkMissChance
 	var hitRoll = randi_range(1, 100)
@@ -125,19 +123,24 @@ func accuracy_phase(attackingPawn, attackerUsername) -> bool:
 		print("[" + str(attackerUsername) + "] drunkenly missed [" + str(self.username) + "]")
 		get_parent().update_combat_log("[" + str(attackerUsername) + "] missed [" + str(self.username) + "]")
 		return(false)
+
 	return(true)
 
-##################
-# DAMAGE FORMULA #
-##################
+#################
+# DEFENSE PHASE #
+#################
 
 # Calculate the base damage of this hit
-func mitigation_phase(attackingPawn, body) -> float:
+func defense_phase(attackingPawn, body) -> float:
 	var baseHit = body.dmg
 	var baseDefendedHit = baseHit * self.def
 	var actualDefended = baseDefendedHit * (1.0 - attackingPawn.pen)
 	var realHit = (baseHit - actualDefended)
 	return(realHit)
+
+##################
+# MODIFIER PHASE #
+##################
 
 # Modify the base damage by effects
 func modifier_phase(baseHit, attackingPawn, body) -> float:
@@ -166,7 +169,7 @@ func modifier_phase(baseHit, attackingPawn, body) -> float:
 
 # Apply damage, record stats, output to combat log
 func damage_phase(finalDmg, attackingPawn, attackerUsername, body) -> void:
-	
+
 	# Apply damage
 	self.hp -= finalDmg
 
@@ -179,11 +182,11 @@ func damage_phase(finalDmg, attackingPawn, attackerUsername, body) -> void:
 	print("[" + str(attackerUsername) + "] hit [" + str(self.username) + "] for " + "%0.2f" % finalDmg + " (" + str(body.attackName) + ")") 
 
 #####################
-# POST-DAMAGE PHASE #
+# EFFECTS PHASE #
 #####################
 
 # Apply on-hit effects after doing damage
-func post_damage_phase(attackingPawn, body) -> void:
+func effects_phase(attackingPawn, body) -> void:
 	$Items.item_try_killbot_stack(attackingPawn, body)
 	$Items.item_try_skating()
 	$Items.item_try_glue(attackingPawn, body)

@@ -20,6 +20,7 @@ scale = Vector2(8, 8)
 shape = SubResource("CircleShape2D_lmhw8")
 
 [node name="DamageLabel" type="Label" parent="." index="2" unique_id=1995884402]
+visible = false
 offset_left = -32.0
 offset_top = -32.0
 offset_right = 32.0

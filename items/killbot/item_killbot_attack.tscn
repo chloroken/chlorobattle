@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_2me13"]
 radius = 4.0
 
-[node name="KillbotAttack" type="CharacterBody2D" unique_id=1314532855]
+[node name="KillbotAttack" type="Area2D" unique_id=1635419618]
 collision_mask = 0
 script = ExtResource("1_jgtw5")
 

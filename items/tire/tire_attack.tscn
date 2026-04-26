@@ -7,7 +7,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sx4ns"]
 size = Vector2(32, 15)
 
-[node name="TireAttack" type="CharacterBody2D" unique_id=1314532855]
+[node name="TireAttack" type="Area2D" unique_id=1592067109]
 collision_mask = 0
 script = ExtResource("1_gkxf6")
 tireTrail = ExtResource("2_wg1cp")

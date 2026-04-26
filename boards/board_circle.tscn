@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cx5lla7qrwqqi"]
+
+[ext_resource type="Texture2D" uid="uid://cgxiq7g47fwug" path="res://boards/graphics/arena720.png" id="1_d7r55"]
+[ext_resource type="Script" uid="uid://biiqsnxca3mck" path="res://boards/board_circle.gd" id="1_q80fc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gg14b"]
+radius = 360.0
+
+[node name="BoardArea" type="Area2D" unique_id=359442345]
+position = Vector2(480, 480)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_q80fc")
+
+[node name="BoardShape" type="CollisionShape2D" parent="." unique_id=1136658235]
+shape = SubResource("CircleShape2D_gg14b")
+
+[node name="BoardOutline" type="Sprite2D" parent="." unique_id=274755004]
+texture = ExtResource("1_d7r55")

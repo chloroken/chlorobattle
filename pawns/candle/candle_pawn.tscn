@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_cg57w"]
 [ext_resource type="Script" uid="uid://cb01utcq4b0c2" path="res://pawns/candle/candle_pawn.gd" id="2_ori44"]
 [ext_resource type="Texture2D" uid="uid://cjx62vdfypc8h" path="res://pawns/candle/candle_pawn.png" id="4_squ0r"]
-[ext_resource type="PackedScene" uid="uid://dnls5a2svlqb8" path="res://pawns/candle/nember_attack.tscn" id="5_nulue"]
+[ext_resource type="PackedScene" uid="uid://dnls5a2svlqb8" path="res://pawns/candle/ember/candle_ember.tscn" id="5_nulue"]
 
 [node name="CandlePawn" unique_id=1877646274 instance=ExtResource("1_cg57w")]
 script = ExtResource("2_ori44")

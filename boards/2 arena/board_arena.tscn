@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="4_2xcui"]
 [ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="5_6k7p0"]
 [ext_resource type="AudioStream" uid="uid://cr6bhvej0b2xx" path="res://assets/sounds/bell.mp3" id="6_b0655"]
+[ext_resource type="PackedScene" uid="uid://cx5lla7qrwqqi" path="res://boards/board_circle.tscn" id="8_qd4cs"]
 
 [node name="EarlyBoard" type="Node2D" unique_id=230680556]
 process_mode = 1
@@ -37,40 +38,38 @@ texture = ExtResource("3_0rnid")
 
 [node name="SpawnStaggerTimer" type="Timer" parent="." unique_id=603592877]
 
-[node name="DamageModTimer" type="Label" parent="." unique_id=62763592]
+[node name="ArenaCanvas" type="CanvasLayer" parent="." unique_id=1847696693]
+
+[node name="DamageModTimer" type="Label" parent="ArenaCanvas" unique_id=62763592]
 z_index = -5
 custom_minimum_size = Vector2(720, 50)
-offset_right = 960.0
+offset_right = 940.0
 offset_bottom = 960.0
-theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
+theme_override_colors/font_color = Color(1, 1, 1, 0.39215687)
 theme_override_fonts/font = ExtResource("4_2xcui")
 theme_override_font_sizes/font_size = 96
 text = "-10"
-horizontal_alignment = 1
-vertical_alignment = 1
+horizontal_alignment = 2
 
-[node name="DurationTimer" type="Label" parent="." unique_id=1597279473]
+[node name="DurationTimer" type="Label" parent="ArenaCanvas" unique_id=1597279473]
 z_index = -5
-offset_right = 960.0
+offset_right = 940.0
 offset_bottom = 960.0
-theme_override_colors/font_color = Color(0, 0, 0, 0.39215687)
+theme_override_colors/font_color = Color(1, 1, 1, 0.39215687)
 theme_override_fonts/font = ExtResource("4_2xcui")
 theme_override_font_sizes/font_size = 96
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ArenaCanvas" type="CanvasLayer" parent="." unique_id=1847696693]
+horizontal_alignment = 2
 
 [node name="PlayersRemainingLabel" type="Label" parent="ArenaCanvas" unique_id=2063364564]
 z_index = -5
+offset_left = 20.0
 offset_top = 10.0
-offset_right = 960.0
+offset_right = 980.0
 offset_bottom = 970.0
 theme_override_colors/font_color = Color(1, 1, 1, 0.39215687)
 theme_override_fonts/font = ExtResource("4_2xcui")
 theme_override_font_sizes/font_size = 32
 text = "asdf"
-horizontal_alignment = 1
 
 [node name="KillFeedLabel" type="Label" parent="ArenaCanvas" unique_id=1315678680]
 z_index = -5
@@ -99,5 +98,10 @@ clip_text = true
 stream = ExtResource("6_b0655")
 volume_db = -10.0
 
+[node name="BoardCircle" parent="." unique_id=359442345 instance=ExtResource("8_qd4cs")]
+visible = false
+
 [connection signal="timeout" from="HealthwormSpawnTimer" to="." method="_on_healthworm_spawn_timer_timeout"]
 [connection signal="timeout" from="SpawnStaggerTimer" to="." method="_on_spawn_stagger_timer_timeout"]
+
+[editable path="BoardCircle"]
