@@ -8,7 +8,7 @@ var glyphCooldownMin = 8.0
 var glyphCooldownMax = 12.0
 var innerRotateSpeed = .25
 var outerRotateSpeed = .50
-var glyphStuckDuration = 2.0 # used in base pawn
+var glyphDisarmDuration = 3.0 # used in base pawn
 var purpleDuration = 1.0
 
 # Curse variables

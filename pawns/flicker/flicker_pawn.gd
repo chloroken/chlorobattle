@@ -16,7 +16,7 @@ var blinkCount = 0
 @export var warpSprite: Resource
 var warpActive = false
 var warpVoidTimer = 100
-var warpCooldown = 20
+var warpCooldown = 10
 var warpTravelSpeed = 100
 
 func _ready() -> void:
@@ -33,6 +33,7 @@ func _process(_delta: float) -> void:
 		$BlinkCountLabel.modulate.a = max(0.5, $BlinkRevealTimer.get_time_left() / $BlinkRevealTimer.get_wait_time())
 
 func _on_area_exited(area: Area2D) -> void:
+	if self.is_queued_for_deletion(): return
 	if area.areaType == "board":
 		# Warp
 		if !attacksDisabled:
@@ -76,7 +77,6 @@ func _physics_process(delta: float) -> void:
 func _on_attack_cooldown_timer_timeout() -> void:
 	if disarm_check(): return
 	if !$Status.get_node("StuckStatusTimer").is_stopped(): return
-
 	recursive_attack_routine()
 
 func start_attack_cooldown() -> void:
@@ -132,7 +132,7 @@ func _on_blink_delay_timer_timeout() -> void:
 func find_eligible_location() -> Vector2:
 	var newOffset = Vector2(randf_range(-blinkBox, blinkBox), randf_range(-blinkBox, blinkBox))
 	var newPos = position + newOffset
-	while newPos.distance_to(center) > get_parent().boardRadius || position.distance_to(newPos) > blinkDistMin:
+	while newPos.distance_to(center) > get_parent().boardRadius || position.distance_to(newPos) < blinkDistMin:
 		newOffset = Vector2(randf_range(-blinkBox, blinkBox), randf_range(-blinkBox, blinkBox))
 		newPos = position + newOffset
 	return(newPos)

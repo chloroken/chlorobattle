@@ -4,11 +4,7 @@ var boardRadius = 360
 var lobbyTimer = 60.0
 
 func _ready() -> void:
-
-	# LET TWITCH COOK
-	#VerySimpleTwitch.get_token_and_login_chat()
-	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
-
+	
 	# Create random bots to test with
 	for i in 24:
 		#register_pawn("Bot " + str(i+1), "flicker", choose_random_style(), choose_random_item())
@@ -17,14 +13,19 @@ func _ready() -> void:
 	# Create specific test bots
 	#register_pawn("chloroken", "candle", "berserk", "dice")
 
-	# Play chime
-	#$ChimeSound.panning_strength = 0.0
-	#$ChimeSound.play()
+	# LET TWITCH COOK
+	VerySimpleTwitch.get_token_and_login_chat()
+	VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 
 	# Start lobby timer
 	$LobbyTimer.one_shot = true
 	$LobbyTimer.set_wait_time(lobbyTimer)
 	$LobbyTimer.start()
+
+func _on_play_notifications_timeout() -> void:
+	$ChimeSound.panning_strength = 0.0
+	$ChimeSound.play()
+	#VerySimpleTwitch.send_chat_message("Type !join to try your luck.")
 
 # Update lobby countdown timer
 func _process(_delta: float) -> void:

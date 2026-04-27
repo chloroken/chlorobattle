@@ -9,7 +9,7 @@
 script = ExtResource("2_al8ad")
 glyphAttack = ExtResource("3_4naq4")
 hp = 360.0
-dmg = 40.0
+dmg = 45.0
 pen = 0.5
 spd = 40.0
 
@@ -18,8 +18,8 @@ texture = ExtResource("4_n8i8p")
 
 [node name="CursedResetTimer" type="Timer" parent="." index="4" unique_id=1311632392]
 
-[node name="WeakStatusTimer" parent="Status" parent_id_path=PackedInt32Array(1204987842) index="6" unique_id=1131456262]
+[node name="WeakStatusTimer" parent="Status" parent_id_path=PackedInt32Array(1204987842) index="8" unique_id=1131456262]
 autostart = true
 
-[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
 [connection signal="timeout" from="CursedResetTimer" to="." method="_on_cursed_reset_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

@@ -108,7 +108,7 @@ func _on_area_entered(area: Area2D) -> void:
 func pre_accuracy_phase(body, attackingPawn) -> void:
 	$Styles.style_berserk_trigger(body, attackingPawn)
 	if attackingPawn.type == "mummy" && body.mummyCenter == true:
-		$Status.start_stuck(attackingPawn.glyphStuckDuration)
+		$Status.start_disarmed(attackingPawn.glyphDisarmDuration)
 
 # Determine if this attack will hit
 func accuracy_phase(attackingPawn, attackerUsername) -> bool:

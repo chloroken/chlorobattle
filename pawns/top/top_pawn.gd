@@ -23,6 +23,7 @@ func _ready() -> void:
 
 # Change directions when hitting edge of board
 func _on_area_exited(area: Area2D) -> void:
+	if self.is_queued_for_deletion(): return
 	if area.areaType == "board":
 		direction = new_direction()
 		if !attacksDisabled:
@@ -30,6 +31,7 @@ func _on_area_exited(area: Area2D) -> void:
 
 # Bounce mechanic
 func top_hit_wall() -> void:
+	if self.is_queued_for_deletion(): return
 	#destination = new_destination()
 	#direction = new_direction()
 	$Status.start_sprint(topBounceDuration)

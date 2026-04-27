@@ -4,7 +4,7 @@ extends "res://pawns/base/base_pawn.gd"
 var slugAttackSpeed = 1.0
 var trailDuration = 10.0
 var trailOffset = 3
-var healthRegen = 0.1
+var healthRegen = 1.0
 
 func _ready() -> void:
 	super()
@@ -15,7 +15,7 @@ func _ready() -> void:
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
-	
+
 	var newAttack = slugAttack.instantiate()
 	var ranX = randi_range(-trailOffset, trailOffset)
 	var ranY = randi_range(-trailOffset, trailOffset)
@@ -28,8 +28,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	# Regenerate health every time slug attacks
 	hp += healthRegen
 
-	# Just in case
-	#if hp > baseHp: hp = baseHp
+	# In case of emergency, comment line 32
+	if hp > baseHp: hp = baseHp
 
 func start_attack_cooldown() -> void:
 	$AttackCooldownTimer.start(asp * slugAttackSpeed + random_variance())
