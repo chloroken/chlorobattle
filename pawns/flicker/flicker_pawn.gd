@@ -7,9 +7,11 @@ var blinkChainPercent = 50
 var blinkDistMin = 50
 var blinkBox = 50
 var blinkDmgNormal = 1.0
-var blinkDmgMod = 1.0
 var blinkDecayMod = 0.9
 var blinkDmgModFloor = 0.5
+
+# Active blink variables
+var blinkDmgMod = 1.0
 var blinkCount = 0
 
 @export var baseSprite: Resource

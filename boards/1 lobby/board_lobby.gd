@@ -4,18 +4,26 @@ var boardRadius = 360
 var lobbyTimer = 60.0
 
 func _ready() -> void:
+
+	# LET TWITCH COOK
+	#VerySimpleTwitch.get_token_and_login_chat()
+	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	
 	# Create random bots to test with
 	for i in 24:
-		#register_pawn("Bot " + str(i+1), "flicker", choose_random_style(), choose_random_item())
+		#register_pawn("Bot " + str(i+1), "flicker", choose_random_style(), "vial")
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	#register_pawn("chloroken", "candle", "berserk", "dice")
-
-	# LET TWITCH COOK
-	VerySimpleTwitch.get_token_and_login_chat()
-	VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
+	#register_pawn("chloro", "flicker", "mighty", "dice")
+	#register_pawn("gravy", "chair", "mighty", "tire")
+	#register_pawn("rotdog", "grouper", "bully", "tire")
+	#register_pawn("bang", "grouper", "mighty", "tire")
+	#register_pawn("madzster", "cyclone++", "berserk", "antimatter")
+	#register_pawn("hospi", choose_random_pawn(), choose_random_style(), choose_random_item())
+	#register_pawn("monkeyd", "ship", "berserk", "tire")
+	#register_pawn("zeylin", "grouper", "mighty", "killbot")
+	#register_pawn("naruts", "mummy", "mighty", "killbot")
 
 	# Start lobby timer
 	$LobbyTimer.one_shot = true
@@ -98,9 +106,10 @@ func get_pawn_item(message: String):
 	elif "skates" in message: return("skates")
 	elif "tire" in message: return("tire")
 	elif "tyre" in message: return("tire")
+	elif "vial" in message: return("vial")
 	else: return(choose_random_item())
 func choose_random_item() -> String:
-	var allItemTypes = ["antimatter", "dice", "flask", "glue", "killbot", "map", "skates", "tire"]
+	var allItemTypes = ["antimatter", "dice", "flask", "glue", "killbot", "map", "skates", "tire", "vial"]
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])
 

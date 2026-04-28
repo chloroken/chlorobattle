@@ -140,7 +140,7 @@ var mightyChargeAmount = 0.2
 var mightyChargeDuration = 2.0
 func style_mighty_trigger(body, attackingPawn, baseHit) -> float:
 	
-	if body.isPersistentSummon == false:
+	if body.isPersistentSummon == false && !body.isTireAttack:
 		if attackingPawn.style == "mighty":
 			
 			var attacker = attackingPawn.get_node("Styles")

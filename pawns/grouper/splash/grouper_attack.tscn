@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://d0lk68f6gmvnp"]
 
 [ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_pv7dr"]
-[ext_resource type="Texture2D" uid="uid://n18btobrrvn2" path="res://pawns/grouper/grouper_attack.png" id="2_60y5l"]
-[ext_resource type="Script" uid="uid://byjixodhbsdpl" path="res://pawns/grouper/grouper_attack.gd" id="2_62mda"]
-[ext_resource type="Texture2D" uid="uid://jdrpqbu2sukx" path="res://pawns/grouper/grouper_outline.png" id="4_u33ql"]
+[ext_resource type="Texture2D" uid="uid://n18btobrrvn2" path="res://pawns/grouper/splash/grouper_attack.png" id="2_60y5l"]
+[ext_resource type="Script" uid="uid://byjixodhbsdpl" path="res://pawns/grouper/splash/grouper_attack.gd" id="2_62mda"]
+[ext_resource type="Texture2D" uid="uid://jdrpqbu2sukx" path="res://pawns/grouper/splash/grouper_outline.png" id="4_u33ql"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_62mda"]
 radius = 32.06244

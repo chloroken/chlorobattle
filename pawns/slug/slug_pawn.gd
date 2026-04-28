@@ -4,7 +4,7 @@ extends "res://pawns/base/base_pawn.gd"
 var slugAttackSpeed = 1.0
 var trailDuration = 10.0
 var trailOffset = 3
-var healthRegen = 1.0
+var healthRegen = 0.5
 
 func _ready() -> void:
 	super()
@@ -28,7 +28,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	# Regenerate health every time slug attacks
 	hp += healthRegen
 
-	# In case of emergency, comment line 32
+	# In case of emergency, uncomment line 32
 	if hp > baseHp: hp = baseHp
 
 func start_attack_cooldown() -> void:

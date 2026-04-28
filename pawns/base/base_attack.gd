@@ -11,3 +11,4 @@ var mummyCenter = false
 var isSlugAttack = false
 var isTireAttack = false
 var isEmberAttack = false
+var isVialAttack = false

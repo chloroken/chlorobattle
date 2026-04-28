@@ -22,6 +22,8 @@ func _ready() -> void:
 			$TireAttackTimer.start(randf_range(tireCooldownMin, tireCooldownMax))
 		elif basePawn.item == "killbot":
 			item_spawn_killbot()
+		elif basePawn.item == "vial":
+			$VialAttackTimer.start(randf_range(vialThrowCooldownMin, vialThrowCooldownMax))
 
 ##############
 # ANTIMATTER #
@@ -231,3 +233,27 @@ func _on_tire_attack_timer_timeout() -> void:
 	newAttack.stuckDuration = tireStuckDuration
 	get_parent().get_node("AttackContainer").add_child(newAttack)
 	get_parent().attackObjects.append(newAttack)
+
+########
+# VIAL #
+########
+
+@export var vialItem: Resource
+var vialThrowCooldownMin = 10.0
+var vialThrowCooldownMax = 15.0
+var vialThrowSpeed = 100.0
+var vialThrowDuration = 1.0
+var vialPoolDuration = 5.0
+var vialPoolDotDuration = 10.0
+var vialPoolSlowDuration = 5.0
+var vialPoolStuckDuration = 1.0
+
+func _on_vial_attack_timer_timeout() -> void:
+	print("vial attack timer timeout")
+	# drop the vial
+	var newAttack = vialItem.instantiate()
+	newAttack.position = get_parent().position
+	newAttack.speed = vialThrowSpeed
+	get_parent().get_node("AttackContainer").add_child(newAttack)
+	get_parent().attackObjects.append(newAttack)
+	$VialAttackTimer.start(randf_range(vialThrowCooldownMin, vialThrowCooldownMax))

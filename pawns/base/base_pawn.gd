@@ -203,8 +203,14 @@ func effects_phase(attackingPawn, body) -> void:
 	if body.isTireAttack:
 		$Status.start_stuck(body.stuckDuration)
 	if body.isEmberAttack:
-		$Status.start_dot(body.get_parent().get_parent().emberBurnDuration, attackingPawn)
+		if randi_range(1, 100) < 70:
+			$Status.start_dot(body.get_parent().get_parent().emberBurnDuration, attackingPawn)
 	$Items.item_try_map()
+	if body.isVialAttack:
+		var pawnItems = body.get_parent().get_parent().get_node("Items")
+		$Status.start_dot(pawnItems.vialPoolDotDuration, attackingPawn)
+		$Status.start_slow(pawnItems.vialPoolSlowDuration)
+		$Status.start_stuck(pawnItems.vialPoolStuckDuration)
 
 ##################
 # CLEAN-UP PHASE #

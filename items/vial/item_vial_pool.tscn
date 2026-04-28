@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://he6ffs4bqv2u"]
+
+[ext_resource type="Texture2D" uid="uid://b13ir2mukrut1" path="res://items/vial/item_vial_pool.png" id="1_58p1h"]
+[ext_resource type="Script" uid="uid://bh3k2qp8xmupe" path="res://items/vial/item_vial_pool.gd" id="1_nqqu6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nqqu6"]
+radius = 32.0
+
+[node name="ItemVialPool" type="Area2D" unique_id=1687417815]
+script = ExtResource("1_nqqu6")
+
+[node name="ItemVialPoolSprite" type="Sprite2D" parent="." unique_id=210261095]
+texture = ExtResource("1_58p1h")
+
+[node name="ItemVialPoolCollider" type="CollisionShape2D" parent="." unique_id=915448173]
+shape = SubResource("CircleShape2D_nqqu6")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=2053340414]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

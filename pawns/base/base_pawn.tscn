@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://c3buyv3d0akf0" path="res://status/icons/disarmed_icon.png" id="20_edq0t"]
 [ext_resource type="Texture2D" uid="uid://dhi1t62xhq12m" path="res://styles/bully_circle.png" id="22_1sae3"]
 [ext_resource type="PackedScene" uid="uid://brb6i5u1uth2i" path="res://styles/style_charge.tscn" id="24_aj5j2"]
+[ext_resource type="PackedScene" uid="uid://82aq5p3vwun7" path="res://items/vial/item_vial.tscn" id="28_lhhwe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
 radius = 12.0
@@ -195,6 +196,7 @@ killbot = ExtResource("3_ae3pr")
 diceEffect = ExtResource("4_weq32")
 mapBlinkEffect = ExtResource("7_jv0kv")
 tireAttack = ExtResource("3_5e5wd")
+vialItem = ExtResource("28_lhhwe")
 
 [node name="AntimatterCooldownTimer" type="Timer" parent="Items" unique_id=2066980002]
 
@@ -226,6 +228,9 @@ one_shot = true
 [node name="TireAttackTimer" type="Timer" parent="Items" unique_id=1665201497]
 one_shot = true
 
+[node name="VialAttackTimer" type="Timer" parent="Items" unique_id=1423254568]
+one_shot = true
+
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
@@ -249,3 +254,4 @@ one_shot = true
 [connection signal="timeout" from="Items/SkateDurationTimer" to="Items" method="_on_skate_duration_timer_timeout"]
 [connection signal="timeout" from="Items/SkateCooldownTimer" to="Items" method="_on_skate_cooldown_timer_timeout"]
 [connection signal="timeout" from="Items/TireAttackTimer" to="Items" method="_on_tire_attack_timer_timeout"]
+[connection signal="timeout" from="Items/VialAttackTimer" to="Items" method="_on_vial_attack_timer_timeout"]
