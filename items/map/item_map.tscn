@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c7nabqm2bnb2t"]
+
+[ext_resource type="Script" uid="uid://b4aeii76j4otn" path="res://items/map/item_map.gd" id="1_ha0c6"]
+[ext_resource type="Texture2D" uid="uid://dktxnnfrw1ug5" path="res://items/map/item_map.png" id="2_k1el8"]
+
+[node name="Map" type="Node2D" unique_id=1992651838]
+script = ExtResource("1_ha0c6")
+
+[node name="MapSprite" type="Sprite2D" parent="." unique_id=669355070]
+texture = ExtResource("2_k1el8")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1537784240]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

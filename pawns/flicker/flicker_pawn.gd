@@ -1,4 +1,4 @@
-extends "res://base/base_pawn.gd"
+extends "res://pawns/base/base_pawn.gd"
 
 @export var blinkScene: Resource
 var blinkCooldownMin = 3.0
@@ -28,53 +28,10 @@ func _ready() -> void:
 		start_attack_cooldown()
 		$WarpCooldownTimer.one_shot = true
 
-func _process(_delta: float) -> void:
-	if $BlinkRevealTimer.is_stopped():
-		$BlinkCountLabel.modulate.a = 0.0
-	else:
-		$BlinkCountLabel.modulate.a = max(0.5, $BlinkRevealTimer.get_time_left() / $BlinkRevealTimer.get_wait_time())
-
-func _on_area_exited(area: Area2D) -> void:
-	if self.is_queued_for_deletion(): return
-	if area.areaType == "board":
-		# Warp
-		if !attacksDisabled:
-			if !warpActive && $WarpCooldownTimer.is_stopped():
-				warpActive = true
-				$WarpCooldownTimer.start(warpCooldown)
-				$Status.start_void(warpVoidTimer)
-				$AttackCooldownTimer.stop()
-				$BlinkDelayTimer.stop()
-				$PawnSprite.texture = warpSprite
-				direction = position.direction_to(center)
-			elif warpActive:
-				warpActive = false
-				$Status.stop_void()
-				$Status.start_void(0.1)
-				start_attack_cooldown()
-				$PawnSprite.texture = baseSprite
-				direction = new_direction()
-			else:
-				direction = new_direction()
-		else:
-			direction = new_direction()
-
-func _physics_process(delta: float) -> void:
-
-	# Undo super() movement
-	if warpActive:
-		#var warpRatio = 1 - position.distance_to(center) / get_parent().boardRadius
-		var dist = get_parent().boardRadius - position.distance_to(center)
-		position += direction * max(warpTravelSpeed, dist) * delta
-	else:
-		# Adjust speed based on statuses
-		statusSpdMod = normalSpeed
-		if !$Status.get_node("SprintStatusTimer").is_stopped(): statusSpdMod *= sprintSpeed
-		if !$Status.get_node("SlowStatusTimer").is_stopped(): statusSpdMod *= slowSpeed
-		if !$Status.get_node("StuckStatusTimer").is_stopped(): statusSpdMod *= stuckSpeed
-
-		# Move Pawn
-		position += direction * spd * statusSpdMod * delta
+func start_attack_cooldown() -> void:
+	var blinkCooldown = asp * randf_range(blinkCooldownMin, blinkCooldownMax)
+	#if blinkCooldown > $AttackCooldownTimer.get_time_left():
+	$AttackCooldownTimer.start(blinkCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	if disarm_check():
@@ -84,11 +41,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		start_attack_cooldown()
 		return
 	recursive_attack_routine()
-
-func start_attack_cooldown() -> void:
-	var blinkCooldown = randf_range(blinkCooldownMin, blinkCooldownMax)
-	if blinkCooldown > $AttackCooldownTimer.get_time_left():
-		$AttackCooldownTimer.start(asp * blinkCooldown)
 
 func recursive_attack_routine() -> void:
 
@@ -140,3 +92,55 @@ func find_eligible_location() -> Vector2:
 		newOffset = Vector2(randf_range(-blinkBox, blinkBox), randf_range(-blinkBox, blinkBox))
 		newPos = position + newOffset
 	return(newPos)
+
+func _process(_delta: float) -> void:
+	if $BlinkRevealTimer.is_stopped():
+		$BlinkCountLabel.modulate.a = 0.0
+	else:
+		$BlinkCountLabel.modulate.a = max(0.5, $BlinkRevealTimer.get_time_left() / $BlinkRevealTimer.get_wait_time())
+
+########
+# WARP #
+########
+
+func _on_area_exited(area: Area2D) -> void:
+	if self.is_queued_for_deletion(): return
+	if area.areaType == "board":
+		# Warp
+		if !attacksDisabled:
+			if !warpActive && $WarpCooldownTimer.is_stopped():
+				warpActive = true
+				$WarpCooldownTimer.start(warpCooldown)
+				$Status.start_void(warpVoidTimer)
+				$AttackCooldownTimer.stop()
+				$BlinkDelayTimer.stop()
+				$PawnSprite.texture = warpSprite
+				direction = position.direction_to(center)
+			elif warpActive:
+				warpActive = false
+				$Status.stop_void()
+				$Status.start_void(0.1)
+				start_attack_cooldown()
+				$PawnSprite.texture = baseSprite
+				direction = new_direction()
+			else:
+				direction = new_direction()
+		else:
+			direction = new_direction()
+
+func _physics_process(delta: float) -> void:
+
+	# Undo super() movement
+	if warpActive:
+		#var warpRatio = 1 - position.distance_to(center) / get_parent().boardRadius
+		var dist = get_parent().boardRadius - position.distance_to(center)
+		position += direction * max(warpTravelSpeed, dist) * delta
+	else:
+		# Adjust speed based on statuses
+		statusSpdMod = normalSpeed
+		if !$Status.get_node("SprintStatusTimer").is_stopped(): statusSpdMod *= sprintSpeed
+		if !$Status.get_node("SlowStatusTimer").is_stopped(): statusSpdMod *= slowSpeed
+		if !$Status.get_node("StuckStatusTimer").is_stopped(): statusSpdMod *= stuckSpeed
+
+		# Move Pawn
+		position += direction * spd * statusSpdMod * delta

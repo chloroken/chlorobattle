@@ -1,4 +1,4 @@
-extends "res://base/base_pawn.gd"
+extends "res://pawns/base/base_pawn.gd"
 
 # Parrot variables
 @export var pirateAttack: PackedScene
@@ -24,6 +24,10 @@ func _ready() -> void:
 		$GrogCooldownTimer.one_shot = true
 		start_grog_cooldown()
 
+func start_attack_cooldown() -> void:
+	var parrotCooldown = asp * birdAttackCooldown + random_variance()
+	$AttackCooldownTimer.start(parrotCooldown)
+
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
@@ -35,11 +39,9 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.birdSpeed = birdSpeed
 	$AttackContainer.add_child(newAttack)
 
-func start_attack_cooldown() -> void:
-	$AttackCooldownTimer.start(asp * birdAttackCooldown + random_variance())
-
 func start_grog_cooldown() -> void:
-	$GrogCooldownTimer.start(randf_range(grogCooldownMin, grogCooldownMax))
+	var grogCooldown = randf_range(grogCooldownMin, grogCooldownMax) + random_variance()
+	$GrogCooldownTimer.start(grogCooldown)
 
 func _on_grog_cooldown_timer_timeout() -> void:
 	$Status.start_drunk(grogDuration)

@@ -1,4 +1,4 @@
-extends "res://base/base_pawn.gd"
+extends "res://pawns/base/base_pawn.gd"
 
 # Ship variables
 @export var shipRing: PackedScene
@@ -30,8 +30,9 @@ func _ready() -> void:
 		$Status.start_slow(burstDuration)
 		start_attack_cooldown()
 
-func _process(_delta: float) -> void:
-	$PawnSprite.rotation = direction.angle()
+func start_attack_cooldown() -> void:
+	var globuleCooldown = asp * projectileAttackSpeed
+	$AttackCooldownTimer.start(globuleCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
@@ -51,9 +52,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newDir = newDir.rotated(randf_range(-projectileArc, projectileArc))
 	newAttack.direction = newDir
 
-func start_attack_cooldown() -> void:
-	$AttackCooldownTimer.start(asp * projectileAttackSpeed)
-
 # Stop firing
 func _on_burst_duration_timer_timeout() -> void:
 	$BurstDurationTimer.stop()
@@ -66,7 +64,9 @@ func _on_overheat_duration_timer_timeout() -> void:
 	$BurstDurationTimer.start(burstDuration)
 	$Status.start_slow(burstDuration)
 
-# Drop rings behind ship for effect
+# Effects
+func _process(_delta: float) -> void:
+	$PawnSprite.rotation = direction.angle()
 func _on_ring_timer_timeout() -> void:
 	var newRing = shipRing.instantiate()
 	newRing.position = self.global_position

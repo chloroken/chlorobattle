@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://mgwdx835xyyo"]
+
+[ext_resource type="Script" uid="uid://bjav2rs1in24i" path="res://status/icons/status_indicator.gd" id="1_n1ug3"]
+
+[node name="StatusIndicator" type="TextureRect" unique_id=1844817766]
+script = ExtResource("1_n1ug3")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=706515183]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

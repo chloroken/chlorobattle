@@ -12,18 +12,18 @@ func _ready() -> void:
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 
 	# Create random bots to test with
-	#for i in 96:
+	for i in 24:
 		#register_pawn("Bot " + str(i+1), "flicker", choose_random_style(), "vial")
-		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 	#for i in 4:
 		#register_pawn("Bot " + str(i+1), "chair", choose_random_style(), choose_random_item())
 		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
 	#register_pawn("emmy", "chair", "mighty", "antimatter")
-	register_pawn("chloro", "flicker", "mighty", "killbot")
-	register_pawn("rotdog", "candle", "bully", "tire")
-	register_pawn("bang", "slug", "mighty", "tire")
+	#register_pawn("chloro", "flicker", "mighty", "killbot")
+	#register_pawn("rotdog", "candle", "bully", "tire")
+	#register_pawn("bang", "slug", "mighty", "tire")
 	#register_pawn("madzster", "cyclone++", "berserk", "antimatter")
 	#register_pawn("hospi", choose_random_pawn(), choose_random_style(), choose_random_item())
 	#register_pawn("monkeyd", "ship", "berserk", "tire")

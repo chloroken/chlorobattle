@@ -41,7 +41,7 @@ func _on_area_entered(area: Area2D) -> void:
 		if hpToHeal > 0:
 			attackingPawn.hp += hpToHeal
 			attackingPawn.damageHealed += hpToHeal
-			attackingPawn.combat_log("[" + str(attackingPawn.username) + "] healed for " + str(hpToHeal) + " (Healthworm)")
+			attackingPawn.combat_log("[" + str(attackingPawn.username) + "] healed for " + str("%0.2f" % hpToHeal) + " (Healthworm)")
 
 		get_parent().healthwormArray.pop_front()
 		queue_free()

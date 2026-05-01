@@ -1,4 +1,4 @@
-extends "res://base/base_pawn.gd"
+extends "res://pawns/base/base_pawn.gd"
 
 # Glyph variables
 @export var glyphAttack: Resource
@@ -26,6 +26,10 @@ func _ready() -> void:
 		$Status.start_weak(curseDuration)
 		start_attack_cooldown()
 
+func start_attack_cooldown() -> void:
+	var glyphCooldown = asp * randf_range(glyphCooldownMin, glyphCooldownMax)
+	$AttackCooldownTimer.start(glyphCooldown)
+
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
@@ -34,15 +38,11 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = glyphAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg
-	newAttack.attackName = "Glyph"
 	$AttackContainer.add_child(newAttack)
 
 	# Set statuses
 	$Status.start_stuck(glyphChannelDur)
 	$Status.start_void(glyphChannelDur)
-
-func start_attack_cooldown() -> void:
-	$AttackCooldownTimer.start(asp * randf_range(glyphCooldownMin, glyphCooldownMax) + random_variance())
 
 func _on_cursed_reset_timer_timeout() -> void:
 	isCursed = true

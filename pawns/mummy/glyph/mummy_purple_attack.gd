@@ -1,6 +1,7 @@
-extends "res://base/attacks/base_attack.gd"
+extends "res://pawns/base/attack/base_attack.gd"
 
 func _ready() -> void:
+	attackName = "Glyph"
 	
 	# Prepare for visual effect
 	mummyCenter = true

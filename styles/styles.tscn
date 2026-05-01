@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://crh2qlcijypen"]
+
+[ext_resource type="Script" uid="uid://cmsgdkmns5dih" path="res://styles/styles.gd" id="1_aq176"]
+[ext_resource type="PackedScene" uid="uid://brb6i5u1uth2i" path="res://styles/charges/style_charge.tscn" id="2_15mpe"]
+
+[node name="Styles" type="Node" unique_id=639132851]
+script = ExtResource("1_aq176")
+styleCharge = ExtResource("2_15mpe")
+
+[node name="BerserkResetTimer" type="Timer" parent="." unique_id=1577950863]
+
+[node name="BullyResetTimer" type="Timer" parent="." unique_id=1339769289]
+
+[node name="MightyChargeTimer" type="Timer" parent="." unique_id=1767579079]
+
+[connection signal="timeout" from="BerserkResetTimer" to="." method="_on_berserk_reset_timer_timeout"]
+[connection signal="timeout" from="BullyResetTimer" to="." method="_on_bully_reset_timer_timeout"]
+[connection signal="timeout" from="MightyChargeTimer" to="." method="_on_mighty_charge_timer_timeout"]

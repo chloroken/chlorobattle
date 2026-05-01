@@ -1,4 +1,4 @@
-extends "res://base/attacks/base_attack.gd"
+extends "res://pawns/base/attack/base_attack.gd"
 
 var swingDir
 var swingSpd
@@ -6,6 +6,7 @@ var swingDur
 var scaleMod
 
 func _ready() -> void:
+	attackName = "Swing"
 	
 	# Start with no scale to avoid scale snapping
 	scale = Vector2.ONE * 0.5

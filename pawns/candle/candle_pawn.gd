@@ -1,4 +1,4 @@
-extends "res://base/base_pawn.gd"
+extends "res://pawns/base/base_pawn.gd"
 
 # Ember
 @export var emberAttack: PackedScene
@@ -18,6 +18,10 @@ func _ready() -> void:
 	if !attacksDisabled:
 		start_attack_cooldown()
 
+func start_attack_cooldown() -> void:
+	var emberCooldown = asp * randf_range(emberCooldownMin, emberCooldownMax)
+	$AttackCooldownTimer.start(emberCooldown)
+
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
@@ -30,9 +34,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.attackName = "Ember"
 
 	$AttackContainer.add_child(newAttack)
-
-func start_attack_cooldown() -> void:
-	$AttackCooldownTimer.start(randf_range(emberCooldownMin, emberCooldownMax))
 
 func good_ember_position() -> Vector2:
 	var newPos = try_ember_position(false)

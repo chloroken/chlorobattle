@@ -1,4 +1,4 @@
-extends "res://base/base_pawn.gd"
+extends "res://pawns/base/base_pawn.gd"
 
 # Form variables
 @export var jetFormSprite: Resource
@@ -36,15 +36,13 @@ func _ready() -> void:
 		$FormSwapTimer.start(0.1)
 		start_attack_cooldown()
 
-func _process(_delta: float) -> void:
-	
-	# Turn to face direction in Jet form
-	if !mechaForm:
-		$PawnSprite.rotation = direction.angle()
-		$PawnSprite.texture = jetFormSprite
+func start_attack_cooldown() -> void:
+	if mechaForm:
+		var mechaAttackCooldown = randf_range(whirlwindCooldownMin, whirlwindCooldownMax)
+		$AttackCooldownTimer.start(asp * mechaAttackCooldown + random_variance())
 	else:
-		$PawnSprite.rotation = 0.0
-		$PawnSprite.texture = mechaFormSprite
+		var jetAttackCooldown = randf_range(bombCooldownMin, bombCooldownMax)
+		$AttackCooldownTimer.start(asp * jetAttackCooldown + random_variance())
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
@@ -81,14 +79,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newAttack2.duration = bombDuration
 		$AttackContainer.add_child(newAttack2)
 
-func start_attack_cooldown() -> void:
-	if mechaForm:
-		var mechaAttackCooldown = randf_range(whirlwindCooldownMin, whirlwindCooldownMax)
-		$AttackCooldownTimer.start(asp * mechaAttackCooldown + random_variance())
-	else:
-		var jetAttackCooldown = randf_range(bombCooldownMin, bombCooldownMax)
-		$AttackCooldownTimer.start(asp * jetAttackCooldown + random_variance())
-
 # Called by bombs when they expire
 func make_explosion(loc: Vector2) -> void:
 	var newAttack = bombExplosion.instantiate()
@@ -97,6 +87,20 @@ func make_explosion(loc: Vector2) -> void:
 	newAttack.attackName = "Bomb"
 	newAttack.areaAttack = true
 	$AttackContainer.add_child(newAttack)
+
+#################
+# FORM SWAPPING #
+#################
+
+func _process(_delta: float) -> void:
+	
+	# Turn to face direction in Jet form
+	if !mechaForm:
+		$PawnSprite.rotation = direction.angle()
+		$PawnSprite.texture = jetFormSprite
+	else:
+		$PawnSprite.rotation = 0.0
+		$PawnSprite.texture = mechaFormSprite
 
 func _on_form_swap_timer_timeout() -> void:
 	

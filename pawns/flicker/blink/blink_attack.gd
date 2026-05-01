@@ -1,4 +1,4 @@
-extends "res://base/attacks/base_attack.gd"
+extends "res://pawns/base/attack/base_attack.gd"
 
 var spinSpd = 10
 var spinDirs = [-1, 1]

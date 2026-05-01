@@ -1,8 +1,9 @@
-extends "res://base/attacks/base_attack.gd"
+extends "res://pawns/base/attack/base_attack.gd"
 
 @export var purpleAttack: Resource
 
 func _ready() -> void:
+	attackName = "Glyph"
 	
 	# Turn off collision while channeling
 	set_collision_layer_value(1, false)
@@ -55,6 +56,5 @@ func _on_purple_attack_timer_timeout() -> void:
 	var newAttack = purpleAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = pawnParent.dmg
-	newAttack.attackName = "Glyph"
 	add_sibling(newAttack)
 	$GlyphCenterSprite.modulate.a = 0

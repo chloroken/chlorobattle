@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dvi5mcrtxvk0u"]
+
+[ext_resource type="Script" uid="uid://cpw24r55abqwe" path="res://status/effects/drunk_effect.gd" id="1_y27wn"]
+[ext_resource type="Texture2D" uid="uid://b3ydohx6rgbnp" path="res://status/effects/drunk_effect.png" id="2_pmf0t"]
+
+[node name="DrunkEffect" type="Node2D" unique_id=1484827031]
+script = ExtResource("1_y27wn")
+
+[node name="DrunkSprite" type="Sprite2D" parent="." unique_id=1911885633]
+texture = ExtResource("2_pmf0t")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=451764575]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

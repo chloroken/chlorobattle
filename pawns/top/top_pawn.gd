@@ -1,4 +1,4 @@
-extends "res://base/base_pawn.gd"
+extends "res://pawns/base/base_pawn.gd"
 
 # Spark variables
 @export var topAttack: PackedScene
@@ -21,20 +21,15 @@ func _ready() -> void:
 	# Start attack cycle
 	if !attacksDisabled: start_attack_cooldown()
 
-# Change directions when hitting edge of board
-func _on_area_exited(area: Area2D) -> void:
-	if self.is_queued_for_deletion(): return
-	if area.areaType == "board":
-		direction = new_direction()
-		if !attacksDisabled:
-			top_hit_wall()
-
-# Bounce mechanic
-func top_hit_wall() -> void:
-	if self.is_queued_for_deletion(): return
-	#destination = new_destination()
-	#direction = new_direction()
-	$Status.start_sprint(topBounceDuration)
+func start_attack_cooldown() -> void:
+	
+	# Increase attack speed while sprinting
+	var atkSpdMod = 1.0
+	var isSprinting = $Status.get_node("SprintStatusTimer")
+	if !isSprinting.is_stopped(): atkSpdMod = sprintSpdBonus
+	
+	var sparkCd = asp * sparkCooldown * atkSpdMod
+	$AttackCooldownTimer.start(sparkCd)
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
@@ -49,7 +44,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = topAttack.instantiate()
 	newAttack.position = self.position + Vector2(0, sparkOffset)
 	newAttack.dmg = self.dmg
-	newAttack.attackName = "Top"
+	newAttack.attackName = "Spark"
 
 	# Grant spark random physics
 	newAttack.direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
@@ -61,9 +56,15 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	# Add to containers
 	$AttackContainer.add_child(newAttack)
 
-func start_attack_cooldown() -> void:
-	# Increase attack speed while sprinting
-	var atkSpdMod = 1.0
-	var isSprinting = $Status.get_node("SprintStatusTimer")
-	if !isSprinting.is_stopped(): atkSpdMod = sprintSpdBonus
-	$AttackCooldownTimer.start(asp * sparkCooldown * atkSpdMod)
+# Change directions when hitting edge of board
+func _on_area_exited(area: Area2D) -> void:
+	if self.is_queued_for_deletion(): return
+	if area.areaType == "board":
+		direction = new_direction()
+		if !attacksDisabled:
+			top_hit_wall()
+
+# Bounce mechanic
+func top_hit_wall() -> void:
+	if self.is_queued_for_deletion(): return
+	$Status.start_sprint(topBounceDuration)

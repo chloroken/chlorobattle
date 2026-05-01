@@ -1,4 +1,4 @@
-extends "res://base/base_pawn.gd"
+extends "res://pawns/base/base_pawn.gd"
 
 
 # Splash variables
@@ -27,6 +27,10 @@ func _ready() -> void:
 		$AttackDurationTimer.one_shot = true
 		start_attack_cooldown()
 
+func start_attack_cooldown() -> void:
+	var splashCooldown = asp * randf_range(splashCooldownMin, splashCooldownMax) + random_variance()
+	$AttackCooldownTimer.start(splashCooldown)
+
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
@@ -45,9 +49,6 @@ func _on_attack_duration_timer_timeout() -> void:
 	splash_attack()
 	$BubbleTimer.stop()
 	$Status.start_stuck(1.0)
-
-func start_attack_cooldown() -> void:
-	$AttackCooldownTimer.start(asp * randf_range(splashCooldownMin, splashCooldownMax) + random_variance())
 
 func splash_attack() -> void:
 	var newAttack = grouperAttack.instantiate()

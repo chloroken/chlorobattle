@@ -1,4 +1,4 @@
-extends "res://base/attacks/base_attack.gd"
+extends "res://pawns/base/attack/base_attack.gd"
 
 var parentPawn
 var direction: Vector2
