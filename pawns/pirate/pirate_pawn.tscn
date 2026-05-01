@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://brk1m57ccp1ef"]
 
-[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_hvhxy"]
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://base/base_pawn.tscn" id="1_hvhxy"]
 [ext_resource type="Texture2D" uid="uid://cg3hajkhjhu0c" path="res://pawns/pirate/pirate_pawn.png" id="2_f4qk0"]
 [ext_resource type="Script" uid="uid://cdub77jnq8457" path="res://pawns/pirate/pirate_pawn.gd" id="2_ifqpx"]
-[ext_resource type="PackedScene" uid="uid://cra4gw71okw2j" path="res://pawns/pirate/pirate_attack.tscn" id="3_k2e1m"]
+[ext_resource type="PackedScene" uid="uid://cra4gw71okw2j" path="res://pawns/pirate/parrot/pirate_attack.tscn" id="3_k2e1m"]
 
 [node name="PiratePawn" unique_id=1048959576 instance=ExtResource("1_hvhxy")]
 script = ExtResource("2_ifqpx")

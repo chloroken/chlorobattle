@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://base/base_pawn.gd"
 
 # Swing variables
 @export var chairAttack: PackedScene
@@ -30,6 +30,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	# Determine length of attack
 	var rushDur = randf_range(swingDurMin, swingDurMax)
 	$Status.start_sprint(rushDur)
+	$Status.start_tanky(rushDur)
 
 	# Swing
 	var legCount = randi_range(1, 4)
@@ -43,7 +44,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newAttack.swingDur = rushDur
 		newAttack.swingDir = 1
 		newAttack.swingSpd = 10
-		newAttack.scaleMod = 1
+		newAttack.scaleMod = 1.25
 
 		# Redwood
 		if randi_range(1, redwoodChance) == 1 && !redwoodUsed:
@@ -52,7 +53,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 			newAttack.dmg *= redwoodDmg
 			newAttack.attackName = "Redwood"
 
-		attackObjects.append(newAttack)
 		$AttackContainer.add_child(newAttack)
 
 	$RushDurationTimer.start(rushDur)

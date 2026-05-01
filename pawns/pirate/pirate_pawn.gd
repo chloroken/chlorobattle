@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://base/base_pawn.gd"
 
 # Parrot variables
 @export var pirateAttack: PackedScene
@@ -33,7 +33,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.baseDmg = self.dmg
 	newAttack.attackName = "Parrot"
 	newAttack.birdSpeed = birdSpeed
-	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 
 func start_attack_cooldown() -> void:

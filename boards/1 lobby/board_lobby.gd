@@ -2,23 +2,28 @@ extends Node2D
 var currentPlayers = []
 var boardRadius = 360
 var lobbyTimer = 60.0
+var lobbyJoiners = []
+var maxJoinLabelCount = 5
 
 func _ready() -> void:
 
 	# LET TWITCH COOK
 	#VerySimpleTwitch.get_token_and_login_chat()
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
-	
+
 	# Create random bots to test with
-	for i in 24:
+	#for i in 96:
 		#register_pawn("Bot " + str(i+1), "flicker", choose_random_style(), "vial")
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	#for i in 4:
+		#register_pawn("Bot " + str(i+1), "chair", choose_random_style(), choose_random_item())
+		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	#register_pawn("chloro", "flicker", "mighty", "dice")
-	#register_pawn("gravy", "chair", "mighty", "tire")
-	#register_pawn("rotdog", "grouper", "bully", "tire")
-	#register_pawn("bang", "grouper", "mighty", "tire")
+	#register_pawn("emmy", "chair", "mighty", "antimatter")
+	register_pawn("chloro", "flicker", "mighty", "killbot")
+	register_pawn("rotdog", "candle", "bully", "tire")
+	register_pawn("bang", "slug", "mighty", "tire")
 	#register_pawn("madzster", "cyclone++", "berserk", "antimatter")
 	#register_pawn("hospi", choose_random_pawn(), choose_random_style(), choose_random_item())
 	#register_pawn("monkeyd", "ship", "berserk", "tire")
@@ -31,6 +36,7 @@ func _ready() -> void:
 	$LobbyTimer.start()
 
 func _on_play_notifications_timeout() -> void:
+	#pass
 	$ChimeSound.panning_strength = 0.0
 	$ChimeSound.play()
 	#VerySimpleTwitch.send_chat_message("Type !join to try your luck.")
@@ -64,7 +70,15 @@ func register_pawn(username: String, type: String, style = "random", item = "ran
 	newPawn.item = item
 	get_parent().pawnList.append(newPawn)
 	spawn_lobby_pawn(newPawn)
-	print(newPawn.username + " joined as " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "]")
+	var logMsg = newPawn.username + " joined as " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "]"
+	print(logMsg)
+	lobbyJoiners.push_front(logMsg)
+	$JoinLogLabel.text = ""
+	var joinerCount = 0
+	for joiner in lobbyJoiners:
+		$JoinLogLabel.text += "\n" + joiner
+		joinerCount += 1
+		if joinerCount >= maxJoinLabelCount: break
 
 func get_pawn_type(message: String):
 	if "candle" in message: return("candle")

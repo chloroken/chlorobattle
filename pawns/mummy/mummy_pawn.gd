@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://base/base_pawn.gd"
 
 # Glyph variables
 @export var glyphAttack: Resource
@@ -35,7 +35,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg
 	newAttack.attackName = "Glyph"
-	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 
 	# Set statuses

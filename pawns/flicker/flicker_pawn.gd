@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://base/base_pawn.gd"
 
 @export var blinkScene: Resource
 var blinkCooldownMin = 3.0
@@ -40,8 +40,8 @@ func _on_area_exited(area: Area2D) -> void:
 		# Warp
 		if !attacksDisabled:
 			if !warpActive && $WarpCooldownTimer.is_stopped():
-				$WarpCooldownTimer.start(warpCooldown)
 				warpActive = true
+				$WarpCooldownTimer.start(warpCooldown)
 				$Status.start_void(warpVoidTimer)
 				$AttackCooldownTimer.stop()
 				$BlinkDelayTimer.stop()
@@ -77,8 +77,12 @@ func _physics_process(delta: float) -> void:
 		position += direction * spd * statusSpdMod * delta
 
 func _on_attack_cooldown_timer_timeout() -> void:
-	if disarm_check(): return
-	if !$Status.get_node("StuckStatusTimer").is_stopped(): return
+	if disarm_check():
+		start_attack_cooldown()
+		return
+	if !$Status.get_node("StuckStatusTimer").is_stopped():
+		start_attack_cooldown()
+		return
 	recursive_attack_routine()
 
 func start_attack_cooldown() -> void:
@@ -95,7 +99,6 @@ func recursive_attack_routine() -> void:
 	newBlink.scale = Vector2.ONE * blinkDmgMod
 	newBlink.attackName = "Blink"
 	$AttackContainer.add_child(newBlink)
-	attackObjects.append(newBlink)
 	blinkCount += 1
 
 	# Teleport a short distance away
@@ -116,7 +119,6 @@ func recursive_attack_routine() -> void:
 		newBlink2.scale = Vector2.ONE * blinkDmgMod
 		newBlink2.attackName = "Blink"
 		$AttackContainer.add_child(newBlink2)
-		attackObjects.append(newBlink2)
 
 		# Show combo count
 		if blinkCount > 1:
@@ -126,7 +128,7 @@ func recursive_attack_routine() -> void:
 		blinkCount = 0
 		blinkDmgMod = blinkDmgNormal
 		start_attack_cooldown()
-		direction = new_direction()
+		#direction = new_direction()
 
 func _on_blink_delay_timer_timeout() -> void:
 	recursive_attack_routine()

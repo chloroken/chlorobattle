@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://base/base_pawn.gd"
 
 @export var slugAttack: PackedScene
 var slugAttackSpeed = 1.0
@@ -22,14 +22,14 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.position = self.position + Vector2(ranX, ranY)
 	newAttack.baseDmg = self.dmg
 	newAttack.attackName = "Ooze"
-	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 
 	# Regenerate health every time slug attacks
-	hp += healthRegen
-
-	# In case of emergency, uncomment line 32
-	if hp > baseHp: hp = baseHp
+	var healthToRegen = min(baseHp - hp, healthRegen)
+	if healthToRegen > 0:
+		hp += healthToRegen
+		damageHealed += healthToRegen
+		combat_log("[" + str(username) + "] healed for " + str(healthToRegen) + " (Regen)")
 
 func start_attack_cooldown() -> void:
 	$AttackCooldownTimer.start(asp * slugAttackSpeed + random_variance())

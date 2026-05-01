@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="5_x07d7"]
 [ext_resource type="AudioStream" uid="uid://sah2sui8y10c" path="res://assets/sounds/chime.mp3" id="6_dbg6s"]
 [ext_resource type="PackedScene" uid="uid://cx5lla7qrwqqi" path="res://boards/board_circle.tscn" id="7_pr7yq"]
+[ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="8_t6cfv"]
 
 [node name="LobbyBoard" type="Node2D" unique_id=751706610]
 process_mode = 1
@@ -54,7 +55,7 @@ offset_top = 860.0
 offset_right = 960.0
 offset_bottom = 960.0
 theme_override_fonts/font = ExtResource("5_x07d7")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 28
 text = "!join <pawn> <style> <item>"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -100,6 +101,19 @@ stream = ExtResource("6_dbg6s")
 
 [node name="BoardCircle" parent="." unique_id=359442345 instance=ExtResource("7_pr7yq")]
 visible = false
+
+[node name="JoinLogLabel" type="Label" parent="." unique_id=948884994]
+z_index = -5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 955.0
+offset_bottom = 955.0
+theme_override_fonts/font = ExtResource("8_t6cfv")
+theme_override_font_sizes/font_size = 10
+text = "sdfasdfasdf"
+horizontal_alignment = 2
+vertical_alignment = 2
+clip_text = true
 
 [connection signal="timeout" from="PlayNotifications" to="." method="_on_play_notifications_timeout"]
 [connection signal="timeout" from="LobbyTimer" to="." method="_on_lobby_timer_timeout"]

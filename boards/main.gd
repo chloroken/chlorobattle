@@ -28,6 +28,7 @@ class Pawn:
 	var item = ""
 	var damageTaken = 0
 	var damageDealt = 0
+	var damageHealed = 0
 	var killCount = 0
 
 # Drawing layers

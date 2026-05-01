@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://base/base_pawn.gd"
 
 # Form variables
 @export var jetFormSprite: Resource
@@ -57,7 +57,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newAttack.dmg = self.dmg * whirlwindDmgMod
 		newAttack.attackName = "Glaive"
 		newAttack.direction = randf_range(0, TAU)
-		attackObjects.append(newAttack)
 		$AttackContainer.add_child(newAttack)
 
 	# Jet attack
@@ -71,7 +70,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newAttack.direction = self.direction.rotated(newAtkArc)
 		newAttack.speed = self.spd * bombSpeedMod
 		newAttack.duration = bombDuration
-		attackObjects.append(newAttack)
 		$AttackContainer.add_child(newAttack)
 
 		# Guided bomb 2
@@ -81,7 +79,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newAttack2.direction = self.direction.rotated(-newAtkArc)
 		newAttack2.speed = self.spd * bombSpeedMod
 		newAttack2.duration = bombDuration
-		attackObjects.append(newAttack2)
 		$AttackContainer.add_child(newAttack2)
 
 func start_attack_cooldown() -> void:
@@ -99,7 +96,6 @@ func make_explosion(loc: Vector2) -> void:
 	newAttack.dmg = self.dmg
 	newAttack.attackName = "Bomb"
 	newAttack.areaAttack = true
-	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 
 func _on_form_swap_timer_timeout() -> void:

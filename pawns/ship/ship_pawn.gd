@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://base/base_pawn.gd"
 
 # Ship variables
 @export var shipRing: PackedScene
@@ -45,7 +45,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.speed = self.spd * randf_range(projectileSpdMin, projectileSpdMax)
 	newAttack.scale = Vector2.ONE * randf_range(projectileScaleMin, projectileScaleMax)
 	$AttackContainer.add_child(newAttack)
-	attackObjects.append(newAttack)
 
 	# Aim bullet in arc based on ship direction
 	var newDir = self.direction

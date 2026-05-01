@@ -37,10 +37,11 @@ func _on_area_entered(area: Area2D) -> void:
 	healthwormHp -= area.dmg
 	if healthwormHp <= 0:
 		var attackingPawn = area.get_parent().get_parent()
-		attackingPawn.hp += attackingPawn.baseHp * healthwormHealPercent
-		if attackingPawn.hp > attackingPawn.baseHp:
-			attackingPawn.hp = attackingPawn.baseHp
+		var hpToHeal = min(attackingPawn.baseHp - attackingPawn.hp, attackingPawn.baseHp * healthwormHealPercent)
+		if hpToHeal > 0:
+			attackingPawn.hp += hpToHeal
+			attackingPawn.damageHealed += hpToHeal
+			attackingPawn.combat_log("[" + str(attackingPawn.username) + "] healed for " + str(hpToHeal) + " (Healthworm)")
 
-		get_parent().update_combat_log("[" + str(attackingPawn.username) + "] healed for [" + str(attackingPawn.baseHp * healthwormHealPercent) + "] (Healthworm)")
 		get_parent().healthwormArray.pop_front()
 		queue_free()

@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://base/base_pawn.gd"
 
 # Ember
 @export var emberAttack: PackedScene
@@ -29,7 +29,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.dmg = self.dmg
 	newAttack.attackName = "Ember"
 
-	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 
 func start_attack_cooldown() -> void:

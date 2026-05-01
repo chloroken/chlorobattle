@@ -1,12 +1,12 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://base/base_pawn.gd"
 
 
 # Splash variables
 @export var grouperAttack: PackedScene
 var diveSpeedDuration = 1.5
-var splashCooldownMin = 4.0
-var splashCooldownMax = 5.0
-var splashScaleMin = 1.0
+var splashCooldownMin = 5.0
+var splashCooldownMax = 6.0
+var splashScaleMin = 2.0
 var splashScaleMax = 2.0
 
 # Bubble variables
@@ -18,9 +18,9 @@ var bubbleSizeMax = 0.5
 
 func _ready() -> void:
 	super()
-	
+
 	$BubbleTimer.one_shot = true
-	
+
 	# Start attack routine
 	if !attacksDisabled:
 		$AttackCooldownTimer.one_shot = true
@@ -30,8 +30,8 @@ func _ready() -> void:
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
-	
-	splash_attack()
+
+	#splash_attack()
 
 	# Hide pawn & sprint
 	$Status.start_void(diveSpeedDuration)
@@ -44,6 +44,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 func _on_attack_duration_timer_timeout() -> void:
 	splash_attack()
 	$BubbleTimer.stop()
+	$Status.start_stuck(1.0)
 
 func start_attack_cooldown() -> void:
 	$AttackCooldownTimer.start(asp * randf_range(splashCooldownMin, splashCooldownMax) + random_variance())
@@ -54,7 +55,6 @@ func splash_attack() -> void:
 	newAttack.dmg = self.dmg
 	newAttack.attackName = "Splash"
 	newAttack.scaleMod = randf_range(splashScaleMin, splashScaleMax)
-	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 
 func _on_bubble_timer_timeout() -> void:

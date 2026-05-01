@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://base/base_pawn.gd"
 
 # Spark variables
 @export var topAttack: PackedScene
@@ -59,7 +59,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.speed += spd / sparkSpeedRatio
 
 	# Add to containers
-	attackObjects.append(newAttack)
 	$AttackContainer.add_child(newAttack)
 
 func start_attack_cooldown() -> void:

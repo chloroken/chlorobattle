@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_attack.gd"
+extends "res://base/attacks/base_attack.gd"
 
 @export var purpleAttack: Resource
 
@@ -55,6 +55,6 @@ func _on_purple_attack_timer_timeout() -> void:
 	var newAttack = purpleAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = pawnParent.dmg
-	pawnParent.attackObjects.append(newAttack)
+	newAttack.attackName = "Glyph"
 	add_sibling(newAttack)
 	$GlyphCenterSprite.modulate.a = 0

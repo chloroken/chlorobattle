@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dadae3e4ikfp6"]
 
-[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_cmg7j"]
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://base/base_pawn.tscn" id="1_cmg7j"]
 [ext_resource type="Script" uid="uid://bckwuitm654vx" path="res://pawns/cyclone/cyclone_pawn.gd" id="2_cssyw"]
 [ext_resource type="PackedScene" uid="uid://dyotn6foh1hvu" path="res://pawns/cyclone/jet/cyclone_bomb.tscn" id="3_kvqme"]
 [ext_resource type="Texture2D" uid="uid://dgxuajx1q7ncm" path="res://pawns/cyclone/jet/cyclone_plane.png" id="3_u4lmt"]

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://crf2lb3wy2wmg"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://base/attacks/base_attack.tscn" id="1_jkryi"]
+[ext_resource type="Script" uid="uid://dkm3yrjrva7i" path="res://pawns/ship/globule/ship_attack.gd" id="2_b0o7i"]
+[ext_resource type="Texture2D" uid="uid://cumfkyhd30665" path="res://pawns/ship/globule/ship_attack.png" id="2_uhmwm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b0o7i"]
+radius = 4.0
+
+[node name="ShipAttack" unique_id=1314615299 instance=ExtResource("1_jkryi")]
+collision_mask = 1
+script = ExtResource("2_b0o7i")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("2_uhmwm")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("CircleShape2D_b0o7i")
+
+[node name="BounceCooldownTimer" type="Timer" parent="." index="3" unique_id=571570981]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

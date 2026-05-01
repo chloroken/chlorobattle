@@ -37,7 +37,7 @@ offset_bottom = 960.0
 size_flags_vertical = 3
 
 [node name="PlacementLabel" type="Label" parent="ScoreContainer" unique_id=1193349326]
-custom_minimum_size = Vector2(100, 834)
+custom_minimum_size = Vector2(75, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 16
@@ -46,7 +46,7 @@ text = "PLACE
 horizontal_alignment = 1
 
 [node name="UsernameLabel" type="Label" parent="ScoreContainer" unique_id=2139648340]
-custom_minimum_size = Vector2(175, 834)
+custom_minimum_size = Vector2(125, 834)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 16
@@ -94,6 +94,15 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("4_trvca")
 theme_override_font_sizes/font_size = 16
 text = "DAMAGE
+"
+horizontal_alignment = 1
+
+[node name="HealedLabel" type="Label" parent="ScoreContainer" unique_id=1631300690]
+custom_minimum_size = Vector2(75, 834)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_trvca")
+theme_override_font_sizes/font_size = 16
+text = "HEALED
 "
 horizontal_alignment = 1
 

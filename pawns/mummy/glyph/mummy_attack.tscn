@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://vfvqnpv1y8dc"]
 
-[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/base_attack.tscn" id="1_nai7f"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://base/attacks/base_attack.tscn" id="1_nai7f"]
 [ext_resource type="Script" uid="uid://bifhk8q4c2xd6" path="res://pawns/mummy/glyph/mummy_attack.gd" id="2_8wc0w"]
 [ext_resource type="PackedScene" uid="uid://cbsboq55wvnop" path="res://pawns/mummy/glyph/mummy_purple_attack.tscn" id="3_a71mc"]
 [ext_resource type="Texture2D" uid="uid://bufte3yr8lttk" path="res://pawns/mummy/glyph/sprites/mummy_attack.png" id="3_db3jq"]
