@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://82aq5p3vwun7"]
+
+[ext_resource type="Script" uid="uid://eksyn47jt34e" path="res://items/potion/item_potion.gd" id="1_67n8l"]
+[ext_resource type="PackedScene" uid="uid://he6ffs4bqv2u" path="res://items/potion/fumes/item_potion_fumesl.tscn" id="2_11dju"]
+[ext_resource type="Texture2D" uid="uid://w4dw4itu1mex" path="res://items/potion/item_potion.png" id="2_68e1l"]
+
+[node name="ItemPotion" type="Node2D" unique_id=900831104]
+script = ExtResource("1_67n8l")
+vialPool = ExtResource("2_11dju")
+
+[node name="ItemPotionSprite" type="Sprite2D" parent="." unique_id=283374334]
+texture = ExtResource("2_68e1l")

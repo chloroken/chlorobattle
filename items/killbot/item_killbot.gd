@@ -9,6 +9,7 @@ var dmgBase
 var attackSpeedBase
 var attackCooldown
 var spd
+var bulletSpd
 var killbotMaxStacks
 var sizePerStack
 var dmgPerStack
@@ -81,7 +82,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newBullet.scale.y = sizePerStack + (sizePerStack * killbotStacks)
 	newBullet.dmg = dmgBase + (dmgPerStack * killbotStacks)
 	newBullet.attackName = "Killbot"
-	newBullet.speed = attackSpeedBase + (attackSpeedPerStack * killbotStacks)
+	newBullet.speed = bulletSpd + (attackSpeedPerStack * killbotStacks)
 
 func _on_killbot_stack_timer_timeout() -> void:
 	killbotStacks = 1

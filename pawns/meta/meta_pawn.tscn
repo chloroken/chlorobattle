@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cy8cwk5ifbgne"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_4cw5o"]
+[ext_resource type="Script" uid="uid://cw0cfjd5amg0h" path="res://pawns/meta/meta_pawn.gd" id="2_wn50k"]
+[ext_resource type="PackedScene" uid="uid://l3usrxm0ngky" path="res://pawns/meta/soul/soul_attack.tscn" id="3_06sf5"]
+[ext_resource type="Texture2D" uid="uid://b32scpw6afnr1" path="res://pawns/meta/meta_pawn.png" id="3_kf6gs"]
+[ext_resource type="Texture2D" uid="uid://bkc0xhdqydhl5" path="res://pawns/meta/meta_pawn_demon.png" id="5_twb7f"]
+[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="6_ltkxq"]
+
+[node name="MetaPawn" unique_id=1877646274 instance=ExtResource("1_4cw5o")]
+script = ExtResource("2_wn50k")
+girlSprite = ExtResource("3_kf6gs")
+soulAttack = ExtResource("3_06sf5")
+demonSprite = ExtResource("5_twb7f")
+hp = 310.0
+dmg = 10.0
+pen = 0.8
+spd = 40.0
+
+[node name="DemonLabel" type="Label" parent="." index="0" unique_id=1076885017]
+offset_left = -20.0
+offset_top = -57.0
+offset_right = 20.0
+offset_bottom = -34.0
+theme_override_colors/font_color = Color(0.37254903, 0.89411765, 0.76862746, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("6_ltkxq")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DemonCooldownTimer" type="Timer" parent="." index="1" unique_id=1859848209]
+
+[node name="DemonDurationTimer" type="Timer" parent="." index="2" unique_id=78167692]
+
+[node name="PawnSprite" parent="." index="3" unique_id=181134308]
+texture = ExtResource("3_kf6gs")
+
+[connection signal="timeout" from="DemonCooldownTimer" to="." method="_on_demon_cooldown_timer_timeout"]
+[connection signal="timeout" from="DemonDurationTimer" to="." method="_on_demon_duration_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

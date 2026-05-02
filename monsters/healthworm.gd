@@ -31,17 +31,19 @@ func _on_worm_direction_timer_timeout() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	if area.areaType != "attack": return
 
-	if !area.areaAttack && !area.isTireAttack:
+	if !area.areaAttack:
 		area.queue_free()
 
 	healthwormHp -= area.dmg
 	if healthwormHp <= 0:
-		var attackingPawn = area.get_parent().get_parent()
-		var hpToHeal = min(attackingPawn.baseHp - attackingPawn.hp, attackingPawn.baseHp * healthwormHealPercent)
-		if hpToHeal > 0:
-			attackingPawn.hp += hpToHeal
-			attackingPawn.damageHealed += hpToHeal
-			attackingPawn.combat_log("[" + str(attackingPawn.username) + "] healed for " + str("%0.2f" % hpToHeal) + " (Healthworm)")
+
+		if !area.isSoulAttack:
+			var attackingPawn = area.get_parent().get_parent()
+			var hpToHeal = min(attackingPawn.baseHp - attackingPawn.hp, attackingPawn.baseHp * healthwormHealPercent)
+			if hpToHeal > 0:
+				attackingPawn.hp += hpToHeal
+				attackingPawn.damageHealed += hpToHeal
+				attackingPawn.combat_log("[" + str(attackingPawn.username) + "] healed for " + str("%0.2f" % hpToHeal) + " (Healthworm)")
 
 		get_parent().healthwormArray.pop_front()
 		queue_free()

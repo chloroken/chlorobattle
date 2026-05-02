@@ -17,17 +17,17 @@
 
 [node name="Status" type="Node" unique_id=181585030]
 script = ExtResource("1_th0bv")
+lazyIcon = ExtResource("5_b2kxs")
+statusIcon = ExtResource("7_m0l2q")
+disarmedIcon = ExtResource("12_jkjos")
 dotIcon = ExtResource("2_gu5ym")
 drunkIcon = ExtResource("3_ouqoa")
 drunkEffect = ExtResource("4_nqtn6")
-lazyIcon = ExtResource("5_b2kxs")
 scaredIcon = ExtResource("6_c7u8v")
-statusIcon = ExtResource("7_m0l2q")
 slowIcon = ExtResource("8_yeulf")
 sprintIcon = ExtResource("9_h8f8c")
 stuckIcon = ExtResource("10_vedkw")
 tankyIcon = ExtResource("11_uvnrb")
-timidIcon = ExtResource("12_jkjos")
 voidIcon = ExtResource("13_oc7gc")
 weakIcon = ExtResource("14_4ffbj")
 
@@ -39,6 +39,8 @@ one_shot = true
 [node name="DotStatusTimer" type="Timer" parent="." unique_id=1635453082]
 
 [node name="DrunkStatusTimer" type="Timer" parent="." unique_id=1738794796]
+
+[node name="ScaredStatusTimer" type="Timer" parent="." unique_id=1315619361]
 
 [node name="SlowStatusTimer" type="Timer" parent="." unique_id=2010605034]
 one_shot = true
@@ -64,6 +66,5 @@ one_shot = true
 [connection signal="timeout" from="SlowStatusTimer" to="." method="_on_slow_status_timer_timeout"]
 [connection signal="timeout" from="SprintStatusTimer" to="." method="_on_sprint_status_timer_timeout"]
 [connection signal="timeout" from="StuckStatusTimer" to="." method="_on_stuck_status_timer_timeout"]
-[connection signal="timeout" from="TankyStatusTimer" to="." method="_on_tanky_status_timer_timeout"]
 [connection signal="timeout" from="VoidStatusTimer" to="." method="_on_void_status_timer_timeout"]
 [connection signal="timeout" from="WeakStatusTimer" to="." method="_on_weak_status_timer_timeout"]

@@ -13,7 +13,7 @@ func _ready() -> void:
 	z_index = get_node("/root/main").layerAir
 
 func _physics_process(delta: float) -> void:
-	position += position.direction_to(destination) * speed * delta
+	position += position.direction_to(destination) * speed * position.distance_to(destination) * delta
 
 	if position.distance_to(destination) < destReachedDist:
 		var newVial = vialPool.instantiate()

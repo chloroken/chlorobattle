@@ -11,6 +11,7 @@ extends Node2D
 @export var flicker: PackedScene
 @export var cyclone: PackedScene
 @export var grouper: PackedScene
+@export var meta: PackedScene
 @export var mummy: PackedScene
 @export var pirate: PackedScene
 @export var ship: PackedScene

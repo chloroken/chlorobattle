@@ -17,6 +17,7 @@ func _ready() -> void:
 			$BullyResetTimer.one_shot = true
 			$BullyResetTimer.start(bullyStackDuration)
 			add_bully_charge()
+			bully_set_pawn_size()
 		elif basePawn.style == "mighty":
 			$MightyChargeTimer.one_shot = true
 			$MightyChargeTimer.start(mightyChargeDuration)
@@ -60,7 +61,7 @@ func _on_berserk_reset_timer_timeout() -> void:
 
 var bullyColor = Color.HOT_PINK
 var bullyDmgPct = 0.1
-var bullyStackDuration = 20
+var bullyStackDuration = 10
 var bullyStackCount = 1
 var bullyHitCap = 5
 var bullyScaleMod = 0.2
@@ -84,10 +85,10 @@ func style_bully_trigger(victim) -> void:
 	# Sprint & increase size
 	get_parent().get_node("Status").start_sprint(bullyStackCount * bullySprintDuration)
 	bully_set_pawn_size()
-	
+
 	# Inflict slow
 	victim.get_node("Status").start_slow(bullyStackCount * bullySlowDuration)
-	
+
 	# Extra effects for non-bully victims
 	if victim.style != "bully":
 
@@ -125,9 +126,9 @@ func _on_bully_reset_timer_timeout() -> void:
 			chargeToDelete.queue_free()
 	bully_set_pawn_size()
 func bully_set_pawn_size() -> void:
-	var bullyScale = Vector2.ONE * (1.0 + bullyScaleMod * bullyStackCount)
-	get_parent().get_node("BullyCircle").scale = bullyScale * 0.66
-	get_parent().get_node("PawnCollider").scale = bullyScale
+	var bullyScale = Vector2.ONE * (1.0 + bullyScaleMod * bullyStackCount) * 0.5
+	get_parent().get_node("BullyCircle").scale = bullyScale
+	get_parent().get_node("BullyArea").scale = bullyScale
 
 ##########
 # MIGHTY #

@@ -87,28 +87,31 @@ func new_direction() -> Vector2:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.areaType == "board": return
-	if area.areaType == "pawn" && style == "bully":
-		$Styles.style_bully_trigger(area)
 	if area.areaType == "attack":
 		var attackingPawn = area.get_parent().get_parent()
 		var attackerUsername = attackingPawn.username
 		if attackerUsername != username && !hitList.has(area):
 			pre_accuracy_phase(area, attackingPawn)
 			if accuracy_phase(attackingPawn, attackerUsername):
+				predamage_effects_phase(area, attackingPawn)
 				var damage = defense_phase(attackingPawn, area)
 				damage = modifier_phase(damage, attackingPawn, area)
 				damage_phase(damage, attackingPawn, attackerUsername, area)
 				effects_phase(attackingPawn, area)
 			clean_up_phase(area, attackingPawn, attackerUsername)
+func _on_bully_area_area_entered(area: Area2D) -> void:
+	if area.areaType == "pawn" && style == "bully":
+		if area.get_node("Status").get_node("VoidStatusTimer").is_stopped():
+			$Styles.style_bully_trigger(area)
 
 ##################
 # ACCURACY PHASE #
 ##################
 
 # These effects will happen regardless of it the attack hits
-func pre_accuracy_phase(body, attackingPawn) -> void:
-	$Styles.style_berserk_trigger(body, attackingPawn)
-	if attackingPawn.type == "mummy" && body.mummyCenter == true:
+func pre_accuracy_phase(area, attackingPawn) -> void:
+	$Styles.style_berserk_trigger(area, attackingPawn)
+	if attackingPawn.type == "mummy" && area.mummyCenter == true:
 		$Status.start_disarmed(attackingPawn.glyphDisarmDuration)
 
 # Determine if this attack will hit
@@ -125,6 +128,20 @@ func accuracy_phase(attackingPawn, attackerUsername) -> bool:
 		return(false)
 
 	return(true)
+
+###########################
+# PREDAMAGE EFFECTS PHASE #
+###########################
+
+func predamage_effects_phase(body, attackingPawn) -> void:
+	if body.isSoulAttack:
+		body.return_to_pawn()
+		#if attackingPawn.demonFormActive: return
+		#var demonTimer = attackingPawn.get_node("DemonCooldownTimer")
+		#var timeLeft = demonTimer.get_time_left()
+		#var cooldownReduction = attackingPawn.demonSoulCooldownReduction
+		#if timeLeft < cooldownReduction: demonTimer.start(0.01)
+		#else: demonTimer.start(timeLeft - cooldownReduction)
 
 #################
 # DEFENSE PHASE #
@@ -173,6 +190,7 @@ func damage_phase(finalDmg, attackingPawn, attackerUsername, body) -> void:
 
 # Apply on-hit effects after doing damage
 func effects_phase(attackingPawn, body) -> void:
+	$Status.try_scared(body)
 	$Items.item_try_killbot_stack(attackingPawn, body)
 	$Items.item_try_skating()
 	$Items.item_try_glue(attackingPawn, body)
@@ -191,7 +209,7 @@ func effects_phase(attackingPawn, body) -> void:
 		if randi_range(1, 100) < 70:
 			$Status.start_dot(body.get_parent().get_parent().emberBurnDuration, attackingPawn)
 	$Items.item_try_map()
-	$Items.try_vial_effect(body, attackingPawn)
+	$Items.try_potion_effect(body, attackingPawn)
 
 ##################
 # CLEAN-UP PHASE #

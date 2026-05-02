@@ -1,28 +1,18 @@
 extends Node
 
-var statusContainer
-
-@export var dotIcon: Resource
-@export var drunkIcon: Resource
-@export var drunkEffect: Resource
+# future statuses
 @export var lazyIcon: Resource
-@export var scaredIcon: Resource
 @export var statusIcon: Resource
-@export var slowIcon: Resource
-@export var sprintIcon: Resource
-@export var stuckIcon: Resource
-@export var tankyIcon: Resource
-@export var timidIcon: Resource
-@export var voidIcon: Resource
-@export var weakIcon: Resource
 
-var stuckCooldown = 15.0
-
+################
+# STATUS SETUP #
+################
+var statusContainer
+var basePawn
 func _ready() -> void:
-	
+	basePawn = get_parent()
 	# Get container for status icons
-	statusContainer = get_parent().get_node("GUI").get_node("StatusFlowContainer")
-	
+	statusContainer = basePawn.get_node("GUI").get_node("StatusFlowContainer")
 	# Set up status timers
 	$DisarmedStatusTimer.one_shot = true
 	$DotDamageTimer.one_shot = false
@@ -33,7 +23,6 @@ func _ready() -> void:
 	$StuckStatusTimer.one_shot = true
 	$VoidStatusTimer.one_shot = true
 	$WeakStatusTimer.one_shot = true
-
 func enable_status_icon(timer, icon) -> void:
 	var statusName = str(icon.resource_path)
 	var longestCurrentStatus = 0 
@@ -55,18 +44,22 @@ func disable_status_icon(icon) -> void:
 		if status.statusName == statusName:
 			status.queue_free()
 
+############
+# DISARMED #
+############
+@export var disarmedIcon: Resource
 func start_disarmed(timer: float) -> void:
 	if $DisarmedStatusTimer.get_time_left() > timer: return
 	$DisarmedStatusTimer.start(timer)
-	enable_status_icon(timer, timidIcon)
+	enable_status_icon(timer, disarmedIcon)
 func stop_disarmed() -> void:
-	disable_status_icon(timidIcon)
+	disable_status_icon(disarmedIcon)
 	$DisarmedStatusTimer.stop()
 
 #######
 # DOT #
 #######
-
+@export var dotIcon: Resource
 var dotMinimumHp = 0.1
 var dotPercentDamage = 0.01
 var dotDamageInterval = 1.0
@@ -80,17 +73,15 @@ func start_dot(timer: float, source) -> void:
 func _on_dot_status_timer_timeout() -> void:
 	$DotDamageTimer.stop()
 func _on_dot_damage_timer_timeout() -> void:
-	var basePawn = get_parent()
 	var arenaBoard = basePawn.get_parent()
 	var globalDmgMod = arenaBoard.globalDmgMod / arenaBoard.dmgModDuration
 	var dotDamageAmount = min(basePawn.hp - dotMinimumHp, basePawn.baseHp * dotPercentDamage * globalDmgMod)
 	basePawn.hp -= dotDamageAmount
 	if dotPawnSource != null:
 		dotPawnSource.damageDealt += dotDamageAmount
-		get_parent().combat_log("[" + str(dotPawnSource.username) + "] hit [" + str(get_parent().username) + "] for " + str("%0.2f" % dotDamageAmount) + " (Dot)")
+		basePawn.combat_log("[" + str(dotPawnSource.username) + "] hit [" + str(get_parent().username) + "] for " + str("%0.2f" % dotDamageAmount) + " (Dot)")
 	else:
-		get_parent().combat_log("[" + str(get_parent().username) + "] took " + str("%0.2f" % dotDamageAmount) + " damage (Dot)")
-
+		basePawn.combat_log("[" + str(get_parent().username) + "] took " + str("%0.2f" % dotDamageAmount) + " damage (Dot)")
 func stop_dot() -> void:
 	disable_status_icon(dotIcon)
 	$DotTriggerTimer.stop()
@@ -99,8 +90,8 @@ func stop_dot() -> void:
 #########
 # DRUNK #
 #########
-
-# other status variables need to be moved from base pawn to this script
+@export var drunkIcon: Resource
+@export var drunkEffect: Resource
 var drunkMissChance = 20
 var drunkDamageMod = 1.5
 var drunkTurnTimerMin = 3.0
@@ -109,13 +100,32 @@ func start_drunk(timer: float) -> void:
 	if $DrunkStatusTimer.get_time_left() > timer: return
 	$DrunkStatusTimer.start(timer)
 	var newDrunkEffect = drunkEffect.instantiate()
-	newDrunkEffect.global_position = get_parent().global_position + Vector2.UP * 55
-	get_parent().add_child(newDrunkEffect)
+	newDrunkEffect.global_position = basePawn.global_position + Vector2.UP * 55
+	basePawn.add_child(newDrunkEffect)
 	enable_status_icon(timer, drunkIcon)
 func stop_drunk() -> void:
 	disable_status_icon(drunkIcon)
 	$DrunkStatusTimer.stop()
 
+##########
+# SCARED #
+##########
+@export var scaredIcon: Resource
+func start_scared(timer: float) -> void:
+	if $ScaredStatusTimer.get_time_left() > timer: return
+	$ScaredStatusTimer.start(timer)
+	enable_status_icon(timer, scaredIcon)
+func stop_scared() -> void:
+	disable_status_icon(scaredIcon)
+	$ScaredStatusTimer.stop()
+func try_scared(body) -> void:
+	if !$ScaredStatusTimer.is_stopped():
+		basePawn.direction = -basePawn.position.direction_to(body.position)
+
+########
+# SLOW #
+########
+@export var slowIcon: Resource
 func start_slow(timer: float) -> void:
 	if $SlowStatusTimer.get_time_left() > timer: return
 	$SlowStatusTimer.start(timer)
@@ -124,6 +134,10 @@ func stop_slow() -> void:
 	disable_status_icon(slowIcon)
 	$StuckStatusTimer.stop()
 
+##########
+# SPRINT #
+##########
+@export var sprintIcon: Resource
 func start_sprint(timer: float) -> void:
 	if $SprintStatusTimer.get_time_left() > timer: return
 	$SprintStatusTimer.start(timer)
@@ -132,6 +146,10 @@ func stop_sprint() -> void:
 	disable_status_icon(sprintIcon)
 	$SprintStatusTimer.stop()
 
+#########
+# STUCK #
+#########
+@export var stuckIcon: Resource
 func start_stuck(timer: float) -> void:
 	if $StuckStatusTimer.get_time_left() > timer: return
 	$StuckStatusTimer.start(timer)
@@ -140,8 +158,11 @@ func stop_stuck() -> void:
 	disable_status_icon(stuckIcon)
 	$StuckStatusTimer.stop()
 
-# TANKY
-var tankyDamageReduction = 0.25
+#########
+# TANKY #
+#########
+@export var tankyIcon: Resource
+var tankyDamageReduction = 0.50
 func start_tanky(timer: float) -> void:
 	if $TankyStatusTimer.get_time_left() > timer: return
 	$TankyStatusTimer.start(timer)
@@ -149,12 +170,13 @@ func start_tanky(timer: float) -> void:
 func stop_tanky() -> void:
 	disable_status_icon(tankyIcon)
 	$TankyStatusTimer.stop()
-func _on_tanky_status_timer_timeout() -> void:
-	pass # Replace with function body.
 func tanky_reduce_damage() -> float:
 	return(1 - tankyDamageReduction)
 
-
+########
+# VOID #
+########
+@export var voidIcon: Resource
 func start_void(timer: float) -> void:
 	var pawnSprite = get_parent().get_node("PawnSprite")
 	pawnSprite.modulate.a = 0.5
@@ -175,6 +197,10 @@ func stop_void() -> void:
 	disable_status_icon(voidIcon)
 	$VoidStatusTimer.stop()
 
+########
+# WEAK #
+########
+@export var weakIcon: Resource
 func start_weak(timer: float) -> void:
 	if $WeakStatusTimer.get_time_left() > timer: return
 	$WeakStatusTimer.start(timer)

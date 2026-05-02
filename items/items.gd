@@ -16,12 +16,12 @@ func _ready() -> void:
 			$AntimatterCooldownTimer.start(randf_range(antimatterCooldownMin, antimatterCooldownMin))
 		elif basePawn.item == "flask":
 			$FlaskCooldownTimer.start(randf_range(flaskCooldownMin, flaskCooldownMax))
-		elif basePawn.item == "tire":
-			$TireAttackTimer.start(randf_range(tireCooldownMin, tireCooldownMax))
 		elif basePawn.item == "killbot":
 			item_spawn_killbot()
-		elif basePawn.item == "vial":
-			$VialAttackTimer.start(randf_range(vialThrowCooldownMin, vialThrowCooldownMax))
+		elif basePawn.item == "potion":
+			$PotionAttackTimer.start(randf_range(potionThrowCooldownMin, potionThrowCooldownMax))
+		elif basePawn.item == "tire":
+			$TireAttackTimer.start(randf_range(tireCooldownMin, tireCooldownMax)) 
 
 ##############
 # ANTIMATTER #
@@ -120,6 +120,7 @@ func item_try_glue(attackingPawn, body) -> void:
 var killbotDamage = 10
 var killbotCooldown = 0.5
 var killbotSpeed = 75
+var killbotBulletSpeed = 100
 var killbotStackMax = 3
 var killbotStackSize = 0.5
 var killbotStackDamage = 5
@@ -136,6 +137,7 @@ func item_spawn_killbot() -> void:
 	newBot.dmgBase = killbotDamage
 	newBot.attackCooldown = killbotCooldown
 	newBot.spd = killbotSpeed
+	newBot.bulletSpd = killbotBulletSpeed
 	newBot.killbotMaxStacks = killbotStackMax
 	newBot.sizePerStack = killbotStackSize
 	newBot.dmgPerStack = killbotStackDamage
@@ -225,6 +227,57 @@ func _on_milkshake_delay_timer_timeout() -> void:
 	basePawn.hp += milkshakePercent * basePawn.baseHp
 	basePawn.combat_log("[" + str(basePawn.username) + "] finished [Milkshake]")
 
+
+##########
+# POTION #
+##########
+
+@export var potionItem: Resource
+var potionThrowCooldownMin = 5.0
+var potionThrowCooldownMax = 10.0
+var potionThrowSpeed = 5.0
+var potionThrowDuration = 1.0
+var potionFumeDuration = 10.0
+var potionFumeDotDuration = 10.0
+var potionFumeSlowDuration = 5.0
+var potionFumeStuckDuration = 1.0
+var potionBoxLength = 50
+var potionMinLength = 50
+var potionScaleMax = 2.0
+func _on_potion_attack_timer_timeout() -> void:
+
+	var newAttack = potionItem.instantiate()
+	newAttack.position = get_parent().position
+	newAttack.destination = good_potion_destination()
+	newAttack.speed = potionThrowSpeed
+	
+	get_parent().get_node("AttackContainer").add_child(newAttack)
+	$PotionAttackTimer.start(randf_range(potionThrowCooldownMin, potionThrowCooldownMax))
+
+	basePawn.combat_log("[" + str(basePawn.username) + "] tossed a chemical (Potion)")
+func good_potion_destination() -> Vector2:
+	var boardRadius = get_parent().get_parent().boardRadius
+	var newOffset = Vector2(randf_range(-potionBoxLength, potionBoxLength), randf_range(-potionBoxLength, potionBoxLength))
+	var newPos = basePawn.position + newOffset
+	while center.distance_to(newPos) > boardRadius || basePawn.position.distance_to(newPos) < potionMinLength:
+		newOffset = Vector2(randf_range(-potionBoxLength, potionBoxLength), randf_range(-potionBoxLength, potionBoxLength))
+		newPos = basePawn.position + newOffset
+	return(newPos)
+func try_potion_effect(body, attackingPawn) -> void:
+	if body.isPotionAttack:
+		var pawnItems = body.get_parent().get_parent().get_node("Items")
+		if body.isMixedUp:
+			var amountToHeal = min(basePawn.baseHp - basePawn.hp, basePawn.baseHp * 0.1)
+			basePawn.hp += amountToHeal
+			basePawn.damageHealed += amountToHeal
+
+			var logOutput = "[" + str(attackingPawn.username) + "] healed [" + str(basePawn.username) + "] for " + str(int(amountToHeal)) + " (Vial)"
+			basePawn.combat_log(logOutput)
+		else:
+			basePawn.get_node("Status").start_dot(pawnItems.potionFumeDotDuration, attackingPawn)
+			basePawn.get_node("Status").start_slow(pawnItems.potionFumeSlowDuration)
+			basePawn.get_node("Status").start_stuck(pawnItems.potionFumeStuckDuration)
+
 ##########
 # SKATES #
 ##########
@@ -253,8 +306,8 @@ var tireCooldownMax = 10.0
 var tireBaseSpeed = 200
 var tireBounceCap = 3
 var tireSpeedMod = 0.75
-var tireDmgBase = 50
-var tireDmgMod = 10
+var tireDmgBase = 25
+var tireDmgMod = 5
 var tireStuckDuration = 1.0
 
 func item_try_tire(attackingPawn) -> void:
@@ -275,56 +328,3 @@ func _on_tire_attack_timer_timeout() -> void:
 func try_tire_stuck(body) -> void:
 	if body.isTireAttack:
 		basePawn.get_node("Status").start_stuck(body.stuckDuration)
-
-########
-# VIAL #
-########
-
-@export var vialItem: Resource
-var vialThrowCooldownMin = 10.0
-var vialThrowCooldownMax = 15.0
-var vialThrowSpeed = 100.0
-var vialThrowDuration = 1.0
-var vialPoolDuration = 5.0
-var vialPoolDotDuration = 10.0
-var vialPoolSlowDuration = 5.0
-var vialPoolStuckDuration = 1.0
-var vialBoxLength = 50
-var vialMinLength = 50
-
-func _on_vial_attack_timer_timeout() -> void:
-
-	var newAttack = vialItem.instantiate()
-	newAttack.position = get_parent().position
-	newAttack.destination = good_vial_destination()
-	newAttack.speed = vialThrowSpeed
-	
-	get_parent().get_node("AttackContainer").add_child(newAttack)
-	$VialAttackTimer.start(randf_range(vialThrowCooldownMin, vialThrowCooldownMax))
-
-	
-	basePawn.combat_log("[" + str(basePawn.username) + "] tossed a chemical (Vial)")
-
-func good_vial_destination() -> Vector2:
-	var boardRadius = get_parent().get_parent().boardRadius
-	var newOffset = Vector2(randf_range(-vialBoxLength, vialBoxLength), randf_range(-vialBoxLength, vialBoxLength))
-	var newPos = basePawn.position + newOffset
-	while center.distance_to(newPos) > boardRadius || basePawn.position.distance_to(newPos) < vialMinLength:
-		newOffset = Vector2(randf_range(-vialBoxLength, vialBoxLength), randf_range(-vialBoxLength, vialBoxLength))
-		newPos = basePawn.position + newOffset
-	return(newPos)
-
-func try_vial_effect(body, attackingPawn) -> void:
-	if body.isVialAttack:
-		var pawnItems = body.get_parent().get_parent().get_node("Items")
-		if body.isMixedUp:
-			var amountToHeal = min(basePawn.baseHp - basePawn.hp, basePawn.baseHp * 0.1)
-			basePawn.hp += amountToHeal
-			basePawn.damageHealed += amountToHeal
-
-			var logOutput = "[" + str(attackingPawn.username) + "] healed [" + str(basePawn.username) + "] for " + str(int(amountToHeal)) + " (Vial)"
-			basePawn.combat_log(logOutput)
-		else:
-			basePawn.get_node("Status").start_dot(pawnItems.vialPoolDotDuration, attackingPawn)
-			basePawn.get_node("Status").start_slow(pawnItems.vialPoolSlowDuration)
-			basePawn.get_node("Status").start_stuck(pawnItems.vialPoolStuckDuration)

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://by8wtod0sp8dr" path="res://pawns/base/base_pawn.gd" id="1_o1hwx"]
 [ext_resource type="PackedScene" uid="uid://crarr4hxisv6u" path="res://pawns/base/tombstone/tombstone.tscn" id="2_5gqyv"]
+[ext_resource type="Script" uid="uid://cbqkyuh1076y4" path="res://styles/bully_area.gd" id="3_33m71"]
 [ext_resource type="PackedScene" uid="uid://dtwjy1c4sv3fl" path="res://pawns/base/gui/gui.tscn" id="5_cjful"]
 [ext_resource type="PackedScene" uid="uid://bvuo3yaraeyqs" path="res://status/status.tscn" id="6_33m71"]
 [ext_resource type="PackedScene" uid="uid://crh2qlcijypen" path="res://styles/styles.tscn" id="7_56xb5"]
@@ -11,6 +12,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
 radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cjful"]
+radius = 24.0
 
 [node name="BasePawn" type="Area2D" unique_id=1877646274]
 collision_mask = 3
@@ -25,6 +29,12 @@ spd = 0.5
 
 [node name="PawnCollider" type="CollisionShape2D" parent="." unique_id=1776540401]
 shape = SubResource("CircleShape2D_pac6h")
+
+[node name="BullyArea" type="Area2D" parent="." unique_id=1221553865]
+script = ExtResource("3_33m71")
+
+[node name="BullyCollider" type="CollisionShape2D" parent="BullyArea" unique_id=727063655]
+shape = SubResource("CircleShape2D_cjful")
 
 [node name="BullyCircle" type="Sprite2D" parent="." unique_id=849009739]
 modulate = Color(1, 1, 1, 0)
@@ -54,3 +64,4 @@ one_shot = true
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="BullyArea" to="." method="_on_bully_area_area_entered"]
