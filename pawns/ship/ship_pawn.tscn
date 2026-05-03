@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://58lj5q30abqo"]
 
-[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_vnodh"]
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_vnodh"]
 [ext_resource type="Texture2D" uid="uid://dmq1bbehm2ugy" path="res://pawns/ship/ship_pawn.png" id="2_7iikp"]
 [ext_resource type="Script" uid="uid://dkpj8787qkjdm" path="res://pawns/ship/ship_pawn.gd" id="2_do8vn"]
 [ext_resource type="PackedScene" uid="uid://crf2lb3wy2wmg" path="res://pawns/ship/globule/ship_attack.tscn" id="3_jyjsx"]
@@ -26,12 +26,9 @@ wait_time = 0.25
 
 [node name="BurstDurationTimer" type="Timer" parent="." index="5" unique_id=256042320]
 
-[node name="AttackCooldownTimer" parent="." index="6" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="8" unique_id=1610759688]
 wait_time = 0.1
 one_shot = true
-
-[node name="NameLabel" parent="GUI" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
-text = "ship"
 
 [connection signal="timeout" from="RingTimer" to="." method="_on_ring_timer_timeout"]
 [connection signal="timeout" from="OverheatDurationTimer" to="." method="_on_overheat_duration_timer_timeout"]

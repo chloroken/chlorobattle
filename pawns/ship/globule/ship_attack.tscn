@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://crf2lb3wy2wmg"]
 
-[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/base/attack/base_attack.tscn" id="1_jkryi"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_jkryi"]
 [ext_resource type="Script" uid="uid://dkm3yrjrva7i" path="res://pawns/ship/globule/ship_attack.gd" id="2_b0o7i"]
 [ext_resource type="Texture2D" uid="uid://cumfkyhd30665" path="res://pawns/ship/globule/ship_attack.png" id="2_uhmwm"]
 

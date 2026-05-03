@@ -59,7 +59,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 # Change directions when hitting edge of board
 func _on_area_exited(area: Area2D) -> void:
 	if self.is_queued_for_deletion(): return
-	if area.areaType == "board":
+	if area.get_collision_layer_value(6):#areaType == "board":
 		direction = new_direction()
 		if !attacksDisabled:
 			top_hit_wall()

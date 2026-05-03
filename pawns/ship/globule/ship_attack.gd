@@ -5,7 +5,6 @@ var speed
 var direction: Vector2
 
 # Bounce variables
-var center
 var boardSize
 var disableBounceDuration = 0.1
 
@@ -14,12 +13,9 @@ func _ready() -> void:
 	# Flag as single-target attack
 	areaAttack = false
 
-	# Fetch center of board
-	center = get_viewport_rect().size / 2.0
-
 	# Adjust projectile colors 
 	$BaseSprite.modulate.r = 0
-	$BaseSprite.modulate.g = randf_range(0.4, 1.0)
+	$BaseSprite.modulate.g = randf_range(0.4, 0.6)
 	$BaseSprite.modulate.b = randf_range(0.5, 0.8)
 
 	# Set visibility order
@@ -33,11 +29,11 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 	
-	if position.distance_to(center) > get_parent().get_parent().get_parent().boardRadius:
+	if position.distance_to(get_parent().get_parent().get_parent().center) > get_parent().get_parent().get_parent().boardRadius:
 		if $BounceCooldownTimer.is_stopped():
 			$BounceCooldownTimer.start()
 			globule_bounce()
-			direction = position.direction_to(center).rotated(randf_range(-1.0, 1.0))
+			direction = position.direction_to(get_parent().get_parent().get_parent().center).rotated(randf_range(-1.0, 1.0))
 
 # Clean up
 func _on_fizzle_timer_timeout() -> void:
@@ -45,9 +41,9 @@ func _on_fizzle_timer_timeout() -> void:
 
 # Bounce
 func _on_area_exited(area: Area2D) -> void:
-	if area.areaType == "board":
+	if area.get_collision_layer_value(6):#areaType == "board":
 		globule_bounce()
-		direction = position.direction_to(center) + direction
+		direction = position.direction_to(get_parent().get_parent().get_parent().center) + direction
 
 func globule_bounce() -> void:
 	var bounceColor = randf_range(0.6, 0.8)

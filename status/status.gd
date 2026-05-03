@@ -100,8 +100,8 @@ func start_drunk(timer: float) -> void:
 	if $DrunkStatusTimer.get_time_left() > timer: return
 	$DrunkStatusTimer.start(timer)
 	var newDrunkEffect = drunkEffect.instantiate()
-	newDrunkEffect.global_position = basePawn.global_position + Vector2.UP * 55
-	basePawn.add_child(newDrunkEffect)
+	newDrunkEffect.position = basePawn.position + Vector2.UP * 55
+	basePawn.get_node("AttackContainer").add_child(newDrunkEffect)
 	enable_status_icon(timer, drunkIcon)
 func stop_drunk() -> void:
 	disable_status_icon(drunkIcon)
@@ -183,7 +183,7 @@ func start_void(timer: float) -> void:
 	pawnSprite.modulate.r = 0.0
 	pawnSprite.modulate.b = 0.0
 	pawnSprite.modulate.g = 0.0
-	get_parent().set_collision_mask_value(1, false)
+	get_parent().set_collision_layer_value(1, false)
 	$VoidStatusTimer.start(timer)
 	enable_status_icon(timer, voidIcon)
 func _on_void_status_timer_timeout() -> void:
@@ -192,7 +192,7 @@ func _on_void_status_timer_timeout() -> void:
 	pawnSprite.modulate.r = 1.0
 	pawnSprite.modulate.b = 1.0
 	pawnSprite.modulate.g = 1.0
-	get_parent().set_collision_mask_value(1, true)
+	get_parent().set_collision_layer_value(1, true)
 func stop_void() -> void:
 	disable_status_icon(voidIcon)
 	$VoidStatusTimer.stop()

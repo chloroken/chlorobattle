@@ -105,7 +105,7 @@ func _process(_delta: float) -> void:
 
 func _on_area_exited(area: Area2D) -> void:
 	if self.is_queued_for_deletion(): return
-	if area.areaType == "board":
+	if area.get_collision_layer_value(6):#areaType == "board":
 		# Warp
 		if !attacksDisabled:
 			if !warpActive && $WarpCooldownTimer.is_stopped():

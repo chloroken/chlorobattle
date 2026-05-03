@@ -7,7 +7,7 @@ func _ready() -> void:
 
 	# Useful shortcuts
 	basePawn = get_parent()
-	center = get_viewport_rect().size / 2.0
+	center = basePawn.get_parent().center
 
 	# If an Item needs action at start of game, do it here
 	if !basePawn.attacksDisabled:
@@ -92,8 +92,7 @@ func _on_flask_cooldown_timer_timeout() -> void:
 
 var glueSlowDuration = 1.0
 var glueStuckChance = 10
-var glueStuckDuration = 3.0
-var glueStuckCooldown = 15.0
+var glueStuckDuration = 5.0
 
 func item_try_glue(attackingPawn, body) -> void:
 
@@ -163,10 +162,9 @@ func item_try_killbot_stack(attackingPawn, body) -> void:
 #######
 
 @export var mapBlinkEffect: PackedScene
-var mapCooldownMin = 5.0
-var mapCooldownMax = 10.0
-var mapFlickerMaxRange = 200.0
-var mapFlickerRadius = 100.0
+var mapCooldownMin = 4.0
+var mapCooldownMax = 6.0
+var mapFlickerRange = 2
 
 func item_try_map() -> void:
 	if basePawn.item == "map" && $MapCooldownTimer.is_stopped():
@@ -195,14 +193,15 @@ func item_try_map() -> void:
 		$MapCooldownTimer.start(mapCooldown)
 		newMap.get_node("FizzleTimer").start(mapCooldown)
 
-		basePawn.combat_log("[" + str(basePawn.username) + "] teleported (Map)")
+		basePawn.combat_log("[" + str(basePawn.username) + "] teleported away (Map)")
 
 func item_map_blink() -> Vector2:
 	var newPos = basePawn.position
-	while basePawn.position.distance_to(newPos) < mapFlickerRadius:
-		var ranX = randf_range(-mapFlickerMaxRange, mapFlickerMaxRange)
-		var ranY = randf_range(-mapFlickerMaxRange, mapFlickerMaxRange)
-		newPos = basePawn.position + Vector2(ranX, ranY)
+	var boardRadius = get_parent().get_parent().boardRadius
+	while basePawn.position.distance_to(newPos) < boardRadius / mapFlickerRange:
+		var ranX = randf_range(-boardRadius, boardRadius)
+		var ranY = randf_range(-boardRadius, boardRadius)
+		newPos = basePawn.get_parent().center + Vector2(ranX, ranY)
 	return(newPos)
 
 #############
@@ -233,6 +232,7 @@ func _on_milkshake_delay_timer_timeout() -> void:
 ##########
 
 @export var potionItem: Resource
+var potionDamage = 10
 var potionThrowCooldownMin = 5.0
 var potionThrowCooldownMax = 10.0
 var potionThrowSpeed = 5.0
@@ -254,7 +254,7 @@ func _on_potion_attack_timer_timeout() -> void:
 	get_parent().get_node("AttackContainer").add_child(newAttack)
 	$PotionAttackTimer.start(randf_range(potionThrowCooldownMin, potionThrowCooldownMax))
 
-	basePawn.combat_log("[" + str(basePawn.username) + "] tossed a chemical (Potion)")
+	basePawn.combat_log("[" + str(basePawn.username) + "] tossed some chemicals (Potion)")
 func good_potion_destination() -> Vector2:
 	var boardRadius = get_parent().get_parent().boardRadius
 	var newOffset = Vector2(randf_range(-potionBoxLength, potionBoxLength), randf_range(-potionBoxLength, potionBoxLength))
@@ -263,7 +263,7 @@ func good_potion_destination() -> Vector2:
 		newOffset = Vector2(randf_range(-potionBoxLength, potionBoxLength), randf_range(-potionBoxLength, potionBoxLength))
 		newPos = basePawn.position + newOffset
 	return(newPos)
-func try_potion_effect(body, attackingPawn) -> void:
+func try_potion_effect(body, attackingPawn) -> bool:
 	if body.isPotionAttack:
 		var pawnItems = body.get_parent().get_parent().get_node("Items")
 		if body.isMixedUp:
@@ -273,17 +273,19 @@ func try_potion_effect(body, attackingPawn) -> void:
 
 			var logOutput = "[" + str(attackingPawn.username) + "] healed [" + str(basePawn.username) + "] for " + str(int(amountToHeal)) + " (Vial)"
 			basePawn.combat_log(logOutput)
+			return(true)
 		else:
 			basePawn.get_node("Status").start_dot(pawnItems.potionFumeDotDuration, attackingPawn)
 			basePawn.get_node("Status").start_slow(pawnItems.potionFumeSlowDuration)
 			basePawn.get_node("Status").start_stuck(pawnItems.potionFumeStuckDuration)
+	return(false)
 
 ##########
 # SKATES #
 ##########
 
-var skateCooldown = 6.0
-var skateDuration = 3.0
+var skateCooldown = 5.0
+var skateDuration = 5.0
 
 func item_try_skating() -> void:
 	var status = get_parent().get_node("Status")

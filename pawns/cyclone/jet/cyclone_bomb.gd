@@ -7,7 +7,7 @@ var duration
 var center
 
 func _ready() -> void:
-	center = get_viewport_rect().size / 2.0
+	center = get_parent().get_parent().get_parent().center
 
 	# Set visibility order
 	z_as_relative = false

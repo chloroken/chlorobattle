@@ -58,7 +58,6 @@ func get_good_destination(pawnPos) -> Vector2:
 
 	var offsetPos
 	var offsetAmount = 100
-	var center = get_viewport_rect().size / 2.0
 	var maxRadius = get_parent().get_parent().get_parent().boardRadius
 
 	var workingPos = pawnPos
@@ -67,7 +66,7 @@ func get_good_destination(pawnPos) -> Vector2:
 
 	var maxLoops = 100
 	var curLoops = 0
-	while workingPos.distance_to(center) > maxRadius && curLoops < maxLoops:	
+	while workingPos.distance_to(get_parent().get_parent().center) > maxRadius && curLoops < maxLoops:	
 		offsetPos = Vector2(randf_range(-offsetAmount, offsetAmount), randf_range(-offsetAmount, offsetAmount))
 		workingPos = pawnPos + offsetPos
 		curLoops += 1

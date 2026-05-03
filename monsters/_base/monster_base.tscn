@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://ih581y3mimkx"]
+
+[ext_resource type="Script" uid="uid://dnjkdksqlms02" path="res://monsters/_base/monster_base.gd" id="1_qg1te"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u016e"]
+radius = 8.0
+
+[node name="MonsterBase" type="Area2D" unique_id=2058281219]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("1_qg1te")
+
+[node name="MonsterSprite" type="Sprite2D" parent="." unique_id=1972181515]
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1000374470]
+shape = SubResource("CircleShape2D_u016e")
+
+[node name="DirectionTimer" type="Timer" parent="." unique_id=723002153]
+
+[node name="MonsterHpBack" type="ColorRect" parent="." unique_id=34814012]
+offset_left = -8.0
+offset_top = -10.0
+offset_right = 8.0
+offset_bottom = -8.0
+color = Color(0, 0, 0, 1)
+
+[node name="MonsterHpFront" type="ColorRect" parent="." unique_id=1656408574]
+offset_left = -8.0
+offset_top = -10.0
+offset_right = 8.0
+offset_bottom = -8.0
+color = Color(0.9547439, 0.15232536, 0.26219636, 1)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]

@@ -10,11 +10,12 @@ var soulDurationMin = 10.0
 var soulDurationMax = 10.0
 var soulDirChangeMin = 2.0
 var soulDirChangeMax = 3.0
-var soulMoveSpeed = 50
+var soulMoveSpeedMin = 25
+var soulMoveSpeedMax = 50
 var soulReturnHeal = 1.0
 var soulSizeMin = 0.8
 var soulSizeMax = 1.0
-var soulColorVariance = 0.5
+var soulColorVariance = 0.8
 
 @export var demonSprite: Resource
 var demonFormCooldown = 60.0
@@ -47,9 +48,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var newAttack = soulAttack.instantiate()
 	newAttack.position = position
 	newAttack.dmg = self.dmg
-	newAttack.spd = soulMoveSpeed
+	newAttack.spd = randf_range(soulMoveSpeedMin, soulMoveSpeedMax)
 	newAttack.scale = Vector2.ONE * randf_range(soulSizeMin, soulSizeMax)
-	newAttack.modulate.r = randf_range(soulColorVariance, 1.0)
 	newAttack.modulate.g = randf_range(soulColorVariance, 1.0)
 	newAttack.modulate.b = randf_range(soulColorVariance, 1.0)
 	$AttackContainer.add_child(newAttack)

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://3ykwu6msspwm"]
+
+[ext_resource type="Script" uid="uid://b7nhtkl1uop62" path="res://pawns/_base/combat/pawn_combat.gd" id="1_1ni35"]
+
+[node name="CombatPawn" type="Node2D" unique_id=1691095016]
+script = ExtResource("1_1ni35")

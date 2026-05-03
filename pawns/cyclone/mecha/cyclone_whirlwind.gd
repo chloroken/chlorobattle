@@ -12,7 +12,7 @@ func _ready() -> void:
 
 	# Set visibility order
 	z_as_relative = false
-	z_index = get_node("/root/main").layerPawnBehind
+	z_index = get_node("/root/main").layerAir
 
 func _process(delta: float) -> void:
 	$BaseSprite.modulate.a = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()

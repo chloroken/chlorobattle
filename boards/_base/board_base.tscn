@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://bdiqff503bemv"]
+
+[ext_resource type="Script" uid="uid://cmnoii1ldrhis" path="res://boards/_base/board_base.gd" id="1_4ni8t"]
+[ext_resource type="PackedScene" uid="uid://cx5lla7qrwqqi" path="res://boards/_base/area/board_area.tscn" id="1_aert6"]
+[ext_resource type="Texture2D" uid="uid://dgvli2pph220d" path="res://assets/graphics/arena_fancy1080.png" id="2_4ni8t"]
+[ext_resource type="Texture2D" uid="uid://cyw7q2e5nbcy1" path="res://assets/graphics/board_art_3.png" id="3_4ni8t"]
+
+[node name="BoardBase" type="Node2D" unique_id=1844479333]
+script = ExtResource("1_4ni8t")
+
+[node name="Collider" parent="." unique_id=359442345 instance=ExtResource("1_aert6")]
+collision_layer = 32
+
+[node name="Timers" type="Node" parent="." unique_id=245188717]
+
+[node name="Sounds" type="Node" parent="." unique_id=374238704]
+
+[node name="BoardChime" type="AudioStreamPlayer2D" parent="Sounds" unique_id=960067565]
+
+[node name="Sprites" type="Control" parent="." unique_id=1877396279]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Color" type="ColorRect" parent="Sprites" unique_id=694860681]
+custom_minimum_size = Vector2(1440, 960)
+layout_mode = 0
+offset_left = -720.0
+offset_top = -480.0
+offset_right = 720.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+
+[node name="Backdrop" type="Sprite2D" parent="Sprites" unique_id=1169408079]
+texture = ExtResource("3_4ni8t")
+
+[node name="Wheel1" type="Sprite2D" parent="Sprites" unique_id=971234192]
+modulate = Color(1, 1, 1, 0.39215687)
+texture = ExtResource("2_4ni8t")
+
+[node name="Wheel2" type="Sprite2D" parent="Sprites" unique_id=930049616]
+modulate = Color(1, 1, 1, 0.39215687)
+texture = ExtResource("2_4ni8t")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1021448429]

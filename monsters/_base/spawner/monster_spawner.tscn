@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://c2o2pouptkv0t"]
+
+[ext_resource type="Script" uid="uid://dj6wveocdxr5x" path="res://monsters/_base/spawner/monster_spawner.gd" id="1_bbuqn"]
+[ext_resource type="PackedScene" uid="uid://dr6pew2wfs52q" path="res://monsters/worm/monster_worm.tscn" id="2_jpbr6"]
+[ext_resource type="PackedScene" uid="uid://coqaki245wb4w" path="res://monsters/snake/monster_snake.tscn" id="3_wrbho"]
+[ext_resource type="PackedScene" uid="uid://cra5f55cx7nfb" path="res://monsters/fiend/monster_fiend.tscn" id="4_yae0g"]
+
+[node name="MonsterSpawner" type="Node2D" unique_id=1866003881]
+script = ExtResource("1_bbuqn")
+wormNpc = ExtResource("2_jpbr6")
+snakeNpc = ExtResource("3_wrbho")
+fiendNpc = ExtResource("4_yae0g")
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=765794325]
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

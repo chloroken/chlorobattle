@@ -32,9 +32,8 @@ func _physics_process(_delta: float) -> void:
 	self.scale = Vector2.ONE * newScale
 
 	# Destroy any trails outside of the board area
-	var center = get_viewport_rect().size / 2.0
 	var radius = get_parent().get_parent().get_parent().boardRadius
-	if global_position.distance_to(center) > radius * 1:
+	if global_position.distance_to(get_parent().get_parent().get_parent().center) > radius * 1:
 		queue_free()
 
 # Clean up

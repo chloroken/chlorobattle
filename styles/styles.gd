@@ -41,6 +41,7 @@ func style_berserk_trigger(body, attackingPawn) -> void:
 			if attacker.berserkHitCount < attacker.berserkHitCap:
 				attacker.berserkHitCount += 1
 				var newCharge = styleCharge.instantiate()
+				newCharge.position = get_parent().position
 				newCharge.particleColor = berserkColor
 				attacker.get_parent().get_node("AttackContainer").add_child(newCharge)
 				attacker.activeStyleCharges.append(newCharge)
@@ -60,26 +61,27 @@ func _on_berserk_reset_timer_timeout() -> void:
 #########
 
 var bullyColor = Color.HOT_PINK
-var bullyDmgPct = 0.1
-var bullyStackDuration = 10
+var bullyDmgPct = 0.05
+var bullyStackDuration = 15
 var bullyStackCount = 1
 var bullyHitCap = 5
-var bullyScaleMod = 0.2
+var bullyScaleMod = 0.4
 var bullySprintDuration = 2.0
 var bullySlowDuration = 2.0
 var bullyWeakDuration = 2.0
 func add_bully_charge() -> void:
 	var newCharge = styleCharge.instantiate()
+	newCharge.position = get_parent().position
 	newCharge.particleColor = bullyColor
 	get_parent().get_node("AttackContainer").add_child(newCharge)
 	activeStyleCharges.append(newCharge)
 	newCharge.get_node("StyleChargeSprite").modulate = bullyColor
+
 func style_bully_trigger(victim) -> void:
 
-	# Avoid hitting self
+	# Validate victim
+	if !victim.get_collision_layer_value(1) || get_parent().style != "bully": return
 	if victim.username == get_parent().username: return
-	
-	# Avoid hitting void targets
 	if !victim.get_node("Status").get_node("VoidStatusTimer").is_stopped(): return
 
 	# Sprint & increase size
@@ -92,19 +94,10 @@ func style_bully_trigger(victim) -> void:
 	# Extra effects for non-bully victims
 	if victim.style != "bully":
 
-		# Hit victim for damage
-		var bullyDmg = get_parent().hp * bullyDmgPct * bullyStackCount
-
-		# Reduce damage for global dmg mod
-		var finalHit = bullyDmg * (get_parent().get_parent().globalDmgMod / get_parent().get_parent().dmgModDuration)
-
-		victim.hp -= finalHit
-		victim.damageTaken += finalHit
-		get_parent().damageDealt += finalHit
-		get_parent().combat_log("[" + str(get_parent().username) + "] hit [" + str(victim.username) + "] for " +  str("%0.2f" % finalHit) + " (Bully)")
-
+		# Offload damage calculation & application to Combat node
+		get_parent().get_node("Combat").bully_hit(victim)
+		
 		# Inflict weak
-		if victim.hp < 1: victim.hp = 1
 		victim.get_node("Status").start_weak(bullyStackCount * bullyWeakDuration)
 
 	# Increase stacks & start cooldown
@@ -164,6 +157,7 @@ func _on_mighty_charge_timer_timeout() -> void:
 	if mightyChargeCount < mightyChargeCap:
 		mightyChargeCount += 1
 		var newCharge = styleCharge.instantiate()
+		newCharge.position = get_parent().position
 		newCharge.particleColor = mightyColor
 		get_parent().get_node("AttackContainer").add_child(newCharge)
 		activeStyleCharges.append(newCharge)
@@ -178,6 +172,7 @@ var slayerColor = Color.MEDIUM_PURPLE
 var slayerMultiplier = 0.01
 func add_slayer_charge() -> void:
 	var newCharge = styleCharge.instantiate()
+	newCharge.position = get_parent().position
 	newCharge.particleColor = slayerColor
 	get_parent().get_node("AttackContainer").add_child(newCharge)
 	activeStyleCharges.append(newCharge)

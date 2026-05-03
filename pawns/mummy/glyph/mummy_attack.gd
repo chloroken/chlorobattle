@@ -6,7 +6,7 @@ func _ready() -> void:
 	attackName = "Glyph"
 	
 	# Turn off collision while channeling
-	set_collision_layer_value(1, false)
+	set_collision_layer_value(2, false)
 
 	# Set random direction
 	$BaseSprite.rotation = randf_range(0, TAU)
@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 	if $FizzleTimer.get_time_left() > 1:
 		spriteAlpha = 0.25 * (1 - ($FizzleTimer.get_time_left()-1) / ($FizzleTimer.get_wait_time()-1))
 	else:
-		set_collision_layer_value(1, true)
+		set_collision_layer_value(2, true)
 		spriteAlpha = $FizzleTimer.get_time_left()
 	modulate.a = spriteAlpha
 

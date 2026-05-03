@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://brk1m57ccp1ef"]
 
-[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/base/base_pawn.tscn" id="1_hvhxy"]
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_hvhxy"]
 [ext_resource type="Texture2D" uid="uid://cg3hajkhjhu0c" path="res://pawns/pirate/pirate_pawn.png" id="2_f4qk0"]
 [ext_resource type="Script" uid="uid://cdub77jnq8457" path="res://pawns/pirate/pirate_pawn.gd" id="2_ifqpx"]
 [ext_resource type="PackedScene" uid="uid://cra4gw71okw2j" path="res://pawns/pirate/parrot/pirate_attack.tscn" id="3_k2e1m"]
@@ -19,11 +19,5 @@ texture = ExtResource("2_f4qk0")
 
 [node name="GrogCooldownTimer" type="Timer" parent="." index="5" unique_id=820909029]
 
-[node name="NameLabel" parent="GUI" parent_id_path=PackedInt32Array(1790961739) index="0" unique_id=1628394180]
-text = "pirate"
-
-[node name="HitpointLabel" parent="GUI" parent_id_path=PackedInt32Array(1790961739) index="1" unique_id=1383475225]
-theme_override_constants/outline_size = 8
-
-[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
 [connection signal="timeout" from="GrogCooldownTimer" to="." method="_on_grog_cooldown_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
