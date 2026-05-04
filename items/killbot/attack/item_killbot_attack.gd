@@ -1,4 +1,4 @@
-extends "res://pawns/base/attack/base_attack.gd"
+extends "res://items/_base/_attack/item_attack.gd"
 
 var speed = 75
 var direction: Vector2

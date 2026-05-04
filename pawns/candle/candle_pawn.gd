@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://pawns/_base/base_pawn.gd"
 
 # Ember
 @export var emberAttack: PackedScene

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cra4gw71okw2j"]
 
-[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_a23e1"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/_attack/base_attack.tscn" id="1_a23e1"]
 [ext_resource type="Script" uid="uid://bjl5fblkx0t1f" path="res://pawns/pirate/parrot/pirate_attack.gd" id="2_ms60w"]
 [ext_resource type="Texture2D" uid="uid://ccfur3djn2c6i" path="res://pawns/pirate/parrot/pirate_attack.png" id="3_4mm8i"]
 [ext_resource type="Texture2D" uid="uid://dx3pakdnhlxqr" path="res://pawns/pirate/parrot/pirate_outline.png" id="4_nxtvd"]

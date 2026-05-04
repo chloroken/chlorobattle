@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://pawns/_base/base_pawn.gd"
 
 @export var blinkScene: Resource
 var blinkCooldownMin = 3.0

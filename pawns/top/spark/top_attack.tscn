@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b4sfbkn4gf6cx"]
 
-[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_qnsba"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/_attack/base_attack.tscn" id="1_qnsba"]
 [ext_resource type="Script" uid="uid://b50niks6j4h1s" path="res://pawns/top/spark/top_attack.gd" id="1_yap77"]
 [ext_resource type="Texture2D" uid="uid://ci3vhjfjdsq2k" path="res://pawns/top/spark/top_attack.png" id="2_1k46g"]
 

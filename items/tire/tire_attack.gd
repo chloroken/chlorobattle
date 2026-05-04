@@ -1,4 +1,4 @@
-extends "res://pawns/base/attack/base_attack.gd"
+extends "res://items/_base/_attack/item_attack.gd"
 
 # Board variables
 var center
@@ -72,7 +72,7 @@ func _physics_process(delta: float) -> void:
 			$DisableBounceTimer.start(disableBounceDuration)
 
 	# Move tire 
-	$TireSprite.rotation = direction.angle()
+	$Sprite.rotation = direction.angle()
 	position += direction * speed * delta
 
 func new_direction() -> Vector2:
@@ -103,3 +103,7 @@ func _on_tree_exiting() -> void:
 	var randomCooldown = randf_range(items.tireCooldownMin, items.tireCooldownMax)
 	items.get_node("TireAttackTimer").start(randomCooldown)
 	queue_free()
+
+
+func _on_disable_bounce_timer_timeout() -> void:
+	pass # Replace with function body.

@@ -1,4 +1,4 @@
-extends "res://pawns/base/attack/base_attack.gd"
+extends "res://items/_base/_attack/item_attack.gd"
 
 @export var fumeHeal: Resource
 var fumeCooldownMin = 0.1
@@ -16,27 +16,27 @@ func _ready() -> void:
 	dmg = basePawn.get_node("Items").potionDamage
 	rotation = randf_range(0, TAU)
 	scale = Vector2.ZERO
-	modulate.a = 0.5
+	$Sprite.modulate.a = 0.5
 
 	# Chance to mix up
 	var diceRoll = randi_range(1, 100)
 	if diceRoll <= chanceToMixUp:
 		isMixedUp = true
 		dmg = 0
-		$ItemPotionFumeSprite.modulate.r = 0.1
-		$ItemPotionFumeSprite.modulate.g = randf_range(0.2, 0.4)
-		$ItemPotionFumeSprite.modulate.b = randf_range(0.8, 1.0)
+		$Sprite.modulate.r = 0.1
+		$Sprite.modulate.g = randf_range(0.2, 0.4)
+		$Sprite.modulate.b = randf_range(0.8, 1.0)
 		$HealTimer.one_shot = true
 		$HealTimer.start(randf_range(fumeCooldownMin, fumeCooldownMax))
 	else:
-		$ItemPotionFumeSprite.modulate.r = randf_range(0.2, 0.4)
-		$ItemPotionFumeSprite.modulate.g = randf_range(0.8, 1.0)
-		$ItemPotionFumeSprite.modulate.b = 0.1
+		$Sprite.modulate.r = randf_range(0.2, 0.4)
+		$Sprite.modulate.g = randf_range(0.8, 1.0)
+		$Sprite.modulate.b = 0.1
 
 	# Set visibility order
 	z_as_relative = false
 	z_index = get_node("/root/main").layerAir
-	
+
 	# Start timers
 	$FizzleTimer.start(basePawn.get_node("Items").potionFumeDuration)
 
@@ -46,7 +46,7 @@ func _process(_delta: float) -> void:
 	var pawnItems = basePawn.get_node("Items")
 	scale = Vector2.ONE * pawnItems.potionScaleMax * timerRatio
 	if timer < 0.25:
-		$ItemPotionFumeSprite.modulate.a = timer * 4 * 0.5
+		$Sprite.modulate.a = timer * 2
 
 func _on_fizzle_timer_timeout() -> void:
 	queue_free()

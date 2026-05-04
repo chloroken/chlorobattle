@@ -18,7 +18,7 @@ extends Node2D
 @export var slug: PackedScene
 @export var top: PackedScene
 
-# Data structures for passing data between scenes
+# Data structures for passing data between boards
 var currentBoard = "lobby"
 var pawnList = []
 var scoreList = []
@@ -41,27 +41,11 @@ var layerPawnFront = 6
 var layerAir = 8
 var layerSky = 9
 
-
-# First code of game to run
+# Board switching
 func _ready() -> void:
 	randomize()
 	$cam.make_current()
 	switch_board("lobby")
-
-# Observer controls
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("Speed Engine Time"):
-		Engine.set_time_scale(min(Engine.get_time_scale() * 2, 16.0))
-	if event.is_action_pressed("Slow Engine Time"):
-		Engine.set_time_scale(max(Engine.get_time_scale() / 2, 0.25))
-	if event.is_action_pressed("Pause Engine Time"):
-		if Engine.get_time_scale() == 0:
-			Engine.set_time_scale(1)
-			get_tree().paused = false
-		else:
-			Engine.set_time_scale(0)
-			get_tree().paused = true
-
 func switch_board(board: String) -> void:
 	free_children()
 	var boardChoice = lobby
@@ -74,9 +58,18 @@ func switch_board(board: String) -> void:
 	var newBoard = boardChoice.instantiate()
 	newBoard.position = position
 	add_child(newBoard)
-
 func free_children() -> void:
 	var children = get_children()
 	for child in children:
 		if child != $cam:
 			child.queue_free()
+
+# Observer controls
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Speed Engine Time"):
+		Engine.set_time_scale(min(Engine.get_time_scale() * 2, 16.0))
+	if event.is_action_pressed("Slow Engine Time"):
+		Engine.set_time_scale(max(Engine.get_time_scale() / 2, 0.25))
+	if event.is_action_pressed("Pause Engine Time"):
+		if Engine.get_time_scale() == 0: Engine.set_time_scale(1)
+		else: Engine.set_time_scale(0)

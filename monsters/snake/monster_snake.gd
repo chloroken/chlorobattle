@@ -1,4 +1,4 @@
-extends "res://monsters/base/monster_base.gd"
+extends "res://monsters/_base/monster_base.gd"
 
 func _ready() -> void:
 	super()

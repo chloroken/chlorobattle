@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://pawns/_base/base_pawn.gd"
 
 # Form variables
 @export var jetFormSprite: Resource
@@ -39,10 +39,10 @@ func _ready() -> void:
 func start_attack_cooldown() -> void:
 	if mechaForm:
 		var mechaAttackCooldown = randf_range(whirlwindCooldownMin, whirlwindCooldownMax)
-		$AttackCooldownTimer.start(asp * mechaAttackCooldown + random_variance())
+		$AttackCooldownTimer.start(asp * mechaAttackCooldown)
 	else:
 		var jetAttackCooldown = randf_range(bombCooldownMin, bombCooldownMax)
-		$AttackCooldownTimer.start(asp * jetAttackCooldown + random_variance())
+		$AttackCooldownTimer.start(asp * jetAttackCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
@@ -106,13 +106,13 @@ func _on_form_swap_timer_timeout() -> void:
 	
 	# Calculate next form duration
 	var form_offset_variance = randf_range(-formSwapVariance, formSwapVariance)
-	$FormSwapTimer.start(formSwapTimer + form_offset_variance + random_variance())
+	$FormSwapTimer.start(formSwapTimer + form_offset_variance)
 	
 	# Flip forms
 	if mechaForm:
-		if !attacksDisabled: $AttackCooldownTimer.start(random_variance())
+		if !attacksDisabled: $AttackCooldownTimer.start(.01)
 		$Status.start_sprint(formSwapTimer + form_offset_variance)
 	else:
-		if !attacksDisabled: $AttackCooldownTimer.start(random_variance())
+		if !attacksDisabled: $AttackCooldownTimer.start(.01)
 		$Status.start_slow(formSwapTimer + form_offset_variance)
 	mechaForm = !mechaForm

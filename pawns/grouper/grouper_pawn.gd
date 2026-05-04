@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://pawns/_base/base_pawn.gd"
 
 
 # Splash variables
@@ -28,7 +28,7 @@ func _ready() -> void:
 		start_attack_cooldown()
 
 func start_attack_cooldown() -> void:
-	var splashCooldown = asp * randf_range(splashCooldownMin, splashCooldownMax) + random_variance()
+	var splashCooldown = asp * randf_range(splashCooldownMin, splashCooldownMax)
 	$AttackCooldownTimer.start(splashCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:

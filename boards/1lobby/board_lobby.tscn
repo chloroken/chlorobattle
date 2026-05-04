@@ -1,0 +1,150 @@
+[gd_scene format=3 uid="uid://cm3b1237vf4gp"]
+
+[ext_resource type="PackedScene" uid="uid://bdiqff503bemv" path="res://boards/_base/board_base.tscn" id="1_hd2ll"]
+[ext_resource type="Script" uid="uid://crcdia8q6kk7v" path="res://boards/1lobby/board_lobby.gd" id="2_b3ymt"]
+[ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://assets/fonts/Grunge.otf" id="3_icr0c"]
+[ext_resource type="AudioStream" uid="uid://sah2sui8y10c" path="res://boards/1lobby/board_lobby.mp3" id="3_k6luq"]
+[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="4_k6luq"]
+[ext_resource type="FontFile" uid="uid://dsixe43unloa3" path="res://assets/fonts/MonoTypewriter.ttf" id="5_3mka6"]
+[ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="6_8svab"]
+
+[node name="BoardLobby" unique_id=1844479333 instance=ExtResource("1_hd2ll")]
+script = ExtResource("2_b3ymt")
+
+[node name="LobbyTimer" type="Timer" parent="Timers" parent_id_path=PackedInt32Array(245188717) index="0" unique_id=1100537328]
+
+[node name="BoardChime" parent="Sounds" parent_id_path=PackedInt32Array(374238704) index="0" unique_id=960067565]
+stream = ExtResource("3_k6luq")
+
+[node name="Wheel1" parent="Sprites" parent_id_path=PackedInt32Array(1877396279) index="2" unique_id=971234192]
+visible = false
+
+[node name="Wheel2" parent="Sprites" parent_id_path=PackedInt32Array(1877396279) index="3" unique_id=930049616]
+visible = false
+
+[node name="JoinerCount" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="0" unique_id=89089589]
+offset_right = 1440.0
+offset_bottom = 960.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 25
+theme_override_fonts/font = ExtResource("4_k6luq")
+theme_override_font_sizes/font_size = 96
+text = " 0"
+horizontal_alignment = 2
+
+[node name="TitleLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="1" unique_id=2134437413]
+offset_right = 1440.0
+offset_bottom = 126.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 25
+theme_override_constants/shadow_outline_size = 50
+theme_override_fonts/font = ExtResource("3_icr0c")
+theme_override_font_sizes/font_size = 92
+text = " ~ chlorobattle ~"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="TimerLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="2" unique_id=33690586]
+custom_minimum_size = Vector2(720, 50)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -720.0
+offset_top = -480.0
+offset_right = 720.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 25
+theme_override_fonts/font = ExtResource("4_k6luq")
+theme_override_font_sizes/font_size = 96
+text = "60"
+
+[node name="InstructionLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="3" unique_id=1544000160]
+offset_right = 1440.0
+offset_bottom = 955.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("4_k6luq")
+theme_override_font_sizes/font_size = 28
+text = "!join <pawn> <style> <item>"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="CheatSheetLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="4" unique_id=1526615179]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -706.0
+offset_top = -480.0
+offset_right = 720.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_3mka6")
+theme_override_font_sizes/font_size = 18
+text = "
+
+
+
+Pawns:
+- Candle
+- Chair
+- Cyclone
+- Flicker
+- Grouper
+- Meta
+- Mummy
+- Pirate
+- Ship
+- Slug
+- Top
+
+Styles:
+- Berserk
+- Bully
+- Mighty
+- Slayer
+
+Items:
+- Antimatter
+- Dice
+- Glue
+- Flask
+- Killbot
+- Map
+- Skates
+- Tire
+- Vial"
+vertical_alignment = 1
+
+[node name="JoinLogLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="5" unique_id=1383857322]
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 1438.0
+offset_bottom = 958.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("6_8svab")
+theme_override_font_sizes/font_size = 10
+text = "sdfasdfasdf"
+horizontal_alignment = 2
+vertical_alignment = 2
+clip_text = true
+
+[connection signal="timeout" from="Timers/LobbyTimer" to="." method="_on_lobby_timer_timeout"]

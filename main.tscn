@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cffuxn634lm41"]
 
 [ext_resource type="Script" uid="uid://bgs43xc31k7aq" path="res://main.gd" id="1_n8rpp"]
-[ext_resource type="PackedScene" uid="uid://cm3b1237vf4gp" path="res://boards/lobby/board_lobby.tscn" id="2_vivmo"]
-[ext_resource type="PackedScene" uid="uid://ch76wjuemdxbt" path="res://boards/arena/board_arena.tscn" id="3_vivmo"]
-[ext_resource type="PackedScene" uid="uid://ho6tkp6dud6o" path="res://boards/score/board_score.tscn" id="4_vivmo"]
+[ext_resource type="PackedScene" uid="uid://cm3b1237vf4gp" path="res://boards/1lobby/board_lobby.tscn" id="2_vivmo"]
+[ext_resource type="PackedScene" uid="uid://ch76wjuemdxbt" path="res://boards/2arena/board_arena.tscn" id="3_vivmo"]
+[ext_resource type="PackedScene" uid="uid://ho6tkp6dud6o" path="res://boards/3score/board_score.tscn" id="4_vivmo"]
 [ext_resource type="PackedScene" uid="uid://cstxrttnm6t0w" path="res://pawns/candle/candle_pawn.tscn" id="5_662a5"]
 [ext_resource type="PackedScene" uid="uid://hbkaf6ui8o53" path="res://pawns/chair/chair_pawn.tscn" id="6_64ig7"]
 [ext_resource type="PackedScene" uid="uid://qjonte0obwms" path="res://pawns/flicker/flicker_pawn.tscn" id="7_k15sd"]

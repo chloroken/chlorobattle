@@ -19,7 +19,7 @@ var followDistanceMin
 var followDistanceMax
 
 # Special flags
-var isPersistentSummon = true
+#var isPersistentSummon = true
 
 func _ready() -> void:
 	

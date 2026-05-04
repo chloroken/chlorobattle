@@ -1,4 +1,4 @@
-extends "res://pawns/base/base_pawn.gd"
+extends "res://pawns/_base/base_pawn.gd"
 
 @export var slugAttack: PackedScene
 var slugAttackSpeed = 1.0
@@ -13,7 +13,7 @@ func _ready() -> void:
 	if !attacksDisabled: start_attack_cooldown()
 	
 func start_attack_cooldown() -> void:
-	var oozeCooldown = asp * slugAttackSpeed + random_variance()
+	var oozeCooldown = asp * slugAttackSpeed
 	$AttackCooldownTimer.start(oozeCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:
@@ -33,4 +33,4 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	if healthToRegen > 0:
 		hp += healthToRegen
 		damageHealed += healthToRegen
-		combat_log("[" + str(username) + "] healed for " + str("%0.2f" % healthToRegen) + " (Regen)")
+		$Combat.combat_log("[" + str(username) + "] healed for " + str("%0.2f" % healthToRegen) + " (Regen)")

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://b4j3c6ga861dj"]
+
+[ext_resource type="Script" uid="uid://cji8e22ligyx2" path="res://items/_base/_attack/item_attack.gd" id="1_8ws7o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8ws7o"]
+radius = 32.0
+
+[node name="ItemAttack" type="Area2D" unique_id=1943530875]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_8ws7o")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1518436511]
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=488781003]
+shape = SubResource("CircleShape2D_8ws7o")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1163082843]

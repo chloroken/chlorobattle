@@ -1,4 +1,4 @@
-extends "res://pawns/base/attack/base_attack.gd"
+extends "res://pawns/_base/_attack/base_attack.gd"
 
 func _ready() -> void:
 	
