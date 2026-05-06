@@ -124,3 +124,7 @@ theme_override_font_sizes/font_size = 16
 text = "RATIO
 "
 horizontal_alignment = 1
+
+[node name="AutoplayTimer" type="Timer" parent="." index="5" unique_id=267100275]
+
+[connection signal="timeout" from="AutoplayTimer" to="." method="_on_autoplay_timer_timeout"]

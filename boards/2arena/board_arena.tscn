@@ -15,6 +15,7 @@ monsterSpawner = ExtResource("3_2ogqa")
 
 [node name="BoardChime" parent="Sounds" parent_id_path=PackedInt32Array(374238704) index="0" unique_id=960067565]
 stream = ExtResource("3_epplf")
+volume_db = -15.0
 
 [node name="DamageModTimer" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="0" unique_id=368333629]
 offset_right = 1440.0
@@ -48,29 +49,25 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="KillFeedLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="3" unique_id=834856882]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -960.0
-offset_right = 1440.0
-grow_vertical = 0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1440.0
+offset_bottom = 960.0
+grow_horizontal = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("4_epplf")
 theme_override_font_sizes/font_size = 10
 horizontal_alignment = 2
-vertical_alignment = 2
 
 [node name="CombatLogLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="4" unique_id=130905668]
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1440.0
 offset_top = -960.0
-grow_horizontal = 0
+offset_right = 1440.0
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)

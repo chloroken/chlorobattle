@@ -4,10 +4,16 @@
 [ext_resource type="Script" uid="uid://sf72w2j3etpf" path="res://monsters/worm/monster_worm.gd" id="2_awil3"]
 [ext_resource type="Texture2D" uid="uid://bf56x0ulbh0cc" path="res://monsters/worm/monster_worm.png" id="3_awil3"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_awil3"]
+radius = 8.062258
+
 [node name="MonsterWorm" unique_id=2058281219 instance=ExtResource("1_bkas1")]
 script = ExtResource("2_awil3")
 
 [node name="MonsterSprite" parent="." index="0" unique_id=1972181515]
 texture = ExtResource("3_awil3")
+
+[node name="Collider" parent="." index="1" unique_id=1000374470]
+shape = SubResource("CircleShape2D_awil3")
 
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

@@ -107,7 +107,7 @@ func spawn_pawns(i: int) -> void:
 	newPawn.item = pawn.item
 
 	add_child(newPawn)
-	print("Spawned " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "] for " + newPawn.username)
+	update_combat_log("Spawned " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "] for " + newPawn.username)
 
 func evenly_spaced_position(i: int) -> Vector2:
 	var rot = 2 * PI * i / get_parent().pawnList.size()
@@ -119,7 +119,7 @@ func update_kill_feed(msg: String) -> void:
 	var newString = ""
 	# Iterate backwards
 	for i in range(min(killFeedLineCount - 1, killFeedText.size() - 1), -1, -1):
-		newString += "\n" + killFeedText[i]
+		newString += killFeedText[i] + "\n"
 	$UI.get_node("KillFeedLabel").text = newString
 
 func update_combat_log(msg: String) -> void:

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ih581y3mimkx"]
 
 [ext_resource type="Script" uid="uid://dnjkdksqlms02" path="res://monsters/_base/monster_base.gd" id="1_qg1te"]
-[ext_resource type="PackedScene" uid="uid://65pjn4iodnuf" path="res://combat/monster/combat_monster.tscn" id="2_sej5v"]
+[ext_resource type="PackedScene" uid="uid://65pjn4iodnuf" path="res://monsters/_base/combat/combat_monster.tscn" id="2_sej5v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u016e"]
 radius = 8.0

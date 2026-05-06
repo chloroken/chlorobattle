@@ -4,11 +4,17 @@
 [ext_resource type="Script" uid="uid://elrchpclaylu" path="res://monsters/fiend/monster_fiend.gd" id="2_mvx7f"]
 [ext_resource type="Texture2D" uid="uid://pvlauxyscv40" path="res://monsters/fiend/monster_fiend.png" id="3_ocnyr"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ocnyr"]
+radius = 24.0
+
 [node name="MonsterFiend" unique_id=2058281219 instance=ExtResource("1_20y6s")]
 script = ExtResource("2_mvx7f")
 
 [node name="MonsterSprite" parent="." index="0" unique_id=1972181515]
 texture = ExtResource("3_ocnyr")
+
+[node name="Collider" parent="." index="1" unique_id=1000374470]
+shape = SubResource("CircleShape2D_ocnyr")
 
 [node name="MonsterHpBack" parent="." index="3" unique_id=34814012]
 offset_left = -24.0

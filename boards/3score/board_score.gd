@@ -2,9 +2,14 @@ extends "res://boards/_base/board_base.gd"
 
 var pawnType
 var maxPawnScores = 16
+var autoPlay = false
 
 func _ready() -> void:
 	super()
+	
+	#autoPlay = true
+	if autoPlay:
+		$AutoplayTimer.start(15.0)
 
 	var pawnCount = get_parent().scoreList.size()
 	if pawnCount < 16:
@@ -55,3 +60,6 @@ func call_pawn_scores() -> void:
 		#get_node("ScoreContainer/RatioLabel").text += str("%0.1f" % dmgRatio) + "\n"
 		i += 1
 		if i > maxPawnScores: break
+
+func _on_autoplay_timer_timeout() -> void:
+	get_tree().reload_current_scene()

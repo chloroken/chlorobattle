@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cmnoii1ldrhis" path="res://boards/_base/board_base.gd" id="1_4ni8t"]
 [ext_resource type="PackedScene" uid="uid://cx5lla7qrwqqi" path="res://boards/_base/area/board_area.tscn" id="1_aert6"]
-[ext_resource type="Texture2D" uid="uid://dgvli2pph220d" path="res://assets/graphics/arena_fancy1080.png" id="2_4ni8t"]
-[ext_resource type="Texture2D" uid="uid://cyw7q2e5nbcy1" path="res://assets/graphics/board_art_3.png" id="3_4ni8t"]
+[ext_resource type="Texture2D" uid="uid://dgvli2pph220d" path="res://boards/_base/graphics/arena_fancy1080.png" id="2_4ni8t"]
+[ext_resource type="Texture2D" uid="uid://cyw7q2e5nbcy1" path="res://boards/_base/graphics/board_art_3.png" id="3_4ni8t"]
 
 [node name="BoardBase" type="Node2D" unique_id=1844479333]
 script = ExtResource("1_4ni8t")

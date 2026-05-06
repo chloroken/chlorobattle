@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://by8wtod0sp8dr" path="res://pawns/_base/base_pawn.gd" id="1_o1hwx"]
 [ext_resource type="PackedScene" uid="uid://dtwjy1c4sv3fl" path="res://pawns/_base/gui/gui.tscn" id="5_cjful"]
-[ext_resource type="PackedScene" uid="uid://bvuo3yaraeyqs" path="res://status/_base/status.tscn" id="6_33m71"]
-[ext_resource type="PackedScene" uid="uid://crh2qlcijypen" path="res://styles/_base/styles.tscn" id="7_56xb5"]
-[ext_resource type="PackedScene" uid="uid://3ykwu6msspwm" path="res://combat/pawn/combat_pawn.tscn" id="10_56xb5"]
-[ext_resource type="Texture2D" uid="uid://dhi1t62xhq12m" path="res://styles/bully/bully_circle.png" id="22_1sae3"]
-[ext_resource type="PackedScene" uid="uid://c6l8nrwc5467f" path="res://items/_base/items.tscn" id="23_tuq4u"]
+[ext_resource type="PackedScene" uid="uid://bvuo3yaraeyqs" path="res://pawns/_base/status/status.tscn" id="6_33m71"]
+[ext_resource type="PackedScene" uid="uid://crh2qlcijypen" path="res://pawns/_base/styles/styles.tscn" id="7_56xb5"]
+[ext_resource type="PackedScene" uid="uid://3ykwu6msspwm" path="res://pawns/_base/combat/combat_pawn.tscn" id="10_56xb5"]
+[ext_resource type="Texture2D" uid="uid://dhi1t62xhq12m" path="res://pawns/_base/styles/bully/bully_circle.png" id="22_1sae3"]
+[ext_resource type="PackedScene" uid="uid://c6l8nrwc5467f" path="res://pawns/_base/items/items.tscn" id="23_tuq4u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
 radius = 12.0

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dc7eb1jfohlkc"]
+
+[ext_resource type="PackedScene" uid="uid://b4j3c6ga861dj" path="res://pawns/_base/items/_attack/item_attack.tscn" id="1_m4qg6"]
+[ext_resource type="Script" uid="uid://wd61x481l71" path="res://pawns/_base/items/killbot/saw/item_killbot_saw.gd" id="2_ck8wb"]
+[ext_resource type="Texture2D" uid="uid://df3u16k25cbkg" path="res://pawns/_base/items/killbot/saw/item_killbot_saw.png" id="3_mm576"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mm576"]
+radius = 16.0
+
+[node name="ItemKillbotSaw" unique_id=1943530875 instance=ExtResource("1_m4qg6")]
+script = ExtResource("2_ck8wb")
+
+[node name="Sprite" parent="." index="0" unique_id=1518436511]
+texture = ExtResource("3_mm576")
+
+[node name="Collider" parent="." index="1" unique_id=488781003]
+shape = SubResource("CircleShape2D_mm576")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

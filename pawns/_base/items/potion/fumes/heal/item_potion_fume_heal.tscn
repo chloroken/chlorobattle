@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://r4uhkl023mdr"]
+
+[ext_resource type="Script" uid="uid://cbr5qn7nabgex" path="res://pawns/_base/items/potion/fumes/heal/item_potion_fume_heal.gd" id="1_5ud27"]
+[ext_resource type="Texture2D" uid="uid://bve1imntxg4ch" path="res://pawns/_base/items/potion/fumes/heal/item_potion_fume_heal.png" id="2_f8bv2"]
+
+[node name="ItemPotionFumeHeal" type="Node2D" unique_id=1494227703]
+script = ExtResource("1_5ud27")
+
+[node name="ItemPotionFumeHealSprite" type="Sprite2D" parent="." unique_id=388852402]
+texture = ExtResource("2_f8bv2")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=2072617106]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

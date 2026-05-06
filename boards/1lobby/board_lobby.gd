@@ -11,15 +11,15 @@ func _ready() -> void:
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 
 	# Create random bots to test with
-	for i in 24:
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	#for i in 1:
+		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 	#for i in 1:
 		#register_pawn("Bot " + str(i+1), "meta", choose_random_style(), choose_random_item())
 		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	register_pawn("chloro", "meta", "slayer", "potion")
-	#register_pawn("nebby", "slug", "bully", "killbot")
+	#register_pawn("fish", "ship", "mighty", "glue")
+	#register_pawn("prof", "ship", "bully", "map")
 
 	# Start lobby timer
 	$Timers.get_node("LobbyTimer").set_wait_time(lobbyTimer)
@@ -28,6 +28,11 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	$UI.get_node("TimerLabel").text = " " + str(int($Timers.get_node("LobbyTimer").time_left))
 	if get_parent().pawnList.size() > 0: $UI.get_node("JoinerCount").text = str(int(get_parent().pawnList.size())) + " "
+
+	# duels
+	#if get_parent().pawnList.size() >= 2:
+		#get_parent().pawnList.shuffle()
+		#get_parent().switch_board("arena")
 
 func _on_lobby_timer_timeout() -> void:
 	get_parent().pawnList.shuffle()
@@ -95,20 +100,21 @@ func choose_random_style() -> String:
 	return(allStyleTypes[i])
 
 func get_pawn_item(message: String):
-	if "antimatter" in message: return("antimatter")
-	elif "dice" in message: return("dice")
+	#if "antimatter" in message: return("antimatter")
+	if "dice" in message: return("dice")
 	elif "flask" in message: return("flask")
 	elif "glue" in message: return("glue")
 	elif "killbot" in message: return("killbot")
 	elif "map" in message: return("map")
 	#elif "milkshake" in message: return("milkshake")
 	elif "potion" in message: return("potion")
+	elif "vial" in message: return("potion")
 	elif "skates" in message: return("skates")
 	elif "tire" in message: return("tire")
 	elif "tyre" in message: return("tire")
 	else: return(choose_random_item())
 func choose_random_item() -> String:
-	var allItemTypes = ["antimatter", "dice", "flask", "glue", "killbot", "map", "potion", "skates", "tire"]
+	var allItemTypes = ["dice", "flask", "glue", "killbot", "map", "potion", "skates", "tire"]
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])
 

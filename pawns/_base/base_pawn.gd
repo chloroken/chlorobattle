@@ -28,7 +28,7 @@ var direction
 var statusSpdMod = 1
 
 # Score variables
-var nameCharLimit = 6
+var nameCharLimit = 9
 var damageTaken = 0
 var damageDealt = 0
 var damageHealed = 0
@@ -84,7 +84,6 @@ func new_direction() -> Vector2:
 func _on_area_entered(area: Area2D) -> void:
 	$Combat.get_node("Pawn").combat_pawn(area)
 	$Combat.get_node("Item").combat_item(area, self)
-	#$Combat.get_node("Monster")
 func _on_bully_area_area_entered(area: Area2D) -> void:
 	$Combat.get_node("Style").bully_hit(area)
 func status_damage(statusType) -> void:

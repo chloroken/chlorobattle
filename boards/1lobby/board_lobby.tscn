@@ -121,15 +121,14 @@ Styles:
 - Slayer
 
 Items:
-- Antimatter
 - Dice
 - Glue
 - Flask
 - Killbot
 - Map
+- Potion
 - Skates
-- Tire
-- Vial"
+- Tire"
 vertical_alignment = 1
 
 [node name="JoinLogLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="5" unique_id=1383857322]

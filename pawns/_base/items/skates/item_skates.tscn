@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://t0a841qmypk6"]
+
+[ext_resource type="PackedScene" uid="uid://b4j3c6ga861dj" path="res://pawns/_base/items/_attack/item_attack.tscn" id="1_nm2jv"]
+[ext_resource type="Script" uid="uid://2sbunx0dv3pj" path="res://pawns/_base/items/skates/item_skates.gd" id="2_w2btu"]
+[ext_resource type="Texture2D" uid="uid://d4eth0ufuxd8u" path="res://pawns/_base/items/skates/item_skates.png" id="3_8rtid"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ib6v"]
+size = Vector2(10, 14)
+
+[node name="ItemSkates" unique_id=1943530875 instance=ExtResource("1_nm2jv")]
+script = ExtResource("2_w2btu")
+
+[node name="Sprite" parent="." index="0" unique_id=1518436511]
+texture = ExtResource("3_8rtid")
+
+[node name="Collider" parent="." index="1" unique_id=488781003]
+shape = SubResource("RectangleShape2D_7ib6v")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cx5lla7qrwqqi"]
 
-[ext_resource type="Texture2D" uid="uid://cgxiq7g47fwug" path="res://assets/graphics/arena720.png" id="1_d7r55"]
+[ext_resource type="Texture2D" uid="uid://cgxiq7g47fwug" path="res://boards/_base/graphics/arena720.png" id="1_d7r55"]
 [ext_resource type="Script" uid="uid://biiqsnxca3mck" path="res://boards/_base/area/board_area.gd" id="1_q80fc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gg14b"]
