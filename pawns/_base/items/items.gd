@@ -111,13 +111,12 @@ func item_try_glue(attackingPawn) -> void:
 ###########
 
 @export var killbot: PackedScene
-var killbotDamage = 20
+var killbotDamage = 10 
 var killbotCooldownMin = 2.0
 var killbotCooldownMax = 3.0
 var killbotSpeed = 50
-#var killbotBulletSpeed = 75
 var killbotStackMax = 3
-var killbotStackSize = 0.5
+var killbotStackSize = 0.25 
 var killbotStackDamage = 5
 var killbotStackAttackSpeed = 25
 var killbotStackResetTimer = 10.0
@@ -341,8 +340,9 @@ func _on_tire_attack_timer_timeout() -> void:
 
 	basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] lost a wheel (Tire)")
 
-func try_tire_stuck(body) -> void:
-	if !body.isTireAttack: return
-	basePawn.get_node("Status").start_stuck(body.stuckDuration)
-	var randomCooldown = randf_range(tireCooldownMin, tireCooldownMax)
-	basePawn.get_node("Items/TireAttackTimer").start(randomCooldown)
+func try_tire_stuck(attack) -> void:
+	if attack.isTireAttack:
+		basePawn.get_node("Status").start_stuck(attack.stuckDuration)
+		var randomCooldown = randf_range(tireCooldownMin, tireCooldownMax)
+		var attackingPawnItems = attack.get_parent().get_parent().get_node("Items")
+		attackingPawnItems.get_node("TireAttackTimer").start(randomCooldown)

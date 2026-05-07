@@ -27,10 +27,15 @@ class Pawn:
 	var type = ""
 	var style = ""
 	var item = ""
+	var team = ""
 	var damageTaken = 0
 	var damageDealt = 0
 	var damageHealed = 0
 	var killCount = 0
+
+# Mode flags
+var teamsEnabled = true
+var maxPlayers = 8
 
 # Drawing layers
 var layerArena = 1

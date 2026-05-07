@@ -15,6 +15,7 @@ func bully_hit(victim) -> void:
 	if !victim.get_collision_layer_value(1): return
 	if victim.username == basePawn.username: return
 	if !victim.get_node("Status").get_node("VoidStatusTimer").is_stopped(): return
+	if victim.team == basePawn.team: return
 	styles.style_bully_trigger(victim)
 	status.start_sprint(styles.bullyStackCount * styles.bullySprintDuration)
 	victim.get_node("Status").start_slow(styles.bullyStackCount * styles.bullySlowDuration)

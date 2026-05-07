@@ -38,6 +38,7 @@ func _ready() -> void:
 		newPawn.name = pawn.username
 		newPawn.username = pawn.username # str(randf()) # 
 		newPawn.type = pawn.type
+		newPawn.team = pawn.team
 		add_child(newPawn)
 
 	# Calculate scores for scoreboard

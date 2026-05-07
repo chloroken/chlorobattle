@@ -172,7 +172,8 @@ func stop_tanky() -> void:
 	disable_status_icon(tankyIcon)
 	$TankyStatusTimer.stop()
 func tanky_reduce_damage() -> float:
-	return(1 - tankyDamageReduction)
+	if $TankyStatusTimer.is_stopped(): return(1.0)
+	return(1.0 - tankyDamageReduction)
 
 ########
 # VOID #

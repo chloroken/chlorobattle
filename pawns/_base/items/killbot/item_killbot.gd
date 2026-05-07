@@ -37,8 +37,8 @@ func _ready() -> void:
 
 # Set scale based on Killbot Stacks
 func _process(_delta: float) -> void:
-	scale.x = sizePerStack + (sizePerStack * killbotStacks)
-	scale.y = sizePerStack + (sizePerStack * killbotStacks)
+	scale.x = 1.0 + (sizePerStack * killbotStacks)
+	scale.y = 1.0 + (sizePerStack * killbotStacks)
 
 func _physics_process(delta: float) -> void:
 
@@ -82,8 +82,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	var newSaw = killbotSaw.instantiate()
 	newSaw.killbotParent = self
 	newSaw.position = self.position
-	newSaw.scale.x = sizePerStack + (sizePerStack * killbotStacks)
-	newSaw.scale.y = sizePerStack + (sizePerStack * killbotStacks)
+	newSaw.scale.x = 1.0 + (sizePerStack * killbotStacks)
+	newSaw.scale.y = 1.0 + (sizePerStack * killbotStacks)
 	newSaw.dmg = dmgBase + (dmgPerStack * killbotStacks)
 	newSaw.attackName = "Killbot"
 	newSaw.duration = get_parent().get_parent().get_node("Items").killbotSawDuration

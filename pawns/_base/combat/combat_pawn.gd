@@ -27,6 +27,15 @@ func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
 	get_parent().queue_free()
 	if mainBoard.pawnList.size() <= 1:
 		update_scoreboard(mainBoard, attackingPawn, pawnIndex, true)
+	else:
+		var oneTeamRemains = true
+		var pawnTeam = get_parent().get_parent().get_parent().pawnList[0].team
+		for p in get_parent().get_parent().get_parent().pawnList:
+			if p.team != pawnTeam:
+				oneTeamRemains = false
+				break
+		if oneTeamRemains:
+			update_scoreboard(mainBoard, attackingPawn, pawnIndex, true)
 func make_tombstone(pawn) -> void:
 	var newTombstone = tombstone.instantiate()
 	newTombstone.global_position = global_position
@@ -40,6 +49,7 @@ func update_scoreboard(mainBoard, pawn, pawnIndex, last) -> void:
 	newScore.type = pawn.type
 	newScore.style = pawn.style
 	newScore.item = pawn.item
+	newScore.team = pawn.team
 	newScore.damageTaken = pawn.damageTaken
 	newScore.damageDealt = pawn.damageDealt
 	newScore.damageHealed = pawn.damageHealed

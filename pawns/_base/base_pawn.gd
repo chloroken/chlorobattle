@@ -40,6 +40,8 @@ var sprintSpeed = 2.0
 var slowSpeed = 0.5
 var stuckSpeed = 0.0
 
+var team
+
 func _ready() -> void:
 
 	# Initial setup

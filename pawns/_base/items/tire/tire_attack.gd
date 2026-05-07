@@ -1,4 +1,4 @@
-extends "res://items/_base/_attack/item_attack.gd"
+extends "res://pawns/_base/items/_attack/item_attack.gd"
 
 # Board variables
 var center

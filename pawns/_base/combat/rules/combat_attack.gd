@@ -19,6 +19,7 @@ func combat_pawn(attack) -> void:
 	var attacker = attack.get_parent().get_parent()
 	var attackerUsername = attacker.username
 	if attackerUsername == basePawn.username || basePawn.hitList.has(attack): return
+	if attacker.team == basePawn.team: return
 
 	# Combat procedure
 	guaranteed_effects(attack, attacker)

@@ -20,7 +20,7 @@ var startingPlayerCount
 
 func _ready() -> void:
 	super()
-	
+
 	Engine.set_time_scale(1)
 	startingPlayerCount = get_parent().pawnList.size()
 
@@ -44,6 +44,16 @@ func _process(_delta: float) -> void:
 	# When only one Pawn remains, proceed to next board
 	if get_parent().pawnList.size() <= 1:
 		get_parent().switch_board("score")
+	# team endgame
+	else:
+		var oneTeamRemains = true
+		var pawnTeam = get_parent().pawnList[0].team
+		for pawn in get_parent().pawnList:
+			if pawn.team != pawnTeam:
+				oneTeamRemains = false
+				break
+		if oneTeamRemains:
+			get_parent().switch_board("score")
 
 	# Label showing "global damage modifer" (to delay instakills at start)
 	globalDmgMod = min(dmgModDuration, $Timers.get_node("ArenaCloseTimer").get_wait_time() - $Timers.get_node("ArenaCloseTimer").get_time_left())
@@ -105,6 +115,7 @@ func spawn_pawns(i: int) -> void:
 	newPawn.type = pawn.type
 	newPawn.style = pawn.style
 	newPawn.item = pawn.item
+	newPawn.team = pawn.team
 
 	add_child(newPawn)
 	update_combat_log("Spawned " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "] for " + newPawn.username)

@@ -6,20 +6,21 @@ var lobbyJoiners = []
 func _ready() -> void:
 	super()
 
-	# LET TWITCH COOK
+	# LET TWITCH COOK (and jonkle)
 	#VerySimpleTwitch.get_token_and_login_chat()
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 
 	# Create random bots to test with
-	#for i in 1:
-		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	for i in 8:
+		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 	#for i in 1:
 		#register_pawn("Bot " + str(i+1), "meta", choose_random_style(), choose_random_item())
 		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create specific test bots
-	#register_pawn("fish", "ship", "mighty", "glue")
-	#register_pawn("prof", "ship", "bully", "map")
+	#register_pawn("iFlux", "candle", "berserk", "dice")
+	#register_pawn("chloro", "grouper", "mighty", "flask")
+	#register_pawn("jonkle", choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Start lobby timer
 	$Timers.get_node("LobbyTimer").set_wait_time(lobbyTimer)
@@ -29,13 +30,19 @@ func _process(_delta: float) -> void:
 	$UI.get_node("TimerLabel").text = " " + str(int($Timers.get_node("LobbyTimer").time_left))
 	if get_parent().pawnList.size() > 0: $UI.get_node("JoinerCount").text = str(int(get_parent().pawnList.size())) + " "
 
-	# duels
-	#if get_parent().pawnList.size() >= 2:
-		#get_parent().pawnList.shuffle()
-		#get_parent().switch_board("arena")
+	# teams
+	if get_parent().teamsEnabled:
+		if get_parent().pawnList.size() >= get_parent().maxPlayers:
+			var pawns = get_parent().pawnList
+			pawns.shuffle()
+			for i in pawns.size():
+				if i % 2 == 0: pawns[i].team = "blue"
+				else: pawns[i].team = "gold"
+			get_parent().pawnList.shuffle()
+			get_parent().switch_board("arena")
 
 func _on_lobby_timer_timeout() -> void:
-	get_parent().pawnList.shuffle()
+
 	get_parent().switch_board("arena")
 
 # Scrape Twitch chat & look for joiners
@@ -56,6 +63,7 @@ func register_pawn(username: String, type: String, style = "random", item = "ran
 	newPawn.type = type
 	newPawn.style = style
 	newPawn.item = item
+	newPawn.team = ""
 	get_parent().pawnList.append(newPawn)
 	spawn_lobby_pawn(newPawn)
 	var logMsg = newPawn.username + " — " + newPawn.type + " — " + newPawn.style + " — " + newPawn.item

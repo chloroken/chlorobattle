@@ -16,3 +16,6 @@ func _process(_delta: float) -> void:
 	$NameLabel.text = basePawn.username.substr(0, basePawn.nameCharLimit)
 	$HitpointLabel.text = str(int(ceil(basePawn.hp)))
 	$HitpointLabelGreen.scale.x = basePawn.hp / basePawn.baseHp
+	var pawnTeam = get_parent().team
+	if pawnTeam == "blue": $HitpointLabelGreen.color = Color.DEEP_SKY_BLUE
+	elif pawnTeam == "gold": $HitpointLabelGreen.color = Color.DARK_GOLDENROD

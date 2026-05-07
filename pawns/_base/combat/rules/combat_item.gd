@@ -13,6 +13,7 @@ func combat_item(attack, pawn) -> void:
 	if !status.get_node("VoidStatusTimer").is_stopped(): return
 	if attack.get_collision_layer_value(3):
 		var attacker = attack.get_parent().get_parent()
+		if attacker.team == basePawn.team: return
 		var attackerUsername = attacker.username
 		if attackerUsername != pawn.username && !pawn.hitList.has(attack):
 			predamage_effects_phase()
