@@ -17,7 +17,7 @@ func combat_pawn(attack) -> void:
 	var attacker = attack.get_parent().get_parent()
 	guaranteed_effects(attacker)
 	if accuracy_check(attacker):
-		hit_effects(attack)
+		on_hit_effects(attack)
 		var damage = mitigation_phase(attack, attacker)
 		damage = modifier_phase(damage, attacker)
 		damage_phase(damage, attacker, attack)
@@ -41,7 +41,7 @@ func accuracy_check(attacker) -> bool:
 	if !drunkTimer.is_stopped(): hitChance -= status.drunkMissChance
 
 	# Hazy hit chance reduction
-	hitChance *= basePawn.get_node("Status").try_hazy()
+	hitChance *= attacker.get_node("Status").try_hazy()
 
 	var hitRoll = randi_range(1, 100)
 	if hitRoll > hitChance:
@@ -51,8 +51,8 @@ func accuracy_check(attacker) -> bool:
 
 	return(true)
 
-func hit_effects(attack) -> void:
-	if attack.isSoulAttack: attack.return_to_pawn()
+func on_hit_effects(attack) -> void:
+	pass
 
 func mitigation_phase(attack, attacker) -> float:
 	var baseHit = attack.dmg
@@ -84,6 +84,9 @@ func damage_effects(attack, attacker) -> void:
 	items.item_try_skating()
 	items.item_try_glue(attacker)
 	items.item_try_map()
+	
+	# Meta reaper passive
+	if attack.isSoulAttack: attack.return_to_pawn()
 
 	# Slug ooze dot
 	if attack.isSlugAttack:

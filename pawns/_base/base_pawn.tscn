@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dtwjy1c4sv3fl" path="res://pawns/_base/gui/gui.tscn" id="5_cjful"]
 [ext_resource type="PackedScene" uid="uid://bvuo3yaraeyqs" path="res://pawns/_base/status/status.tscn" id="6_33m71"]
 [ext_resource type="PackedScene" uid="uid://crh2qlcijypen" path="res://pawns/_base/styles/styles.tscn" id="7_56xb5"]
-[ext_resource type="PackedScene" uid="uid://3ykwu6msspwm" path="res://pawns/_base/combat/combat_pawn.tscn" id="10_56xb5"]
+[ext_resource type="PackedScene" uid="uid://3ykwu6msspwm" path="res://pawns/_base/combat/pawn_combat.tscn" id="10_56xb5"]
 [ext_resource type="Texture2D" uid="uid://dhi1t62xhq12m" path="res://pawns/_base/styles/bully/bully_circle.png" id="22_1sae3"]
 [ext_resource type="PackedScene" uid="uid://c6l8nrwc5467f" path="res://pawns/_base/items/items.tscn" id="23_tuq4u"]
 

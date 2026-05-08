@@ -70,21 +70,21 @@ func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
 	pawn.queue_free()
 	
 	# If this is the last pawn, end game
-	if mainBoard.pawnList.size() <= 1:
-		update_scoreboard(board, attackingPawn)
-		mainBoard.switch_board("score")
-	# Or if teams are enabled, and only one is left, end game
-	elif mainBoard.teamsEnabled:
-		var oneTeamLeft = true
-		var pawnTeam = mainBoard.pawnList[0].team
-		for p in mainBoard.pawnList:
-			if pawnTeam != p.team:
-				oneTeamLeft = false
-				break
-		if oneTeamLeft:
-			for p in board.activePawns:
-				update_scoreboard(board, p)
-			mainBoard.switch_board("score")
+	#if mainBoard.pawnList.size() <= 1:
+		#update_scoreboard(board, attackingPawn)
+		#mainBoard.switch_board("score")
+	## Or if teams are enabled, and only one is left, end game
+	#elif mainBoard.teamsEnabled:
+		#var oneTeamLeft = true
+		#var pawnTeam = mainBoard.pawnList[0].team
+		#for p in mainBoard.pawnList:
+			#if pawnTeam != p.team:
+				#oneTeamLeft = false
+				#break
+		#if oneTeamLeft:
+			#for p in board.activePawns:
+				#update_scoreboard(board, p)
+			#mainBoard.switch_board("score")
 func make_tombstone(pawn) -> void:
 	var newTombstone = tombstone.instantiate()
 	newTombstone.global_position = global_position
