@@ -7,6 +7,7 @@ var username: String
 var type: String
 var style: String
 var item: String
+var team: String
 
 # Pawn stats
 @export var hp: float
@@ -40,20 +41,13 @@ var sprintSpeed = 2.0
 var slowSpeed = 0.5
 var stuckSpeed = 0.0
 
-var team
-
 func _ready() -> void:
-
-	# Initial setup
 	center = get_tree().get_root().get_node("main").position
 	baseHp = hp
 	direction = new_direction()
 	$AttackCooldownTimer.one_shot = true
-
-	# Set visibility order
 	z_as_relative = false
 	z_index = get_node("/root/main").layerPawn
-
 func disarm_check() -> bool:
 	if $Status.get_node("DisarmedStatusTimer").is_stopped(): return(false)
 	return(true)
@@ -69,7 +63,6 @@ func _physics_process(delta: float) -> void:
 	if !$Status.get_node("StuckStatusTimer").is_stopped(): statusSpdMod *= stuckSpeed
 	position += direction * spd * statusSpdMod * delta
 	stay_in_bounds()
-
 func stay_in_bounds() -> void:
 	if position.distance_to(center) > get_parent().boardRadius:
 		direction = new_direction()
@@ -83,11 +76,11 @@ func new_direction() -> Vector2:
 # HIT DETECTION #
 #################
 
-func _on_area_entered(area: Area2D) -> void:
-	$Combat.get_node("Pawn").combat_pawn(area)
-	$Combat.get_node("Item").combat_item(area, self)
-func _on_bully_area_area_entered(area: Area2D) -> void:
-	$Combat.get_node("Style").bully_hit(area)
+func _on_area_entered(attack: Area2D) -> void:
+	$Combat.attack_hit(attack)
+	$Combat.item_hit(attack)
+func _on_bully_area_area_entered(attack: Area2D) -> void:
+	$Combat.style_hit(attack)
 func status_damage(statusType) -> void:
 	match statusType:
 		"dot": $Combat.get_node("Status").dot_damage()

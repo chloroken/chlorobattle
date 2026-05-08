@@ -4,17 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://cm3b1237vf4gp" path="res://boards/1lobby/board_lobby.tscn" id="2_vivmo"]
 [ext_resource type="PackedScene" uid="uid://ch76wjuemdxbt" path="res://boards/2arena/board_arena.tscn" id="3_vivmo"]
 [ext_resource type="PackedScene" uid="uid://ho6tkp6dud6o" path="res://boards/3score/board_score.tscn" id="4_vivmo"]
-[ext_resource type="PackedScene" uid="uid://cstxrttnm6t0w" path="res://pawns/candle/candle_pawn.tscn" id="5_662a5"]
-[ext_resource type="PackedScene" uid="uid://hbkaf6ui8o53" path="res://pawns/chair/chair_pawn.tscn" id="6_64ig7"]
-[ext_resource type="PackedScene" uid="uid://qjonte0obwms" path="res://pawns/flicker/flicker_pawn.tscn" id="7_k15sd"]
-[ext_resource type="PackedScene" uid="uid://dadae3e4ikfp6" path="res://pawns/cyclone/cyclone_pawn.tscn" id="8_02a7c"]
-[ext_resource type="PackedScene" uid="uid://ck0eynkg55hxa" path="res://pawns/grouper/grouper_pawn.tscn" id="9_04b46"]
-[ext_resource type="PackedScene" uid="uid://cy8cwk5ifbgne" path="res://pawns/meta/meta_pawn.tscn" id="10_jjcn2"]
-[ext_resource type="PackedScene" uid="uid://dxpy0mtjt02en" path="res://pawns/mummy/mummy_pawn.tscn" id="10_ntk3o"]
-[ext_resource type="PackedScene" uid="uid://brk1m57ccp1ef" path="res://pawns/pirate/pirate_pawn.tscn" id="11_3ofjd"]
-[ext_resource type="PackedScene" uid="uid://58lj5q30abqo" path="res://pawns/ship/ship_pawn.tscn" id="12_c2lgm"]
-[ext_resource type="PackedScene" uid="uid://ddxj6u8lafeel" path="res://pawns/slug/slug_pawn.tscn" id="13_c6vfh"]
-[ext_resource type="PackedScene" uid="uid://b34t2uaa0o3nq" path="res://pawns/top/top_pawn.tscn" id="14_wwfu3"]
 
 [node name="main" type="Node2D" unique_id=453552002]
 process_mode = 3
@@ -22,16 +11,5 @@ script = ExtResource("1_n8rpp")
 lobby = ExtResource("2_vivmo")
 arena = ExtResource("3_vivmo")
 score = ExtResource("4_vivmo")
-candle = ExtResource("5_662a5")
-chair = ExtResource("6_64ig7")
-flicker = ExtResource("7_k15sd")
-cyclone = ExtResource("8_02a7c")
-grouper = ExtResource("9_04b46")
-meta = ExtResource("10_jjcn2")
-mummy = ExtResource("10_ntk3o")
-pirate = ExtResource("11_3ofjd")
-ship = ExtResource("12_c2lgm")
-slug = ExtResource("13_c6vfh")
-top = ExtResource("14_wwfu3")
 
 [node name="cam" type="Camera2D" parent="." unique_id=690321007]

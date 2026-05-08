@@ -1,5 +1,9 @@
 extends Node
 
+################
+# STATUS RULES #
+################
+
 func dot_damage() -> void:
 	var basePawn = get_parent().get_parent()
 	var pawnStatus = basePawn.get_node("Status")

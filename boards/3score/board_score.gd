@@ -1,16 +1,11 @@
 extends "res://boards/_base/board_base.gd"
 
-var pawnType
 var maxPawnScores = 16
-var autoPlay = false
 
 func _ready() -> void:
 	super()
-	
-	#autoPlay = true
-	if autoPlay:
-		$AutoplayTimer.start(15.0)
 
+	# Change "scoreboard" to "top 16" for large audiences
 	var pawnCount = get_parent().scoreList.size()
 	if pawnCount < 16:
 		$UI.get_node("TitleLabel").text = "~ scoreboard ~"
@@ -21,26 +16,8 @@ func _ready() -> void:
 
 	# Spawn disarmed winning Pawn to show off
 	for pawn in get_parent().pawnList:
-		if pawn.type == "candle": pawnType = get_parent().candle
-		elif pawn.type == "chair": pawnType = get_parent().chair
-		elif pawn.type == "cyclone": pawnType = get_parent().cyclone
-		elif pawn.type == "flicker": pawnType = get_parent().flicker
-		elif pawn.type == "grouper": pawnType = get_parent().grouper
-		elif pawn.type == "meta": pawnType = get_parent().meta
-		elif pawn.type == "mummy": pawnType = get_parent().mummy
-		elif pawn.type == "pirate": pawnType = get_parent().pirate
-		elif pawn.type == "ship": pawnType = get_parent().ship
-		elif pawn.type == "slug": pawnType = get_parent().slug
-		elif pawn.type == "top": pawnType = get_parent().top
-		var newPawn = pawnType.instantiate()
-		var pawnOffset = Vector2(randf_range(-10, 10), randf_range(-10, 10))
-		newPawn.position = center + pawnOffset
-		newPawn.name = pawn.username
-		newPawn.username = pawn.username # str(randf()) # 
-		newPawn.type = pawn.type
-		newPawn.team = pawn.team
-		add_child(newPawn)
-
+		spawn_pawn(pawn, true)
+	
 	# Calculate scores for scoreboard
 	call_pawn_scores()
 
@@ -49,7 +26,12 @@ func call_pawn_scores() -> void:
 	var i = 1
 	for pawn in get_parent().scoreList:
 		$UI.get_node("ScoreContainer/PlacementLabel").text += str(i) + "\n"
-		$UI.get_node("ScoreContainer/UsernameLabel").text += str(pawn.username) + "\n"
+		#$UI.get_node("ScoreContainer/UsernameLabel").text += str(pawn.username) + "\n"
+		if pawn.team == "blue": $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color.DEEP_SKY_BLUE)
+		elif pawn.team == "gold": $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color.DARK_GOLDENROD)
+		else: $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color("white"))
+		$UI.get_node("ScoreContainer/UsernameLabel").add_text(str(pawn.username + "\n"))
+		$UI.get_node("ScoreContainer/UsernameLabel").pop()
 		$UI.get_node("ScoreContainer/PawnLabel").text += str(pawn.type) + "\n"
 		$UI.get_node("ScoreContainer/StyleLabel").text += str(pawn.style) + "\n"
 		$UI.get_node("ScoreContainer/ItemLabel").text += str(pawn.item) + "\n"

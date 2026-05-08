@@ -103,6 +103,24 @@ func stop_drunk() -> void:
 	disable_status_icon(drunkIcon)
 	$DrunkStatusTimer.stop()
 
+########
+# HAZY #
+########
+@export var hazyIcon: Resource
+var hazyMissChance = 0.5
+func start_hazy(timer: float) -> void:
+	if $HazyStatusTimer.get_time_left() > timer: return
+	$HazyStatusTimer.start(timer)
+	enable_status_icon(timer, hazyIcon)
+func stop_hazy() -> void:
+	disable_status_icon(hazyIcon)
+	$HazyStatusTimer.stop()
+func try_hazy() -> float:
+	var hazyChance = 1.0
+	if !$HazyStatusTimer.is_stopped():
+		hazyChance = hazyMissChance
+	return(hazyChance)
+
 ##########
 # SCARED #
 ##########

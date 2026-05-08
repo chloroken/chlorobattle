@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c0isnoaybkehl"]
 
-[ext_resource type="Script" uid="uid://bgxgvhmhghwc8" path="res://pawns/_base/_attack/base_attack.gd" id="1_n81av"]
+[ext_resource type="Script" uid="uid://bgxgvhmhghwc8" path="res://pawns/_base/attack/base_attack.gd" id="1_n81av"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2me13"]
 radius = 8.0

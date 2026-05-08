@@ -60,8 +60,6 @@ func _physics_process(delta: float) -> void:
 	#if following && position.distance_to(destination) < followDistanceMin: following = false
 
 func get_good_destination(pawnPos) -> Vector2:
-	print("getting new desto")
-
 	var offsetPos
 	var offsetAmount = 100
 	var maxRadius = get_parent().get_parent().get_parent().boardRadius

@@ -22,18 +22,7 @@ visible = false
 [node name="Wheel2" parent="Sprites" parent_id_path=PackedInt32Array(1877396279) index="3" unique_id=930049616]
 visible = false
 
-[node name="JoinerCount" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="0" unique_id=89089589]
-offset_right = 1440.0
-offset_bottom = 960.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 25
-theme_override_fonts/font = ExtResource("4_k6luq")
-theme_override_font_sizes/font_size = 96
-text = " 0"
-horizontal_alignment = 2
-
-[node name="TitleLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="1" unique_id=2134437413]
+[node name="TitleLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="0" unique_id=2134437413]
 offset_right = 1440.0
 offset_bottom = 126.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -47,6 +36,16 @@ text = " ~ chlorobattle ~"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="JoinerCount" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="1" unique_id=89089589]
+offset_right = 1440.0
+offset_bottom = 960.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 25
+theme_override_fonts/font = ExtResource("4_k6luq")
+theme_override_font_sizes/font_size = 96
+text = " 0"
 
 [node name="TimerLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="2" unique_id=33690586]
 custom_minimum_size = Vector2(720, 50)
@@ -67,8 +66,71 @@ theme_override_constants/outline_size = 25
 theme_override_fonts/font = ExtResource("4_k6luq")
 theme_override_font_sizes/font_size = 96
 text = "60"
+horizontal_alignment = 2
 
-[node name="InstructionLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="3" unique_id=1544000160]
+[node name="JoinLogLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="3" unique_id=1383857322]
+offset_left = 4.0
+offset_top = -2.0
+offset_right = 1444.0
+offset_bottom = 958.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("6_8svab")
+theme_override_font_sizes/font_size = 16
+vertical_alignment = 2
+clip_text = true
+
+[node name="CheatSheetLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="4" unique_id=1526615179]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -730.0
+offset_top = -480.0
+offset_right = 710.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_3mka6")
+theme_override_font_sizes/font_size = 18
+text = "
+PAWNS
+Candle •
+Chair •
+Cyclone •
+Flicker •
+Grouper •
+Meta •
+Mummy •
+Pirate •
+Ship •
+Slug •
+Top •
+
+STYLES
+Berserk •
+Bully •
+Mighty •
+Slayer •
+
+ITEMS
+Dice •
+Glue •
+Flask •
+Killbot •
+Map •
+Potion •
+Skates •
+Tire •"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="InstructionLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="5" unique_id=1544000160]
 offset_right = 1440.0
 offset_bottom = 955.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -79,71 +141,5 @@ theme_override_font_sizes/font_size = 28
 text = "!join <pawn> <style> <item>"
 horizontal_alignment = 1
 vertical_alignment = 2
-
-[node name="CheatSheetLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="4" unique_id=1526615179]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -706.0
-offset_top = -480.0
-offset_right = 720.0
-offset_bottom = 480.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("5_3mka6")
-theme_override_font_sizes/font_size = 18
-text = "
-
-
-
-Pawns:
-- Candle
-- Chair
-- Cyclone
-- Flicker
-- Grouper
-- Meta
-- Mummy
-- Pirate
-- Ship
-- Slug
-- Top
-
-Styles:
-- Berserk
-- Bully
-- Mighty
-- Slayer
-
-Items:
-- Dice
-- Glue
-- Flask
-- Killbot
-- Map
-- Potion
-- Skates
-- Tire"
-vertical_alignment = 1
-
-[node name="JoinLogLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="5" unique_id=1383857322]
-offset_left = -2.0
-offset_top = -2.0
-offset_right = 1438.0
-offset_bottom = 958.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 5
-theme_override_fonts/font = ExtResource("6_8svab")
-theme_override_font_sizes/font_size = 10
-text = "sdfasdfasdf"
-horizontal_alignment = 2
-vertical_alignment = 2
-clip_text = true
 
 [connection signal="timeout" from="Timers/LobbyTimer" to="." method="_on_lobby_timer_timeout"]

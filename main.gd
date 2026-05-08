@@ -5,37 +5,16 @@ extends Node2D
 @export var arena: PackedScene
 @export var score: PackedScene
 
-# Load Pawns into inspector
-@export var candle: PackedScene
-@export var chair: PackedScene
-@export var flicker: PackedScene
-@export var cyclone: PackedScene
-@export var grouper: PackedScene
-@export var meta: PackedScene
-@export var mummy: PackedScene
-@export var pirate: PackedScene
-@export var ship: PackedScene
-@export var slug: PackedScene
-@export var top: PackedScene
+## Load Pawns into inspector
 
 # Data structures for passing data between boards
 var currentBoard = "lobby"
 var pawnList = []
 var scoreList = []
-class Pawn:
-	var username = ""
-	var type = ""
-	var style = ""
-	var item = ""
-	var team = ""
-	var damageTaken = 0
-	var damageDealt = 0
-	var damageHealed = 0
-	var killCount = 0
 
 # Mode flags
-var teamsEnabled = true
-var maxPlayers = 8
+var teamsEnabled = false
+var maxPlayers = 32
 
 # Drawing layers
 var layerArena = 1
@@ -69,7 +48,10 @@ func free_children() -> void:
 		if child != $cam:
 			child.queue_free()
 
-# Observer controls
+############
+# OBSERVER #
+############
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Speed Engine Time"):
 		Engine.set_time_scale(min(Engine.get_time_scale() * 2, 16.0))

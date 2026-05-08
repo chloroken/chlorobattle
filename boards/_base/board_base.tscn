@@ -3,10 +3,32 @@
 [ext_resource type="Script" uid="uid://cmnoii1ldrhis" path="res://boards/_base/board_base.gd" id="1_4ni8t"]
 [ext_resource type="PackedScene" uid="uid://cx5lla7qrwqqi" path="res://boards/_base/area/board_area.tscn" id="1_aert6"]
 [ext_resource type="Texture2D" uid="uid://dgvli2pph220d" path="res://boards/_base/graphics/arena_fancy1080.png" id="2_4ni8t"]
+[ext_resource type="PackedScene" uid="uid://cstxrttnm6t0w" path="res://pawns/candle/candle_pawn.tscn" id="2_kjwhi"]
 [ext_resource type="Texture2D" uid="uid://cyw7q2e5nbcy1" path="res://boards/_base/graphics/board_art_3.png" id="3_4ni8t"]
+[ext_resource type="PackedScene" uid="uid://hbkaf6ui8o53" path="res://pawns/chair/chair_pawn.tscn" id="3_cwgni"]
+[ext_resource type="PackedScene" uid="uid://dadae3e4ikfp6" path="res://pawns/cyclone/cyclone_pawn.tscn" id="4_crhpq"]
+[ext_resource type="PackedScene" uid="uid://qjonte0obwms" path="res://pawns/flicker/flicker_pawn.tscn" id="5_2j0hf"]
+[ext_resource type="PackedScene" uid="uid://ck0eynkg55hxa" path="res://pawns/grouper/grouper_pawn.tscn" id="6_tma3s"]
+[ext_resource type="PackedScene" uid="uid://cy8cwk5ifbgne" path="res://pawns/meta/meta_pawn.tscn" id="7_d8g17"]
+[ext_resource type="PackedScene" uid="uid://dxpy0mtjt02en" path="res://pawns/mummy/mummy_pawn.tscn" id="8_1wt1d"]
+[ext_resource type="PackedScene" uid="uid://brk1m57ccp1ef" path="res://pawns/pirate/pirate_pawn.tscn" id="9_0qca2"]
+[ext_resource type="PackedScene" uid="uid://58lj5q30abqo" path="res://pawns/ship/ship_pawn.tscn" id="10_ia5kr"]
+[ext_resource type="PackedScene" uid="uid://ddxj6u8lafeel" path="res://pawns/slug/slug_pawn.tscn" id="11_wega7"]
+[ext_resource type="PackedScene" uid="uid://b34t2uaa0o3nq" path="res://pawns/top/top_pawn.tscn" id="12_pbqqs"]
 
 [node name="BoardBase" type="Node2D" unique_id=1844479333]
 script = ExtResource("1_4ni8t")
+candle = ExtResource("2_kjwhi")
+chair = ExtResource("3_cwgni")
+cyclone = ExtResource("4_crhpq")
+flicker = ExtResource("5_2j0hf")
+grouper = ExtResource("6_tma3s")
+meta = ExtResource("7_d8g17")
+mummy = ExtResource("8_1wt1d")
+pirate = ExtResource("9_0qca2")
+ship = ExtResource("10_ia5kr")
+slug = ExtResource("11_wega7")
+top = ExtResource("12_pbqqs")
 
 [node name="Collider" parent="." unique_id=359442345 instance=ExtResource("1_aert6")]
 collision_layer = 32

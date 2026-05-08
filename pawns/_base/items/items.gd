@@ -18,8 +18,8 @@ func _ready() -> void:
 			$FlaskCooldownTimer.start(randf_range(flaskCooldownMin, flaskCooldownMax))
 		elif basePawn.item == "killbot":
 			item_spawn_killbot()
-		elif basePawn.item == "potion":
-			$PotionAttackTimer.start(randf_range(potionThrowCooldownMin, potionThrowCooldownMax))
+		elif basePawn.item == "smoke":
+			$SmokeAttackTimer.start(randf_range(smokeThrowCooldownMin, smokeThrowCooldownMax))
 		elif basePawn.item == "tire":
 			$TireAttackTimer.start(randf_range(tireCooldownMin, tireCooldownMax)) 
 
@@ -95,6 +95,7 @@ var glueStuckChance = 10
 var glueStuckDuration = 5.0
 
 func item_try_glue(attackingPawn) -> void:
+	if attackingPawn.item != "glue": return
 
 	# Apply slow
 	var status = basePawn.get_node("Status")
@@ -225,70 +226,19 @@ func _on_milkshake_delay_timer_timeout() -> void:
 
 
 ##########
-# POTION #
-##########
-
-@export var potionItem: Resource
-var potionDamage = 10
-var potionThrowCooldownMin = 5.0
-var potionThrowCooldownMax = 10.0
-var potionThrowSpeed = 5.0
-var potionThrowDuration = 1.0
-var potionFumeDuration = 10.0
-var potionFumeDotDuration = 10.0
-var potionFumeSlowDuration = 5.0
-var potionFumeStuckDuration = 1.0
-var potionBoxLength = 50
-var potionMinLength = 50
-var potionScaleMax = 2.0
-func _on_potion_attack_timer_timeout() -> void:
-
-	var newAttack = potionItem.instantiate()
-	newAttack.position = get_parent().position
-	newAttack.destination = good_potion_destination()
-	newAttack.speed = potionThrowSpeed
-	
-	get_parent().get_node("AttackContainer").add_child(newAttack)
-	$PotionAttackTimer.start(randf_range(potionThrowCooldownMin, potionThrowCooldownMax))
-
-	basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] tossed some chemicals (Potion)")
-func good_potion_destination() -> Vector2:
-	var boardRadius = get_parent().get_parent().boardRadius
-	var newOffset = Vector2(randf_range(-potionBoxLength, potionBoxLength), randf_range(-potionBoxLength, potionBoxLength))
-	var newPos = basePawn.position + newOffset
-	while center.distance_to(newPos) > boardRadius || basePawn.position.distance_to(newPos) < potionMinLength:
-		newOffset = Vector2(randf_range(-potionBoxLength, potionBoxLength), randf_range(-potionBoxLength, potionBoxLength))
-		newPos = basePawn.position + newOffset
-	return(newPos)
-func try_potion_effect(body, attackingPawn) -> bool:
-	if body.isPotionAttack:
-		var pawnItems = body.get_parent().get_parent().get_node("Items")
-		if body.isMixedUp:
-			var amountToHeal = min(basePawn.baseHp - basePawn.hp, basePawn.baseHp * 0.1)
-			basePawn.hp += amountToHeal
-			basePawn.damageHealed += amountToHeal
-
-			var logOutput = "[" + str(attackingPawn.username) + "] healed [" + str(basePawn.username) + "] for " + str(int(amountToHeal)) + " (Vial)"
-			basePawn.get_node("Combat").combat_log(logOutput)
-			return(true)
-		else:
-			basePawn.get_node("Status").start_dot(pawnItems.potionFumeDotDuration, attackingPawn)
-			basePawn.get_node("Status").start_slow(pawnItems.potionFumeSlowDuration)
-			basePawn.get_node("Status").start_stuck(pawnItems.potionFumeStuckDuration)
-	return(false)
-
-##########
 # SKATES #
 ##########
 
 @export var skatesBlade: Resource
 var skateCooldown = 5.0
 var skateDuration = 5.0
-var skateBladeDuration = 10
+var skateBladeDuration = 5.0
 var skateDotDuration = 5.0
 var skateBladeDamage = 10
+var skateBladeCount = 3
 
 func item_try_skating() -> void:
+	if basePawn.is_queued_for_deletion(): return
 	var status = get_parent().get_node("Status")
 	if basePawn.item == "skates" && $SkateCooldownTimer.is_stopped():
 
@@ -299,17 +249,58 @@ func item_try_skating() -> void:
 		basePawn.direction = -basePawn.position.direction_to(center)
 		basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] changed directions (Skates)")
 
-		# Make a blade
-		var newBlade = skatesBlade.instantiate()
-		newBlade.position = position
-		newBlade.duration = skateBladeDuration
-		newBlade.dmg = skateBladeDamage
-		get_parent().get_node("AttackContainer").add_child(newBlade)
+		# Make blades
+		for i in skateBladeCount:
+			var newBlade = skatesBlade.instantiate()
+			newBlade.position = position
+			newBlade.duration = skateBladeDuration
+			newBlade.dmg = skateBladeDamage
+			get_parent().get_node("AttackContainer").add_child(newBlade)
 
 func try_skate_blade(attacker, attack) -> void:
 	if attack.isSkateAttack:
 		basePawn.get_node("Status").start_dot(skateDotDuration, attacker)
 
+
+#########
+# SMOKE #
+#########
+
+@export var smokeItem: Resource
+var smokeDamage = 25
+var smokeThrowCooldownMin = 5.0
+var smokeThrowCooldownMax = 10.0
+var smokeThrowSpeed = 5.0
+var smokeThrowDuration = 1.0
+var smokeFumeDuration = 8.0
+var smokeCloudHazyDuration = 10.0
+var smokeBoxLength = 50
+var smokeMinLength = 50
+var smokeScaleMax = 2.0
+func _on_smoke_attack_timer_timeout() -> void:
+
+	var newAttack = smokeItem.instantiate()
+	newAttack.position = get_parent().position
+	newAttack.destination = good_smoke_destination()
+	newAttack.speed = smokeThrowSpeed
+	
+	get_parent().get_node("AttackContainer").add_child(newAttack)
+	$SmokeAttackTimer.start(randf_range(smokeThrowCooldownMin, smokeThrowCooldownMax))
+
+	basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] tossed some chemicals (smoke)")
+func good_smoke_destination() -> Vector2:
+	var boardRadius = get_parent().get_parent().boardRadius
+	var newOffset = Vector2(randf_range(-smokeBoxLength, smokeBoxLength), randf_range(-smokeBoxLength, smokeBoxLength))
+	var newPos = basePawn.position + newOffset
+	while center.distance_to(newPos) > boardRadius || basePawn.position.distance_to(newPos) < smokeMinLength:
+		newOffset = Vector2(randf_range(-smokeBoxLength, smokeBoxLength), randf_range(-smokeBoxLength, smokeBoxLength))
+		newPos = basePawn.position + newOffset
+	return(newPos)
+func try_smoke_effect(body, attackingPawn) -> bool:
+	if body.isSmokeAttack:
+		var pawnItems = body.get_parent().get_parent().get_node("Items")
+		basePawn.get_node("Status").start_hazy(pawnItems.smokeCloudHazyDuration)
+	return(false)
 
 ########
 # TIRE #
@@ -321,9 +312,9 @@ var tireCooldownMax = 10.0
 var tireBaseSpeed = 200
 var tireBounceCap = 3
 var tireSpeedMod = 0.75
-var tireDmgBase = 25
+var tireDmgBase = 30
 var tireDmgMod = 5
-var tireStuckDuration = 1.0
+var tireStuckDuration = 3.0
 
 func item_try_tire(attackingPawn) -> void:
 	if attackingPawn.item != "tire": return

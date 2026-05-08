@@ -14,5 +14,5 @@ var mummyCenter = false
 var isSlugAttack = false
 #var isTireAttack = false#
 var isEmberAttack = false
-#var isPotionAttack = false#
+#var isSmokeAttack = false#
 var isSoulAttack = false

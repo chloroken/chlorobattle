@@ -110,7 +110,6 @@ func _on_area_exited(area: Area2D) -> void:
 		if !attacksDisabled:
 			if !warpActive && $WarpCooldownTimer.is_stopped():
 				warpActive = true
-				$WarpCooldownTimer.start(warpCooldown)
 				$Status.start_void(warpVoidTimer)
 				$AttackCooldownTimer.stop()
 				$BlinkDelayTimer.stop()
@@ -118,6 +117,7 @@ func _on_area_exited(area: Area2D) -> void:
 				direction = position.direction_to(center)
 			elif warpActive:
 				warpActive = false
+				$WarpCooldownTimer.start(warpCooldown)
 				$Status.stop_void()
 				$Status.start_void(0.1)
 				start_attack_cooldown()

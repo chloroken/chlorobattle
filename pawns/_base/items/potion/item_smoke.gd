@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var vialPool: Resource
+@export var smokeCloud: Resource
 var speed
 var direction
 var destination = Vector2.ZERO
@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 	position += position.direction_to(destination) * speed * position.distance_to(destination) * delta
 
 	if position.distance_to(destination) < destReachedDist:
-		var newVial = vialPool.instantiate()
-		newVial.position = position
-		get_parent().add_child(newVial)
+		var newCloud = smokeCloud.instantiate()
+		newCloud.position = position
+		get_parent().add_child(newCloud)
 		queue_free()

@@ -9,7 +9,7 @@
 script = ExtResource("2_al8ad")
 glyphAttack = ExtResource("3_4naq4")
 hp = 360.0
-dmg = 45.0
+dmg = 30.0
 pen = 0.5
 spd = 40.0
 

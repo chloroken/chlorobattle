@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bs5clmg1ab3jy" path="res://pawns/_base/status/icons/lazy_icon.png" id="5_b2kxs"]
 [ext_resource type="Texture2D" uid="uid://hncn8l3lqv6p" path="res://pawns/_base/status/icons/scared_icon.png" id="6_c7u8v"]
 [ext_resource type="PackedScene" uid="uid://mgwdx835xyyo" path="res://pawns/_base/status/ui/status_indicator.tscn" id="7_m0l2q"]
+[ext_resource type="Texture2D" uid="uid://djgs3qslddr8m" path="res://pawns/_base/status/icons/hazy_icon.png" id="8_ocltl"]
 [ext_resource type="Texture2D" uid="uid://82nd0jblterr" path="res://pawns/_base/status/icons/slow_icon.png" id="8_yeulf"]
 [ext_resource type="Texture2D" uid="uid://cgk0fgyeieco1" path="res://pawns/_base/status/icons/sprint_icon.png" id="9_h8f8c"]
 [ext_resource type="Texture2D" uid="uid://cgv238uqehsyv" path="res://pawns/_base/status/icons/stuck_icon.png" id="10_vedkw"]
@@ -23,6 +24,7 @@ disarmedIcon = ExtResource("12_jkjos")
 dotIcon = ExtResource("2_gu5ym")
 drunkIcon = ExtResource("3_ouqoa")
 drunkEffect = ExtResource("4_nqtn6")
+hazyIcon = ExtResource("8_ocltl")
 scaredIcon = ExtResource("6_c7u8v")
 slowIcon = ExtResource("8_yeulf")
 sprintIcon = ExtResource("9_h8f8c")
@@ -39,6 +41,8 @@ one_shot = true
 [node name="DotStatusTimer" type="Timer" parent="." unique_id=1635453082]
 
 [node name="DrunkStatusTimer" type="Timer" parent="." unique_id=1738794796]
+
+[node name="HazyStatusTimer" type="Timer" parent="." unique_id=1208200685]
 
 [node name="ScaredStatusTimer" type="Timer" parent="." unique_id=1315619361]
 

@@ -1,4 +1,4 @@
-extends "res://pawns/_base/_attack/base_attack.gd"
+extends "res://pawns/_base/attack/base_attack.gd"
 
 @export var purpleAttack: Resource
 
@@ -40,7 +40,6 @@ func _process(delta: float) -> void:
 	if $FizzleTimer.get_time_left() > 1:
 		spriteAlpha = 0.25 * (1 - ($FizzleTimer.get_time_left()-1) / ($FizzleTimer.get_wait_time()-1))
 	else:
-		set_collision_layer_value(2, true)
 		spriteAlpha = $FizzleTimer.get_time_left()
 	modulate.a = spriteAlpha
 
@@ -55,6 +54,7 @@ func _on_purple_attack_timer_timeout() -> void:
 	var pawnParent = get_parent().get_parent()
 	var newAttack = purpleAttack.instantiate()
 	newAttack.position = self.position
-	newAttack.dmg = pawnParent.dmg
+	newAttack.dmg = pawnParent.dmg * 2
 	add_sibling(newAttack)
+	set_collision_layer_value(2, true)
 	$GlyphCenterSprite.modulate.a = 0

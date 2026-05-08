@@ -1,13 +1,53 @@
 extends Node2D
-
 @export var tombstone: PackedScene
 var basePawn
 
+###############
+# PAWN COMBAT #
+###############
 func _ready() -> void:
 	basePawn = get_parent()
-func clean_up_attack(body) -> void:
-	if !body.areaAttack: body.queue_free()
-	else: basePawn.hitList.append(body)
+
+func attack_hit(attack) -> void:
+	if !basePawn.get_node("Status/VoidStatusTimer").is_stopped(): return
+	if !attack.get_collision_layer_value(2): return
+	if basePawn.hitList.has(attack): return
+	var attacker = attack.get_parent().get_parent()
+	var attackerUsername = attacker.username
+	if attackerUsername == basePawn.username: return
+	var mainBoard = get_parent().get_parent().get_parent()
+	if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
+	$Pawn.combat_pawn(attack)
+	
+func item_hit(attack) -> void:
+	if !basePawn.get_node("Status/VoidStatusTimer").is_stopped(): return
+	if !attack.get_collision_layer_value(3): return
+	if basePawn.hitList.has(attack): return
+	var attacker = attack.get_parent().get_parent()
+	var attackerUsername = attacker.username
+	if attackerUsername == basePawn.username: return
+	var mainBoard = get_parent().get_parent().get_parent()
+	if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
+	$Item.combat_item(attack, basePawn)
+	
+func style_hit(victim) -> void:
+	if basePawn.attacksDisabled: return
+	if basePawn.style != "bully": return
+	if !victim.get_node("Status").get_node("VoidStatusTimer").is_stopped(): return
+	if !victim.get_collision_layer_value(1): return
+	if victim.username == basePawn.username: return
+	var mainBoard = get_parent().get_parent().get_parent()
+	if mainBoard.teamsEnabled && basePawn.team == victim.team: return
+	$Style.bully_hit(victim)
+
+#######################
+# CLEAN UP PROCEDURES #
+#######################
+
+func clean_up_attack(attack) -> void:
+	if !basePawn.get_node("Status/VoidStatusTimer").is_stopped(): return
+	if !attack.areaAttack: attack.queue_free()
+	else: basePawn.hitList.append(attack)
 func clean_up_pawn(attacker) -> void:
 	var pawns = basePawn.get_parent().get_parent().pawnList
 	if basePawn.hp <= 0:
@@ -20,22 +60,31 @@ func clean_up_pawn(attacker) -> void:
 				basePawn.get_node("Combat").pawn_death(basePawn, attacker, attacker.username, i)
 				break
 func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
+	var board = get_parent().get_parent()
+	var mainBoard = board.get_parent()
 	make_tombstone(pawn)
-	var mainBoard = get_parent().get_parent().get_parent()
-	update_scoreboard(mainBoard, get_parent(), pawnIndex, false)
+	update_scoreboard(board, pawn)
+	mainBoard.pawnList.remove_at(pawnIndex)
 	kill_log("[" + str(killer) + "] eliminated [" + str(pawn.username) + "]")
-	get_parent().queue_free()
+	board.activePawns.erase(pawn)
+	pawn.queue_free()
+	
+	# If this is the last pawn, end game
 	if mainBoard.pawnList.size() <= 1:
-		update_scoreboard(mainBoard, attackingPawn, pawnIndex, true)
-	else:
-		var oneTeamRemains = true
-		var pawnTeam = get_parent().get_parent().get_parent().pawnList[0].team
-		for p in get_parent().get_parent().get_parent().pawnList:
-			if p.team != pawnTeam:
-				oneTeamRemains = false
+		update_scoreboard(board, attackingPawn)
+		mainBoard.switch_board("score")
+	# Or if teams are enabled, and only one is left, end game
+	elif mainBoard.teamsEnabled:
+		var oneTeamLeft = true
+		var pawnTeam = mainBoard.pawnList[0].team
+		for p in mainBoard.pawnList:
+			if pawnTeam != p.team:
+				oneTeamLeft = false
 				break
-		if oneTeamRemains:
-			update_scoreboard(mainBoard, attackingPawn, pawnIndex, true)
+		if oneTeamLeft:
+			for p in board.activePawns:
+				update_scoreboard(board, p)
+			mainBoard.switch_board("score")
 func make_tombstone(pawn) -> void:
 	var newTombstone = tombstone.instantiate()
 	newTombstone.global_position = global_position
@@ -43,8 +92,8 @@ func make_tombstone(pawn) -> void:
 	newTombstone.username = pawn.username
 	var theBoard = get_parent().get_parent()
 	theBoard.add_child(newTombstone)
-func update_scoreboard(mainBoard, pawn, pawnIndex, last) -> void:
-	var newScore = mainBoard.Pawn.new()
+func update_scoreboard(board, pawn) -> void:
+	var newScore = board.Pawn.new()
 	newScore.username = pawn.username
 	newScore.type = pawn.type
 	newScore.style = pawn.style
@@ -54,8 +103,12 @@ func update_scoreboard(mainBoard, pawn, pawnIndex, last) -> void:
 	newScore.damageDealt = pawn.damageDealt
 	newScore.damageHealed = pawn.damageHealed
 	newScore.killCount = pawn.killCount
-	mainBoard.scoreList.push_front(newScore)
-	if !last: mainBoard.pawnList.remove_at(pawnIndex)
+	board.get_parent().scoreList.push_front(newScore)
+
+###########
+# LOGGING #
+###########
+
 func combat_log(msg) -> void:
 	get_parent().get_parent().update_combat_log(msg)
 	debug_log(msg)

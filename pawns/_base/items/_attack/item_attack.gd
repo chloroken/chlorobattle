@@ -5,5 +5,5 @@ var areaAttack = true
 var attackName = "itemAttack"
 var killbotParent = null
 var isTireAttack = false
-var isPotionAttack = false
+var isSmokeAttack = false
 var isSkateAttack = false
