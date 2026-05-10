@@ -13,7 +13,7 @@ func _ready() -> void:
 	if !attacksDisabled: start_attack_cooldown()
 	
 func start_attack_cooldown() -> void:
-	var oozeCooldown = asp * slugAttackSpeed
+	var oozeCooldown = asp * aspMod * slugAttackSpeed
 	$AttackCooldownTimer.start(oozeCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:

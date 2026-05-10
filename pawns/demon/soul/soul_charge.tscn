@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bg6u4d3c0hp5g"]
+
+[ext_resource type="Script" uid="uid://bphg3sbtgju5l" path="res://pawns/demon/soul/soul_charge.gd" id="1_21eit"]
+[ext_resource type="Texture2D" uid="uid://dmcokck06etma" path="res://pawns/demon/soul/soul_charge.png" id="2_oc7ns"]
+
+[node name="SoulCharge" type="Node2D" unique_id=2095817354]
+script = ExtResource("1_21eit")
+
+[node name="SoulChargeSprite" type="Sprite2D" parent="." unique_id=1407959473]
+texture = ExtResource("2_oc7ns")

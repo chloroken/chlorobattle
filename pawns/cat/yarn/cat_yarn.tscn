@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://wl82qi588r33"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_hst74"]
+[ext_resource type="Script" uid="uid://fk85m1jia8wu" path="res://pawns/cat/yarn/cat_yarn.gd" id="2_b57k5"]
+[ext_resource type="Texture2D" uid="uid://cmxf346aw5lyw" path="res://pawns/cat/yarn/cat_yarn.png" id="2_i0dq8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i0dq8"]
+radius = 15.0
+
+[node name="YarnAttack" unique_id=553809928 instance=ExtResource("1_hst74")]
+script = ExtResource("2_b57k5")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("2_i0dq8")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+position = Vector2(0, 2)
+shape = SubResource("CircleShape2D_i0dq8")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

@@ -31,7 +31,7 @@ func _ready() -> void:
 		start_attack_cooldown()
 
 func start_attack_cooldown() -> void:
-	var globuleCooldown = asp * projectileAttackSpeed
+	var globuleCooldown = asp * aspMod * projectileAttackSpeed
 	$AttackCooldownTimer.start(globuleCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:

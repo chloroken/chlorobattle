@@ -1,13 +1,11 @@
 extends Node
 
-# future statuses
-@export var lazyIcon: Resource
-@export var statusIcon: Resource
 
 ################
 # STATUS SETUP #
 ################
 
+@export var statusIcon: Resource
 var statusContainer
 var basePawn
 func _ready() -> void:
@@ -15,15 +13,8 @@ func _ready() -> void:
 	# Get container for status icons
 	statusContainer = basePawn.get_node("GUI").get_node("StatusFlowContainer")
 	# Set up status timers
-	$DisarmedStatusTimer.one_shot = true
-	$DotDamageTimer.one_shot = false
-	$DotStatusTimer.one_shot = true
-	$DrunkStatusTimer.one_shot = true
-	$SlowStatusTimer.one_shot = true
-	$SprintStatusTimer.one_shot = true
-	$StuckStatusTimer.one_shot = true
-	$VoidStatusTimer.one_shot = true
-	$WeakStatusTimer.one_shot = true
+	for child in self.get_children():
+		child.one_shot = true
 func enable_status_icon(timer, icon) -> void:
 	var statusName = str(icon.resource_path)
 	var longestCurrentStatus = 0 
@@ -44,6 +35,30 @@ func disable_status_icon(icon) -> void:
 	for status in statusContainer.get_children():
 		if status.statusName == statusName:
 			status.queue_free()
+
+#########
+# BLEED #
+#########
+@export var bleedIcon: Resource
+var bleedMinimumHp = 0.1
+var bleedPercentDamage = 0.1
+var bleedDamageInterval = 1.0
+var bleedPawnSource
+func start_bleed(timer: float, source) -> void:
+	if $BleedStatusTimer.get_time_left() > timer: return
+	bleedPawnSource = source
+	$BleedStatusTimer.start(timer)
+	$BleedDamageTimer.start(bleedDamageInterval)
+	enable_status_icon(timer, bleedIcon)
+func _on_bleed_status_timer_timeout() -> void:
+	$BleedDamageTimer.stop()
+func _on_bleed_damage_timer_timeout() -> void:
+	get_parent().status_damage("Bleed")
+	$BleedDamageTimer.start(bleedDamageInterval)
+func stop_bleed() -> void:
+	disable_status_icon(bleedIcon)
+	$BleedStatusTimer.stop()
+	$BleedDamageTimer.stop()
 
 ############
 # DISARMED #
@@ -79,8 +94,8 @@ func _on_dot_damage_timer_timeout() -> void:
 	get_parent().status_damage("dot")
 func stop_dot() -> void:
 	disable_status_icon(dotIcon)
-	$DotTriggerTimer.stop()
 	$DotStatusTimer.stop()
+	$DotDamageTimer.stop()
 
 #########
 # DRUNK #
@@ -121,6 +136,23 @@ func try_hazy() -> float:
 		hazyChance = hazyMissChance
 	return(hazyChance)
 
+########
+# LAZY #
+########
+@export var lazyIcon: Resource
+var lazyAspMod = 1.5
+func start_lazy(timer: float) -> void:
+	if $LazyStatusTimer.get_time_left() > timer: return
+	$LazyStatusTimer.start(timer)
+	enable_status_icon(timer, lazyIcon)
+	basePawn.aspMod = lazyAspMod
+func _on_lazy_status_timer_timeout() -> void:
+	basePawn.aspMod = 1.0
+func stop_lazy() -> void:
+	disable_status_icon(lazyIcon)
+	$LazyStatusTimer.stop()
+	basePawn.aspMod = 1.0
+
 ##########
 # SCARED #
 ##########
@@ -136,6 +168,30 @@ func stop_scared() -> void:
 func try_scared(body) -> void:
 	if !$ScaredStatusTimer.is_stopped():
 		basePawn.direction = -basePawn.position.direction_to(body.position)
+
+########
+# SICK #
+########
+
+@export var sickIcon: Resource
+var sickMinimumHp = 0.1
+var sickPercentDamage = 0.01
+var sickDamageInterval = 3.0
+var sickPawnSource
+func start_sick(timer: float, source) -> void:
+	if $SickStatusTimer.get_time_left() > timer: return
+	sickPawnSource = source
+	$SickDamageTimer.start(sickDamageInterval)
+	$SickStatusTimer.start(timer)
+	enable_status_icon(timer, sickIcon)
+func _on_sick_status_timer_timeout() -> void:
+	$SickDamageTimer.stop()
+func _on_sick_damage_timer_timeout() -> void:
+	get_parent().status_damage("sick")
+func stop_sick() -> void:
+	disable_status_icon(sickIcon)
+	$SickStatusTimer.stop()
+	$SickDamageTimer.stop()
 
 ########
 # SLOW #
@@ -204,7 +260,6 @@ func start_void(timer: float) -> void:
 	pawnSprite.modulate.r = 0.0
 	pawnSprite.modulate.b = 0.0
 	pawnSprite.modulate.g = 0.0
-	#get_parent().set_collision_layer_value(1, false)
 	$VoidStatusTimer.start(timer)
 	enable_status_icon(timer, voidIcon)
 func _on_void_status_timer_timeout() -> void:
@@ -213,7 +268,15 @@ func _on_void_status_timer_timeout() -> void:
 	pawnSprite.modulate.r = 1.0
 	pawnSprite.modulate.b = 1.0
 	pawnSprite.modulate.g = 1.0
-	#get_parent().set_collision_layer_value(1, true)
+
+	# run through the attacks that would have
+	# hit us and see if they're still colliding
+	for attack in basePawn.voidHitList:
+		if attack == null: continue
+		if attack.get_overlapping_areas().has(basePawn):
+			basePawn._on_area_entered(attack)
+	basePawn.voidHitList.clear()
+
 func stop_void() -> void:
 	disable_status_icon(voidIcon)
 	$VoidStatusTimer.stop()

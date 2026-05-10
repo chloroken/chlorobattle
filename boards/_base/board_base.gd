@@ -5,16 +5,17 @@ var center
 
 # Load Pawns into inspector
 @export var candle: PackedScene
+@export var cat: PackedScene
 @export var chair: PackedScene
-@export var cyclone: PackedScene
-@export var flicker: PackedScene
-@export var grouper: PackedScene
-@export var meta: PackedScene
+@export var demon: PackedScene
+@export var fish: PackedScene
+@export var mecha: PackedScene
 @export var mummy: PackedScene
 @export var pirate: PackedScene
 @export var ship: PackedScene
 @export var slug: PackedScene
 @export var top: PackedScene
+@export var witch: PackedScene
 
 var activePawns = []
 class Pawn:
@@ -47,16 +48,17 @@ func register_pawn(username: String, type: String, style = "random", item = "ran
 func spawn_pawn(pawn, attacksDisabled) -> void:
 	var pawnType
 	if pawn.type == "candle": pawnType = candle
+	elif pawn.type == "cat": pawnType = cat
 	elif pawn.type == "chair": pawnType = chair
-	elif pawn.type == "cyclone": pawnType = cyclone
-	elif pawn.type == "flicker": pawnType = flicker
-	elif pawn.type == "grouper": pawnType = grouper
-	elif pawn.type == "meta": pawnType = meta
+	elif pawn.type == "demon": pawnType = demon
+	elif pawn.type == "fish": pawnType = fish
+	elif pawn.type == "mecha": pawnType = mecha
 	elif pawn.type == "mummy": pawnType = mummy
 	elif pawn.type == "pirate": pawnType = pirate
 	elif pawn.type == "ship": pawnType = ship
 	elif pawn.type == "slug": pawnType = slug
 	elif pawn.type == "top": pawnType = top
+	elif pawn.type == "witch": pawnType = witch
 
 	# Instantiate Pawn
 	var newPawn = pawnType.instantiate()
@@ -80,19 +82,20 @@ func evenly_spaced_position(i: int) -> Vector2:
 
 func get_pawn_type(message: String):
 	if "candle" in message: return("candle")
+	elif "cat" in message: return("cat")
 	elif "chair" in message: return("chair")
-	elif "cyclone" in message: return("cyclone")
-	elif "flicker" in message: return("flicker")
-	elif "grouper" in message: return("grouper")
-	elif "meta" in message: return("meta")
+	elif "demon" in message: return("demon")
+	elif "fish" in message: return("fish")
+	elif "mecha" in message: return("mecha")
 	elif "mummy" in message: return("mummy")
 	elif "pirate" in message: return("pirate")
 	elif "ship" in message: return("ship")
 	elif "slug" in message: return("slug")
 	elif "top" in message: return("top")
+	elif "witch" in message: return("witch")
 	else: return(choose_random_pawn())
 func choose_random_pawn() -> String:
-	var allPawnTypes = ["candle", "chair", "cyclone", "flicker", "grouper", "meta", "mummy", "pirate", "ship", "slug", "top"]
+	var allPawnTypes = ["candle", "cat", "chair", "demon", "fish", "mecha", "mummy", "pirate", "ship", "slug", "top", "witch"]
 	var i = randi_range(0, allPawnTypes.size() - 1)
 	return(allPawnTypes[i])
 func get_pawn_style(message: String):

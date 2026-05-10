@@ -25,7 +25,7 @@ func _ready() -> void:
 		start_grog_cooldown()
 
 func start_attack_cooldown() -> void:
-	var parrotCooldown = asp * birdAttackCooldown
+	var parrotCooldown = asp * aspMod * birdAttackCooldown
 	$AttackCooldownTimer.start(parrotCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:

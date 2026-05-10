@@ -28,7 +28,7 @@ func start_attack_cooldown() -> void:
 	var isSprinting = $Status.get_node("SprintStatusTimer")
 	if !isSprinting.is_stopped(): atkSpdMod = sprintSpdBonus
 	
-	var sparkCd = asp * sparkCooldown * atkSpdMod
+	var sparkCd = asp * aspMod * sparkCooldown * atkSpdMod
 	$AttackCooldownTimer.start(sparkCd)
 
 func _on_attack_cooldown_timer_timeout() -> void:
@@ -37,7 +37,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 
 	# Prevent attacks if stuck
 	if !$Status.get_node("StuckStatusTimer").is_stopped():
-		$AttackCooldownTimer.start(asp * sparkCooldown)
+		$AttackCooldownTimer.start(asp * aspMod * sparkCooldown)
 		return
 
 	# Attack with a spark

@@ -19,7 +19,7 @@ func _ready() -> void:
 		$RushDurationTimer.one_shot = true
 
 func start_attack_cooldown() -> void:
-	var cooldown = asp * randf_range(swingCooldownMin, swingCooldownMax)
+	var cooldown = asp * aspMod * randf_range(swingCooldownMin, swingCooldownMax)
 	$AttackCooldownTimer.start(cooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:

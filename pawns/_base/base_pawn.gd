@@ -1,7 +1,5 @@
 extends Area2D
 
-#@export var tombstone: PackedScene
-
 # Pawn properties
 var username: String
 var type: String
@@ -21,6 +19,7 @@ var baseHp
 # Combat variables
 var attacksDisabled = false
 var hitList = []
+var voidHitList = []
 var isCursed = false
 
 # Movement variables
@@ -40,6 +39,9 @@ var normalSpeed = 1.0
 var sprintSpeed = 2.0
 var slowSpeed = 0.5
 var stuckSpeed = 0.0
+
+# Attack speed variables
+var aspMod = 1.0
 
 func _ready() -> void:
 	center = get_tree().get_root().get_node("main").position
@@ -84,3 +86,5 @@ func _on_bully_area_area_entered(attack: Area2D) -> void:
 func status_damage(statusType) -> void:
 	match statusType:
 		"dot": $Combat.get_node("Status").dot_damage()
+		"Bleed": $Combat.get_node("Status").bleed_damage()
+		"Sick": $Combat.get_node("Status").sick_damage()

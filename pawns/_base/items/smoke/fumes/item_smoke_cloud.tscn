@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bnndcu5m7d1eb"]
+
+[ext_resource type="PackedScene" uid="uid://b4j3c6ga861dj" path="res://pawns/_base/items/_attack/item_attack.tscn" id="1_k6ie1"]
+[ext_resource type="Script" uid="uid://bh3k2qp8xmupe" path="res://pawns/_base/items/smoke/fumes/item_smoke_cloud.gd" id="2_8i82w"]
+[ext_resource type="Texture2D" uid="uid://b13ir2mukrut1" path="res://pawns/_base/items/smoke/fumes/item_smoke_cloud.png" id="4_0ftsg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0ftsg"]
+radius = 32.0
+
+[node name="ItemPotionFumes" unique_id=1943530875 instance=ExtResource("1_k6ie1")]
+script = ExtResource("2_8i82w")
+
+[node name="Sprite" parent="." index="0" unique_id=1518436511]
+texture = ExtResource("4_0ftsg")
+
+[node name="Collider" parent="." index="1" unique_id=488781003]
+shape = SubResource("CircleShape2D_0ftsg")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

@@ -27,7 +27,7 @@ func _ready() -> void:
 		start_attack_cooldown()
 
 func start_attack_cooldown() -> void:
-	var glyphCooldown = asp * randf_range(glyphCooldownMin, glyphCooldownMax)
+	var glyphCooldown = asp * aspMod * randf_range(glyphCooldownMin, glyphCooldownMax)
 	$AttackCooldownTimer.start(glyphCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:

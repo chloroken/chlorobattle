@@ -233,9 +233,9 @@ func _on_milkshake_delay_timer_timeout() -> void:
 var skateCooldown = 5.0
 var skateDuration = 5.0
 var skateBladeDuration = 5.0
-var skateDotDuration = 5.0
+var skateDotDuration = 2.0
 var skateBladeDamage = 10
-var skateBladeCount = 3
+var skateBladeCount = 2
 
 func item_try_skating() -> void:
 	if basePawn.is_queued_for_deletion(): return
@@ -259,7 +259,7 @@ func item_try_skating() -> void:
 
 func try_skate_blade(attacker, attack) -> void:
 	if attack.isSkateAttack:
-		basePawn.get_node("Status").start_dot(skateDotDuration, attacker)
+		basePawn.get_node("Status").start_bleed(skateDotDuration, attacker)
 
 
 #########
@@ -272,8 +272,8 @@ var smokeThrowCooldownMin = 5.0
 var smokeThrowCooldownMax = 10.0
 var smokeThrowSpeed = 5.0
 var smokeThrowDuration = 1.0
-var smokeFumeDuration = 8.0
-var smokeCloudHazyDuration = 10.0
+var smokeFumeDuration = 5.0
+var smokeCloudHazyDuration = 5.0
 var smokeBoxLength = 50
 var smokeMinLength = 50
 var smokeScaleMax = 2.0
@@ -287,7 +287,7 @@ func _on_smoke_attack_timer_timeout() -> void:
 	get_parent().get_node("AttackContainer").add_child(newAttack)
 	$SmokeAttackTimer.start(randf_range(smokeThrowCooldownMin, smokeThrowCooldownMax))
 
-	basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] tossed some chemicals (smoke)")
+	basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] tossed some chemicals (Smoke)")
 func good_smoke_destination() -> Vector2:
 	var boardRadius = get_parent().get_parent().boardRadius
 	var newOffset = Vector2(randf_range(-smokeBoxLength, smokeBoxLength), randf_range(-smokeBoxLength, smokeBoxLength))
@@ -300,6 +300,7 @@ func try_smoke_effect(body, attackingPawn) -> bool:
 	if body.isSmokeAttack:
 		var pawnItems = body.get_parent().get_parent().get_node("Items")
 		basePawn.get_node("Status").start_hazy(pawnItems.smokeCloudHazyDuration)
+		basePawn.get_node("Status").start_bleed(pawnItems.smokeCloudHazyDuration, attackingPawn)
 	return(false)
 
 ########

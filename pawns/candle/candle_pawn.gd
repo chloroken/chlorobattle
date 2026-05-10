@@ -19,7 +19,7 @@ func _ready() -> void:
 		start_attack_cooldown()
 
 func start_attack_cooldown() -> void:
-	var emberCooldown = asp * randf_range(emberCooldownMin, emberCooldownMax)
+	var emberCooldown = asp * aspMod * randf_range(emberCooldownMin, emberCooldownMax)
 	$AttackCooldownTimer.start(emberCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:
@@ -31,7 +31,6 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.position = position
 	newAttack.destination = good_ember_position()
 	newAttack.dmg = self.dmg
-	newAttack.attackName = "Ember"
 
 	$AttackContainer.add_child(newAttack)
 

@@ -84,19 +84,14 @@ func damage_effects(attack, attacker) -> void:
 	items.item_try_skating()
 	items.item_try_glue(attacker)
 	items.item_try_map()
-	
+
 	# Meta reaper passive
 	if attack.isSoulAttack: attack.return_to_pawn()
 
 	# Slug ooze dot
 	if attack.isSlugAttack:
 		var durationRemaining = attack.get_node("FizzleTimer").get_time_left()
-		status.start_dot(durationRemaining, attacker)
-
-	# Candle ember dot
-	if attack.isEmberAttack:
-		if randi_range(1, 100) < 70:
-			status.start_dot(attack.get_parent().get_parent().emberBurnDuration, attacker)
+		status.start_sick(durationRemaining, attacker)
 
 	# Mummy glyph disarm
 	if attacker.type == "mummy" && attack.mummyCenter == true:
@@ -110,3 +105,12 @@ func damage_effects(attack, attacker) -> void:
 			status.stop_weak()
 			basePawn.get_node("CursedResetTimer").start(basePawn.curseResetTimer)
 			attackerStatus.start_weak(basePawn.cursePassDuration)
+
+	# Cat bleed
+	if attack.isSwipeAttack:
+		if attack.redSwipe:
+			basePawn.get_node("Status").start_bleed(attacker.catSwipeBleedDuration, attacker)
+
+	# Cat yarn
+	if attack.isYarnAttack:
+		basePawn.get_node("Status").start_lazy(attacker.catYarnLazyDuration)

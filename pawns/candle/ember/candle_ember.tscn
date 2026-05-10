@@ -8,6 +8,7 @@
 
 [node name="EmberAttack" unique_id=1314532855 instance=ExtResource("1_cu8xi")]
 script = ExtResource("2_tlqnj")
+emberAttack = null
 
 [node name="EmberOutlineSprite" type="Sprite2D" parent="." index="0" unique_id=1981678389]
 scale = Vector2(0.5, 0.5)

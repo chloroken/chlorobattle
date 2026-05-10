@@ -101,6 +101,7 @@ theme_override_font_sizes/font_size = 18
 text = "
 PAWNS
 Candle •
+Cat •
 Chair •
 Cyclone •
 Flicker •
@@ -124,8 +125,8 @@ Glue •
 Flask •
 Killbot •
 Map •
-Potion •
 Skates •
+Smoke •
 Tire •"
 horizontal_alignment = 2
 vertical_alignment = 1

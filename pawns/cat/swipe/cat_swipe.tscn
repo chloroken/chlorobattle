@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cojpopejlomba"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_ikivg"]
+[ext_resource type="Script" uid="uid://cmuu0fjert8y7" path="res://pawns/cat/swipe/cat_swipe.gd" id="2_tr70y"]
+[ext_resource type="Texture2D" uid="uid://bvqwmcc2vcdlh" path="res://pawns/cat/swipe/cat_swipe.png" id="2_yaqdu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tr70y"]
+size = Vector2(12, 12)
+
+[node name="CatSwipe" unique_id=553809928 instance=ExtResource("1_ikivg")]
+script = ExtResource("2_tr70y")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("2_yaqdu")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_tr70y")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

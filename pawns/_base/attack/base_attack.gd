@@ -4,15 +4,13 @@ extends Area2D
 var dmg
 
 # Attack flags
-#var isPersistentSummon = false#
 var attackName = "baseAttack"
 var areaAttack = true
-var killbotParent = null#
+var killbotParent = null
 
 # Special triggers
 var mummyCenter = false
 var isSlugAttack = false
-#var isTireAttack = false#
-var isEmberAttack = false
-#var isSmokeAttack = false#
 var isSoulAttack = false
+var isSwipeAttack = false
+var isYarnAttack = false

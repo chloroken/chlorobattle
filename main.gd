@@ -14,7 +14,7 @@ var scoreList = []
 
 # Mode flags
 var teamsEnabled = false
-var maxPlayers = 32
+var maxPlayers = 20
 
 # Drawing layers
 var layerArena = 1
