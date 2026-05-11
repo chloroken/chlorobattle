@@ -70,17 +70,21 @@ func close_arena() -> void:
 	$Sprites.get_node("Wheel1").modulate.a = min(0.5, ($Timers.get_node("ArenaCloseTimer").get_wait_time() - $Timers.get_node("ArenaCloseTimer").get_time_left()) / dmgModDuration * 0.5)
 	$Sprites.get_node("Wheel2").modulate.a = min(0.5, ($Timers.get_node("ArenaCloseTimer").get_wait_time() - $Timers.get_node("ArenaCloseTimer").get_time_left()) / dmgModDuration * 0.5)
 
-func update_kill_feed(msg: String) -> void:
+func kill_feed(msg: String) -> void:
 	killFeedText.push_front(msg)
 	var newString = ""
 	# Iterate backwards
 	for i in range(min(killFeedLineCount - 1, killFeedText.size() - 1), -1, -1):
 		newString += killFeedText[i] + "\n"
 	$UI.get_node("KillFeedLabel").text = newString
-func update_combat_log(msg: String) -> void:
+	debug_log(msg)
+func combat_log(msg: String) -> void:
 	combatLogText.push_front(msg)
 	var newString = ""
 	# Iterate backwards
 	for i in range(min(combatLogLineCount - 1, combatLogText.size() - 1), -1, -1):
 		newString += "\n" + combatLogText[i]
 	$UI.get_node("CombatLogLabel").text = newString
+	debug_log(msg)
+func debug_log(msg) -> void:
+	print(msg)

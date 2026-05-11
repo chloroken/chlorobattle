@@ -56,6 +56,12 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	# Add to containers
 	$AttackContainer.add_child(newAttack)
 
+func stay_in_bounds() -> void:
+	if position.distance_to(center) > get_parent().boardRadius:
+		direction = new_direction()
+		if !attacksDisabled:
+			top_hit_wall()
+		
 # Change directions when hitting edge of board
 func _on_area_exited(area: Area2D) -> void:
 	if self.is_queued_for_deletion(): return

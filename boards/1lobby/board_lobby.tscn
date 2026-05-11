@@ -77,7 +77,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("6_8svab")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 14
 vertical_alignment = 2
 clip_text = true
 
@@ -103,15 +103,15 @@ PAWNS
 Candle •
 Cat •
 Chair •
-Cyclone •
-Flicker •
-Grouper •
-Meta •
+Demon •
+Fish •
+Mecha •
 Mummy •
 Pirate •
 Ship •
 Slug •
 Top •
+Witch •
 
 STYLES
 Berserk •

@@ -18,6 +18,8 @@ func _ready() -> void:
 			$FlaskCooldownTimer.start(randf_range(flaskCooldownMin, flaskCooldownMax))
 		elif basePawn.item == "killbot":
 			item_spawn_killbot()
+		elif basePawn.item == "skates":
+			$SkateCooldownTimer.one_shot = true
 		elif basePawn.item == "smoke":
 			$SmokeAttackTimer.start(randf_range(smokeThrowCooldownMin, smokeThrowCooldownMax))
 		elif basePawn.item == "tire":
@@ -39,7 +41,7 @@ func _on_antimatter_cooldown_timer_timeout() -> void:
 	var antiMatterCooldown = randf_range(antimatterCooldownMin, antimatterCooldownMax)
 	$AntimatterCooldownTimer.start(antiMatterCooldown)
 
-	basePawn.get_node("Combat").combat_log("[" + basePawn.username + "] entered the void (Antimatter)")
+	basePawn.board.combat_log("[" + basePawn.username + "] entered the void (Antimatter)")
 
 ########
 # DICE #
@@ -68,7 +70,7 @@ func item_roll_dice(baseHit, attackingPawn) -> float:
 		newDie.diceChoice = dieRoll
 		hitMod += dieRoll
 	var diceMod = 1.0 + hitMod * 0.1
-	basePawn.get_node("Combat").combat_log("[" + str(attackingPawn.username) + "] multiplied damage by " + str(diceMod) + " (Dice)")
+	basePawn.board.combat_log("[" + str(attackingPawn.username) + "] multiplied damage by " + str(diceMod) + " (Dice)")
 	return(baseHit * diceMod - baseHit)
 
 #########
@@ -105,7 +107,7 @@ func item_try_glue(attackingPawn) -> void:
 	var diceRoll = randi_range(1, glueStuckChance)
 	if diceRoll == 1: status.start_stuck(glueStuckDuration)
 
-	basePawn.get_node("Combat").combat_log("[" + str(attackingPawn.username) + "] stuck [" + str(basePawn.username) + "] (Glue)")
+	basePawn.board.combat_log("[" + str(attackingPawn.username) + "] stuck [" + str(basePawn.username) + "] (Glue)")
 
 ###########
 # KILLBOT #
@@ -144,7 +146,7 @@ func item_spawn_killbot() -> void:
 	newBot.followDistanceMax = killbotFollowMax
 	basePawn.get_node("AttackContainer").add_child(newBot)
 
-	basePawn.get_node("Combat").combat_log("[" + basePawn.username + "] brought a friend (Killbot)")
+	basePawn.board.combat_log("[" + basePawn.username + "] brought a friend (Killbot)")
 
 func item_try_killbot_stack(attackingPawn, body) -> void:
 	if attackingPawn.item != "killbot": return
@@ -191,7 +193,7 @@ func item_try_map() -> void:
 		$MapCooldownTimer.start(mapCooldown)
 		newMap.get_node("FizzleTimer").start(mapCooldown)
 
-		basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] teleported away (Map)")
+		basePawn.board.combat_log("[" + str(basePawn.username) + "] teleported away (Map)")
 
 func item_map_blink() -> Vector2:
 	var newPos = basePawn.position
@@ -213,7 +215,7 @@ var milkshakePercent = 0.25
 
 func item_check_milkshake() -> void:
 	if basePawn.item == "milkshake" && basePawn.hp < milkshakeThreshold * basePawn.baseHp && !milkshakeUsed:
-		basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] used [Milkshake]")
+		basePawn.board.combat_log("[" + str(basePawn.username) + "] used [Milkshake]")
 		milkshakeUsed = true
 		$MilkshakeDelayTimer.start(milkshakeDelay)
 		var newMilkshake = basePawn.milkshakeEffect.instantiate()
@@ -222,7 +224,7 @@ func item_check_milkshake() -> void:
 
 func _on_milkshake_delay_timer_timeout() -> void:
 	basePawn.hp += milkshakePercent * basePawn.baseHp
-	basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] finished [Milkshake]")
+	basePawn.board.combat_log("[" + str(basePawn.username) + "] finished [Milkshake]")
 
 
 ##########
@@ -234,20 +236,21 @@ var skateCooldown = 5.0
 var skateDuration = 5.0
 var skateBladeDuration = 5.0
 var skateDotDuration = 2.0
-var skateBladeDamage = 10
+var skateBladeDamage = 5
 var skateBladeCount = 2
 
 func item_try_skating() -> void:
 	if basePawn.is_queued_for_deletion(): return
-	var status = get_parent().get_node("Status")
 	if basePawn.item == "skates" && $SkateCooldownTimer.is_stopped():
 
+		var status = get_parent().get_node("Status")
 		status.start_sprint(skateDuration)
 		$SkateCooldownTimer.start(skateCooldown)
 
 		# Redirect to nearest wall
+		basePawn.new_direction() # to trigger parkour/styles
 		basePawn.direction = -basePawn.position.direction_to(center)
-		basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] changed directions (Skates)")
+		basePawn.board.combat_log("[" + str(basePawn.username) + "] changed directions (Skates)")
 
 		# Make blades
 		for i in skateBladeCount:
@@ -261,13 +264,12 @@ func try_skate_blade(attacker, attack) -> void:
 	if attack.isSkateAttack:
 		basePawn.get_node("Status").start_bleed(skateDotDuration, attacker)
 
-
 #########
 # SMOKE #
 #########
 
 @export var smokeItem: Resource
-var smokeDamage = 25
+var smokeDamage = 20
 var smokeThrowCooldownMin = 5.0
 var smokeThrowCooldownMax = 10.0
 var smokeThrowSpeed = 5.0
@@ -287,7 +289,7 @@ func _on_smoke_attack_timer_timeout() -> void:
 	get_parent().get_node("AttackContainer").add_child(newAttack)
 	$SmokeAttackTimer.start(randf_range(smokeThrowCooldownMin, smokeThrowCooldownMax))
 
-	basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] tossed some chemicals (Smoke)")
+	basePawn.board.combat_log("[" + str(basePawn.username) + "] tossed some chemicals (Smoke)")
 func good_smoke_destination() -> Vector2:
 	var boardRadius = get_parent().get_parent().boardRadius
 	var newOffset = Vector2(randf_range(-smokeBoxLength, smokeBoxLength), randf_range(-smokeBoxLength, smokeBoxLength))
@@ -300,7 +302,7 @@ func try_smoke_effect(body, attackingPawn) -> bool:
 	if body.isSmokeAttack:
 		var pawnItems = body.get_parent().get_parent().get_node("Items")
 		basePawn.get_node("Status").start_hazy(pawnItems.smokeCloudHazyDuration)
-		basePawn.get_node("Status").start_bleed(pawnItems.smokeCloudHazyDuration, attackingPawn)
+		#basePawn.get_node("Status").start_bleed(pawnItems.smokeCloudHazyDuration, attackingPawn)
 	return(false)
 
 ########
@@ -330,7 +332,7 @@ func _on_tire_attack_timer_timeout() -> void:
 	newAttack.stuckDuration = tireStuckDuration
 	get_parent().get_node("AttackContainer").add_child(newAttack)
 
-	basePawn.get_node("Combat").combat_log("[" + str(basePawn.username) + "] lost a wheel (Tire)")
+	basePawn.board.combat_log("[" + str(basePawn.username) + "] lost a wheel (Tire)")
 
 func try_tire_stuck(attack) -> void:
 	if attack.isTireAttack:

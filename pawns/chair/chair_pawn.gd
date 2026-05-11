@@ -29,8 +29,9 @@ func _on_attack_cooldown_timer_timeout() -> void:
 
 	# Determine length of attack
 	var rushDur = randf_range(swingDurMin, swingDurMax)
-	$Status.start_sprint(rushDur)
-	$Status.start_tanky(rushDur)
+	var statusType = randi_range(0, 1)
+	if statusType == 0: $Status.start_sprint(rushDur)
+	else: $Status.start_tanky(rushDur)
 
 	# Swing
 	var legCount = randi_range(1, 4)

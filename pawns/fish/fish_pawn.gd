@@ -3,7 +3,7 @@ extends "res://pawns/_base/base_pawn.gd"
 
 # Splash variables
 @export var grouperAttack: PackedScene
-var diveSpeedDuration = 1.5
+var diveSpeedDuration = 2.0
 var splashCooldownMin = 5.0
 var splashCooldownMax = 6.0
 var splashScaleMin = 2.0

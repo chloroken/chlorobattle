@@ -14,3 +14,4 @@ var isSlugAttack = false
 var isSoulAttack = false
 var isSwipeAttack = false
 var isYarnAttack = false
+var isYellowBirdAttack = false

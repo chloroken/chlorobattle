@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ck0eynkg55hxa"]
 
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_635dh"]
-[ext_resource type="Texture2D" uid="uid://cc32arvaf7lrm" path="res://pawns/fish/fisih_pawn.png" id="2_46qhr"]
+[ext_resource type="Texture2D" uid="uid://cc32arvaf7lrm" path="res://pawns/fish/fish_pawn.png" id="2_46qhr"]
 [ext_resource type="Script" uid="uid://bujutv7xv6il6" path="res://pawns/fish/fish_pawn.gd" id="2_xl8v5"]
 [ext_resource type="PackedScene" uid="uid://d0lk68f6gmvnp" path="res://pawns/fish/splash/fish_attack.tscn" id="3_udqqg"]
 [ext_resource type="PackedScene" uid="uid://dcbu25qdtbruv" path="res://pawns/fish/splash/fish_bubble.tscn" id="4_q1jjm"]

@@ -42,4 +42,4 @@ func apply_status_damage(damage, source, victim, dotName) -> void:
 		combatLogMsg = "[" + str(source.username) + "] hit [" + str(victim.username) + "] for " + str("%0.2f" % damage) + " (" + str(dotName) + ")"
 	else:
 		combatLogMsg = "[" + str(victim.username) + "] took " + str("%0.2f" % damage) + " damage (" + str(dotName) + ")"
-	victim.get_node("Combat").combat_log(combatLogMsg)
+	victim.board.combat_log(combatLogMsg)

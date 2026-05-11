@@ -1,5 +1,6 @@
 extends "res://pawns/_base/attack/base_attack.gd"
 
+@export var healEffect: Resource
 var baseDmg
 
 func _ready() -> void:
@@ -38,4 +39,9 @@ func _physics_process(_delta: float) -> void:
 
 # Clean up
 func _on_fizzle_timer_timeout() -> void:
+	var basePawn = get_parent().get_parent()
+	basePawn.slug_regen()
+	var newHeal = healEffect.instantiate()
+	newHeal.position = basePawn.position
+	add_sibling(newHeal)
 	self.queue_free()

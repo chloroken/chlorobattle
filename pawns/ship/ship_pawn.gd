@@ -2,7 +2,9 @@ extends "res://pawns/_base/base_pawn.gd"
 
 # Ship variables
 @export var shipRing: PackedScene
-var projectileAttackSpeed = 0.1
+var projectileAttackSpeedMin = 3.0
+var projectileAttackSpeedMax = 4.0
+var antimatterSlowDuration = 2.0
 var burstDuration = 2.0
 var overheatDuration = 2.0
 var ringDuration = 0.25
@@ -17,6 +19,8 @@ var projectileSpdMax = 2.5
 var projectileScaleMin = 0.5
 var projectileScaleMax = 1.0
 
+@export var antimatterAttack: PackedScene
+
 func _ready() -> void:
 	super()
 	
@@ -24,45 +28,55 @@ func _ready() -> void:
 	$RingTimer.start()
 
 	if !attacksDisabled:
-		$OverheatDurationTimer.one_shot = true
-		$BurstDurationTimer.one_shot = true
-		$BurstDurationTimer.start(burstDuration)
+		#$OverheatDurationTimer.one_shot = true
+		#$BurstDurationTimer.one_shot = true
+		#$BurstDurationTimer.start(burstDuration)
 		$Status.start_slow(burstDuration)
 		start_attack_cooldown()
 
 func start_attack_cooldown() -> void:
-	var globuleCooldown = asp * aspMod * projectileAttackSpeed
-	$AttackCooldownTimer.start(globuleCooldown)
+	var attackCooldown = randf_range (projectileAttackSpeedMin, projectileAttackSpeedMax)
+	var antimatterCooldown = asp * aspMod * attackCooldown
+	$AttackCooldownTimer.start(antimatterCooldown)
+	$Status.start_slow(antimatterSlowDuration)
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
 
-	# Launch projectile
-	var newAttack = shipAttack.instantiate()
-	newAttack.position = self.position + (Vector2.RIGHT * projectileOffset).rotated($PawnSprite.rotation)
-	newAttack.dmg = self.dmg
-	newAttack.attackName = "Globule"
-	newAttack.speed = self.spd * randf_range(projectileSpdMin, projectileSpdMax)
-	newAttack.scale = Vector2.ONE * randf_range(projectileScaleMin, projectileScaleMax)
-	$AttackContainer.add_child(newAttack)
-
-	# Aim bullet in arc based on ship direction
+	var newAttack = antimatterAttack.instantiate()
+	newAttack.position = self.position
+	newAttack.baseSpeed = spd*2
 	var newDir = self.direction
 	newDir = newDir.rotated(randf_range(-projectileArc, projectileArc))
 	newAttack.direction = newDir
+	$AttackContainer.add_child(newAttack)
+	
+	# Launch projectile
+	#var newAttack = shipAttack.instantiate()
+	#newAttack.position = self.position + (Vector2.RIGHT * projectileOffset).rotated($PawnSprite.rotation)
+	#newAttack.dmg = self.dmg
+	#newAttack.attackName = "Globule"
+	#newAttack.speed = self.spd * randf_range(projectileSpdMin, projectileSpdMax)
+	#newAttack.scale = Vector2.ONE * randf_range(projectileScaleMin, projectileScaleMax)
+	#$AttackContainer.add_child(newAttack)
+
+	# Aim bullet in arc based on ship direction
+	#var newDir = self.direction
+	#newDir = newDir.rotated(randf_range(-projectileArc, projectileArc))
+	#newAttack.direction = newDir
 
 # Stop firing
-func _on_burst_duration_timer_timeout() -> void:
-	$BurstDurationTimer.stop()
-	$OverheatDurationTimer.start(overheatDuration)
-	$Status.start_disarmed(overheatDuration)
+#func _on_burst_duration_timer_timeout() -> void:
+	#$BurstDurationTimer.stop()
+	#$OverheatDurationTimer.start(overheatDuration)
+	#$Status.start_disarmed(overheatDuration)
 	
 # Stop overheating
-func _on_overheat_duration_timer_timeout() -> void:
-	$OverheatDurationTimer.stop()
-	$BurstDurationTimer.start(burstDuration)
-	$Status.start_slow(burstDuration)
+#func _on_overheat_duration_timer_timeout() -> void:
+	#$OverheatDurationTimer.stop()
+	#$BurstDurationTimer.start(burstDuration)
+	#$Status.start_slow(burstDuration)
 
 # Effects
 func _process(_delta: float) -> void:

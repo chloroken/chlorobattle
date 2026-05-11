@@ -18,6 +18,9 @@ func _ready() -> void:
 		elif basePawn.style == "mighty":
 			$MightyChargeTimer.one_shot = true
 			$MightyChargeTimer.start(mightyChargeDuration)
+		elif basePawn.style == "parkour":
+			$ParkourResetTimer.one_shot = true
+			$ParkourResetTimer.start(parkourChargeLossTime)
 		elif basePawn.style == "slayer":
 			add_slayer_charge()
 
@@ -97,6 +100,51 @@ func bully_set_pawn_size() -> void:
 	get_parent().get_node("BullyCircle").scale = bullyScale
 	get_parent().get_node("BullyArea").scale = bullyScale
 
+###########
+# PARKOUR #
+###########
+var parkourColor = Color.CORNFLOWER_BLUE
+var parkourChargeCount = 0
+var parkourChargeCap = 5
+var parkourDamagePerCharge = 5
+var parkourChargeLossTime = 5.0
+func style_parkour_trigger(attacker) -> float:
+	if attacker.style != "parkour": return(0)
+	return(attacker.get_node("Styles").parkourChargeCount * attacker.get_node("Styles").parkourDamagePerCharge)
+func style_parkour_add_charge() -> void:
+	if basePawn.attacksDisabled: return
+	if basePawn.style != "parkour": return
+	if !basePawn.get_node("Status/StuckStatusTimer").is_stopped(): return
+
+	parkourChargeCount += 1
+	if parkourChargeCount > parkourChargeCap:
+		parkourChargeCount = parkourChargeCap
+		$ParkourResetTimer.start(parkourChargeLossTime)
+		return
+	$ParkourResetTimer.start(parkourChargeLossTime)
+
+	var newCharge = styleCharge.instantiate()
+	newCharge.position = get_parent().position
+	newCharge.particleColor = parkourColor
+	get_parent().get_node("AttackContainer").add_child(newCharge)
+	activeStyleCharges.append(newCharge)
+	newCharge.get_node("StyleChargeSprite").modulate = parkourColor
+func style_parkour_remove_charge() -> void:
+	if parkourChargeCount > 0:
+		parkourChargeCount -= 1
+		var chargeToDestroy = activeStyleCharges.pop_front()
+		chargeToDestroy.queue_free()
+	$ParkourResetTimer.start(parkourChargeLossTime)
+func _on_parkour_reset_timer_timeout() -> void:
+	style_parkour_remove_charge()
+func style_parkour_reset_charges() -> void:
+	if basePawn.style != "parkour": return
+	parkourChargeCount = 0
+	if activeStyleCharges.size() > 0:
+		for i in activeStyleCharges.size():
+			var chargeToDelete = activeStyleCharges.pop_front()
+			chargeToDelete.queue_free()
+
 ##########
 # MIGHTY #
 ##########
@@ -120,7 +168,7 @@ func style_mighty_trigger(attackingPawn, baseHit) -> float:
 				chargeToDelete.queue_free()
 	var mightyAmt = baseHit * mightyMod - baseHit
 	if mightyAmt > 0:
-		attackingPawn.get_node("Combat").combat_log("[" + str(attackingPawn.username) + "] gained " + str("%0.2f" % mightyAmt) + " bonus damage (Mighty)")
+		attackingPawn.board.combat_log("[" + str(attackingPawn.username) + "] gained " + str("%0.2f" % mightyAmt) + " bonus damage (Mighty)")
 	return(mightyAmt)
 func _on_mighty_charge_timer_timeout() -> void:
 	if mightyChargeCount < mightyChargeCap:
@@ -151,6 +199,6 @@ func style_slayer_trigger(attackingPawn) -> float:
 	if attackingPawn.style == "slayer":
 		var slayerAmount = (get_parent().baseHp - get_parent().hp) * slayerMultiplier * (attackingPawn.killCount + 1)
 		if slayerAmount > 0:
-			attackingPawn.get_node("Combat").combat_log("[" + str(attackingPawn.username) + "] gained " + str("%0.2f" % slayerAmount) + " bonus damage (Slayer)")
+			attackingPawn.board.combat_log("[" + str(attackingPawn.username) + "] gained " + str("%0.2f" % slayerAmount) + " bonus damage (Slayer)")
 			return(slayerAmount)
 	return(0)

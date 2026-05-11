@@ -73,30 +73,6 @@ func stop_disarmed() -> void:
 	disable_status_icon(disarmedIcon)
 	$DisarmedStatusTimer.stop()
 
-#######
-# DOT #
-#######
-
-@export var dotIcon: Resource
-var dotMinimumHp = 0.1
-var dotPercentDamage = 0.01
-var dotDamageInterval = 1.0
-var dotPawnSource
-func start_dot(timer: float, source) -> void:
-	if $DotStatusTimer.get_time_left() > timer: return
-	dotPawnSource = source
-	$DotDamageTimer.start(dotDamageInterval)
-	$DotStatusTimer.start(timer)
-	enable_status_icon(timer, dotIcon)
-func _on_dot_status_timer_timeout() -> void:
-	$DotDamageTimer.stop()
-func _on_dot_damage_timer_timeout() -> void:
-	get_parent().status_damage("dot")
-func stop_dot() -> void:
-	disable_status_icon(dotIcon)
-	$DotStatusTimer.stop()
-	$DotDamageTimer.stop()
-
 #########
 # DRUNK #
 #########
@@ -167,6 +143,7 @@ func stop_scared() -> void:
 	$ScaredStatusTimer.stop()
 func try_scared(body) -> void:
 	if !$ScaredStatusTimer.is_stopped():
+		basePawn.new_direction() # to trigger parkour/styles
 		basePawn.direction = -basePawn.position.direction_to(body.position)
 
 ########
@@ -187,7 +164,8 @@ func start_sick(timer: float, source) -> void:
 func _on_sick_status_timer_timeout() -> void:
 	$SickDamageTimer.stop()
 func _on_sick_damage_timer_timeout() -> void:
-	get_parent().status_damage("sick")
+	get_parent().status_damage("Sick")
+	$SickDamageTimer.start(sickDamageInterval)
 func stop_sick() -> void:
 	disable_status_icon(sickIcon)
 	$SickStatusTimer.stop()
@@ -212,6 +190,7 @@ func stop_slow() -> void:
 
 @export var sprintIcon: Resource
 func start_sprint(timer: float) -> void:
+	get_parent().get_node("Styles").style_parkour_add_charge()
 	if $SprintStatusTimer.get_time_left() > timer: return
 	$SprintStatusTimer.start(timer)
 	enable_status_icon(timer, sprintIcon)
@@ -225,6 +204,7 @@ func stop_sprint() -> void:
 
 @export var stuckIcon: Resource
 func start_stuck(timer: float) -> void:
+	basePawn.get_node("Styles").style_parkour_reset_charges()
 	if $StuckStatusTimer.get_time_left() > timer: return
 	$StuckStatusTimer.start(timer)
 	enable_status_icon(timer, stuckIcon)

@@ -9,6 +9,7 @@ var boardSize
 var disableBounceDuration = 0.1
 
 func _ready() -> void:
+	scale *= Vector2.ONE * randf_range(0.5, 1.0)
 
 	# Flag as single-target attack
 	areaAttack = false
@@ -20,10 +21,16 @@ func _ready() -> void:
 
 	# Set visibility order
 	z_as_relative = false
-	z_index = get_node("/root/main").layerPawnBehind
+	z_index = get_node("/root/main").layerAir
 
 	# Start timers
-	$FizzleTimer.start(get_parent().get_parent().projectileDuration)
+	var maxDuration = get_parent().get_parent().projectileDuration
+	var minDuration = maxDuration / 2
+	$FizzleTimer.start(randf_range(minDuration, maxDuration))
+
+func _process(_delta: float) -> void:
+	if $FizzleTimer.get_time_left() < 0.25:
+		$BaseSprite.modulate.a = $FizzleTimer.get_time_left() * 4
 
 # Move projectile forward
 func _physics_process(delta: float) -> void:

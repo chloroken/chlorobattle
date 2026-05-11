@@ -4,10 +4,12 @@ extends "res://pawns/_base/base_pawn.gd"
 var slugAttackSpeed = 1.0
 var trailDuration = 10.0
 var trailOffset = 3
-var healthRegen = 0.5
+var healthRegen = 1.0
+var oozeSickDuration = 10.0
 
 func _ready() -> void:
 	super()
+	
 
 	# Start attack cycle
 	if !attacksDisabled: start_attack_cooldown()
@@ -28,9 +30,11 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.attackName = "Ooze"
 	$AttackContainer.add_child(newAttack)
 
+func slug_regen() -> void:
+	
 	# Regenerate health every time slug attacks
 	var healthToRegen = min(baseHp - hp, healthRegen)
 	if healthToRegen > 0:
 		hp += healthToRegen
 		damageHealed += healthToRegen
-		$Combat.combat_log("[" + str(username) + "] healed for " + str("%0.2f" % healthToRegen) + " (Regen)")
+		board.combat_log("[" + str(username) + "] healed for " + str("%0.2f" % healthToRegen) + " (Regen)")

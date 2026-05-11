@@ -2,9 +2,11 @@ extends Node
 
 var baseMonster
 var hitList
+var board
 
 func _ready() -> void:
 	baseMonster = get_parent()
+	board = baseMonster.get_parent().get_parent()
 	hitList = baseMonster.hitList
 
 func monster_hit(area) -> void:
@@ -20,7 +22,7 @@ func monster_hit(area) -> void:
 	if dmgTaken > baseMonster.hp: dmgTaken = baseMonster.hp
 	baseMonster.hp -= dmgTaken
 	#attackingPawn.damageDealt += dmgTaken
-	attackingPawn.get_node("Combat").combat_log("[" + str(attackingPawn.username) + "] hit [" + str(baseMonster.monsterName) + "] for " + str("%0.2f" % dmgTaken) + " (" + str(area.attackName) + ")")
+	board.combat_log("[" + str(attackingPawn.username) + "] hit [" + str(baseMonster.monsterName) + "] for " + str("%0.2f" % dmgTaken) + " (" + str(area.attackName) + ")")
 
 	#Monster death procedure
 	if baseMonster.hp <= 0:
@@ -28,5 +30,5 @@ func monster_hit(area) -> void:
 		if hpToHeal > 0:
 			attackingPawn.hp += hpToHeal
 			attackingPawn.damageHealed += hpToHeal
-			attackingPawn.get_node("Combat").combat_log("[" + str(attackingPawn.username) + "] healed for " + str("%0.2f" % hpToHeal) + " (" + str(baseMonster.monsterName) + ")")
+			board.combat_log("[" + str(attackingPawn.username) + "] healed for " + str("%0.2f" % hpToHeal) + " (" + str(baseMonster.monsterName) + ")")
 		baseMonster.queue_free()

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://c761o12jqm4jm"]
+
+[ext_resource type="Script" uid="uid://cgj6itpidxku5" path="res://pawns/ship/antimatter/ship_antimatter.gd" id="1_ixxyd"]
+[ext_resource type="PackedScene" uid="uid://crf2lb3wy2wmg" path="res://pawns/ship/globule/ship_attack.tscn" id="2_cdoq7"]
+[ext_resource type="Texture2D" uid="uid://c4bsi4k4811ry" path="res://pawns/ship/antimatter/ship_antimatter.png" id="2_fqjwq"]
+
+[node name="ShipAntimatter" type="Node2D" unique_id=240345027]
+script = ExtResource("1_ixxyd")
+globuleAttack = ExtResource("2_cdoq7")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=272803249]
+texture = ExtResource("2_fqjwq")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1710606412]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

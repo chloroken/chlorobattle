@@ -14,6 +14,7 @@ var team: String
 @export var pen: float
 @export var spd: float
 var asp = 1.0
+var aspMod = 1.0
 var baseHp
 
 # Combat variables
@@ -23,6 +24,7 @@ var voidHitList = []
 var isCursed = false
 
 # Movement variables
+var board
 var center: Vector2
 var direction
 var statusSpdMod = 1
@@ -40,13 +42,11 @@ var sprintSpeed = 2.0
 var slowSpeed = 0.5
 var stuckSpeed = 0.0
 
-# Attack speed variables
-var aspMod = 1.0
-
 func _ready() -> void:
+	board = get_parent()
 	center = get_tree().get_root().get_node("main").position
 	baseHp = hp
-	direction = new_direction()
+	direction = position.direction_to(center).rotated(randf_range(-1.0, 1.0))
 	$AttackCooldownTimer.one_shot = true
 	z_as_relative = false
 	z_index = get_node("/root/main").layerPawn
@@ -69,9 +69,10 @@ func stay_in_bounds() -> void:
 	if position.distance_to(center) > get_parent().boardRadius:
 		direction = new_direction()
 func _on_area_exited(area: Area2D) -> void:
-	if area.get_collision_layer_value(6):#areaType == "board":
+	if area.get_collision_layer_value(6):
 		direction = new_direction()
 func new_direction() -> Vector2:
+	$Styles.style_parkour_add_charge()
 	return(position.direction_to(center).rotated(randf_range(-1.0, 1.0)))
 
 #################
@@ -82,9 +83,8 @@ func _on_area_entered(attack: Area2D) -> void:
 	$Combat.attack_hit(attack)
 	$Combat.item_hit(attack)
 func _on_bully_area_area_entered(attack: Area2D) -> void:
-	$Combat.style_hit(attack)
+	$Combat.style_touch(attack)
 func status_damage(statusType) -> void:
 	match statusType:
-		"dot": $Combat.get_node("Status").dot_damage()
 		"Bleed": $Combat.get_node("Status").bleed_damage()
 		"Sick": $Combat.get_node("Status").sick_damage()

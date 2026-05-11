@@ -5,14 +5,16 @@
 [ext_resource type="Script" uid="uid://dkpj8787qkjdm" path="res://pawns/ship/ship_pawn.gd" id="2_do8vn"]
 [ext_resource type="PackedScene" uid="uid://crf2lb3wy2wmg" path="res://pawns/ship/globule/ship_attack.tscn" id="3_jyjsx"]
 [ext_resource type="PackedScene" uid="uid://bgwhsneqjuy5d" path="res://pawns/ship/ring/ship_ring.tscn" id="4_52m3r"]
+[ext_resource type="PackedScene" uid="uid://c761o12jqm4jm" path="res://pawns/ship/antimatter/ship_antimatter.tscn" id="5_rrg6b"]
 
 [node name="ShipPawn" unique_id=1048959576 instance=ExtResource("1_vnodh")]
 script = ExtResource("2_do8vn")
 shipRing = ExtResource("4_52m3r")
 shipAttack = ExtResource("3_jyjsx")
-hp = 380.0
+antimatterAttack = ExtResource("5_rrg6b")
+hp = 390.0
 def = 0.4
-dmg = 8.0
+dmg = 10.0
 pen = 0.2
 spd = 50.0
 
@@ -26,7 +28,7 @@ wait_time = 0.25
 
 [node name="BurstDurationTimer" type="Timer" parent="." index="5" unique_id=256042320]
 
-[node name="AttackCooldownTimer" parent="." index="8" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="7" unique_id=1610759688]
 wait_time = 0.1
 one_shot = true
 

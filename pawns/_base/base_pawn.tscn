@@ -42,10 +42,6 @@ shape = SubResource("CircleShape2D_cjful")
 
 [node name="AttackContainer" type="Node" parent="." unique_id=1458982635]
 
-[node name="DirectionDelayTimer" type="Timer" parent="." unique_id=739089802]
-wait_time = 0.1
-one_shot = true
-
 [node name="GUI" parent="." unique_id=1414015449 instance=ExtResource("5_cjful")]
 
 [node name="Combat" parent="." unique_id=1691095016 instance=ExtResource("10_56xb5")]

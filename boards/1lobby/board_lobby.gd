@@ -12,10 +12,10 @@ func _ready() -> void:
 	#register_pawn("Jonkle", choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create bot Pawns to test with
-	for i in 16:
+	for i in 4:
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 	# Create specific test bots
-	#register_pawn("chloro", "cat", choose_random_style(), choose_random_item())
+	register_pawn("chloro", "demon", "parkour", "dice")
 
 	# Spawn Pawns made above
 	for pawn in get_parent().pawnList:

@@ -12,7 +12,7 @@ script = ExtResource("2_4ghe6")
 blinkScene = ExtResource("3_vbbgf")
 baseSprite = ExtResource("3_a1r21")
 warpSprite = ExtResource("5_4plck")
-hp = 380.0
+hp = 360.0
 def = 0.3
 dmg = 50.0
 pen = 0.4
@@ -54,9 +54,6 @@ one_shot = true
 
 [node name="WarpCooldownTimer" type="Timer" parent="." index="7" unique_id=1215683184]
 one_shot = true
-
-[node name="DirectionDelayTimer" parent="." index="10" unique_id=739089802]
-wait_time = 0.5
 
 [connection signal="timeout" from="BlinkDelayTimer" to="." method="_on_blink_delay_timer_timeout"]
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

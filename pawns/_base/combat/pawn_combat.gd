@@ -33,8 +33,8 @@ func item_hit(attack) -> void:
 	var mainBoard = get_parent().get_parent().get_parent()
 	if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
 	$Item.combat_item(attack, basePawn)
-	
-func style_hit(victim) -> void:
+
+func style_touch(victim) -> void:
 	if basePawn.attacksDisabled: return
 	if basePawn.style != "bully": return
 	if !victim.get_node("Status").get_node("VoidStatusTimer").is_stopped(): return
@@ -42,7 +42,7 @@ func style_hit(victim) -> void:
 	if victim.username == basePawn.username: return
 	var mainBoard = get_parent().get_parent().get_parent()
 	if mainBoard.teamsEnabled && basePawn.team == victim.team: return
-	$Style.bully_hit(victim)
+	$Style.bully_touch(victim)
 
 #######################
 # CLEAN UP PROCEDURES #
@@ -69,14 +69,15 @@ func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
 	make_tombstone(pawn)
 	update_scoreboard(board, pawn)
 	mainBoard.pawnList.remove_at(pawnIndex)
-	kill_log("[" + str(killer) + "] eliminated [" + str(pawn.username) + "]")
+	board.kill_feed("[" + str(killer) + "] eliminated [" + str(pawn.username) + "]")
 	board.activePawns.erase(pawn)
 	pawn.queue_free()
 	
 	# If this is the last pawn, end game
 	if mainBoard.pawnList.size() <= 1:
-		update_scoreboard(board, attackingPawn)
-		mainBoard.switch_board("score")
+		pass
+		#update_scoreboard(board, attackingPawn)
+		#mainBoard.switch_board("score")
 	# Or if teams are enabled, and only one is left, end game
 	elif mainBoard.teamsEnabled:
 		var oneTeamLeft = true
@@ -108,16 +109,3 @@ func update_scoreboard(board, pawn) -> void:
 	newScore.damageHealed = pawn.damageHealed
 	newScore.killCount = pawn.killCount
 	board.get_parent().scoreList.push_front(newScore)
-
-###########
-# LOGGING #
-###########
-
-func combat_log(msg) -> void:
-	get_parent().get_parent().update_combat_log(msg)
-	debug_log(msg)
-func kill_log(msg) -> void:
-	get_parent().get_parent().update_kill_feed(msg)
-	debug_log(msg)
-func debug_log(msg) -> void:
-	print(msg)

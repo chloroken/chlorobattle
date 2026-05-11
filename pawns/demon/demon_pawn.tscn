@@ -14,7 +14,7 @@ soulAttack = ExtResource("3_06sf5")
 demonSprite = ExtResource("5_twb7f")
 hp = 310.0
 dmg = 10.0
-pen = 0.8
+pen = 0.6
 spd = 40.0
 
 [node name="DemonLabel" type="Label" parent="." index="0" unique_id=1076885017]

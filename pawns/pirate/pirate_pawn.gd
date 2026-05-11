@@ -15,6 +15,8 @@ var grogDuration = 5.0
 var grogCooldownMin = 5.0
 var grogCooldownMax = 10.0
 
+@export var birdAttack: Resource
+
 func _ready() -> void:
 	super()
 
@@ -32,12 +34,20 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
 	
-	var newAttack = pirateAttack.instantiate()
+	var newAttack = birdAttack.instantiate()
 	newAttack.position = self.position
-	newAttack.baseDmg = self.dmg
+	newAttack.dmg = self.dmg
 	newAttack.attackName = "Parrot"
-	newAttack.birdSpeed = birdSpeed
+	var birdColors = ["red", "yellow", "green"]
+	newAttack.birdType = birdColors.pick_random()
+	#newAttack.birdSpeed = birdSpeed
 	$AttackContainer.add_child(newAttack)
+	#var newAttack = pirateAttack.instantiate()
+	#newAttack.position = self.position
+	#newAttack.baseDmg = self.dmg
+	#newAttack.attackName = "Parrot"
+	#newAttack.birdSpeed = birdSpeed
+	#$AttackContainer.add_child(newAttack)
 
 func start_grog_cooldown() -> void:
 	var grogCooldown = randf_range(grogCooldownMin, grogCooldownMax)

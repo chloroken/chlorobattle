@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bvuo3yaraeyqs"]
 
 [ext_resource type="Script" uid="uid://vouopua0eetv" path="res://pawns/_base/status/status.gd" id="1_th0bv"]
-[ext_resource type="Texture2D" uid="uid://dmtp6ctsen1r2" path="res://pawns/_base/status/icons/dot_icon.png" id="2_gu5ym"]
 [ext_resource type="Texture2D" uid="uid://bilqvawlfie8s" path="res://pawns/_base/status/icons/drunk_icon.png" id="3_ouqoa"]
 [ext_resource type="Texture2D" uid="uid://cm61o4foiqa58" path="res://pawns/_base/status/icons/bleed_icon.png" id="4_l0qeg"]
 [ext_resource type="PackedScene" uid="uid://dvi5mcrtxvk0u" path="res://pawns/_base/status/effects/drunk_effect.tscn" id="4_nqtn6"]
@@ -23,7 +22,6 @@ script = ExtResource("1_th0bv")
 statusIcon = ExtResource("7_m0l2q")
 bleedIcon = ExtResource("4_l0qeg")
 disarmedIcon = ExtResource("12_jkjos")
-dotIcon = ExtResource("2_gu5ym")
 drunkIcon = ExtResource("3_ouqoa")
 drunkEffect = ExtResource("4_nqtn6")
 hazyIcon = ExtResource("8_ocltl")
@@ -43,10 +41,6 @@ weakIcon = ExtResource("14_4ffbj")
 
 [node name="DisarmedStatusTimer" type="Timer" parent="." unique_id=504050709]
 one_shot = true
-
-[node name="DotDamageTimer" type="Timer" parent="." unique_id=78801435]
-
-[node name="DotStatusTimer" type="Timer" parent="." unique_id=1635453082]
 
 [node name="DrunkStatusTimer" type="Timer" parent="." unique_id=1738794796]
 
@@ -81,8 +75,6 @@ one_shot = true
 [connection signal="timeout" from="BleedDamageTimer" to="." method="_on_bleed_damage_timer_timeout"]
 [connection signal="timeout" from="BleedStatusTimer" to="." method="_on_bleed_status_timer_timeout"]
 [connection signal="timeout" from="DisarmedStatusTimer" to="." method="_on_timid_status_timer_timeout"]
-[connection signal="timeout" from="DotDamageTimer" to="." method="_on_dot_damage_timer_timeout"]
-[connection signal="timeout" from="DotStatusTimer" to="." method="_on_dot_status_timer_timeout"]
 [connection signal="timeout" from="LazyStatusTimer" to="." method="_on_lazy_status_timer_timeout"]
 [connection signal="timeout" from="SickDamageTimer" to="." method="_on_sick_damage_timer_timeout"]
 [connection signal="timeout" from="SickStatusTimer" to="." method="_on_sick_status_timer_timeout"]

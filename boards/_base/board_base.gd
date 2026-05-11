@@ -69,12 +69,12 @@ func spawn_pawn(pawn, attacksDisabled) -> void:
 	newPawn.style = pawn.style
 	newPawn.item = pawn.item
 	newPawn.team = pawn.team
+	newPawn.board = self
 	activePawns.append(newPawn)
 	if attacksDisabled: newPawn.attacksDisabled = true
 
-	#activePlayers.append(newPawn)
 	add_child(newPawn)
-	#update_combat_log("Spawned " + newPawn.type + " (" + newPawn.style + ") [" + newPawn.item + "] for " + newPawn.username)
+
 func evenly_spaced_position(i: int) -> Vector2:
 	var rot = 2 * PI * i / get_parent().pawnList.size()
 	var vec = ((Vector2.RIGHT * boardRadius) * 0.9).rotated(rot)
@@ -103,10 +103,11 @@ func get_pawn_style(message: String):
 	elif "berserker" in message: return("berserk") # alias
 	elif "bully" in message: return("bully")
 	elif "mighty" in message: return("mighty")
+	elif "parkour" in message: return("parkour")
 	elif "slayer" in message: return("slayer")
 	else: return(choose_random_style())
 func choose_random_style() -> String:
-	var allStyleTypes = ["berserk", "bully", "mighty", "slayer"]
+	var allStyleTypes = ["berserk", "bully", "parkour", "mighty", "slayer"]
 	var i = randi_range(0, allStyleTypes.size() - 1)
 	return(allStyleTypes[i])
 func get_pawn_item(message: String):

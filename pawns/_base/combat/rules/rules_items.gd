@@ -1,5 +1,6 @@
 extends Node
 var basePawn
+var board
 var styles
 var status
 var items
@@ -10,6 +11,7 @@ var items
 
 func _ready() -> void:
 	basePawn = get_parent().get_parent()
+	board = basePawn.get_parent()
 	status = basePawn.get_node("Status")
 	items = basePawn.get_node("Items")
 func combat_item(attack, pawn) -> void:
@@ -34,7 +36,7 @@ func damage_phase(attacker, attackerUsername, area, pawn) -> void:
 	pawn.hp -= finalDmg
 	pawn.damageTaken += finalDmg
 	attacker.damageDealt += finalDmg
-	pawn.get_node("Combat").combat_log("[" + str(attackerUsername) + "] hit [" + str(pawn.username) + "] for " + "%0.2f" % finalDmg + " (" + str(area.attackName) + ")")
+	board.combat_log("[" + str(attackerUsername) + "] hit [" + str(pawn.username) + "] for " + "%0.2f" % finalDmg + " (" + str(area.attackName) + ")")
 func damage_effects(attacker, attack) -> void:
 	status.try_scared(attack)
 	items.item_try_killbot_stack(attacker, attack)

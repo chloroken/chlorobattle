@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://dyotn6foh1hvu" path="res://pawns/mecha/jet/cyclone_bomb.tscn" id="3_kvqme"]
 [ext_resource type="Texture2D" uid="uid://dgxuajx1q7ncm" path="res://pawns/mecha/jet/cyclone_plane.png" id="3_u4lmt"]
 [ext_resource type="PackedScene" uid="uid://dqjv85wi1dovf" path="res://pawns/mecha/jet/cyclone_explosion.tscn" id="4_l2oen"]
-[ext_resource type="PackedScene" uid="uid://c4kqafy7ymmgh" path="res://pawns/mecha/mecha/cyclone_whirlwind.tscn" id="5_rcuk4"]
-[ext_resource type="Texture2D" uid="uid://b1qcahc0eabfe" path="res://pawns/mecha/mecha/cyclone_mecha.png" id="7_gv64d"]
+[ext_resource type="PackedScene" uid="uid://c4kqafy7ymmgh" path="res://pawns/mecha/walker/cyclone_whirlwind.tscn" id="5_rcuk4"]
+[ext_resource type="Texture2D" uid="uid://b1qcahc0eabfe" path="res://pawns/mecha/walker/cyclone_mecha.png" id="7_gv64d"]
 
 [node name="MechaPawn" unique_id=1877646274 instance=ExtResource("1_cmg7j")]
 script = ExtResource("2_cssyw")

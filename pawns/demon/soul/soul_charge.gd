@@ -23,6 +23,6 @@ func _process(delta: float) -> void:
 		pawn.hp += amountToHeal
 		pawn.damageHealed += amountToHeal
 		var logOutput = "[" + str(pawn.username) + "] healed for " + str(int(amountToHeal)) + " (Reaper)"
-		pawn.get_node("Combat").combat_log(logOutput)
+		pawn.get_parent().combat_log(logOutput)
 
 		queue_free()

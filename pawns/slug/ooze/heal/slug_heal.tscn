@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://7v0gbdt6t85o"]
+
+[ext_resource type="Script" uid="uid://c6jnt87ket8dt" path="res://pawns/slug/ooze/heal/slug_heal.gd" id="1_0c0v2"]
+[ext_resource type="Texture2D" uid="uid://dxj3s3dkbw0ui" path="res://pawns/slug/ooze/heal/slug_heal.png" id="2_s10l8"]
+
+[node name="SlugHeal" type="Node2D" unique_id=1703874384]
+script = ExtResource("1_0c0v2")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=682397559]
+texture = ExtResource("2_s10l8")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1854098830]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

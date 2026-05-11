@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dc32f7lvkfrdi"]
+
+[ext_resource type="Script" uid="uid://c76lbgxs757w2" path="res://pawns/pirate/birds/feather/parrot_feather.gd" id="1_lc2ob"]
+[ext_resource type="Texture2D" uid="uid://cf8ay8bjhp0ml" path="res://pawns/pirate/birds/feather/parrot_feather.png" id="1_lx4xq"]
+
+[node name="ParrotFeather" type="Node2D" unique_id=2125722767]
+script = ExtResource("1_lc2ob")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=486501961]
+texture = ExtResource("1_lx4xq")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1705127417]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]
