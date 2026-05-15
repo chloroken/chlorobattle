@@ -10,7 +10,7 @@ var catSwipeDuration = 1.0
 var catRotateDistance = 32
 
 var catSwipeBleedDuration = 5.0
-var catMeowDuration = 3.0
+var catMeowDuration = 2.5
 var catStaggerDuration = 0.1
 var catYarnLazyDuration = 10.0
 var catMeowDamage = 25

@@ -23,7 +23,7 @@ func sick_damage() -> void:
 	var globalDmgMod = arenaBoard.globalDmgMod / arenaBoard.dmgModDuration
 	var missingHp = basePawn.baseHp - basePawn.hp
 	var sickDamage = missingHp * pawnStatus.sickPercentDamage * globalDmgMod
-	var damageCap = basePawn.hp - pawnStatus.sickMinimumHp
+	var damageCap = basePawn.hp
 	var finalSickDamage = min(sickDamage, damageCap)
 	if finalSickDamage <= 0: return
 	apply_status_damage(finalSickDamage, pawnStatus.bleedPawnSource, basePawn, "Sick")

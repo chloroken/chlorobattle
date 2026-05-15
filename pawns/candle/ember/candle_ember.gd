@@ -4,13 +4,14 @@ extends "res://pawns/_base/attack/base_attack.gd"
 var destination
 var speed = 250
 var basePawn
+var emberScale
 
 func _ready() -> void:
 	attackName = "Ember"
 	areaAttack = false
 	basePawn = get_parent().get_parent()
 	$FizzleTimer.start(randf_range(basePawn.emberDurationMin, basePawn.emberDurationMax))
-	scale = Vector2.ONE * basePawn.emberScale
+	scale = Vector2.ONE * emberScale
 	set_collision_layer_value(2, false)
 
 func _process(delta: float) -> void:
@@ -18,7 +19,7 @@ func _process(delta: float) -> void:
 		position += position.direction_to(destination) * speed * delta
 	else:
 		set_collision_layer_value(2, true)
-		scale = Vector2.ONE * basePawn.emberScale * max(0.5, $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time())
+		scale = Vector2.ONE * emberScale * max(0.5, $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time())
 
 func _on_fizzle_timer_timeout() -> void:
 	if randi_range(1, 2) == 1:
@@ -35,6 +36,8 @@ func new_ember() -> void:
 	newAttack.destination = good_ember_position()
 	newAttack.dmg = self.dmg
 	newAttack.attackName = "Ember"
+	newAttack.emberScale = emberScale
+
 	add_sibling(newAttack)
 
 func good_ember_position() -> Vector2:

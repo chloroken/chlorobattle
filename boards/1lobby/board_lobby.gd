@@ -9,13 +9,15 @@ func _ready() -> void:
 	# LET TWITCH COOK
 	#VerySimpleTwitch.get_token_and_login_chat()
 	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
-	#register_pawn("Jonkle", choose_random_pawn(), choose_random_style(), choose_random_item())
+	#register_pawn("YouTube", choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create bot Pawns to test with
-	for i in 4:
+	for i in 24:
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 	# Create specific test bots
-	register_pawn("chloro", "demon", "parkour", "dice")
+	#register_pawn("alsvidarr", "chair", "mighty", "smoke")
+	register_pawn("chloro", "candle", "berserk", "glue")
+	#100m
 
 	# Spawn Pawns made above
 	for pawn in get_parent().pawnList:
@@ -30,8 +32,10 @@ func _process(_delta: float) -> void:
 
 	# Update lobby UI labels
 	$UI.get_node("TimerLabel").text = str(int($Timers.get_node("LobbyTimer").time_left)) + " "
-	if get_parent().pawnList.size() > 0: $UI.get_node("JoinerCount").text = " " + str(int(get_parent().pawnList.size()))
-	if get_parent().teamsEnabled: $UI.get_node("JoinerCount").text += "/" + str(get_parent().maxPlayers)
+	if get_parent().pawnList.size() > 0:
+		$UI.get_node("JoinerCount").text = " " + str(int(get_parent().pawnList.size()))
+		if get_parent().teamsEnabled:
+			$UI.get_node("JoinerCount").text += "/" + str(get_parent().maxPlayers)
 
 	# When lobby fills up
 	if get_parent().teamsEnabled:
@@ -45,6 +49,8 @@ func _on_lobby_timer_timeout() -> void:
 # Finish lobby, assign teams
 func proceed_to_arena() -> void:
 	var pawns = get_parent().pawnList
+	if get_parent().teamsEnabled && pawns.size() % 2 != 0:
+		register_pawn("Phil", choose_random_pawn(), choose_random_style(), choose_random_item())
 	pawns.shuffle()
 	if get_parent().teamsEnabled:
 		for i in pawns.size():
@@ -65,14 +71,15 @@ func print_chatter_message(chatter: VSTChatter):
 	var newPawn = register_pawn(str(username), get_pawn_type(message), get_pawn_style(message), get_pawn_item(message))
 	spawn_pawn(newPawn, true)
 	update_joined_pawn_label(newPawn)
+	#get_parent().load_xp(username)
 func update_joined_pawn_label(newPawn) -> void:
 	$UI.get_node("JoinLogLabel").text = ""
 	var maxJoinersToDisplay = 33
 	var i = 0
 	for joiner in lobbyJoiners:
+		$UI.get_node("JoinLogLabel").text += "\n" + joiner
 		i += 1
 		if i > maxJoinersToDisplay: break
-		$UI.get_node("JoinLogLabel").text += "\n" + joiner
 	var logMsg = newPawn.username + " — " + newPawn.type + " — " + newPawn.style + " — " + newPawn.item
 	print(logMsg)
 	lobbyJoiners.push_front(logMsg)

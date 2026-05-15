@@ -4,7 +4,8 @@ extends "res://pawns/_base/base_pawn.gd"
 @export var emberAttack: PackedScene
 var emberCooldownMin = 0.1
 var emberCooldownMax = 1.0
-var emberScale = 1.0
+var emberScaleMax = 1.0
+var emberScaleMin = 0.5
 var emberDurationMin = 2.0
 var emberDurationMax = 3.0
 var emberDestination
@@ -31,6 +32,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newAttack.position = position
 	newAttack.destination = good_ember_position()
 	newAttack.dmg = self.dmg
+	newAttack.emberScale = Vector2.ONE * randf_range(emberScaleMin, emberScaleMax)
 
 	$AttackContainer.add_child(newAttack)
 

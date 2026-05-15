@@ -75,9 +75,8 @@ func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
 	
 	# If this is the last pawn, end game
 	if mainBoard.pawnList.size() <= 1:
-		pass
-		#update_scoreboard(board, attackingPawn)
-		#mainBoard.switch_board("score")
+		update_scoreboard(board, attackingPawn)
+		mainBoard.switch_board("score")
 	# Or if teams are enabled, and only one is left, end game
 	elif mainBoard.teamsEnabled:
 		var oneTeamLeft = true

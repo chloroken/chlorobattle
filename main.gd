@@ -14,7 +14,7 @@ var scoreList = []
 
 # Mode flags
 var teamsEnabled = false
-var maxPlayers = 20
+var maxPlayers = 99
 
 # Drawing layers
 var layerArena = 1
@@ -27,6 +27,7 @@ var layerSky = 9
 
 # Board switching
 func _ready() -> void:
+	print(str(OS.get_user_data_dir()))
 	randomize()
 	$cam.make_current()
 	switch_board("lobby")
@@ -60,3 +61,20 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Pause Engine Time"):
 		if Engine.get_time_scale() == 0: Engine.set_time_scale(1)
 		else: Engine.set_time_scale(0)
+
+###############
+# SAVE SYSTEM #
+###############
+var savePath = "user://xp.sav"
+func add_xp(username, pawn, amount):
+	var config = ConfigFile.new()
+	config.load(savePath)
+	var currentXp = config.get_value(username, pawn, 0)
+	config.set_value(username, pawn, currentXp + amount)
+	config.save(savePath)
+	print(str(username) + " gained " + str(amount) + " xp with " + str(pawn))
+func get_xp(username, pawn):
+	var config = ConfigFile.new()
+	config.load(savePath)
+	var currentXp = config.get_value(username, pawn, 0)
+	return(currentXp)

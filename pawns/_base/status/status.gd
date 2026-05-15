@@ -204,7 +204,7 @@ func stop_sprint() -> void:
 
 @export var stuckIcon: Resource
 func start_stuck(timer: float) -> void:
-	basePawn.get_node("Styles").style_parkour_reset_charges()
+	#basePawn.get_node("Styles").style_parkour_reset_charges()
 	if $StuckStatusTimer.get_time_left() > timer: return
 	$StuckStatusTimer.start(timer)
 	enable_status_icon(timer, stuckIcon)

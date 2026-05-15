@@ -11,10 +11,10 @@ var center
 var boardRadius
 
 @export var birdFeather: Resource
-var redColor = Color.INDIAN_RED
+var redColor = Color.RED
 var redDuration = 3.0
 var redFeathers = 50
-var yellowColor = Color.GOLD
+var yellowColor = Color.GOLDENROD
 var yellowFeathers = 50
 var yellowReturnTime = 5.0
 var yellowReturnSpeed = 10

@@ -17,7 +17,7 @@ func _ready() -> void:
 	# Spawn disarmed winning Pawn to show off
 	for pawn in get_parent().pawnList:
 		spawn_pawn(pawn, true)
-	
+
 	# Calculate scores for scoreboard
 	call_pawn_scores()
 
@@ -25,6 +25,11 @@ func _ready() -> void:
 func call_pawn_scores() -> void:
 	var i = 1
 	for pawn in get_parent().scoreList:
+		# Add XP
+		var xpToAdd = 1
+		if i == 1: xpToAdd += int(floor(sqrt(get_parent().scoreList.size())))
+		get_parent().add_xp(pawn.username, pawn.type, xpToAdd)
+		
 		$UI.get_node("ScoreContainer/PlacementLabel").text += str(i) + "\n"
 		#$UI.get_node("ScoreContainer/UsernameLabel").text += str(pawn.username) + "\n"
 		if pawn.team == "blue": $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color.DEEP_SKY_BLUE)
@@ -32,6 +37,7 @@ func call_pawn_scores() -> void:
 		else: $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color("white"))
 		$UI.get_node("ScoreContainer/UsernameLabel").add_text(str(pawn.username + "\n"))
 		$UI.get_node("ScoreContainer/UsernameLabel").pop()
+		$UI.get_node("ScoreContainer/LevelLabel").text += str(int(floor(sqrt(get_parent().get_xp(pawn.username, pawn.type))))) + "\n"
 		$UI.get_node("ScoreContainer/PawnLabel").text += str(pawn.type) + "\n"
 		$UI.get_node("ScoreContainer/StyleLabel").text += str(pawn.style) + "\n"
 		$UI.get_node("ScoreContainer/ItemLabel").text += str(pawn.item) + "\n"

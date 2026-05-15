@@ -94,7 +94,7 @@ func damage_effects(attack, attacker) -> void:
 
 	# Slug ooze dot
 	if attack.isSlugAttack:
-		status.start_sick(attacker.oozeSickDuration, attacker)
+		status.start_sick(max(1.0, attack.get_node("FizzleTimer").get_time_left()), attacker)
 
 	# Mummy glyph disarm
 	if attacker.type == "mummy" && attack.mummyCenter == true:

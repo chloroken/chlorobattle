@@ -14,9 +14,16 @@ func _ready() -> void:
 # Update Pawn name & hp bar
 func _process(_delta: float) -> void:
 	
-	var nameColor = Color.WHITE
-	if basePawn.team == "blue": nameColor = Color.DEEP_SKY_BLUE
-	elif basePawn.team == "gold": nameColor = Color.DARK_GOLDENROD
+	var main = get_parent().get_parent().get_parent()
+	var nameColor = Color.DIM_GRAY
+	if main.teamsEnabled:
+		if basePawn.team == "blue": nameColor = Color.DEEP_SKY_BLUE
+		elif basePawn.team == "gold": nameColor = Color.DARK_GOLDENROD
+	else:
+		var xp = main.get_xp(basePawn.username, basePawn.type)
+		if xp >= 100: nameColor = Color.GOLD
+		elif xp >= 25: nameColor = Color.LIGHT_GRAY
+		elif xp >= 9: nameColor = Color.SADDLE_BROWN
 	$NameLabel.set("theme_override_colors/font_color", nameColor)
 	
 	$NameLabel.text = basePawn.username.substr(0, basePawn.nameCharLimit)
