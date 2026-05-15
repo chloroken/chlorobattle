@@ -41,7 +41,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	$AttackContainer.add_child(newAttack)
 
 	# Set statuses
-	$Status.start_stuck(glyphChannelDur)
+	$Status.start_stuck(glyphChannelDur, self)
 	$Status.start_void(glyphChannelDur)
 
 func _on_cursed_reset_timer_timeout() -> void:

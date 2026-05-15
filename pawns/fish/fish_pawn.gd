@@ -48,7 +48,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 func _on_attack_duration_timer_timeout() -> void:
 	splash_attack()
 	$BubbleTimer.stop()
-	$Status.start_stuck(1.0)
+	$Status.start_stuck(1.0, self)
 
 func splash_attack() -> void:
 	var newAttack = grouperAttack.instantiate()

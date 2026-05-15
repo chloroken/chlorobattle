@@ -12,11 +12,11 @@ func _ready() -> void:
 	#register_pawn("YouTube", choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create bot Pawns to test with
-	for i in 24:
+	for i in 4:
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 	# Create specific test bots
 	#register_pawn("alsvidarr", "chair", "mighty", "smoke")
-	register_pawn("chloro", "candle", "berserk", "glue")
+	register_pawn("chloro", "fish", "parkour", "dice")
 	#100m
 
 	# Spawn Pawns made above

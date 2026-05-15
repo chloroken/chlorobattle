@@ -2,16 +2,17 @@ extends "res://pawns/_base/base_pawn.gd"
 
 # Ship variables
 @export var shipRing: PackedScene
+var antimatterCount = 3
 var projectileAttackSpeedMin = 3.0
 var projectileAttackSpeedMax = 4.0
-var antimatterSlowDuration = 2.0
+var antimatterSlowDuration = 1.0
 var burstDuration = 2.0
 var overheatDuration = 2.0
 var ringDuration = 0.25
 
 # Projectile variables
 @export var shipAttack: PackedScene
-var projectileArc = 0.25
+var projectileArc = 0.5
 var projectileOffset = 20
 var projectileDuration = 3.0
 var projectileSpdMin = 1.5
@@ -31,26 +32,26 @@ func _ready() -> void:
 		#$OverheatDurationTimer.one_shot = true
 		#$BurstDurationTimer.one_shot = true
 		#$BurstDurationTimer.start(burstDuration)
-		$Status.start_slow(burstDuration)
 		start_attack_cooldown()
 
 func start_attack_cooldown() -> void:
 	var attackCooldown = randf_range (projectileAttackSpeedMin, projectileAttackSpeedMax)
 	var antimatterCooldown = asp * aspMod * attackCooldown
 	$AttackCooldownTimer.start(antimatterCooldown)
-	$Status.start_slow(antimatterSlowDuration)
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
+	$Status.start_slow(antimatterSlowDuration)
 
-	var newAttack = antimatterAttack.instantiate()
-	newAttack.position = self.position
-	newAttack.baseSpeed = spd*2
-	var newDir = self.direction
-	newDir = newDir.rotated(randf_range(-projectileArc, projectileArc))
-	newAttack.direction = newDir
-	$AttackContainer.add_child(newAttack)
+	for i in antimatterCount:
+		var newAttack = antimatterAttack.instantiate()
+		newAttack.position = self.position
+		newAttack.baseSpeed = spd*2
+		var newDir = self.direction
+		newDir = newDir.rotated(randf_range(-projectileArc, projectileArc))
+		newAttack.direction = newDir
+		$AttackContainer.add_child(newAttack)
 	
 	# Launch projectile
 	#var newAttack = shipAttack.instantiate()

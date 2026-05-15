@@ -3,12 +3,12 @@ extends Node2D
 var basePawn
 
 @export var globuleAttack: Resource
-var globuleCountMin = 25
-var globuleCountMax = 50
+var globuleCountMin = 8
+var globuleCountMax = 12
 
 var antimatterDuration = 3.0
 var direction: Vector2
-var baseSpeed = 50
+var baseSpeed = 25
 var speed
 
 func _ready() -> void:

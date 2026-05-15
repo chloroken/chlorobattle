@@ -66,7 +66,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	if $Gem3Timer.is_stopped() && $MeowDurationTimer.is_stopped():
 		$MeowDurationTimer.start(catMeowDuration)
 		$MeowStaggerTimer.start(catStaggerDuration)
-		$Status.start_stuck(catMeowDuration)
+		$Status.start_stuck(catMeowDuration, self)
 	else:
 		if $Gem2Timer.is_stopped():
 			var newAttack = catYarn.instantiate()

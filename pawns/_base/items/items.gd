@@ -105,7 +105,7 @@ func item_try_glue(attackingPawn) -> void:
 
 	# Chance to apply stuck
 	var diceRoll = randi_range(1, glueStuckChance)
-	if diceRoll == 1: status.start_stuck(glueStuckDuration)
+	if diceRoll == 1: status.start_stuck(glueStuckDuration, attackingPawn)
 
 	basePawn.board.combat_log("[" + str(attackingPawn.username) + "] stuck [" + str(basePawn.username) + "] (Glue)")
 
@@ -336,7 +336,7 @@ func _on_tire_attack_timer_timeout() -> void:
 
 func try_tire_stuck(attack) -> void:
 	if attack.isTireAttack:
-		basePawn.get_node("Status").start_stuck(attack.stuckDuration)
+		basePawn.get_node("Status").start_stuck(attack.stuckDuration, attack.get_parent().get_parent())
 		var randomCooldown = randf_range(tireCooldownMin, tireCooldownMax)
 		var attackingPawnItems = attack.get_parent().get_parent().get_node("Items")
 		attackingPawnItems.get_node("TireAttackTimer").start(randomCooldown)

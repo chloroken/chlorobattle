@@ -55,7 +55,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	$AttackContainer.add_child(newAttack)
 
 func _on_demon_cooldown_timer_timeout() -> void:
-	$Status.start_stuck(demonFormDuration)
+	$Status.start_stuck(demonFormDuration, self)
 	$Status.start_tanky(demonFormDuration)
 	$Status.stop_scared()
 	demonFormActive = true

@@ -8,6 +8,9 @@
 [ext_resource type="Script" uid="uid://cei2jm6y423k1" path="res://pawns/_base/combat/rules/rules_styles.gd" id="6_qr8r8"]
 [ext_resource type="Script" uid="uid://0h1lf818vflq" path="res://pawns/_base/combat/rules/rules_statuses.gd" id="7_yv248"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ko14k"]
+radius = 48.04165
+
 [node name="Combat" type="Node2D" unique_id=1691095016]
 script = ExtResource("1_io52v")
 tombstone = ExtResource("2_wsjao")
@@ -25,5 +28,13 @@ script = ExtResource("5_85ega")
 [node name="Style" type="Node" parent="." unique_id=2112836291]
 script = ExtResource("6_qr8r8")
 
+[node name="BullyArea" type="Area2D" parent="Style" unique_id=1164595527]
+collision_layer = 0
+
+[node name="Collider" type="CollisionShape2D" parent="Style/BullyArea" unique_id=922941070]
+shape = SubResource("CircleShape2D_ko14k")
+
 [node name="Status" type="Node" parent="." unique_id=980758354]
 script = ExtResource("7_yv248")
+
+[connection signal="area_entered" from="Style/BullyArea" to="." method="_on_bully_area_area_entered"]

@@ -53,7 +53,7 @@ func start_bleed(timer: float, source) -> void:
 func _on_bleed_status_timer_timeout() -> void:
 	$BleedDamageTimer.stop()
 func _on_bleed_damage_timer_timeout() -> void:
-	get_parent().status_damage("Bleed")
+	get_parent().get_node("Combat").status_damage("Bleed")
 	$BleedDamageTimer.start(bleedDamageInterval)
 func stop_bleed() -> void:
 	disable_status_icon(bleedIcon)
@@ -153,7 +153,7 @@ func try_scared(body) -> void:
 @export var sickIcon: Resource
 var sickMinimumHp = 0.1
 var sickPercentDamage = 0.01
-var sickDamageInterval = 3.0
+var sickDamageInterval = 1.0
 var sickPawnSource
 func start_sick(timer: float, source) -> void:
 	if $SickStatusTimer.get_time_left() > timer: return
@@ -164,7 +164,7 @@ func start_sick(timer: float, source) -> void:
 func _on_sick_status_timer_timeout() -> void:
 	$SickDamageTimer.stop()
 func _on_sick_damage_timer_timeout() -> void:
-	get_parent().status_damage("Sick")
+	get_parent().get_node("Combat").status_damage("Sick")
 	$SickDamageTimer.start(sickDamageInterval)
 func stop_sick() -> void:
 	disable_status_icon(sickIcon)
@@ -203,8 +203,9 @@ func stop_sprint() -> void:
 #########
 
 @export var stuckIcon: Resource
-func start_stuck(timer: float) -> void:
-	#basePawn.get_node("Styles").style_parkour_reset_charges()
+var stuckPawnSource
+func start_stuck(timer: float, source) -> void:
+	if source.username != basePawn.username: basePawn.get_node("Styles").style_parkour_reset_charges()
 	if $StuckStatusTimer.get_time_left() > timer: return
 	$StuckStatusTimer.start(timer)
 	enable_status_icon(timer, stuckIcon)
@@ -254,7 +255,7 @@ func _on_void_status_timer_timeout() -> void:
 	for attack in basePawn.voidHitList:
 		if attack == null: continue
 		if attack.get_overlapping_areas().has(basePawn):
-			basePawn._on_area_entered(attack)
+			basePawn.get_node("Combat")._on_base_pawn_area_entered(attack)
 	basePawn.voidHitList.clear()
 
 func stop_void() -> void:

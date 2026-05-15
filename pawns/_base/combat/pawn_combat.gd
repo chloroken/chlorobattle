@@ -1,12 +1,25 @@
 extends Node2D
 @export var tombstone: PackedScene
 var basePawn
-
-###############
-# PAWN COMBAT #
-###############
 func _ready() -> void:
 	basePawn = get_parent()
+
+##################
+# DAMAGE SOURCES #
+##################
+func _on_base_pawn_area_entered(attack: Area2D) -> void:
+	attack_hit(attack)
+	item_hit(attack)
+func _on_bully_area_area_entered(attack: Area2D) -> void:
+	style_touch(attack)
+func status_damage(statusType) -> void:
+	match statusType:
+		"Bleed": $Status.bleed_damage()
+		"Sick": $Status.sick_damage()
+
+##################
+# HIT VALIDATION #
+##################
 
 func attack_hit(attack) -> void:
 	if !basePawn.get_node("Status/VoidStatusTimer").is_stopped():
@@ -20,7 +33,6 @@ func attack_hit(attack) -> void:
 	var mainBoard = get_parent().get_parent().get_parent()
 	if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
 	$Pawn.combat_pawn(attack)
-
 func item_hit(attack) -> void:
 	if !basePawn.get_node("Status/VoidStatusTimer").is_stopped():
 		basePawn.voidHitList.append(attack)
@@ -33,7 +45,6 @@ func item_hit(attack) -> void:
 	var mainBoard = get_parent().get_parent().get_parent()
 	if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
 	$Item.combat_item(attack, basePawn)
-
 func style_touch(victim) -> void:
 	if basePawn.attacksDisabled: return
 	if basePawn.style != "bully": return

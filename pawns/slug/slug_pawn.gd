@@ -9,11 +9,10 @@ var oozeSickDuration = 10.0
 
 func _ready() -> void:
 	super()
-	
 
 	# Start attack cycle
 	if !attacksDisabled: start_attack_cooldown()
-	
+
 func start_attack_cooldown() -> void:
 	var oozeCooldown = asp * aspMod * slugAttackSpeed
 	$AttackCooldownTimer.start(oozeCooldown)

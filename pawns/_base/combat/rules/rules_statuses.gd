@@ -28,12 +28,6 @@ func sick_damage() -> void:
 	if finalSickDamage <= 0: return
 	apply_status_damage(finalSickDamage, pawnStatus.bleedPawnSource, basePawn, "Sick")
 
-func dot_damage() -> void:
-	var globalDmgMod = arenaBoard.globalDmgMod / arenaBoard.dmgModDuration
-	var dotDamageAmount = min(basePawn.hp - pawnStatus.dotMinimumHp, basePawn.baseHp * pawnStatus.dotPercentDamage * globalDmgMod)
-	if dotDamageAmount <= 0: return
-	apply_status_damage(dotDamageAmount, pawnStatus.dotPawnSource, basePawn, "Dot")
-
 func apply_status_damage(damage, source, victim, dotName) -> void:
 	victim.hp -= damage
 	var combatLogMsg = ""

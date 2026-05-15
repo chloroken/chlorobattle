@@ -11,7 +11,7 @@ func _ready() -> void:
 			$BerserkResetTimer.one_shot = true
 			$BerserkResetTimer.start(berserkTimerDuration)
 		elif basePawn.style == "bully":
-			get_parent().get_node("BullyCircle").modulate.a = 0.9
+			$BullyCircle.modulate.a = 0.9
 			$BullyResetTimer.one_shot = true
 			$BullyResetTimer.start(bullyStackDuration)
 			bully_set_pawn_size()
@@ -97,8 +97,8 @@ func _on_bully_reset_timer_timeout() -> void:
 	bully_set_pawn_size()
 func bully_set_pawn_size() -> void:
 	var bullyScale = Vector2.ONE * (1.0 + bullyScaleMod * bullyStackCount) * 0.5
-	get_parent().get_node("BullyCircle").scale = bullyScale
-	get_parent().get_node("BullyArea").scale = bullyScale
+	$BullyCircle.scale = bullyScale
+	get_parent().get_node("Combat/Style/BullyArea").scale = bullyScale
 
 ###########
 # PARKOUR #
@@ -108,13 +108,18 @@ var parkourChargeCount = 0
 var parkourChargeCap = 5
 var parkourDamagePerCharge = 5
 var parkourChargeLossTime = 5.0
+var parkourSpeedPerCharge = 0.1
 func style_parkour_trigger(attacker) -> float:
 	if attacker.style != "parkour": return(0)
 	return(attacker.get_node("Styles").parkourChargeCount * attacker.get_node("Styles").parkourDamagePerCharge)
 func style_parkour_add_charge() -> void:
 	if basePawn.attacksDisabled: return
 	if basePawn.style != "parkour": return
-	if !basePawn.get_node("Status/StuckStatusTimer").is_stopped(): return
+	
+	# Dont add charges while stuck from an enemy
+	if !basePawn.get_node("Status/StuckStatusTimer").is_stopped():
+		if basePawn.get_node("Status").stuckPawnSource == get_parent().username:
+			return
 
 	parkourChargeCount += 1
 	if parkourChargeCount > parkourChargeCap:

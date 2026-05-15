@@ -5,14 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://bvuo3yaraeyqs" path="res://pawns/_base/status/status.tscn" id="6_33m71"]
 [ext_resource type="PackedScene" uid="uid://crh2qlcijypen" path="res://pawns/_base/styles/styles.tscn" id="7_56xb5"]
 [ext_resource type="PackedScene" uid="uid://3ykwu6msspwm" path="res://pawns/_base/combat/pawn_combat.tscn" id="10_56xb5"]
-[ext_resource type="Texture2D" uid="uid://dhi1t62xhq12m" path="res://pawns/_base/styles/bully/bully_circle.png" id="22_1sae3"]
 [ext_resource type="PackedScene" uid="uid://c6l8nrwc5467f" path="res://pawns/_base/items/items.tscn" id="23_tuq4u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pac6h"]
 radius = 12.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_cjful"]
-radius = 48.04165
 
 [node name="BasePawn" type="Area2D" unique_id=1877646274]
 collision_mask = 63
@@ -27,24 +23,13 @@ spd = 0.5
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=1776540401]
 shape = SubResource("CircleShape2D_pac6h")
 
-[node name="BullyCircle" type="Sprite2D" parent="." unique_id=849009739]
-modulate = Color(1, 1, 1, 0)
-z_index = -1
-texture = ExtResource("22_1sae3")
-
-[node name="BullyArea" type="Area2D" parent="." unique_id=1221553865]
-collision_layer = 0
-
-[node name="Collider" type="CollisionShape2D" parent="BullyArea" unique_id=727063655]
-shape = SubResource("CircleShape2D_cjful")
-
 [node name="AttackCooldownTimer" type="Timer" parent="." unique_id=1610759688]
 
 [node name="AttackContainer" type="Node" parent="." unique_id=1458982635]
 
-[node name="GUI" parent="." unique_id=1414015449 instance=ExtResource("5_cjful")]
-
 [node name="Combat" parent="." unique_id=1691095016 instance=ExtResource("10_56xb5")]
+
+[node name="GUI" parent="." unique_id=1414015449 instance=ExtResource("5_cjful")]
 
 [node name="Items" parent="." unique_id=1930655975 instance=ExtResource("23_tuq4u")]
 
@@ -52,7 +37,6 @@ shape = SubResource("CircleShape2D_cjful")
 
 [node name="Styles" parent="." unique_id=639132851 instance=ExtResource("7_56xb5")]
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_entered" from="." to="Combat" method="_on_base_pawn_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="area_entered" from="BullyArea" to="." method="_on_bully_area_area_entered"]

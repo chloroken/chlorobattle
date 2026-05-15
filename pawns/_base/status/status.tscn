@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://imenya06wh6k" path="res://pawns/_base/status/icons/void_icon.png" id="13_oc7gc"]
 [ext_resource type="Texture2D" uid="uid://fkfvrhqe1qqy" path="res://pawns/_base/status/icons/weak_icon.png" id="14_4ffbj"]
 
-[node name="Status" type="Node" unique_id=181585030]
+[node name="Status" type="Node2D" unique_id=454219605]
 script = ExtResource("1_th0bv")
 statusIcon = ExtResource("7_m0l2q")
 bleedIcon = ExtResource("4_l0qeg")
@@ -74,12 +74,7 @@ one_shot = true
 
 [connection signal="timeout" from="BleedDamageTimer" to="." method="_on_bleed_damage_timer_timeout"]
 [connection signal="timeout" from="BleedStatusTimer" to="." method="_on_bleed_status_timer_timeout"]
-[connection signal="timeout" from="DisarmedStatusTimer" to="." method="_on_timid_status_timer_timeout"]
 [connection signal="timeout" from="LazyStatusTimer" to="." method="_on_lazy_status_timer_timeout"]
 [connection signal="timeout" from="SickDamageTimer" to="." method="_on_sick_damage_timer_timeout"]
 [connection signal="timeout" from="SickStatusTimer" to="." method="_on_sick_status_timer_timeout"]
-[connection signal="timeout" from="SlowStatusTimer" to="." method="_on_slow_status_timer_timeout"]
-[connection signal="timeout" from="SprintStatusTimer" to="." method="_on_sprint_status_timer_timeout"]
-[connection signal="timeout" from="StuckStatusTimer" to="." method="_on_stuck_status_timer_timeout"]
 [connection signal="timeout" from="VoidStatusTimer" to="." method="_on_void_status_timer_timeout"]
-[connection signal="timeout" from="WeakStatusTimer" to="." method="_on_weak_status_timer_timeout"]
