@@ -18,6 +18,9 @@ func _ready() -> void:
 	for pawn in get_parent().pawnList:
 		spawn_pawn(pawn, true)
 
+	if get_parent().repeatPlay:
+		$AutoplayTimer.start(get_parent().repeatTime)
+
 	# Calculate scores for scoreboard
 	call_pawn_scores()
 
@@ -25,10 +28,10 @@ func _ready() -> void:
 func call_pawn_scores() -> void:
 	var i = 1
 	for pawn in get_parent().scoreList:
-		# Add XP
-		var xpToAdd = 1
-		if i == 1: xpToAdd += int(floor(sqrt(get_parent().scoreList.size())))
-		get_parent().add_xp(pawn.username, pawn.type, xpToAdd)
+		if !get_parent().testingMode:
+			var xpToAdd = 1
+			if i == 1: xpToAdd += int(floor(sqrt(get_parent().scoreList.size())))
+			get_parent().add_xp(pawn.username, pawn.type, xpToAdd)
 		
 		$UI.get_node("ScoreContainer/PlacementLabel").text += str(i) + "\n"
 		#$UI.get_node("ScoreContainer/UsernameLabel").text += str(pawn.username) + "\n"

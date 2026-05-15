@@ -28,8 +28,7 @@ func attack_hit(attack) -> void:
 	if !attack.get_collision_layer_value(2): return
 	if basePawn.hitList.has(attack): return
 	var attacker = attack.get_parent().get_parent()
-	var attackerUsername = attacker.username
-	if attackerUsername == basePawn.username: return
+	if attacker.username == basePawn.username: return
 	var mainBoard = get_parent().get_parent().get_parent()
 	if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
 	$Pawn.combat_pawn(attack)
@@ -40,8 +39,7 @@ func item_hit(attack) -> void:
 	if !attack.get_collision_layer_value(3): return
 	if basePawn.hitList.has(attack): return
 	var attacker = attack.get_parent().get_parent()
-	var attackerUsername = attacker.username
-	if attackerUsername == basePawn.username: return
+	if attacker.username == basePawn.username: return
 	var mainBoard = get_parent().get_parent().get_parent()
 	if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
 	$Item.combat_item(attack, basePawn)
@@ -85,6 +83,7 @@ func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
 	pawn.queue_free()
 	
 	# If this is the last pawn, end game
+	if mainBoard.testingMode: return
 	if mainBoard.pawnList.size() <= 1:
 		update_scoreboard(board, attackingPawn)
 		mainBoard.switch_board("score")
