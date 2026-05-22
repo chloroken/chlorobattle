@@ -10,8 +10,8 @@ func _ready() -> void:
 func _on_base_pawn_area_entered(attack: Area2D) -> void:
 	attack_hit(attack)
 	item_hit(attack)
-func _on_bully_area_area_entered(attack: Area2D) -> void:
-	style_touch(attack)
+func _on_bully_area_area_entered(victim: Area2D) -> void:
+	style_touch(victim)
 func status_damage(statusType) -> void:
 	match statusType:
 		"Bleed": $Status.bleed_damage()
@@ -64,13 +64,13 @@ func clean_up_attack(attack) -> void:
 func clean_up_pawn(attacker) -> void:
 	var pawns = basePawn.get_parent().get_parent().pawnList
 	if basePawn.hp <= 0:
-		attacker.get_node("Combat/DeathSound").play()
+		basePawn.get_parent().get_node("DeathSound").play()# tie to board
 		for i in range(0, pawns.size()):
 			if pawns[i].username == basePawn.username:
 				attacker.killCount += 1
 				if attacker.style == "slayer":
 					attacker.get_node("Styles").add_slayer_charge()
-				basePawn.get_node("Combat").pawn_death(basePawn, attacker, attacker.username, i)
+				pawn_death(basePawn, attacker, attacker.username, i)
 				break
 func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
 	var board = get_parent().get_parent()

@@ -11,13 +11,13 @@ emberAttack = ExtResource("5_nulue")
 hp = 390.0
 def = 0.3
 dmg = 10.0
-pen = 0.3
+pen = 0.2
 spd = 30.0
 
-[node name="PawnSprite" parent="." index="0" unique_id=181134308]
-texture = ExtResource("4_squ0r")
+[node name="EmberSpawnTimer" type="Timer" parent="." index="0" unique_id=781136863]
 
-[node name="EmberSpawnTimer" type="Timer" parent="." index="4" unique_id=781136863]
+[node name="PawnSprite" parent="." index="1" unique_id=181134308]
+texture = ExtResource("4_squ0r")
 
 [connection signal="timeout" from="EmberSpawnTimer" to="." method="_on_ember_spawn_timer_timeout"]
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

@@ -51,7 +51,7 @@ func _ready() -> void:
 			dmg = 50
 
 func _physics_process(delta: float) -> void:
-	scale = Vector2.ONE * lerp(0, 1, min(1.0, position.distance_to(basePawn.position) / growDistance))
+	scale = Vector2.ONE * 0.75 * lerp(0, 1, min(1.0, position.distance_to(basePawn.position) / growDistance))
 	
 	rotation = direction.angle()
 	match birdType:

@@ -17,7 +17,7 @@ bombExplosion = ExtResource("4_l2oen")
 whirlwindAttack = ExtResource("5_rcuk4")
 hp = 400.0
 def = 0.3
-dmg = 35.0
+dmg = 20.0
 pen = 0.1
 spd = 30.0
 
@@ -26,5 +26,5 @@ texture = ExtResource("3_u4lmt")
 
 [node name="FormSwapTimer" type="Timer" parent="." index="3" unique_id=16919321]
 
-[connection signal="timeout" from="FormSwapTimer" to="." method="_on_form_swap_timer_timeout"]
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="FormSwapTimer" to="." method="_on_form_swap_timer_timeout"]

@@ -25,7 +25,7 @@ script = ExtResource("4_epfdb")
 [node name="Pawn" type="Node" parent="." unique_id=1608365900]
 script = ExtResource("5_85ega")
 
-[node name="Style" type="Node" parent="." unique_id=2112836291]
+[node name="Style" type="Node2D" parent="." unique_id=779156937]
 script = ExtResource("6_qr8r8")
 
 [node name="BullyArea" type="Area2D" parent="Style" unique_id=1164595527]

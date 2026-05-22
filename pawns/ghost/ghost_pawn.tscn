@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://ce3ii6a2ekgb5"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_prjq8"]
+[ext_resource type="Texture2D" uid="uid://crw18m1ve0add" path="res://pawns/ghost/ghost_pawn.png" id="2_krqlo"]
+[ext_resource type="Script" uid="uid://cgd203bptgjxl" path="res://pawns/ghost/ghost_pawn.gd" id="2_wqu75"]
+[ext_resource type="PackedScene" uid="uid://c6eqvl22j2jts" path="res://pawns/ghost/boo/ghost_boo.tscn" id="3_2xtv5"]
+[ext_resource type="PackedScene" uid="uid://dcn2bdvla1orl" path="res://pawns/ghost/possess/ghost_possess.tscn" id="4_sftl2"]
+[ext_resource type="Texture2D" uid="uid://dav2670iy82as" path="res://pawns/ghost/ghost_pawn_faceless.png" id="5_el14t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sftl2"]
+radius = 12.0
+
+[node name="GhostPawn" unique_id=1877646274 instance=ExtResource("1_prjq8")]
+script = ExtResource("2_wqu75")
+booAttack = ExtResource("3_2xtv5")
+normalSprite = ExtResource("2_krqlo")
+possessSprite = ExtResource("5_el14t")
+hp = 370.0
+dmg = 20.0
+pen = 0.4
+spd = 30.0
+
+[node name="PossessCooldownTimer" type="Timer" parent="." index="0" unique_id=2041102399]
+
+[node name="PossessDurationTimer" type="Timer" parent="." index="1" unique_id=1593849940]
+
+[node name="GhostPossess" parent="." index="2" unique_id=1511959369 instance=ExtResource("4_sftl2")]
+
+[node name="PawnSprite" parent="." index="3" unique_id=181134308]
+texture = ExtResource("2_krqlo")
+
+[node name="Collider" parent="." index="4" unique_id=1776540401]
+shape = SubResource("CircleShape2D_sftl2")
+
+[connection signal="timeout" from="PossessCooldownTimer" to="." method="_on_possess_cooldown_timer_timeout"]
+[connection signal="timeout" from="PossessDurationTimer" to="." method="_on_possess_duration_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

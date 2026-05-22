@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dnkqxjuduneo8" path="res://pawns/_base/items/killbot/item_killbot.tscn" id="3_l6ftf"]
 [ext_resource type="PackedScene" uid="uid://c7nabqm2bnb2t" path="res://pawns/_base/items/map/item_map.tscn" id="4_xhuj0"]
 [ext_resource type="PackedScene" uid="uid://dkb1t4pgm11vu" path="res://pawns/_base/items/tire/tire_attack.tscn" id="5_2hvhd"]
+[ext_resource type="PackedScene" uid="uid://d3fb3vh8xdi1l" path="res://pawns/_base/items/map/item_map_bomb.tscn" id="5_lmbgv"]
 [ext_resource type="PackedScene" uid="uid://82aq5p3vwun7" path="res://pawns/_base/items/smoke/item_smoke.tscn" id="6_oqdkr"]
 [ext_resource type="PackedScene" uid="uid://t0a841qmypk6" path="res://pawns/_base/items/skates/item_skates.tscn" id="6_x221r"]
 
@@ -13,6 +14,7 @@ script = ExtResource("1_hxr07")
 diceEffect = ExtResource("2_b8pr4")
 killbot = ExtResource("3_l6ftf")
 mapBlinkEffect = ExtResource("4_xhuj0")
+mapBombEffect = ExtResource("5_lmbgv")
 skatesBlade = ExtResource("6_x221r")
 smokeItem = ExtResource("6_oqdkr")
 tireAttack = ExtResource("5_2hvhd")

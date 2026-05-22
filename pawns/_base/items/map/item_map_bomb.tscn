@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://d3fb3vh8xdi1l"]
+
+[ext_resource type="Script" uid="uid://drdbom4tj5u3u" path="res://pawns/_base/items/map/item_map_bomb.gd" id="1_qa40j"]
+[ext_resource type="PackedScene" uid="uid://cde16swxtpij5" path="res://pawns/_base/items/map/item_map_explosion.tscn" id="2_o26ww"]
+[ext_resource type="Texture2D" uid="uid://cbycjpg4evshj" path="res://pawns/_base/items/map/item_map_bomb.png" id="2_qa40j"]
+
+[node name="ItemMapBomb" type="Node2D" unique_id=1862287447]
+script = ExtResource("1_qa40j")
+itemMapExplosion = ExtResource("2_o26ww")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1933025871]
+texture = ExtResource("2_qa40j")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=526897575]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

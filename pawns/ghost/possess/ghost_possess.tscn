@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dcn2bdvla1orl"]
+
+[ext_resource type="Script" uid="uid://cjr04ehqkel1g" path="res://pawns/ghost/possess/ghost_possess.gd" id="2_pjggv"]
+[ext_resource type="Texture2D" uid="uid://dn86cdkka3kss" path="res://pawns/ghost/possess/ghost_possess.png" id="3_d5jh5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jim0w"]
+radius = 24.0
+
+[node name="GhostPossess" type="Area2D" unique_id=1511959369]
+collision_layer = 0
+script = ExtResource("2_pjggv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1057593509]
+visible = false
+texture = ExtResource("3_d5jh5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=721525918]
+shape = SubResource("CircleShape2D_jim0w")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

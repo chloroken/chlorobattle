@@ -26,14 +26,15 @@ func sick_damage() -> void:
 	var damageCap = basePawn.hp
 	var finalSickDamage = min(sickDamage, damageCap)
 	if finalSickDamage <= 0: return
-	apply_status_damage(finalSickDamage, pawnStatus.bleedPawnSource, basePawn, "Sick")
+	apply_status_damage(finalSickDamage, pawnStatus.sickPawnSource, basePawn, "Sick")
 
-func apply_status_damage(damage, source, victim, dotName) -> void:
+func apply_status_damage(damage, attacker, victim, dotName) -> void:
 	victim.hp -= damage
 	var combatLogMsg = ""
-	if is_instance_valid(source):
-		source.damageDealt += damage
-		combatLogMsg = "[" + str(source.username) + "] hit [" + str(victim.username) + "] for " + str("%0.2f" % damage) + " (" + str(dotName) + ")"
+	if is_instance_valid(attacker):
+		attacker.damageDealt += damage
+		combatLogMsg = "[" + str(attacker.username) + "] hit [" + str(victim.username) + "] for " + str("%0.2f" % damage) + " (" + str(dotName) + ")"
 	else:
 		combatLogMsg = "[" + str(victim.username) + "] took " + str("%0.2f" % damage) + " damage (" + str(dotName) + ")"
 	victim.board.combat_log(combatLogMsg)
+	victim.get_node("Combat").clean_up_pawn(attacker)

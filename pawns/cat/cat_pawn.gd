@@ -70,7 +70,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	else:
 		if $Gem2Timer.is_stopped():
 			var newAttack = catYarn.instantiate()
-			newAttack.position = try_yarn_position() + position
+			newAttack.position = good_yarn_position() + position
 			newAttack.dmg = self.dmg
 			$Gem2Timer.start(randf_range(catGemBlueCooldownMin, catGemBlueCooldownMax))
 			$AttackContainer.add_child(newAttack)
@@ -98,15 +98,14 @@ func _on_attack_cooldown_timer_timeout() -> void:
 			$SwipeTimer.start(catSwipeDuration)
 			start_attack_cooldown()
 
-func try_yarn_position() -> Vector2:
-	var board = get_parent()
+func good_yarn_position() -> Vector2:
 	var boardRadius = board.boardRadius
-	var newPos = get_good_yarn_position()
+	var newPos = try_yarn_position()
 	while newPos.distance_to(center) > boardRadius:
-		newPos = get_good_yarn_position()
+		newPos = try_yarn_position()
 	return(newPos)
 
-func get_good_yarn_position() -> Vector2:
+func try_yarn_position() -> Vector2:
 	var offset = 16
 	return(Vector2(randf_range(-offset, offset), randf_range(-offset, offset)))
 

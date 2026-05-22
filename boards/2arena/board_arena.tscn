@@ -5,11 +5,16 @@
 [ext_resource type="PackedScene" uid="uid://c2o2pouptkv0t" path="res://monsters/_base/spawner/monster_spawner.tscn" id="3_2ogqa"]
 [ext_resource type="AudioStream" uid="uid://cr6bhvej0b2xx" path="res://boards/2arena/board_arena.mp3" id="3_epplf"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="3_kkqx4"]
+[ext_resource type="AudioStream" uid="uid://c5efgrhkqu74x" path="res://pawns/_base/combat/tombstone/tombstone.mp3" id="4_31rsc"]
 [ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="4_epplf"]
 
 [node name="BoardArena" unique_id=1844479333 instance=ExtResource("1_cxbok")]
 script = ExtResource("2_pye77")
 monsterSpawner = ExtResource("3_2ogqa")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="." index="1" unique_id=1768527112]
+stream = ExtResource("4_31rsc")
+volume_db = -15.0
 
 [node name="ArenaCloseTimer" type="Timer" parent="Timers" parent_id_path=PackedInt32Array(245188717) index="0" unique_id=1711209481]
 

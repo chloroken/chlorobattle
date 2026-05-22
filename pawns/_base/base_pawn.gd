@@ -22,6 +22,7 @@ var attacksDisabled = false
 var hitList = []
 var voidHitList = []
 var isCursed = false
+var isPossessed = false
 
 # Movement variables
 var board

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c6eqvl22j2jts"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_547k8"]
+[ext_resource type="Texture2D" uid="uid://dcs0nuh5rhdbd" path="res://pawns/ghost/boo/ghost_boo.png" id="2_hakwy"]
+[ext_resource type="Script" uid="uid://b78kgexuh1i7f" path="res://pawns/ghost/boo/ghost_boo.gd" id="2_kx64d"]
+
+[node name="BooAttack" unique_id=553809928 instance=ExtResource("1_547k8")]
+script = ExtResource("2_kx64d")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("2_hakwy")
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

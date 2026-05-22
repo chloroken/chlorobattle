@@ -8,7 +8,7 @@
 [node name="ChairPawn" unique_id=1048959576 instance=ExtResource("1_gb7of")]
 script = ExtResource("2_ag02n")
 chairAttack = ExtResource("3_wxuat")
-hp = 410.0
+hp = 405.0
 def = 0.4
 dmg = 40.0
 pen = 0.1

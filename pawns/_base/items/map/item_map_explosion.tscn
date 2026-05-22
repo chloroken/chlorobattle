@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cde16swxtpij5"]
+
+[ext_resource type="PackedScene" uid="uid://b4j3c6ga861dj" path="res://pawns/_base/items/_attack/item_attack.tscn" id="1_g554c"]
+[ext_resource type="Script" uid="uid://kac3hnuvxts8" path="res://pawns/_base/items/map/item_map_explosion.gd" id="2_d6p8k"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_edgjr"]
+load_path = "res://.godot/imported/item_map_explosion.png-2d3f1df0d30b51d574296807b41ad7b0.ctex"
+
+[node name="ItemMapExplosion" unique_id=1943530875 instance=ExtResource("1_g554c")]
+script = ExtResource("2_d6p8k")
+
+[node name="Sprite" parent="." index="0" unique_id=1518436511]
+texture = SubResource("CompressedTexture2D_edgjr")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

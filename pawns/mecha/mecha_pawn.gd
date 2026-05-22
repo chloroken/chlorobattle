@@ -12,16 +12,20 @@ var formSwapVariance = 1.0
 @export var bombExplosion: PackedScene
 var bombCooldownMin = 2.0
 var bombCooldownMax = 3.0
-var bombConeArc = .25
-var bombConeMin = .10
-var bombSpeedMod = 8
+var bombConeArc = 0.25
+var bombConeMin = 0.0
+var bombSpeedMod = 10.0
+var bombSpeedIncrement = 3.0
+var bombStartingIncrement = 5.0
 var bombDuration = 0.5
+var bombCount = 3
 
 # Melee variables
 @export var whirlwindAttack: PackedScene
 var whirlwindCooldownMin = 3.0
 var whirlwindCooldownMax = 4.0
-var whirlwindDmgMod = 2.0
+var whirlwindDmgMod = 4.0
+var walkerTankyDuration = 1.0
 
 func _ready() -> void:
 	super()
@@ -56,28 +60,38 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newAttack.attackName = "Glaive"
 		newAttack.direction = randf_range(0, TAU)
 		$AttackContainer.add_child(newAttack)
+		$Status.start_tanky(walkerTankyDuration)
 
 	# Jet attack
 	else:
-		var newAtkArc = randf_range(bombConeMin, bombConeArc)
-
-		# Guided bomb 1
-		var newAttack = bombAttack.instantiate()
-		newAttack.position = self.position
-		newAttack.dmg = self.dmg
-		newAttack.direction = self.direction.rotated(newAtkArc)
-		newAttack.speed = self.spd * bombSpeedMod
-		newAttack.duration = bombDuration
-		$AttackContainer.add_child(newAttack)
-
-		# Guided bomb 2
-		var newAttack2 = bombAttack.instantiate()
-		newAttack2.position = self.position
-		newAttack2.dmg = self.dmg
-		newAttack2.direction = self.direction.rotated(-newAtkArc)
-		newAttack2.speed = self.spd * bombSpeedMod
-		newAttack2.duration = bombDuration
-		$AttackContainer.add_child(newAttack2)
+		for i in bombCount:
+			var newAttack = bombAttack.instantiate()
+			newAttack.position = self.position
+			newAttack.dmg = self.dmg
+			var newAtkArc = randf_range(bombConeMin, bombConeArc)
+			newAttack.direction = self.direction.rotated(newAtkArc)
+			newAttack.speed = self.spd * (i+bombStartingIncrement) * bombSpeedIncrement / 2
+			newAttack.duration = bombDuration
+			$AttackContainer.add_child(newAttack)
+		#var newAtkArc = randf_range(bombConeMin, bombConeArc)
+#
+		## Guided bomb 1
+		#var newAttack = bombAttack.instantiate()
+		#newAttack.position = self.position
+		#newAttack.dmg = self.dmg
+		#newAttack.direction = self.direction.rotated(newAtkArc)
+		#newAttack.speed = self.spd * bombSpeedMod
+		#newAttack.duration = bombDuration
+		#$AttackContainer.add_child(newAttack)
+#
+		## Guided bomb 2
+		#var newAttack2 = bombAttack.instantiate()
+		#newAttack2.position = self.position
+		#newAttack2.dmg = self.dmg
+		#newAttack2.direction = self.direction.rotated(-newAtkArc)
+		#newAttack2.speed = self.spd * bombSpeedMod
+		#newAttack2.duration = bombDuration
+		#$AttackContainer.add_child(newAttack2)
 
 # Called by bombs when they expire
 func make_explosion(loc: Vector2) -> void:

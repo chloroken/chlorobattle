@@ -13,9 +13,9 @@ var pawnList = []
 var scoreList = []
 
 # Mode flags
+var testingMode = true # disables end-of-game, xp
 var repeatPlay = false # starts new game after scoreboard
 var repeatTime = 30
-var testingMode = false # disables end-of-game, xp
 var teamsEnabled = false # splits players into two random teams
 var maxPlayers = 99
 

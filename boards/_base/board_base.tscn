@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://qjonte0obwms" path="res://pawns/witch/witch_pawn.tscn" id="5_2j0hf"]
 [ext_resource type="PackedScene" uid="uid://cy8cwk5ifbgne" path="res://pawns/demon/demon_pawn.tscn" id="5_kjwhi"]
 [ext_resource type="PackedScene" uid="uid://ck0eynkg55hxa" path="res://pawns/fish/fish_pawn.tscn" id="6_cwgni"]
+[ext_resource type="PackedScene" uid="uid://ce3ii6a2ekgb5" path="res://pawns/ghost/ghost_pawn.tscn" id="7_crhpq"]
 [ext_resource type="PackedScene" uid="uid://dadae3e4ikfp6" path="res://pawns/mecha/mecha_pawn.tscn" id="7_cwgni"]
 [ext_resource type="PackedScene" uid="uid://dxpy0mtjt02en" path="res://pawns/mummy/mummy_pawn.tscn" id="8_1wt1d"]
 [ext_resource type="PackedScene" uid="uid://brk1m57ccp1ef" path="res://pawns/pirate/pirate_pawn.tscn" id="9_0qca2"]
@@ -24,6 +25,7 @@ cat = ExtResource("3_crhpq")
 chair = ExtResource("3_cwgni")
 demon = ExtResource("5_kjwhi")
 fish = ExtResource("6_cwgni")
+ghost = ExtResource("7_crhpq")
 mecha = ExtResource("7_cwgni")
 mummy = ExtResource("8_1wt1d")
 pirate = ExtResource("9_0qca2")

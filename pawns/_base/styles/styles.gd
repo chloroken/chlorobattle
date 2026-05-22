@@ -76,9 +76,9 @@ func add_bully_charge() -> void:
 	activeStyleCharges.append(newCharge)
 	newCharge.get_node("StyleChargeSprite").modulate = bullyColor
 func style_bully_trigger(victim) -> void:
-	if !victim.get_collision_layer_value(1) || get_parent().style != "bully": return
-	if victim.username == get_parent().username: return
-	if !victim.get_node("Status").get_node("VoidStatusTimer").is_stopped(): return
+	#if !victim.get_collision_layer_value(1) || get_parent().style != "bully": return
+	#if victim.username == get_parent().username: return
+	#if !victim.get_node("Status").get_node("VoidStatusTimer").is_stopped(): return
 	if bullyStackCount < bullyHitCap:
 		bullyStackCount += 1
 		var newCharge = styleCharge.instantiate()
@@ -106,7 +106,7 @@ func bully_set_pawn_size() -> void:
 var parkourColor = Color.CORNFLOWER_BLUE
 var parkourChargeCount = 0
 var parkourChargeCap = 5
-var parkourDamagePerCharge = 5
+var parkourDamagePerCharge = 4
 var parkourChargeLossTime = 5.0
 var parkourSpeedPerCharge = 0.1
 func style_parkour_trigger(attacker) -> float:

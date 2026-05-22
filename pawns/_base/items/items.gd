@@ -162,12 +162,25 @@ func item_try_killbot_stack(attackingPawn, body) -> void:
 #######
 
 @export var mapBlinkEffect: PackedScene
-var mapCooldownMin = 4.0
-var mapCooldownMax = 6.0
+var mapCooldownMin = 6.0
+var mapCooldownMax = 8.0
 var mapFlickerRange = 2
+
+@export var mapBombEffect: Resource
+var mapBombDuration = 1.0
+var mapExplosionDuration = 1.0
+var mapExplosionDamage = 25
 
 func item_try_map() -> void:
 	if basePawn.item == "map" && $MapCooldownTimer.is_stopped():
+		
+		# Create a bomb at previous position
+		var newBomb = mapBombEffect.instantiate()
+		newBomb.position = basePawn.position
+		newBomb.duration = mapBombDuration
+		newBomb.explosionDuration = mapExplosionDuration
+		newBomb.dmg = mapExplosionDamage
+		basePawn.get_node("AttackContainer").add_child(newBomb)
 
 		# Get a spot to blink to
 		var blinkPos = item_map_blink()

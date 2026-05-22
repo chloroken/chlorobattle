@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cioune47voii0" path="res://boards/3score/board_score.gd" id="2_cltv8"]
 [ext_resource type="AudioStream" uid="uid://dkmeoojkx3brd" path="res://boards/3score/board_score.mp3" id="3_06ptx"]
 [ext_resource type="FontFile" uid="uid://b5p67uby23wky" path="res://assets/fonts/Grunge.otf" id="4_jr0rd"]
+[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="5_g817r"]
 [ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="5_gih0p"]
 
 [node name="BoardScore" unique_id=1844479333 instance=ExtResource("1_bkbko")]
@@ -30,7 +31,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="ScoreContainer" type="HBoxContainer" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="1" unique_id=898063903]
+[node name="AutoplayLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="1" unique_id=1469560482]
+offset_top = 15.0
+offset_right = 1418.0
+offset_bottom = 1080.0
+theme_override_fonts/font = ExtResource("5_g817r")
+theme_override_font_sizes/font_size = 72
+horizontal_alignment = 2
+
+[node name="ScoreContainer" type="HBoxContainer" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="2" unique_id=898063903]
 offset_top = 125.0
 offset_right = 1440.0
 offset_bottom = 1085.0
@@ -62,8 +71,16 @@ text = "LVL
 "
 horizontal_alignment = 1
 
-[node name="PawnLabel" type="Label" parent="UI/ScoreContainer" index="3" unique_id=1698258787]
-custom_minimum_size = Vector2(125, 960)
+[node name="XpLabel" type="Label" parent="UI/ScoreContainer" index="3" unique_id=1120867687]
+custom_minimum_size = Vector2(75, 960)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_gih0p")
+theme_override_font_sizes/font_size = 24
+text = "EXP
+"
+
+[node name="PawnLabel" type="Label" parent="UI/ScoreContainer" index="4" unique_id=1698258787]
+custom_minimum_size = Vector2(100, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
 theme_override_font_sizes/font_size = 24
@@ -71,9 +88,9 @@ text = "PAWN
 "
 horizontal_alignment = 1
 
-[node name="StyleLabel" type="Label" parent="UI/ScoreContainer" index="4" unique_id=842516200]
+[node name="StyleLabel" type="Label" parent="UI/ScoreContainer" index="5" unique_id=842516200]
 clip_contents = true
-custom_minimum_size = Vector2(125, 960)
+custom_minimum_size = Vector2(100, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
 theme_override_font_sizes/font_size = 24
@@ -81,8 +98,8 @@ text = "STYLE
 "
 horizontal_alignment = 1
 
-[node name="ItemLabel" type="Label" parent="UI/ScoreContainer" index="5" unique_id=608734136]
-custom_minimum_size = Vector2(125, 960)
+[node name="ItemLabel" type="Label" parent="UI/ScoreContainer" index="6" unique_id=608734136]
+custom_minimum_size = Vector2(100, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
 theme_override_font_sizes/font_size = 24
@@ -90,7 +107,7 @@ text = "ITEM
 "
 horizontal_alignment = 1
 
-[node name="KillsLabel" type="Label" parent="UI/ScoreContainer" index="6" unique_id=864991429]
+[node name="KillsLabel" type="Label" parent="UI/ScoreContainer" index="7" unique_id=864991429]
 custom_minimum_size = Vector2(100, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
@@ -99,7 +116,7 @@ text = "KILLS
 "
 horizontal_alignment = 1
 
-[node name="DealtLabel" type="Label" parent="UI/ScoreContainer" index="7" unique_id=1208358730]
+[node name="DealtLabel" type="Label" parent="UI/ScoreContainer" index="8" unique_id=1208358730]
 custom_minimum_size = Vector2(100, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
@@ -108,7 +125,7 @@ text = "DAMAGE
 "
 horizontal_alignment = 1
 
-[node name="HealedLabel" type="Label" parent="UI/ScoreContainer" index="8" unique_id=1345931355]
+[node name="HealedLabel" type="Label" parent="UI/ScoreContainer" index="9" unique_id=1345931355]
 custom_minimum_size = Vector2(100, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
@@ -117,7 +134,7 @@ text = "HEALED
 "
 horizontal_alignment = 1
 
-[node name="TakenLabel" type="Label" parent="UI/ScoreContainer" index="9" unique_id=1887119300]
+[node name="TakenLabel" type="Label" parent="UI/ScoreContainer" index="10" unique_id=1887119300]
 custom_minimum_size = Vector2(100, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
@@ -126,7 +143,7 @@ text = "TAKEN
 "
 horizontal_alignment = 1
 
-[node name="RatioLabel" type="Label" parent="UI/ScoreContainer" index="10" unique_id=437137764]
+[node name="RatioLabel" type="Label" parent="UI/ScoreContainer" index="11" unique_id=437137764]
 visible = false
 custom_minimum_size = Vector2(75, 600)
 layout_mode = 2

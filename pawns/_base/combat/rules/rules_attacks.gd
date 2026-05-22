@@ -117,6 +117,15 @@ func damage_effects(attack, attacker) -> void:
 	# Cat yarn
 	if attack.isYarnAttack:
 		basePawn.get_node("Status").start_lazy(attacker.catYarnLazyDuration)
-	
+
 	if attack.isYellowBirdAttack:
 		basePawn.get_node("Status").start_sick(attack.yellowBirdSickDuration, attacker)
+
+	if attack.isPossessAttack:
+		basePawn.isPossessed = true
+		attacker.possessTarget = basePawn
+		attacker.get_node("Status").start_void(attacker.possessDuration)
+		attacker.get_node("PossessDurationTimer").start(attacker.possessDuration)
+
+	if attack.isBooAttack:
+		basePawn.get_node("Status").start_scared(attacker.booScareDuration)

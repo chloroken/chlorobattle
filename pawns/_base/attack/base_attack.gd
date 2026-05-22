@@ -15,3 +15,5 @@ var isSoulAttack = false
 var isSwipeAttack = false
 var isYarnAttack = false
 var isYellowBirdAttack = false
+var isPossessAttack = false
+var isBooAttack = false

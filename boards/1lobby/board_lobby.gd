@@ -12,12 +12,12 @@ func _ready() -> void:
 	#register_pawn("YouTube", choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create bot Pawns to test with
-	for i in 4:
+	for i in 24:
 		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 	# Create specific test bots
-	#register_pawn("alsvidarr", "chair", "mighty", "smoke")
-	register_pawn("chloro", "fish", "parkour", "dice")
-	#100m
+
+	#register_pawn("msjos_", "fish", "parkour", "killbot")
+	register_pawn("chloroken", "ghost", "bully", "skates")
 
 	# Spawn Pawns made above
 	for pawn in get_parent().pawnList:
@@ -73,6 +73,9 @@ func print_chatter_message(chatter: VSTChatter):
 	update_joined_pawn_label(newPawn)
 	#get_parent().load_xp(username)
 func update_joined_pawn_label(newPawn) -> void:
+	var logMsg = newPawn.username + " — " + newPawn.type + "(" + str(get_parent().get_xp(newPawn.username, newPawn.type)) + ")" + " — " + newPawn.style + " — " + newPawn.item
+	print(logMsg)
+	lobbyJoiners.push_front(logMsg)
 	$UI.get_node("JoinLogLabel").text = ""
 	var maxJoinersToDisplay = 33
 	var i = 0
@@ -80,6 +83,3 @@ func update_joined_pawn_label(newPawn) -> void:
 		$UI.get_node("JoinLogLabel").text += "\n" + joiner
 		i += 1
 		if i > maxJoinersToDisplay: break
-	var logMsg = newPawn.username + " — " + newPawn.type + " — " + newPawn.style + " — " + newPawn.item
-	print(logMsg)
-	lobbyJoiners.push_front(logMsg)

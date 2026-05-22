@@ -21,7 +21,7 @@ func _ready() -> void:
 	z_index = get_node("/root/main").layerAir
 
 func _process(_delta: float) -> void:
-	scale = Vector2.ONE * (1 - $FizzleTimer.get_time_left() / antimatterDuration)
+	scale = Vector2.ONE * 0.5 * (1 - $FizzleTimer.get_time_left() / antimatterDuration)
 	speed = baseSpeed * $FizzleTimer.get_time_left() / antimatterDuration
 
 func _physics_process(delta: float) -> void:

@@ -21,8 +21,8 @@ func _process(delta: float) -> void:
 	rotation += rotationSpeed * delta
 
 func _physics_process(delta: float) -> void:
-	#position = get_parent().get_parent().position
-	position += Vector2.RIGHT.rotated(direction) * speed * delta
+	position = get_parent().get_parent().position
+	#position += Vector2.RIGHT.rotated(direction) * speed * delta
 
 # Clean up
 func _on_fizzle_timer_timeout() -> void:

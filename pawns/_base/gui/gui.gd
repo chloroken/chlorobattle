@@ -15,7 +15,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	
 	var main = get_parent().get_parent().get_parent()
-	var nameColor = Color.DIM_GRAY
+	var nameColor = Color.BURLYWOOD
 	if main.teamsEnabled:
 		if basePawn.team == "blue": nameColor = Color.DEEP_SKY_BLUE
 		elif basePawn.team == "gold": nameColor = Color.DARK_GOLDENROD

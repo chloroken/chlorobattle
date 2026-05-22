@@ -7,6 +7,8 @@
 script = ExtResource("1_ha0c6")
 
 [node name="MapSprite" type="Sprite2D" parent="." unique_id=669355070]
+visible = false
+modulate = Color(1, 1, 1, 0)
 texture = ExtResource("2_k1el8")
 
 [node name="FizzleTimer" type="Timer" parent="." unique_id=1537784240]

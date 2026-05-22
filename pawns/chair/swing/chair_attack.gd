@@ -7,7 +7,7 @@ var scaleMod
 
 func _ready() -> void:
 	attackName = "Swing"
-	
+
 	# Start with no scale to avoid scale snapping
 	scale = Vector2.ONE * 0.5
 
