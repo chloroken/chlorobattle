@@ -29,6 +29,7 @@ class Pawn:
 	var damageDealt = 0
 	var damageHealed = 0
 	var killCount = 0
+	var costume = false
 
 func _ready() -> void:
 	boardRadius = $Collider.get_node("Shape").shape.get_radius()
@@ -44,6 +45,10 @@ func register_pawn(username: String, type: String, style = "random", item = "ran
 	newPawn.style = style
 	newPawn.item = item
 	newPawn.team = ""
+	
+	var pawnXp = get_parent().get_xp(username, type)
+	if pawnXp >= 100: newPawn.costume = true
+	
 	pawnList.append(newPawn)
 	return(newPawn)
 func spawn_pawn(pawn, attacksDisabled) -> void:
@@ -71,6 +76,7 @@ func spawn_pawn(pawn, attacksDisabled) -> void:
 	newPawn.style = pawn.style
 	newPawn.item = pawn.item
 	newPawn.team = pawn.team
+	newPawn.costume = pawn.costume
 	newPawn.board = self
 	activePawns.append(newPawn)
 	if attacksDisabled: newPawn.attacksDisabled = true

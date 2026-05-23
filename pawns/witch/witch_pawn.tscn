@@ -4,12 +4,14 @@
 [ext_resource type="Script" uid="uid://yfr8d0pc16v5" path="res://pawns/witch/witch_pawn.gd" id="2_4ghe6"]
 [ext_resource type="Texture2D" uid="uid://2nyxsrcuabpj" path="res://pawns/witch/witch_pawn.png" id="3_a1r21"]
 [ext_resource type="PackedScene" uid="uid://c3esoh24ik3nr" path="res://pawns/witch/blink/blink_attack.tscn" id="3_vbbgf"]
+[ext_resource type="Texture2D" uid="uid://drgp0bwm0al3f" path="res://pawns/witch/witch_costume.png" id="4_41qmo"]
 [ext_resource type="Texture2D" uid="uid://bg7lnl5e6qya6" path="res://pawns/witch/warp_attack.png" id="5_4plck"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="6_4plck"]
 
 [node name="WitchPawn" unique_id=1877646274 instance=ExtResource("1_wh3ex")]
 script = ExtResource("2_4ghe6")
 blinkScene = ExtResource("3_vbbgf")
+costumeSprite = ExtResource("4_41qmo")
 baseSprite = ExtResource("3_a1r21")
 warpSprite = ExtResource("5_4plck")
 hp = 360.0

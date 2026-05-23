@@ -7,17 +7,17 @@ func _ready() -> void:
 	super()
 
 	# LET TWITCH COOK
-	#VerySimpleTwitch.get_token_and_login_chat()
-	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
+	VerySimpleTwitch.get_token_and_login_chat()
+	VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	#register_pawn("YouTube", choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create bot Pawns to test with
-	for i in 24:
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	#for i in 4:
+		#register_pawn("Bot " + str(i+1), "cat", choose_random_style(), choose_random_item())
 	# Create specific test bots
 
-	#register_pawn("msjos_", "fish", "parkour", "killbot")
-	register_pawn("chloroken", "ghost", "bully", "skates")
+	#register_pawn("Polish_Fish", "candle", "mighty", "skates")
+	#register_pawn("chloroken", "top", "parkour", "tire")
 
 	# Spawn Pawns made above
 	for pawn in get_parent().pawnList:

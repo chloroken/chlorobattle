@@ -54,7 +54,7 @@ text = "PLACE
 horizontal_alignment = 1
 
 [node name="UsernameLabel" type="RichTextLabel" parent="UI/ScoreContainer" index="1" unique_id=876154360]
-custom_minimum_size = Vector2(425, 600)
+custom_minimum_size = Vector2(340, 600)
 layout_mode = 2
 theme_override_constants/line_separation = 3
 theme_override_fonts/normal_font = ExtResource("5_gih0p")
@@ -80,7 +80,7 @@ text = "EXP
 "
 
 [node name="PawnLabel" type="Label" parent="UI/ScoreContainer" index="4" unique_id=1698258787]
-custom_minimum_size = Vector2(100, 960)
+custom_minimum_size = Vector2(125, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
 theme_override_font_sizes/font_size = 24
@@ -90,7 +90,7 @@ horizontal_alignment = 1
 
 [node name="StyleLabel" type="Label" parent="UI/ScoreContainer" index="5" unique_id=842516200]
 clip_contents = true
-custom_minimum_size = Vector2(100, 960)
+custom_minimum_size = Vector2(125, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
 theme_override_font_sizes/font_size = 24
@@ -99,7 +99,7 @@ text = "STYLE
 horizontal_alignment = 1
 
 [node name="ItemLabel" type="Label" parent="UI/ScoreContainer" index="6" unique_id=608734136]
-custom_minimum_size = Vector2(100, 960)
+custom_minimum_size = Vector2(125, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
 theme_override_font_sizes/font_size = 24

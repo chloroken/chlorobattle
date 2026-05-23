@@ -6,6 +6,7 @@ var type: String
 var style: String
 var item: String
 var team: String
+var costume = false
 
 # Pawn stats
 @export var hp: float

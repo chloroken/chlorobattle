@@ -2,7 +2,8 @@ extends "res://pawns/_base/base_pawn.gd"
 
 # Ship variables
 @export var shipRing: PackedScene
-var antimatterCount = 3
+var antimatterCountMin = 1
+var antimatterCountMax = 5
 var projectileAttackSpeedMin = 3.0
 var projectileAttackSpeedMax = 4.0
 var antimatterSlowDuration = 1.0
@@ -14,7 +15,7 @@ var ringDuration = 0.25
 @export var shipAttack: PackedScene
 var projectileArc = 0.5
 var projectileOffset = 20
-var projectileDuration = 3.0
+var projectileDuration = 2.0
 var projectileSpdMin = 1.5
 var projectileSpdMax = 2.5
 var projectileScaleMin = 0.5
@@ -44,6 +45,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	if disarm_check(): return
 	$Status.start_slow(antimatterSlowDuration)
 
+	var antimatterCount = randf_range(antimatterCountMin, antimatterCountMax)
 	for i in antimatterCount:
 		var newAttack = antimatterAttack.instantiate()
 		newAttack.position = self.position

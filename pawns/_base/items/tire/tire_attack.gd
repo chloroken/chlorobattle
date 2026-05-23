@@ -77,7 +77,7 @@ func _physics_process(delta: float) -> void:
 			$DisableBounceTimer.start(disableBounceDuration)
 
 	# Move tire 
-	$Sprite.rotation = direction.angle()
+	rotation = direction.angle()
 	position += direction * speed * delta
 
 func new_direction() -> Vector2:

@@ -8,7 +8,7 @@
 [node name="TopPawn" unique_id=1877646274 instance=ExtResource("1_ksjeq")]
 script = ExtResource("1_04y0m")
 topAttack = ExtResource("2_ruyh0")
-hp = 440.0
+hp = 460.0
 def = 0.6
 dmg = 20.0
 pen = 0.2

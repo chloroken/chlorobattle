@@ -14,6 +14,7 @@ var blinkDmgModFloor = 0.5
 var blinkDmgMod = 1.0
 var blinkCount = 0
 
+@export var costumeSprite: Resource
 @export var baseSprite: Resource
 @export var warpSprite: Resource
 var warpActive = false
@@ -23,7 +24,8 @@ var warpTravelSpeed = 100
 
 func _ready() -> void:
 	super()
-
+	if costume: baseSprite = costumeSprite
+	$PawnSprite.texture = baseSprite
 	if !attacksDisabled:
 		start_attack_cooldown()
 		$WarpCooldownTimer.one_shot = true

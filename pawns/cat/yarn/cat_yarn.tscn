@@ -3,12 +3,14 @@
 [ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_hst74"]
 [ext_resource type="Script" uid="uid://fk85m1jia8wu" path="res://pawns/cat/yarn/cat_yarn.gd" id="2_b57k5"]
 [ext_resource type="Texture2D" uid="uid://cmxf346aw5lyw" path="res://pawns/cat/yarn/cat_yarn.png" id="2_i0dq8"]
+[ext_resource type="PackedScene" uid="uid://caqyuudk5oqhy" path="res://pawns/cat/yarn/cat_yarn_circle.tscn" id="3_weqv0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i0dq8"]
-radius = 15.0
+radius = 16.0
 
 [node name="YarnAttack" unique_id=553809928 instance=ExtResource("1_hst74")]
 script = ExtResource("2_b57k5")
+yarnCircleObject = ExtResource("3_weqv0")
 
 [node name="BaseSprite" parent="." index="0" unique_id=1865807943]
 texture = ExtResource("2_i0dq8")
@@ -17,4 +19,5 @@ texture = ExtResource("2_i0dq8")
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_i0dq8")
 
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

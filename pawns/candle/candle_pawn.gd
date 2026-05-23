@@ -5,12 +5,11 @@ var emberCooldownMin = 0.1
 var emberCooldownMax = 1.0
 var emberScaleMax = 1.0
 var emberScaleMin = 0.5
-var emberDurationMin = 2.0
-var emberDurationMax = 3.0
+var emberDurationMin = 3.0
+var emberDurationMax = 5.0
 var emberPositionOffset = 50
 var emberThrowDistMod = 1
 var emberThrowSpeed = 250
-var emberBurnDuration = 5.0
 var emberSpreadOffset = 25
 
 func _ready() -> void:

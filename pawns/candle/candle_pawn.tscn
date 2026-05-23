@@ -10,8 +10,8 @@ script = ExtResource("2_ori44")
 emberAttack = ExtResource("5_nulue")
 hp = 390.0
 def = 0.3
-dmg = 10.0
-pen = 0.2
+dmg = 15.0
+pen = 0.3
 spd = 30.0
 
 [node name="EmberSpawnTimer" type="Timer" parent="." index="0" unique_id=781136863]

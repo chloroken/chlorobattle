@@ -23,6 +23,7 @@ var demonFormDuration = 3.0
 var demonSoulCooldownReduction = 1.0
 var demonSoulAttackCooldown = 0.1
 var demonFormActive = false
+var demonHalfHealthProc = false
 
 func _ready() -> void:
 	super()
@@ -75,8 +76,11 @@ func _process(_delta: float) -> void:
 			var demonTimer = $DemonCooldownTimer
 			$DemonLabel.text = str(int(demonTimer.get_time_left()))
 		else:
+			# Automatically activate metamorphosis when under half health, once
+			if !demonHalfHealthProc && hp < baseHp * 0.5:
+				$DemonCooldownTimer.start(0.1)
+
 			var demonTimer = $DemonDurationTimer
 			$DemonLabel.text = str(int(demonTimer.get_time_left()))
-	#if girl, add scared timer
-	#if demon, clear scared
+			
 	pass

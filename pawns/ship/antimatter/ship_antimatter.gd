@@ -3,8 +3,8 @@ extends Node2D
 var basePawn
 
 @export var globuleAttack: Resource
-var globuleCountMin = 8
-var globuleCountMax = 12
+var globuleCountMin = 10
+var globuleCountMax = 20
 
 var antimatterDuration = 3.0
 var direction: Vector2
@@ -28,7 +28,6 @@ func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 	if position.distance_to(get_parent().get_parent().get_parent().center) > get_parent().get_parent().get_parent().boardRadius:
 		direction = position.direction_to(get_parent().get_parent().get_parent().center).rotated(randf_range(-1.0, 1.0))
-
 
 func _on_fizzle_timer_timeout() -> void:
 	var globCount = randf_range(globuleCountMin, globuleCountMax)

@@ -5,8 +5,6 @@ var booCooldownMin = 2.0
 var booCooldownMax = 3.0
 var booMoveSpeed = 50.0
 var booMaxCount = 10
-var booFlyDuration = 5.0
-var booContainer = []
 var booCount = 0
 var booScareDuration = 3.0
 
@@ -34,14 +32,16 @@ func start_attack_cooldown() -> void:
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
+	if disarm_check(): return
+
 	if booCount >= booMaxCount: return
+	booCount += 1
+
 	var newAttack = booAttack.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg
 	newAttack.modulate.a = 0.0
 	$AttackContainer.add_child(newAttack)
-	booContainer.append(newAttack)
-	booCount += 1
 
 func _process(_delta: float) -> void:
 	if $PossessCooldownTimer.is_stopped(): $PawnSprite.texture = normalSprite
@@ -49,6 +49,7 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	super(delta)
+	#check if posses target is dead, stop possess
 	if possessTarget == null: stop_possess()
 	if possessTarget.is_queued_for_deletion(): stop_possess()
 	if !$PossessDurationTimer.is_stopped():
@@ -59,25 +60,24 @@ func stop_possess() -> void:
 	$PossessDurationTimer.stop()
 	possessTarget = self
 	$GUI.visible = true
-	$Status.start_sprint(possessSprintDuration)
-	$Status.start_tanky(possessTankyDuration)
 
 func _on_possess_cooldown_timer_timeout() -> void:
 	possessTarget = self
-	$Status.start_sprint(possessSprintDuration)
-	$Status.start_tanky(possessTankyDuration)
 
 func _on_possess_duration_timer_timeout() -> void:
-	var hpToDeal = min(possessTarget.hp, possessTarget.baseHp * possessMaxHpDamage)
+	var globalDmgMod = board.globalDmgMod / board.dmgModDuration
+	var hpToDeal = min(possessTarget.hp, possessTarget.baseHp * possessMaxHpDamage * globalDmgMod)
 	possessTarget.hp -= hpToDeal
+	damageDealt += hpToDeal
 	var hpToHeal = min(baseHp - hp, hpToDeal)
 	hp += hpToHeal
+	damageHealed += hpToHeal
 	board.combat_log("[" + str(username) + "] hit [" + str(possessTarget.username) + "] for " + str(int(hpToDeal)) + " (Purge)")
 	board.combat_log("[" + str(username) + "] healed for " + str(int(hpToHeal)) + " (Purge)")
 	possessTarget.isPossessed = false
 	possessTarget.get_node("Combat").clean_up_pawn(self)
 	possessTarget = self
 	$GUI.visible = true
+	$Status.start_sprint(possessSprintDuration)
+	$Status.start_tanky(possessTankyDuration)
 	$PossessCooldownTimer.start(possessCooldown)
-	
-	
