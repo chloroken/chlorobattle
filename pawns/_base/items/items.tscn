@@ -2,19 +2,25 @@
 
 [ext_resource type="Script" uid="uid://cpq2j6pt2c6hk" path="res://pawns/_base/items/items.gd" id="1_hxr07"]
 [ext_resource type="PackedScene" uid="uid://bhh6l25wl27ki" path="res://pawns/_base/items/dice/item_dice.tscn" id="2_b8pr4"]
+[ext_resource type="PackedScene" uid="uid://d26o3sdldtekv" path="res://pawns/_base/items/flask/item_flask.tscn" id="3_5ybam"]
 [ext_resource type="PackedScene" uid="uid://dnkqxjuduneo8" path="res://pawns/_base/items/killbot/item_killbot.tscn" id="3_l6ftf"]
 [ext_resource type="PackedScene" uid="uid://c7nabqm2bnb2t" path="res://pawns/_base/items/map/item_map.tscn" id="4_xhuj0"]
 [ext_resource type="PackedScene" uid="uid://dkb1t4pgm11vu" path="res://pawns/_base/items/tire/tire_attack.tscn" id="5_2hvhd"]
 [ext_resource type="PackedScene" uid="uid://d3fb3vh8xdi1l" path="res://pawns/_base/items/map/item_map_bomb.tscn" id="5_lmbgv"]
+[ext_resource type="PackedScene" uid="uid://tmahu0pj25cy" path="res://pawns/_base/items/milkshake/milkshake_lure.tscn" id="6_5gn1p"]
+[ext_resource type="PackedScene" uid="uid://d2mn3nlatfxkh" path="res://pawns/_base/items/milkshake/item_milkshake.tscn" id="6_bfx2f"]
 [ext_resource type="PackedScene" uid="uid://82aq5p3vwun7" path="res://pawns/_base/items/smoke/item_smoke.tscn" id="6_oqdkr"]
 [ext_resource type="PackedScene" uid="uid://t0a841qmypk6" path="res://pawns/_base/items/skates/item_skates.tscn" id="6_x221r"]
 
 [node name="Items" type="Node2D" unique_id=1930655975]
 script = ExtResource("1_hxr07")
 diceEffect = ExtResource("2_b8pr4")
+flaskThrowEffect = ExtResource("3_5ybam")
 killbot = ExtResource("3_l6ftf")
 mapBlinkEffect = ExtResource("4_xhuj0")
 mapBombEffect = ExtResource("5_lmbgv")
+milkshakeEffect = ExtResource("6_bfx2f")
+milkshakeLure = ExtResource("6_5gn1p")
 skatesBlade = ExtResource("6_x221r")
 smokeItem = ExtResource("6_oqdkr")
 tireAttack = ExtResource("5_2hvhd")
@@ -35,7 +41,7 @@ one_shot = true
 wait_time = 5.0
 one_shot = true
 
-[node name="MilkshakeDelayTimer" type="Timer" parent="." unique_id=1315755876]
+[node name="MilkshakeCooldownTimer" type="Timer" parent="." unique_id=1315755876]
 wait_time = 5.0
 one_shot = true
 
@@ -52,7 +58,7 @@ one_shot = true
 [connection signal="timeout" from="FlaskCooldownTimer" to="." method="_on_flask_cooldown_timer_timeout"]
 [connection signal="timeout" from="GlueDurationTimer" to="." method="_on_glue_duration_timer_timeout"]
 [connection signal="timeout" from="MapCooldownTimer" to="." method="_on_map_cooldown_timer_timeout"]
-[connection signal="timeout" from="MilkshakeDelayTimer" to="." method="_on_milkshake_delay_timer_timeout"]
+[connection signal="timeout" from="MilkshakeCooldownTimer" to="." method="_on_milkshake_cooldown_timer_timeout"]
 [connection signal="timeout" from="SkateCooldownTimer" to="." method="_on_skate_cooldown_timer_timeout"]
 [connection signal="timeout" from="SmokeAttackTimer" to="." method="_on_smoke_attack_timer_timeout"]
 [connection signal="timeout" from="TireAttackTimer" to="." method="_on_tire_attack_timer_timeout"]

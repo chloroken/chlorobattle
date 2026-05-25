@@ -10,7 +10,3 @@ itemMapExplosion = ExtResource("2_o26ww")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1933025871]
 texture = ExtResource("2_qa40j")
-
-[node name="FizzleTimer" type="Timer" parent="." unique_id=526897575]
-
-[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

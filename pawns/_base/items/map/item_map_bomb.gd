@@ -6,10 +6,6 @@ var dmg
 var explosionDuration
 
 func _ready() -> void:
-	$FizzleTimer.start(duration)
-
-func _on_fizzle_timer_timeout() -> void:
-	
 	var newExplosion = itemMapExplosion.instantiate()
 	newExplosion.position = position
 	newExplosion.duration = explosionDuration

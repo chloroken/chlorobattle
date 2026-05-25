@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://vrxajlk62qq2"]
+
+[ext_resource type="Script" uid="uid://kw680s84oxbp" path="res://pawns/pirate/trickshot/trickshot_particle.gd" id="1_sgcv1"]
+[ext_resource type="Texture2D" uid="uid://551chvrcuvv8" path="res://pawns/pirate/trickshot/trickshot_particle.png" id="2_dhlct"]
+
+[node name="TrickshotParticle" type="Node2D" unique_id=1614414509]
+script = ExtResource("1_sgcv1")
+
+[node name="TrickshotSprite" type="Sprite2D" parent="." unique_id=1062663530]
+texture = ExtResource("2_dhlct")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=384137522]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

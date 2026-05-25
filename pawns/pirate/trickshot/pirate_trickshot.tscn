@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c0i6s4s6v4evc"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_dj1t3"]
+[ext_resource type="Script" uid="uid://bsln5xq3i5yxb" path="res://pawns/pirate/trickshot/pirate_trickshot.gd" id="2_36i8t"]
+[ext_resource type="Texture2D" uid="uid://dwrj8mlylh5xi" path="res://pawns/pirate/trickshot/pirate_trickshot.png" id="2_olkew"]
+[ext_resource type="PackedScene" uid="uid://vrxajlk62qq2" path="res://pawns/pirate/trickshot/trickshot_particle.tscn" id="3_h2na0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_36i8t"]
+radius = 4.0
+
+[node name="Trickshot" unique_id=553809928 instance=ExtResource("1_dj1t3")]
+collision_mask = 32
+script = ExtResource("2_36i8t")
+trickshotParticle = ExtResource("3_h2na0")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("2_olkew")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("CircleShape2D_36i8t")
+
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

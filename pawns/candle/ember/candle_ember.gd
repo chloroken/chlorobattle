@@ -20,7 +20,7 @@ func _ready() -> void:
 
 	# Set visibility layer
 	z_as_relative = false
-	z_index = get_node("/root/main").layerPawnFront
+	z_index = get_node("/root/main").layerPawnBehind
 
 func _process(delta: float) -> void:
 

@@ -1,9 +1,12 @@
 extends Node2D
 
+var duration
 var shakeScaleMod = 2.0
 
 # Set visibility order
 func _ready() -> void:
+	$FizzleTimer.start(duration)
+	
 	z_as_relative = false
 	z_index = get_node("/root/main").layerPawnBehind
 

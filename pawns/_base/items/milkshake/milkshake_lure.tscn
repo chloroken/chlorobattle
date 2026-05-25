@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://tmahu0pj25cy"]
+
+[ext_resource type="Script" uid="uid://cyqsvdaq8txt7" path="res://pawns/_base/items/milkshake/milkshake_lure.gd" id="1_4ljwl"]
+[ext_resource type="Texture2D" uid="uid://bekndjruatkdg" path="res://pawns/_base/items/milkshake/milkshake_lure_circle.png" id="2_hnngj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_viet0"]
+radius = 128.0
+
+[node name="MilkshakeLure" type="Node2D" unique_id=909951260]
+script = ExtResource("1_4ljwl")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=377365733]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1882647277]
+shape = SubResource("CircleShape2D_viet0")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=846310454]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=14635033]
+texture = ExtResource("2_hnngj")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

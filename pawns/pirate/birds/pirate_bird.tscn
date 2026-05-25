@@ -4,6 +4,10 @@
 [ext_resource type="Script" uid="uid://ck5qkuvjinsjs" path="res://pawns/pirate/birds/pirate_bird.gd" id="2_6o5eb"]
 [ext_resource type="Texture2D" uid="uid://ccfur3djn2c6i" path="res://pawns/pirate/birds/pirate_attack.png" id="3_0xr8a"]
 [ext_resource type="PackedScene" uid="uid://dc32f7lvkfrdi" path="res://pawns/pirate/birds/feather/parrot_feather.tscn" id="3_g313r"]
+[ext_resource type="Texture2D" uid="uid://dx3pakdnhlxqr" path="res://pawns/pirate/birds/pirate_outline.png" id="5_4nihb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tbx6g"]
+radius = 16.0
 
 [node name="PirateAttack" unique_id=553809928 instance=ExtResource("1_j01ts")]
 script = ExtResource("2_6o5eb")
@@ -12,7 +16,11 @@ birdFeather = ExtResource("3_g313r")
 [node name="BaseSprite" parent="." index="0" unique_id=1865807943]
 texture = ExtResource("3_0xr8a")
 
-[node name="YellowDirectionTimer" type="Timer" parent="." index="3" unique_id=528959415]
+[node name="Outline" type="Sprite2D" parent="BaseSprite" index="0" unique_id=658344525]
+visible = false
+texture = ExtResource("5_4nihb")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("CircleShape2D_tbx6g")
 
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]
-[connection signal="timeout" from="YellowDirectionTimer" to="." method="_on_yellow_direction_timer_timeout"]

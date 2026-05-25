@@ -47,7 +47,7 @@ func _physics_process(delta: float) -> void:
 	#print(distFromDest)
 
 	# Start following when too far from Pawn
-	if distFromDest < 2: #!following && 
+	if distFromDest < 2 || position.distance_to(follow.position) > get_parent().get_parent().get_parent().boardRadius / 2:
 		#following = true
 		destination = get_good_destination(follow.position)
 		

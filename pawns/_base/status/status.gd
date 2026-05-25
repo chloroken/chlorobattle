@@ -84,6 +84,7 @@ var drunkDamageMod = 1.5
 var drunkTurnTimerMin = 3.0
 var drunkTurnTimerMax = 5.0
 func start_drunk(timer: float) -> void:
+	if basePawn.type == "pirate": basePawn.shoot_trickshot()
 	if $DrunkStatusTimer.get_time_left() > timer: return
 	$DrunkStatusTimer.start(timer)
 	var newDrunkEffect = drunkEffect.instantiate()

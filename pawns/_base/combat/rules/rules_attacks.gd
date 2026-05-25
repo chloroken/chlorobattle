@@ -39,7 +39,7 @@ func accuracy_check(attacker) -> bool:
 
 	# Drunk miss mechanic
 	var drunkTimer = attacker.get_node("Status").get_node("DrunkStatusTimer")
-	if basePawn.type != "pirate" && !drunkTimer.is_stopped():
+	if attacker.type != "pirate" && !drunkTimer.is_stopped():
 		hitChance -= status.drunkMissChance
 
 	# Hazy hit chance reduction
@@ -94,7 +94,7 @@ func damage_effects(attack, attacker) -> void:
 
 	# Slug ooze dot
 	if attack.isSlugAttack:
-		status.start_sick(max(1.0, attack.get_node("FizzleTimer").get_time_left()), attacker)
+		status.start_sick(attacker.oozeSickDuration, attacker)
 
 	# Mummy glyph disarm
 	if attacker.type == "mummy" && attack.mummyCenter == true:

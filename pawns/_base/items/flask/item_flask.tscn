@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://d26o3sdldtekv"]
+
+[ext_resource type="PackedScene" uid="uid://b4j3c6ga861dj" path="res://pawns/_base/items/_attack/item_attack.tscn" id="1_ws8p8"]
+[ext_resource type="Script" uid="uid://fsdxuc33jsjy" path="res://pawns/_base/items/flask/item_flask.gd" id="2_31dgp"]
+[ext_resource type="Texture2D" uid="uid://u3448lrh1b2g" path="res://pawns/_base/items/flask/item_flask.png" id="2_t25c6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_31dgp"]
+size = Vector2(10, 14)
+
+[node name="FlaskAttack" unique_id=1943530875 instance=ExtResource("1_ws8p8")]
+collision_mask = 32
+script = ExtResource("2_31dgp")
+
+[node name="Sprite" parent="." index="0" unique_id=1518436511]
+texture = ExtResource("2_t25c6")
+
+[node name="Collider" parent="." index="1" unique_id=488781003]
+shape = SubResource("RectangleShape2D_31dgp")

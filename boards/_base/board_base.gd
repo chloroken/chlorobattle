@@ -93,16 +93,19 @@ func get_pawn_type(message: String):
 	elif "cat" in message: return("cat")
 	elif "chair" in message: return("chair")
 	elif "demon" in message: return("demon")
+	elif "meta" in message: return("demon") # ALIAS
 	elif "fish" in message: return("fish")
-	elif "grouper" in message: return("fish")
+	elif "grouper" in message: return("fish") # ALIAS
 	elif "ghost" in message: return("ghost")
 	elif "mecha" in message: return("mecha")
+	elif "cyclone" in message: return("mecha") # ALIAS
 	elif "mummy" in message: return("mummy")
 	elif "pirate" in message: return("pirate")
 	elif "ship" in message: return("ship")
 	elif "slug" in message: return("slug")
 	elif "top" in message: return("top")
 	elif "witch" in message: return("witch")
+	elif "meta" in message: return("witch") # ALIAS
 	else: return(choose_random_pawn())
 func choose_random_pawn() -> String:
 	var allPawnTypes = ["candle", "cat", "chair", "demon", "fish", "ghost", "mecha", "mummy", "pirate", "ship", "slug", "top", "witch"]
@@ -110,7 +113,7 @@ func choose_random_pawn() -> String:
 	return(allPawnTypes[i])
 func get_pawn_style(message: String):
 	if "berserk" in message: return("berserk")
-	elif "berserker" in message: return("berserk") # alias
+	elif "berserker" in message: return("berserk") # ALIAS
 	elif "bully" in message: return("bully")
 	elif "mighty" in message: return("mighty")
 	elif "parkour" in message: return("parkour")
@@ -121,19 +124,20 @@ func choose_random_style() -> String:
 	var i = randi_range(0, allStyleTypes.size() - 1)
 	return(allStyleTypes[i])
 func get_pawn_item(message: String):
-	#if "antimatter" in message: return("antimatter")
-	if "dice" in message: return("dice")
+	if "antimatter" in message: return("antimatter")
+	elif "dice" in message: return("dice")
 	elif "flask" in message: return("flask")
 	elif "glue" in message: return("glue")
 	elif "killbot" in message: return("killbot")
 	elif "map" in message: return("map")
-	#elif "milkshake" in message: return("milkshake")
+	elif "milkshake" in message: return("milkshake")
 	elif "skates" in message: return("skates")
 	elif "smoke" in message: return("smoke")
+	elif "vial" in message: return("smoke") # ALIAS
 	elif "tire" in message: return("tire")
-	elif "tyre" in message: return("tire")
+	elif "tyre" in message: return("tire") # ALIAS
 	else: return(choose_random_item())
 func choose_random_item() -> String:
-	var allItemTypes = ["dice", "flask", "glue", "killbot", "map", "skates", "smoke", "tire"]
+	var allItemTypes = ["antimatter", "dice", "flask", "glue", "killbot", "map", "milkshake", "skates", "smoke", "tire"]
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])

@@ -1,20 +1,22 @@
 [gd_scene format=3 uid="uid://brk1m57ccp1ef"]
 
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_hvhxy"]
-[ext_resource type="Texture2D" uid="uid://cg3hajkhjhu0c" path="res://pawns/pirate/pirate_pawn.png" id="2_f4qk0"]
+[ext_resource type="Texture2D" uid="uid://dn3qg5chvgtvx" path="res://pawns/pirate/pirate_pawn.png" id="2_f4qk0"]
 [ext_resource type="Script" uid="uid://cdub77jnq8457" path="res://pawns/pirate/pirate_pawn.gd" id="2_ifqpx"]
 [ext_resource type="PackedScene" uid="uid://cra4gw71okw2j" path="res://pawns/pirate/parrot/pirate_attack.tscn" id="3_k2e1m"]
 [ext_resource type="PackedScene" uid="uid://fsc3n8uwodge" path="res://pawns/pirate/birds/pirate_bird.tscn" id="4_dur1s"]
+[ext_resource type="PackedScene" uid="uid://c0i6s4s6v4evc" path="res://pawns/pirate/trickshot/pirate_trickshot.tscn" id="4_sq7v2"]
 
 [node name="PiratePawn" unique_id=1048959576 instance=ExtResource("1_hvhxy")]
 script = ExtResource("2_ifqpx")
 pirateAttack = ExtResource("3_k2e1m")
+trickshotAttack = ExtResource("4_sq7v2")
 birdAttack = ExtResource("4_dur1s")
-hp = 370.0
+hp = 380.0
 def = 0.2
-dmg = 75.0
+dmg = 50.0
 pen = 0.1
-spd = 30.0
+spd = 40.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_f4qk0")

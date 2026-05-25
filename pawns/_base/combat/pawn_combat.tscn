@@ -19,7 +19,7 @@ tombstone = ExtResource("2_wsjao")
 stream = ExtResource("3_ico2n")
 volume_db = -15.0
 
-[node name="Item" type="Node" parent="." unique_id=37104177]
+[node name="Item" type="Node2D" parent="." unique_id=726204718]
 script = ExtResource("4_epfdb")
 
 [node name="Pawn" type="Node" parent="." unique_id=1608365900]

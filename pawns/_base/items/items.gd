@@ -15,14 +15,20 @@ func _ready() -> void:
 			$AntimatterCooldownTimer.one_shot = true
 			$AntimatterCooldownTimer.start(randf_range(antimatterCooldownMin, antimatterCooldownMin))
 		elif basePawn.item == "flask":
+			$FlaskCooldownTimer.one_shot = true
 			$FlaskCooldownTimer.start(randf_range(flaskCooldownMin, flaskCooldownMax))
 		elif basePawn.item == "killbot":
 			item_spawn_killbot()
+		elif basePawn.item == "milkshake":
+			$MilkshakeCooldownTimer.one_shot = true
+			$MilkshakeCooldownTimer.start(randf_range(milkshakeCooldownMin, milkshakeCooldownMax))
 		elif basePawn.item == "skates":
 			$SkateCooldownTimer.one_shot = true
 		elif basePawn.item == "smoke":
+			$SmokeAttackTimer.one_shot = true
 			$SmokeAttackTimer.start(randf_range(smokeThrowCooldownMin, smokeThrowCooldownMax))
 		elif basePawn.item == "tire":
+			$TireAttackTimer.one_shot = true
 			$TireAttackTimer.start(randf_range(tireCooldownMin, tireCooldownMax)) 
 
 ##############
@@ -42,6 +48,16 @@ func _on_antimatter_cooldown_timer_timeout() -> void:
 	$AntimatterCooldownTimer.start(antiMatterCooldown)
 
 	basePawn.board.combat_log("[" + basePawn.username + "] entered the void (Antimatter)")
+
+func _on_antimatter_duration_timer_timeout() -> void:
+	var statusDuration = $AntimatterCooldownTimer.get_time_left()
+	var statusChoice = randi_range(1, 5)
+	match statusChoice:
+		1: basePawn.get_node("Status").start_hazy(statusDuration)
+		2: basePawn.get_node("Status").start_lazy(statusDuration)
+		3: basePawn.get_node("Status").start_scared(statusDuration)
+		4: basePawn.get_node("Status").start_slow(statusDuration)
+		5: basePawn.get_node("Status").start_weak(statusDuration)
 
 ########
 # DICE #
@@ -81,12 +97,23 @@ var flaskDrunkDuration = 5.0
 var flaskCooldownMin = 5.0
 var flaskCooldownMax = 10.0
 
+@export var flaskThrowEffect: Resource
+var flaskThrowDmg = 35
+var flaskThrowSpeed = 100
+
 func _on_flask_cooldown_timer_timeout() -> void:
 	var pawnStatus = basePawn.get_node("Status")
 	pawnStatus.start_drunk(flaskDrunkDuration)
 	pawnStatus.start_slow(flaskDrunkDuration)
 	var flaskCooldown = randf_range(flaskCooldownMin, flaskCooldownMax)
 	$FlaskCooldownTimer.start(flaskCooldown)
+
+	var newFlask = flaskThrowEffect.instantiate()
+	newFlask.position = basePawn.position
+	newFlask.direction = Vector2.ONE.rotated(randf_range(0, TAU))
+	newFlask.speed = flaskThrowSpeed
+	basePawn.get_node("AttackContainer").add_child(newFlask)
+	
 
 ########
 # GLUE #
@@ -95,6 +122,7 @@ func _on_flask_cooldown_timer_timeout() -> void:
 var glueSlowDuration = 1.0
 var glueStuckChance = 10
 var glueStuckDuration = 5.0
+var glueStuckDamage = 25
 
 func item_try_glue(attackingPawn) -> void:
 	if attackingPawn.item != "glue": return
@@ -102,12 +130,17 @@ func item_try_glue(attackingPawn) -> void:
 	# Apply slow
 	var status = basePawn.get_node("Status")
 	status.start_slow(glueSlowDuration)
+	basePawn.board.combat_log("[" + str(attackingPawn.username) + "] slowed [" + str(basePawn.username) + "] (Glue)")
 
 	# Chance to apply stuck
 	var diceRoll = randi_range(1, glueStuckChance)
-	if diceRoll == 1: status.start_stuck(glueStuckDuration, attackingPawn)
-
-	basePawn.board.combat_log("[" + str(attackingPawn.username) + "] stuck [" + str(basePawn.username) + "] (Glue)")
+	if diceRoll == 1:
+		status.start_stuck(glueStuckDuration, attackingPawn)
+		var stuckDamage = min(basePawn.hp, glueStuckDamage)
+		basePawn.hp -= stuckDamage
+		attackingPawn.damageDealt += stuckDamage
+		basePawn.board.combat_log("[" + str(attackingPawn.username) + "] stuck [" + str(basePawn.username) + "] for " + str(stuckDamage) + " (Glue)")
+	
 
 ###########
 # KILLBOT #
@@ -167,7 +200,7 @@ var mapCooldownMax = 8.0
 var mapFlickerRange = 2
 
 @export var mapBombEffect: Resource
-var mapBombDuration = 1.0
+var mapBombDuration = 0.1
 var mapExplosionDuration = 1.0
 var mapExplosionDamage = 25
 
@@ -226,18 +259,43 @@ var milkshakeDelay = 5.0
 var milkshakeThreshold = 0.10
 var milkshakePercent = 0.25
 
+@export var milkshakeEffect: Resource
+@export var milkshakeLure: Resource
+var milkshakeCooldownMin = 8.0
+var milkshakeCooldownMax = 12.0
+var milkshakeLureRange = 128
+var milkshakeDuration = 3.0
+
+func _on_milkshake_cooldown_timer_timeout() -> void:
+	var newLure = milkshakeLure.instantiate()
+	newLure.duration = milkshakeDuration
+	newLure.basePawn = basePawn
+	newLure.lureRadius = milkshakeLureRange
+	newLure.position = basePawn.position
+	get_parent().get_node("AttackContainer").add_child(newLure)
+	var newEffect = milkshakeEffect.instantiate()
+	newEffect.duration = milkshakeDuration
+	newEffect.position = basePawn.position
+	get_parent().get_node("AttackContainer").add_child(newEffect)
+	get_parent().get_node("Status").start_stuck(milkshakeDuration, basePawn)
+	get_parent().get_node("Status").start_tanky(milkshakeDuration)
+	$MilkshakeCooldownTimer.start(randf_range(milkshakeCooldownMin, milkshakeCooldownMax))
+
 func item_check_milkshake() -> void:
-	if basePawn.item == "milkshake" && basePawn.hp < milkshakeThreshold * basePawn.baseHp && !milkshakeUsed:
-		basePawn.board.combat_log("[" + str(basePawn.username) + "] used [Milkshake]")
-		milkshakeUsed = true
-		$MilkshakeDelayTimer.start(milkshakeDelay)
-		var newMilkshake = basePawn.milkshakeEffect.instantiate()
-		add_child(newMilkshake)
-		newMilkshake.get_node("FizzleTimer").start(milkshakeDelay)
+	pass
+	if basePawn.item == "milkshake": pass
+	#if basePawn.item == "milkshake" && basePawn.hp < milkshakeThreshold * basePawn.baseHp && !milkshakeUsed:
+		#basePawn.board.combat_log("[" + str(basePawn.username) + "] used [Milkshake]")
+		#milkshakeUsed = true
+		#$MilkshakeDelayTimer.start(milkshakeDelay)
+		#var newMilkshake = basePawn.milkshakeEffect.instantiate()
+		#add_child(newMilkshake)
+		#newMilkshake.get_node("FizzleTimer").start(milkshakeDelay)
 
 func _on_milkshake_delay_timer_timeout() -> void:
-	basePawn.hp += milkshakePercent * basePawn.baseHp
-	basePawn.board.combat_log("[" + str(basePawn.username) + "] finished [Milkshake]")
+	pass
+	#basePawn.hp += milkshakePercent * basePawn.baseHp
+	#basePawn.board.combat_log("[" + str(basePawn.username) + "] finished [Milkshake]")
 
 
 ##########
