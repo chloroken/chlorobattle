@@ -2,24 +2,33 @@ extends "res://pawns/_base/base_pawn.gd"
 
 # Ship variables
 @export var shipRing: PackedScene
-var antimatterCountMin = 1
-var antimatterCountMax = 5
+var antimatterCountMin = 2
+var antimatterCountMax = 3
 var projectileAttackSpeedMin = 3.0
 var projectileAttackSpeedMax = 4.0
 var antimatterSlowDuration = 1.0
 var burstDuration = 2.0
 var overheatDuration = 2.0
 var ringDuration = 0.25
+#proj count min = 10
+#proj count max = 20
 
 # Projectile variables
 @export var shipAttack: PackedScene
-var projectileArc = 0.5
+var projectileArc = 0.3
 var projectileOffset = 20
 var projectileDuration = 2.0
 var projectileSpdMin = 1.5
 var projectileSpdMax = 2.5
 var projectileScaleMin = 0.5
 var projectileScaleMax = 1.0
+
+# emp attack
+@export var empAttack: Resource
+var empCooldownMin = 10.0
+var empCooldownMax = 15.0
+var empDuration = 2.0
+var empDisarmDuration = 3.0
 
 @export var antimatterAttack: PackedScene
 
@@ -33,7 +42,21 @@ func _ready() -> void:
 		#$OverheatDurationTimer.one_shot = true
 		#$BurstDurationTimer.one_shot = true
 		#$BurstDurationTimer.start(burstDuration)
+		start_emp_cooldown()
 		start_attack_cooldown()
+
+func start_emp_cooldown() -> void:
+	var empCooldownRange = randf_range (empCooldownMin, empCooldownMax)
+	var empCooldown = asp * aspMod * empCooldownRange
+	$EmpCooldownTimer.start(empCooldown)
+
+func _on_emp_cooldown_timer_timeout() -> void:
+	var newEmp = empAttack.instantiate()
+	newEmp.position = self.position
+	newEmp.duration = empDuration
+	newEmp.dmg = self.dmg
+	$AttackContainer.add_child(newEmp)
+	start_emp_cooldown()
 
 func start_attack_cooldown() -> void:
 	var attackCooldown = randf_range (projectileAttackSpeedMin, projectileAttackSpeedMax)
@@ -49,7 +72,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	for i in antimatterCount:
 		var newAttack = antimatterAttack.instantiate()
 		newAttack.position = self.position
-		newAttack.baseSpeed = spd*2
+		newAttack.baseSpeed = spd*randf_range(2, 3)
 		var newDir = self.direction
 		newDir = newDir.rotated(randf_range(-projectileArc, projectileArc))
 		newAttack.direction = newDir

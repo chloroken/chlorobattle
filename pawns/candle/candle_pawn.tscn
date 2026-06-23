@@ -13,6 +13,7 @@ def = 0.3
 dmg = 15.0
 pen = 0.3
 spd = 30.0
+spriteArray = Array[Resource]([ExtResource("4_squ0r")])
 
 [node name="EmberSpawnTimer" type="Timer" parent="." index="0" unique_id=781136863]
 

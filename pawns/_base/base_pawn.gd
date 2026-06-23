@@ -6,7 +6,7 @@ var type: String
 var style: String
 var item: String
 var team: String
-var costume = false
+var costume = 0
 
 # Pawn stats
 @export var hp: float
@@ -46,6 +46,10 @@ var slowSpeed = 0.5
 var stuckSpeed = 0.0
 var wanderRadians = 1.0
 
+# Costumes
+var activeSprite: Resource
+@export var spriteArray: Array[Resource]
+
 func _ready() -> void:
 	board = get_parent()
 	main = get_tree().get_root().get_node("main")
@@ -53,6 +57,11 @@ func _ready() -> void:
 	baseHp = hp
 	direction = position.direction_to(center).rotated(randf_range(-1.0, 1.0))
 	$AttackCooldownTimer.one_shot = true
+
+	if costume > spriteArray.size(): costume = spriteArray.size()
+	activeSprite = spriteArray[costume-1]
+	$PawnSprite.texture = activeSprite
+
 	z_as_relative = false
 	z_index = get_node("/root/main").layerPawn
 func disarm_check() -> bool:
@@ -73,7 +82,11 @@ func _physics_process(delta: float) -> void:
 	position += direction * spd * statusSpdMod * delta
 	stay_in_bounds()
 func stay_in_bounds() -> void:
-	pass
+	var distFromCenter = position.distance_to(center)
+	var maxResetDist = get_parent().boardRadius * 1.2
+	if distFromCenter > maxResetDist:
+		position = get_parent().position
+	#pass
 	#if position.distance_to(center) > get_parent().boardRadius:
 		#position += position.direction_to(center) * get_parent().boardRadius - position.distance_to(center)
 func _on_area_exited(area: Area2D) -> void:

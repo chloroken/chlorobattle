@@ -12,8 +12,11 @@ var redwoodChance = 10
 var redwoodDmg = 1.5
 var redwoodColor = Color(1.0, 0.25, 0.25, 1.0)
 
+@export var costumeSprite: Resource
+@export var baseSprite: Resource
 func _ready() -> void:
 	super()
+
 	if !attacksDisabled:
 		start_attack_cooldown()
 		$RushDurationTimer.one_shot = true

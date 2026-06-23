@@ -17,3 +17,5 @@ var isYarnAttack = false
 var isYellowBirdAttack = false
 var isPossessAttack = false
 var isBooAttack = false
+var isEmpAttack = false
+var isCauldronAttack = false

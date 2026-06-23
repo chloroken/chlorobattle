@@ -8,17 +8,23 @@ var booMaxCount = 10
 var booCount = 0
 var booScareDuration = 3.0
 
-@export var normalSprite: Resource
-@export var possessSprite: Resource
 var possessCooldown = 10.0
-var possessDuration = 5.0
+var possessDuration = 3.0
 var possessMaxHpDamage = 0.1
 var possessTarget = self
 var possessSprintDuration = 2.0
 var possessTankyDuration = 2.0
 
+@export var costumeSprite: Resource
+@export var baseSprite: Resource
+@export var basePossess: Resource
+@export var costumePossess: Resource
+
+@export var hauntArray: Array[Resource]
+
 func _ready() -> void:
 	super()
+
 	$AttackCooldownTimer.one_shot = true
 	$PossessCooldownTimer.one_shot = true
 	$PossessDurationTimer.one_shot = true
@@ -44,8 +50,9 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	$AttackContainer.add_child(newAttack)
 
 func _process(_delta: float) -> void:
-	if $PossessCooldownTimer.is_stopped(): $PawnSprite.texture = normalSprite
-	else: $PawnSprite.texture = possessSprite
+	if $PossessCooldownTimer.is_stopped():
+		$PawnSprite.texture = spriteArray[costume-1]
+	else: $PawnSprite.texture = hauntArray[costume-1]
 
 func _physics_process(delta: float) -> void:
 	super(delta)

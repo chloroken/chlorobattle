@@ -6,33 +6,39 @@
 [ext_resource type="PackedScene" uid="uid://crf2lb3wy2wmg" path="res://pawns/ship/globule/ship_attack.tscn" id="3_jyjsx"]
 [ext_resource type="PackedScene" uid="uid://bgwhsneqjuy5d" path="res://pawns/ship/ring/ship_ring.tscn" id="4_52m3r"]
 [ext_resource type="PackedScene" uid="uid://c761o12jqm4jm" path="res://pawns/ship/antimatter/ship_antimatter.tscn" id="5_rrg6b"]
+[ext_resource type="PackedScene" uid="uid://d3j5mxyy5s2hm" path="res://pawns/ship/emp/emp_attack.tscn" id="5_vmf7d"]
 
 [node name="ShipPawn" unique_id=1048959576 instance=ExtResource("1_vnodh")]
 script = ExtResource("2_do8vn")
 shipRing = ExtResource("4_52m3r")
 shipAttack = ExtResource("3_jyjsx")
+empAttack = ExtResource("5_vmf7d")
 antimatterAttack = ExtResource("5_rrg6b")
-hp = 390.0
+hp = 400.0
 def = 0.4
 dmg = 10.0
-pen = 0.2
+pen = 0.3
 spd = 50.0
+spriteArray = Array[Resource]([ExtResource("2_7iikp")])
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_7iikp")
 
-[node name="RingTimer" type="Timer" parent="." index="3" unique_id=657030387]
-wait_time = 0.25
-
-[node name="OverheatDurationTimer" type="Timer" parent="." index="4" unique_id=29446756]
-
-[node name="BurstDurationTimer" type="Timer" parent="." index="5" unique_id=256042320]
-
-[node name="AttackCooldownTimer" parent="." index="7" unique_id=1610759688]
+[node name="AttackCooldownTimer" parent="." index="2" unique_id=1610759688]
 wait_time = 0.1
 one_shot = true
 
+[node name="EmpCooldownTimer" type="Timer" parent="." index="3" unique_id=1694667498]
+
+[node name="RingTimer" type="Timer" parent="." index="4" unique_id=657030387]
+wait_time = 0.25
+
+[node name="OverheatDurationTimer" type="Timer" parent="." index="5" unique_id=29446756]
+
+[node name="BurstDurationTimer" type="Timer" parent="." index="6" unique_id=256042320]
+
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="EmpCooldownTimer" to="." method="_on_emp_cooldown_timer_timeout"]
 [connection signal="timeout" from="RingTimer" to="." method="_on_ring_timer_timeout"]
 [connection signal="timeout" from="OverheatDurationTimer" to="." method="_on_overheat_duration_timer_timeout"]
 [connection signal="timeout" from="BurstDurationTimer" to="." method="_on_burst_duration_timer_timeout"]
-[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

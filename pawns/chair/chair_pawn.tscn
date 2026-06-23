@@ -4,15 +4,19 @@
 [ext_resource type="Script" uid="uid://ui8l2id1liwc" path="res://pawns/chair/chair_pawn.gd" id="2_ag02n"]
 [ext_resource type="Texture2D" uid="uid://q3fku033ss5p" path="res://pawns/chair/chair_pawn.png" id="2_twiy4"]
 [ext_resource type="PackedScene" uid="uid://dgw0wr8swuftt" path="res://pawns/chair/swing/chair_attack.tscn" id="3_wxuat"]
+[ext_resource type="Texture2D" uid="uid://dx0rb4tc0ulh2" path="res://pawns/chair/chair_costume.png" id="4_hkhsh"]
 
 [node name="ChairPawn" unique_id=1048959576 instance=ExtResource("1_gb7of")]
 script = ExtResource("2_ag02n")
 chairAttack = ExtResource("3_wxuat")
+costumeSprite = ExtResource("4_hkhsh")
+baseSprite = ExtResource("2_twiy4")
 hp = 405.0
 def = 0.4
 dmg = 40.0
 pen = 0.1
 spd = 25.0
+spriteArray = Array[Resource]([ExtResource("2_twiy4"), ExtResource("4_hkhsh")])
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_twiy4")

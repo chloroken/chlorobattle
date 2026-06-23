@@ -12,6 +12,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if area == self: return
 	if area.type == "ghost": return
 	if area.isPossessed: return
+	if area.team == basePawn.team: return
 	if !basePawn.get_node("PossessDurationTimer").is_stopped(): return
 	if !basePawn.get_node("PossessCooldownTimer").is_stopped(): return
 	

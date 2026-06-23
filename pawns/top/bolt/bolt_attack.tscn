@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://6sfptx51mytb"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_26awg"]
+[ext_resource type="Script" uid="uid://bfdg6cpprdawx" path="res://pawns/top/bolt/bolt_attack.gd" id="2_aj1lu"]
+[ext_resource type="Texture2D" uid="uid://drdf7hfyi2brw" path="res://pawns/top/bolt/bolt_attack.png" id="3_8oqtx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l787v"]
+size = Vector2(24, 12)
+
+[node name="BoltAttack" unique_id=553809928 instance=ExtResource("1_26awg")]
+script = ExtResource("2_aj1lu")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("3_8oqtx")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("RectangleShape2D_l787v")

@@ -12,6 +12,7 @@ func _ready() -> void:
 	# If an Item needs action at start of game, do it here
 	if !basePawn.attacksDisabled:
 		if basePawn.item == "antimatter":
+			$AntimatterDurationTimer.one_shot = true
 			$AntimatterCooldownTimer.one_shot = true
 			$AntimatterCooldownTimer.start(randf_range(antimatterCooldownMin, antimatterCooldownMin))
 		elif basePawn.item == "flask":
@@ -43,6 +44,7 @@ func _on_antimatter_cooldown_timer_timeout() -> void:
 	var pawnVoidTimer = basePawn.get_node("Status").get_node("VoidStatusTimer")
 	if pawnVoidTimer.get_time_left() < antimatterDuration:
 		basePawn.get_node("Status").start_void(antimatterDuration)
+		$AntimatterDurationTimer.start(antimatterDuration)
 
 	var antiMatterCooldown = randf_range(antimatterCooldownMin, antimatterCooldownMax)
 	$AntimatterCooldownTimer.start(antiMatterCooldown)
@@ -112,6 +114,7 @@ func _on_flask_cooldown_timer_timeout() -> void:
 	newFlask.position = basePawn.position
 	newFlask.direction = Vector2.ONE.rotated(randf_range(0, TAU))
 	newFlask.speed = flaskThrowSpeed
+	newFlask.dmg = flaskThrowDmg
 	basePawn.get_node("AttackContainer").add_child(newFlask)
 	
 
@@ -263,8 +266,8 @@ var milkshakePercent = 0.25
 @export var milkshakeLure: Resource
 var milkshakeCooldownMin = 8.0
 var milkshakeCooldownMax = 12.0
-var milkshakeLureRange = 128
-var milkshakeDuration = 3.0
+var milkshakeLureRange = 96
+var milkshakeDuration = 2.0
 
 func _on_milkshake_cooldown_timer_timeout() -> void:
 	var newLure = milkshakeLure.instantiate()

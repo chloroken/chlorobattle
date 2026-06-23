@@ -4,11 +4,11 @@ extends "res://pawns/_base/base_pawn.gd"
 var blinkCooldownMin = 3.0
 var blinkCooldownMax = 5.0
 var blinkChainPercent = 50
-var blinkDistMin = 50
-var blinkBox = 50
-var blinkDmgNormal = 1.0
-var blinkDecayMod = 0.9
-var blinkDmgModFloor = 0.5
+var blinkDistMin = 30
+var blinkBox = 30
+#var blinkDmgNormal = 1.0
+#var blinkDecayMod = 0.9
+#var blinkDmgModFloor = 0.5
 
 # Active blink variables
 var blinkDmgMod = 1.0
@@ -22,18 +22,31 @@ var warpVoidTimer = 100
 var warpCooldown = 10
 var warpTravelSpeed = 100
 
+# Cauldron attack variables
+@export var cauldronAttack: Resource
+var cauldronCooldownMin = 10.0
+var cauldronCooldownMax = 15.0
+var cauldronFizzleDuration = 10.0
+var cauldronLazyDuration = 5.0
+
+# Frog attack variables
+@export var frogAttack: Resource
+
 func _ready() -> void:
 	super()
-	if costume: baseSprite = costumeSprite
-	$PawnSprite.texture = baseSprite
+
 	if !attacksDisabled:
 		start_attack_cooldown()
+		start_cauldron_cooldown()
 		$WarpCooldownTimer.one_shot = true
 
 func start_attack_cooldown() -> void:
 	var blinkCooldown = asp * aspMod * randf_range(blinkCooldownMin, blinkCooldownMax)
-	#if blinkCooldown > $AttackCooldownTimer.get_time_left():
 	$AttackCooldownTimer.start(blinkCooldown)
+
+func start_cauldron_cooldown() -> void:
+	var cauldronCooldown = asp * aspMod * randf_range(cauldronCooldownMin, cauldronCooldownMax)
+	$CauldronCooldownTimer.start(cauldronCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	if disarm_check():
@@ -45,20 +58,27 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	recursive_attack_routine()
 
 func recursive_attack_routine() -> void:
+	
+	# Make a frog
+	var newFrog = frogAttack.instantiate()
+	newFrog.position = position
+	newFrog.dmg = self.dmg
+	newFrog.attackName = "Frog"
+	$AttackContainer.add_child(newFrog)
 
 	# Drop an attack at feet
-	var newBlink = blinkScene.instantiate()
-	newBlink.position = position
-	newBlink.dmg = self.dmg * blinkDmgMod
-	newBlink.scale = Vector2.ONE * blinkDmgMod
-	newBlink.attackName = "Blink"
-	$AttackContainer.add_child(newBlink)
+	#var newBlink = blinkScene.instantiate()
+	#newBlink.position = position
+	#newBlink.dmg = self.dmg * blinkDmgMod
+	#newBlink.scale = Vector2.ONE * blinkDmgMod
+	#newBlink.attackName = "Blink"
+	#$AttackContainer.add_child(newBlink)
 	blinkCount += 1
 
 	# Teleport a short distance away
 	position = find_eligible_location()
 	
-	blinkDmgMod = max(blinkDmgModFloor, blinkDmgMod * blinkDecayMod)
+	#blinkDmgMod = max(blinkDmgModFloor, blinkDmgMod * blinkDecayMod)
 
 	# Chaining mechanic
 	if randi_range(0, 1) == 0:
@@ -67,12 +87,19 @@ func recursive_attack_routine() -> void:
 
 	# End the chain
 	else:
-		var newBlink2 = blinkScene.instantiate()
-		newBlink2.position = position
-		newBlink2.dmg = self.dmg * blinkDmgMod
-		newBlink2.scale = Vector2.ONE * blinkDmgMod
-		newBlink2.attackName = "Blink"
-		$AttackContainer.add_child(newBlink2)
+		# Make a frog
+		var newFrog2 = frogAttack.instantiate()
+		newFrog2.position = position
+		newFrog2.dmg = self.dmg * blinkDmgMod
+		newFrog2.attackName = "Frog"
+		$AttackContainer.add_child(newFrog2)
+		
+		#var newBlink2 = blinkScene.instantiate()
+		#newBlink2.position = position
+		#newBlink2.dmg = self.dmg * blinkDmgMod
+		#newBlink2.scale = Vector2.ONE * blinkDmgMod
+		#newBlink2.attackName = "Blink"
+		#$AttackContainer.add_child(newBlink2)
 
 		# Show combo count
 		if blinkCount > 1:
@@ -80,7 +107,7 @@ func recursive_attack_routine() -> void:
 			$BlinkCountLabel.text = str(blinkCount) + "x"
 
 		blinkCount = 0
-		blinkDmgMod = blinkDmgNormal
+		#blinkDmgMod = blinkDmgNormal
 		start_attack_cooldown()
 		#direction = new_direction()
 
@@ -117,14 +144,16 @@ func _on_area_exited(area: Area2D) -> void:
 				$BlinkDelayTimer.stop()
 				$PawnSprite.texture = warpSprite
 				direction = position.direction_to(center)
+				$GUI.visible = false
 			elif warpActive:
 				warpActive = false
 				$WarpCooldownTimer.start(warpCooldown)
 				$Status.stop_void()
 				$Status.start_void(0.1)
 				start_attack_cooldown()
-				$PawnSprite.texture = baseSprite
+				$PawnSprite.texture = spriteArray[costume-1]
 				direction = new_direction()
+				$GUI.visible = true
 			else:
 				direction = new_direction()
 		else:
@@ -137,6 +166,7 @@ func _physics_process(delta: float) -> void:
 		#var warpRatio = 1 - position.distance_to(center) / get_parent().boardRadius
 		var dist = get_parent().boardRadius - position.distance_to(center)
 		position += direction * max(warpTravelSpeed, dist) * delta
+		rotation = direction.angle()
 	else:
 		# Adjust speed based on statuses
 		statusSpdMod = normalSpeed
@@ -146,3 +176,16 @@ func _physics_process(delta: float) -> void:
 
 		# Move Pawn
 		position += direction * spd * statusSpdMod * delta
+		rotation = Vector2.RIGHT.angle()
+
+############
+# CAULDRON #
+############
+
+func _on_cauldron_cooldown_timer_timeout() -> void:
+	var newCauldron = cauldronAttack.instantiate()
+	newCauldron.position = position
+	newCauldron.dmg = self.dmg
+	newCauldron.attackName = "Cauldron"
+	newCauldron.duration = cauldronFizzleDuration
+	$AttackContainer.add_child(newCauldron)

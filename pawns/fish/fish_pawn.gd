@@ -16,13 +16,14 @@ var bubbleTimer = 0.1
 var bubbleSizeMin = 0.25
 var bubbleSizeMax = 0.5
 
+@export var costumeSprite: Resource
+@export var baseSprite: Resource
 func _ready() -> void:
 	super()
 
-	$BubbleTimer.one_shot = true
-
 	# Start attack routine
 	if !attacksDisabled:
+		$BubbleTimer.one_shot = true
 		$AttackCooldownTimer.one_shot = true
 		$AttackDurationTimer.one_shot = true
 		start_attack_cooldown()

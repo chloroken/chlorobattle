@@ -253,9 +253,12 @@ func _on_void_status_timer_timeout() -> void:
 
 	# run through the attacks that would have
 	# hit us and see if they're still colliding
+	print(str(basePawn.username) + " void status finished, checking for voided hits")
 	for attack in basePawn.voidHitList:
-		if attack == null: continue
+		if attack == null: continue 
+		print(str(basePawn.username) + " found voided hit")
 		if attack.get_overlapping_areas().has(basePawn):
+			print(str(basePawn.username) + "voided hit still overlapping")
 			basePawn.get_node("Combat")._on_base_pawn_area_entered(attack)
 	basePawn.voidHitList.clear()
 

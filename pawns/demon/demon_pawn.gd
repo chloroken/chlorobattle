@@ -25,6 +25,8 @@ var demonSoulAttackCooldown = 0.1
 var demonFormActive = false
 var demonHalfHealthProc = false
 
+@export var demonArray: Array[Resource]
+
 func _ready() -> void:
 	super()
 
@@ -61,12 +63,12 @@ func _on_demon_cooldown_timer_timeout() -> void:
 	$Status.stop_scared()
 	demonFormActive = true
 	start_attack_cooldown()
-	$PawnSprite.texture = demonSprite
+	$PawnSprite.texture = demonArray[costume-1]
 	$DemonDurationTimer.start(demonFormDuration)
 
 func _on_demon_duration_timer_timeout() -> void:
 	demonFormActive = false
-	$PawnSprite.texture = girlSprite
+	$PawnSprite.texture = spriteArray[costume-1]
 	$Status.start_scared(girlScaredDuration)
 	$DemonCooldownTimer.start(demonFormCooldown)
 

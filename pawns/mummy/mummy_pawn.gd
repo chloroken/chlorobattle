@@ -16,6 +16,9 @@ var curseDuration = 99999
 var curseResetTimer = 10 # used in base pawn
 var cursePassDuration = 5.0 # used in base pawn
 
+@export var costumeSprite: Resource
+@export var baseSprite: Resource
+
 func _ready() -> void:
 	super()
 

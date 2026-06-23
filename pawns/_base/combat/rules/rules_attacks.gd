@@ -16,6 +16,7 @@ func _ready() -> void:
 	status = basePawn.get_node("Status")
 	items = basePawn.get_node("Items")
 func combat_pawn(attack) -> void:
+	get_parent().add_attack_to_hitlist(attack)
 	var attacker = attack.get_parent().get_parent()
 	guaranteed_effects(attacker)
 	if accuracy_check(attacker):
@@ -129,3 +130,11 @@ func damage_effects(attack, attacker) -> void:
 
 	if attack.isBooAttack:
 		basePawn.get_node("Status").start_scared(attacker.booScareDuration)
+
+	if attack.isEmpAttack:
+		var disarmDuration = attacker.empDisarmDuration
+		basePawn.get_node("Status").start_disarmed(disarmDuration)
+
+	if attack.isCauldronAttack:
+		var lazyDuration = attacker.cauldronLazyDuration
+		basePawn.get_node("Status").start_lazy(lazyDuration)

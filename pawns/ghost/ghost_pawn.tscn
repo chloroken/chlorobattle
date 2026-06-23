@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://c6eqvl22j2jts" path="res://pawns/ghost/boo/ghost_boo.tscn" id="3_2xtv5"]
 [ext_resource type="PackedScene" uid="uid://dcn2bdvla1orl" path="res://pawns/ghost/possess/ghost_possess.tscn" id="4_sftl2"]
 [ext_resource type="Texture2D" uid="uid://dav2670iy82as" path="res://pawns/ghost/ghost_pawn_faceless.png" id="5_el14t"]
+[ext_resource type="Texture2D" uid="uid://cnbfcxny75ip1" path="res://pawns/ghost/ghost_faceless_costume.png" id="6_nl3jq"]
+[ext_resource type="Texture2D" uid="uid://clsfw76osrc77" path="res://pawns/ghost/ghost_costume.png" id="7_juc15"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sftl2"]
 radius = 12.0
@@ -13,12 +15,16 @@ radius = 12.0
 [node name="GhostPawn" unique_id=1877646274 instance=ExtResource("1_prjq8")]
 script = ExtResource("2_wqu75")
 booAttack = ExtResource("3_2xtv5")
-normalSprite = ExtResource("2_krqlo")
-possessSprite = ExtResource("5_el14t")
-hp = 370.0
+costumeSprite = ExtResource("7_juc15")
+baseSprite = ExtResource("2_krqlo")
+basePossess = ExtResource("5_el14t")
+costumePossess = ExtResource("6_nl3jq")
+hauntArray = Array[Resource]([ExtResource("2_krqlo"), ExtResource("7_juc15")])
+hp = 360.0
 dmg = 20.0
 pen = 0.4
 spd = 30.0
+spriteArray = Array[Resource]([ExtResource("5_el14t"), ExtResource("6_nl3jq")])
 
 [node name="PossessCooldownTimer" type="Timer" parent="." index="0" unique_id=2041102399]
 

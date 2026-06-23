@@ -2,7 +2,7 @@ extends "res://pawns/_base/base_pawn.gd"
 
 # Parrot variables
 @export var pirateAttack: PackedScene
-var birdAttackCooldown = 1.0
+var birdAttackCooldown = 2.0
 var minDmgRatio = 0.5
 var birdSpeed = 150
 var birdMaxDist = 100
@@ -19,8 +19,9 @@ var grogCooldownMax = 10.0
 @export var trickshotAttack: PackedScene
 var trickshotCooldownMin = 3.0
 var trickshotCooldownMax = 4.0
-var trickshotMaxBounces = 3
+var trickshotMaxBounces = 2
 var trickshotSpeed = 500
+var trickshotDamageRamp = 25
 
 @export var birdAttack: Resource
 

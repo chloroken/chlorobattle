@@ -23,7 +23,8 @@ func status_damage(statusType) -> void:
 
 func attack_hit(attack) -> void:
 	if !basePawn.get_node("Status/VoidStatusTimer").is_stopped():
-		basePawn.voidHitList.append(attack)
+		var voidList = basePawn.voidHitList
+		if !voidList.has(attack): voidList.append(attack)
 		return
 	if !attack.get_collision_layer_value(2): return
 	if basePawn.hitList.has(attack): return
@@ -34,7 +35,8 @@ func attack_hit(attack) -> void:
 	$Pawn.combat_pawn(attack)
 func item_hit(attack) -> void:
 	if !basePawn.get_node("Status/VoidStatusTimer").is_stopped():
-		basePawn.voidHitList.append(attack)
+		var voidList = basePawn.voidHitList
+		if !voidList.has(attack): voidList.append(attack)
 		return
 	if !attack.get_collision_layer_value(3): return
 	if basePawn.hitList.has(attack): return
@@ -57,10 +59,12 @@ func style_touch(victim) -> void:
 # CLEAN UP PROCEDURES #
 #######################
 
+func add_attack_to_hitlist(attack) -> void:
+	if attack.areaAttack:
+		basePawn.hitList.append(attack)
 func clean_up_attack(attack) -> void:
 	if !basePawn.get_node("Status/VoidStatusTimer").is_stopped(): return
 	if !attack.areaAttack: attack.queue_free()
-	else: basePawn.hitList.append(attack)
 func clean_up_pawn(attacker) -> void:
 	var pawns = basePawn.get_parent().get_parent().pawnList
 	if basePawn.hp <= 0:

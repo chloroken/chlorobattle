@@ -27,12 +27,24 @@ var whirlwindCooldownMax = 4.0
 var whirlwindDmgMod = 4.0
 var walkerTankyDuration = 1.0
 
+
+@export var jetBaseSprite: Resource
+@export var jetCostumeSprite: Resource
+@export var walkerBaseSprite: Resource
+@export var walkerCostumeSprite: Resource
+
+@export var jetSpriteArray: Array[Resource]
+
 func _ready() -> void:
 	super()
-
+	
 	# Pick a random form to start in
-	if randi_range(0, 1) == 1: mechaForm = true
-	else: mechaForm = false
+	if randi_range(0, 1) == 1:
+		$PawnSprite.texture = spriteArray[costume-1]
+		mechaForm = true
+	else:
+		$PawnSprite.texture = jetSpriteArray[costume-1]
+		mechaForm = false
 
 	# Start attack cycle
 	if !attacksDisabled:
@@ -111,10 +123,12 @@ func _process(_delta: float) -> void:
 	# Turn to face direction in Jet form
 	if !mechaForm:
 		$PawnSprite.rotation = direction.angle()
-		$PawnSprite.texture = jetFormSprite
+		$PawnSprite.texture = jetSpriteArray[costume-1]
+		#$PawnSprite.texture = jetFormSprite
 	else:
+		$PawnSprite.texture = spriteArray[costume-1]
 		$PawnSprite.rotation = 0.0
-		$PawnSprite.texture = mechaFormSprite
+		#$PawnSprite.texture = mechaFormSprite
 
 func _on_form_swap_timer_timeout() -> void:
 	

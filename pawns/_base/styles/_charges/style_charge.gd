@@ -16,6 +16,8 @@ func _ready() -> void:
 	orbitSpeed *= randf_range(1.0, 1.5)
 	orbitDistance *= randf_range(0.75, 1.0)
 	scale *= randf_range(1, 1.5)
+	orbitRotation = 0
+	position = parentPawn.position + (Vector2.ONE * orbitDistance).rotated(orbitDir * orbitRotation)
 
 func _physics_process(delta: float) -> void:
 	

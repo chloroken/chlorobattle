@@ -7,13 +7,14 @@ extends "res://pawns/_base/base_pawn.gd"
 var catSwipeCooldownMin = 2.0
 var catSwipeCooldownMax = 3.0
 var catSwipeDuration = 1.0
-var catRotateDistance = 32
+var catRotateDistance = 48
+var catSwipeRedScale = 2.0
 
 var catSwipeBleedDuration = 5.0
 var catMeowDuration = 2.5
 var catStaggerDuration = 0.1
 var catYarnLazyDuration = 10.0
-var catMeowDamage = 25
+var catMeowDamage = 20
 
 var catGemRedCooldownMin = 4
 var catGemRedCooldownMax = 5
@@ -24,6 +25,11 @@ var catGemBlueReady = false # jumps away
 var catGemYellowCooldownMin = 12
 var catGemYellowCooldownMax = 15
 var catGemYellowReady = false # meow cone
+
+# have a normal sprite and a costume
+# check for costume
+@export var costumeSprite: Resource
+@export var baseSprite: Resource
 
 func _ready() -> void:
 	super()
@@ -88,9 +94,9 @@ func _on_attack_cooldown_timer_timeout() -> void:
 
 			if $Gem1Timer.is_stopped():
 				newAttack.redSwipe = true
-				newAttack.scale *= 2
+				newAttack.scale *= catSwipeRedScale
 				newAttack2.redSwipe = true
-				newAttack2.scale *= 2
+				newAttack2.scale *= catSwipeRedScale
 				$Gem1Timer.start(randf_range(catGemRedCooldownMin, catGemRedCooldownMax))
 
 			$AttackContainer.add_child(newAttack)

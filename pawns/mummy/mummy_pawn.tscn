@@ -3,20 +3,24 @@
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_m2tti"]
 [ext_resource type="Script" uid="uid://c4ee470xvsxoa" path="res://pawns/mummy/mummy_pawn.gd" id="2_al8ad"]
 [ext_resource type="PackedScene" uid="uid://vfvqnpv1y8dc" path="res://pawns/mummy/glyph/mummy_attack.tscn" id="3_4naq4"]
+[ext_resource type="Texture2D" uid="uid://dtckymp8g6fer" path="res://pawns/mummy/mummy_costume.png" id="4_jimje"]
 [ext_resource type="Texture2D" uid="uid://dnbvmeot7du41" path="res://pawns/mummy/mummy_pawn.png" id="4_n8i8p"]
 
 [node name="MummyPawn" unique_id=1877646274 instance=ExtResource("1_m2tti")]
 script = ExtResource("2_al8ad")
 glyphAttack = ExtResource("3_4naq4")
+costumeSprite = ExtResource("4_jimje")
+baseSprite = ExtResource("4_n8i8p")
 hp = 360.0
 dmg = 30.0
 pen = 0.5
 spd = 40.0
+spriteArray = Array[Resource]([ExtResource("4_n8i8p"), ExtResource("4_jimje")])
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("4_n8i8p")
 
 [node name="CursedResetTimer" type="Timer" parent="." index="4" unique_id=1311632392]
 
-[connection signal="timeout" from="CursedResetTimer" to="." method="_on_cursed_reset_timer_timeout"]
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="CursedResetTimer" to="." method="_on_cursed_reset_timer_timeout"]

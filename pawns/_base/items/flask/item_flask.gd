@@ -13,6 +13,7 @@ func _ready() -> void:
 	areaAttack = false
 	attackName = "Flask"
 	
+	
 	# Set visibility layer
 	z_as_relative = false
 	z_index = get_node("/root/main").layerAir

@@ -12,10 +12,12 @@ script = ExtResource("2_wn50k")
 girlSprite = ExtResource("3_kf6gs")
 soulAttack = ExtResource("3_06sf5")
 demonSprite = ExtResource("5_twb7f")
-hp = 310.0
+demonArray = Array[Resource]([ExtResource("5_twb7f")])
+hp = 330.0
 dmg = 10.0
 pen = 0.6
 spd = 40.0
+spriteArray = Array[Resource]([ExtResource("3_kf6gs")])
 
 [node name="DemonLabel" type="Label" parent="." index="0" unique_id=1076885017]
 offset_left = -20.0

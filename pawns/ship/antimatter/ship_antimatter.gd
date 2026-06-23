@@ -4,7 +4,7 @@ var basePawn
 
 @export var globuleAttack: Resource
 var globuleCountMin = 10
-var globuleCountMax = 20
+var globuleCountMax = 10
 
 var antimatterDuration = 3.0
 var direction: Vector2
@@ -16,6 +16,7 @@ func _ready() -> void:
 	basePawn = get_parent().get_parent()
 	rotation = randf_range(0, TAU)
 	$FizzleTimer.start(antimatterDuration)
+	scale = Vector2.ZERO
 	# Set visibility order
 	z_as_relative = false
 	z_index = get_node("/root/main").layerAir

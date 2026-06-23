@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://d3j5mxyy5s2hm"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_11n36"]
+[ext_resource type="Script" uid="uid://b67ei8m2gembh" path="res://pawns/ship/emp/emp_attack.gd" id="2_yfxpd"]
+[ext_resource type="Texture2D" uid="uid://yu8wdt3jsjvs" path="res://pawns/ship/emp/emp_sprite.png" id="3_4aiv6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wmawa"]
+radius = 128.0
+
+[node name="EmpAttack" unique_id=553809928 instance=ExtResource("1_11n36")]
+script = ExtResource("2_yfxpd")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+modulate = Color(0.26, 0.8273335, 1, 1)
+texture = ExtResource("3_4aiv6")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("CircleShape2D_wmawa")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

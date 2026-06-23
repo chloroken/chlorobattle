@@ -13,11 +13,11 @@ func _ready() -> void:
 
 	# Create bot Pawns to test with
 	for i in 24:
-		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item(), 0)
 	# Create specific test bots
 
-	#register_pawn("Polish_Fish", "candle", "mighty", "skates")
-	#register_pawn("chloroken", "demon", choose_random_style(), "glue")
+	# 1v1s
+	#register_pawn("chloroken", "witch", "mighty", "killbot", 2)
 
 	# Spawn Pawns made above
 	for pawn in get_parent().pawnList:
@@ -68,10 +68,9 @@ func print_chatter_message(chatter: VSTChatter):
 		if pawn.username == username:
 			print(username + " is already registered")
 			return
-	var newPawn = register_pawn(str(username), get_pawn_type(message), get_pawn_style(message), get_pawn_item(message))
+	var newPawn = register_pawn(str(username), get_pawn_type(message), get_pawn_style(message), get_pawn_item(message), get_pawn_costume(message))
 	spawn_pawn(newPawn, true)
 	update_joined_pawn_label(newPawn)
-	#get_parent().load_xp(username)
 func update_joined_pawn_label(newPawn) -> void:
 	var logMsg = newPawn.username + " — " + newPawn.type + "(" + str(get_parent().get_xp(newPawn.username, newPawn.type)) + ")" + " — " + newPawn.style + " — " + newPawn.item
 	print(logMsg)

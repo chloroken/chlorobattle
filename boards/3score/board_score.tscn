@@ -45,7 +45,7 @@ offset_right = 1440.0
 offset_bottom = 1085.0
 
 [node name="PlacementLabel" type="Label" parent="UI/ScoreContainer" index="0" unique_id=316712661]
-custom_minimum_size = Vector2(125, 960)
+custom_minimum_size = Vector2(100, 960)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
 theme_override_font_sizes/font_size = 24

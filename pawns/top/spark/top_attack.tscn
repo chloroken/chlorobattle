@@ -20,4 +20,8 @@ shape = SubResource("RectangleShape2D_1k46g")
 wait_time = 5.0
 one_shot = true
 
+[node name="DischargeDirectionTimer" type="Timer" parent="." index="3" unique_id=689142342]
+wait_time = 0.5
+
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]
+[connection signal="timeout" from="DischargeDirectionTimer" to="." method="_on_discharge_direction_timer_timeout"]
