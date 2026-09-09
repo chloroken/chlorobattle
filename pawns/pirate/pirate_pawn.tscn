@@ -12,10 +12,10 @@ script = ExtResource("2_ifqpx")
 pirateAttack = ExtResource("3_k2e1m")
 trickshotAttack = ExtResource("4_sq7v2")
 birdAttack = ExtResource("4_dur1s")
-hp = 360.0
+hp = 370.0
 def = 0.2
 dmg = 25.0
-pen = 0.1
+pen = 0.3
 spd = 40.0
 spriteArray = Array[Resource]([ExtResource("2_f4qk0")])
 

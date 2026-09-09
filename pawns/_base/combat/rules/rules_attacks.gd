@@ -138,3 +138,6 @@ func damage_effects(attack, attacker) -> void:
 	if attack.isCauldronAttack:
 		var lazyDuration = attacker.cauldronLazyDuration
 		basePawn.get_node("Status").start_lazy(lazyDuration)
+
+	if attack.isFrogAttack:
+		attack.create_splat()

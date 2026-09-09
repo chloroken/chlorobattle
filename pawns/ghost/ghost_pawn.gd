@@ -51,8 +51,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 
 func _process(_delta: float) -> void:
 	if $PossessCooldownTimer.is_stopped():
-		$PawnSprite.texture = spriteArray[costume-1]
-	else: $PawnSprite.texture = hauntArray[costume-1]
+		$PawnSprite.texture = hauntArray[costume-1]
+	else: $PawnSprite.texture = spriteArray[costume-1]
 
 func _physics_process(delta: float) -> void:
 	super(delta)

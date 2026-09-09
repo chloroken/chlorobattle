@@ -9,7 +9,10 @@ var direction
 var speed = 200
 var cauldronJump = false
 
+@export var splatScene: Resource
+
 func _ready() -> void:
+	isFrogAttack = true
 	areaAttack = false
 	basePawn = get_parent().get_parent()
 	$FizzleTimer.start(duration)
@@ -34,3 +37,8 @@ func _on_direction_change_timeout() -> void:
 	direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
 	$DirectionChange.start(randf_range(wanderCooldownMin, wanderCooldownMax))
 	$JumpDuration.start(jumpDuration)
+
+func create_splat():
+	var newSplat = splatScene.instantiate()
+	newSplat.position = position
+	add_sibling(newSplat)

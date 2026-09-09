@@ -89,8 +89,8 @@ text = "PAWN
 horizontal_alignment = 1
 
 [node name="StyleLabel" type="Label" parent="UI/ScoreContainer" index="5" unique_id=842516200]
-clip_contents = true
 custom_minimum_size = Vector2(125, 960)
+clip_contents = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_gih0p")
 theme_override_font_sizes/font_size = 24

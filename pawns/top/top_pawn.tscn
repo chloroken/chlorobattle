@@ -11,7 +11,7 @@
 script = ExtResource("1_04y0m")
 topAttack = ExtResource("2_ruyh0")
 boltAttack = ExtResource("4_datse")
-hp = 460.0
+hp = 420.0
 def = 0.6
 dmg = 20.0
 pen = 0.2

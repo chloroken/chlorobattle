@@ -19,7 +19,7 @@ var grogCooldownMax = 10.0
 @export var trickshotAttack: PackedScene
 var trickshotCooldownMin = 3.0
 var trickshotCooldownMax = 4.0
-var trickshotMaxBounces = 2
+var trickshotMaxBounces = 3
 var trickshotSpeed = 500
 var trickshotDamageRamp = 25
 

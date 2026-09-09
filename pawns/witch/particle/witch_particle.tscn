@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c811ab5hta8us"]
+
+[ext_resource type="Script" uid="uid://l1jw47qq8vvf" path="res://pawns/witch/particle/witch_particle.gd" id="1_704xq"]
+[ext_resource type="Texture2D" uid="uid://cl0p85n6fiyfb" path="res://pawns/witch/particle/witch_particle.png" id="2_kg10t"]
+
+[node name="WitchParticle" type="Node2D" unique_id=1483664544]
+script = ExtResource("1_704xq")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1527959772]
+texture = ExtResource("2_kg10t")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1749163322]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

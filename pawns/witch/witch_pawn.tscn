@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://drgp0bwm0al3f" path="res://pawns/witch/witch_costume.png" id="4_41qmo"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="6_4plck"]
 [ext_resource type="Texture2D" uid="uid://d07impsuqfnpe" path="res://pawns/witch/witch_broom.png" id="6_sgj38"]
+[ext_resource type="PackedScene" uid="uid://c811ab5hta8us" path="res://pawns/witch/particle/witch_particle.tscn" id="7_6su0n"]
 [ext_resource type="PackedScene" uid="uid://bv4lfom6kl1nh" path="res://pawns/witch/cauldron/cauldron_attack.tscn" id="7_sf3w4"]
 [ext_resource type="PackedScene" uid="uid://b0b6t85388d50" path="res://pawns/witch/frog/frog_attack.tscn" id="8_sgj38"]
 
@@ -16,6 +17,7 @@ blinkScene = ExtResource("3_vbbgf")
 costumeSprite = ExtResource("4_41qmo")
 baseSprite = ExtResource("3_a1r21")
 warpSprite = ExtResource("6_sgj38")
+warpParticle = ExtResource("7_6su0n")
 cauldronAttack = ExtResource("7_sf3w4")
 frogAttack = ExtResource("8_sgj38")
 hp = 360.0
@@ -64,6 +66,9 @@ one_shot = true
 [node name="WarpCooldownTimer" type="Timer" parent="." index="8" unique_id=1215683184]
 one_shot = true
 
+[node name="WarpParticleTimer" type="Timer" parent="." index="9" unique_id=1465400341]
+
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
 [connection signal="timeout" from="BlinkDelayTimer" to="." method="_on_blink_delay_timer_timeout"]
 [connection signal="timeout" from="CauldronCooldownTimer" to="." method="_on_cauldron_cooldown_timer_timeout"]
+[connection signal="timeout" from="WarpParticleTimer" to="." method="_on_warp_particle_timer_timeout"]

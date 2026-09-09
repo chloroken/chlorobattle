@@ -61,7 +61,7 @@ func _on_berserk_reset_timer_timeout() -> void:
 
 var bullyColor = Color.HOT_PINK
 var bullyDmgPct = 0.02
-var bullyStackDuration = 10
+var bullyStackDuration = 15.0 
 var bullyStackCount = 0
 var bullyHitCap = 5
 var bullyScaleMod = 0.2

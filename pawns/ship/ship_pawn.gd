@@ -25,8 +25,8 @@ var projectileScaleMax = 1.0
 
 # emp attack
 @export var empAttack: Resource
-var empCooldownMin = 10.0
-var empCooldownMax = 15.0
+var empCooldownMin = 8.0
+var empCooldownMax = 12.0
 var empDuration = 2.0
 var empDisarmDuration = 3.0
 

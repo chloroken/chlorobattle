@@ -198,8 +198,8 @@ func item_try_killbot_stack(attackingPawn, body) -> void:
 #######
 
 @export var mapBlinkEffect: PackedScene
-var mapCooldownMin = 6.0
-var mapCooldownMax = 8.0
+var mapCooldownMin = 8.0
+var mapCooldownMax = 10.0
 var mapFlickerRange = 2
 
 @export var mapBombEffect: Resource
@@ -267,7 +267,7 @@ var milkshakePercent = 0.25
 var milkshakeCooldownMin = 8.0
 var milkshakeCooldownMax = 12.0
 var milkshakeLureRange = 96
-var milkshakeDuration = 2.0
+var milkshakeDuration = 3.0
 
 func _on_milkshake_cooldown_timer_timeout() -> void:
 	var newLure = milkshakeLure.instantiate()

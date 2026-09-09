@@ -4,17 +4,28 @@ extends "res://pawns/_base/base_pawn.gd"
 @export var glyphAttack: Resource
 var glyphChannelDur = 2.0
 var glyphAttackDur = 3.0
-var glyphCooldownMin = 8.0
-var glyphCooldownMax = 12.0
+var glyphCooldownMin = 6.0
+var glyphCooldownMax = 8.0
 var innerRotateSpeed = .25
 var outerRotateSpeed = .50
-var glyphDisarmDuration = 3.0 # used in base pawn
+var glyphDisarmDuration = 2.0 # used in base pawn
 var purpleDuration = 1.0
 
 # Curse variables
 var curseDuration = 99999
 var curseResetTimer = 10 # used in base pawn
 var cursePassDuration = 5.0 # used in base pawn
+
+# Swarm variables
+@export var swarmScene: Resource
+var swarmCount = 0
+var maxSwarms = 5
+var swarmCooldown = 5.0
+var swarmDmg = 25
+var swarmMaxDist = 64
+var swarmSpeedMin = 50
+var swarmSpeedMax = 100
+var swarmWanderTimer = 3.0
 
 @export var costumeSprite: Resource
 @export var baseSprite: Resource
@@ -24,6 +35,8 @@ func _ready() -> void:
 
 	# Start attack cycle
 	if !attacksDisabled: 
+		$SwarmTimer.one_shot = true
+		$SwarmTimer.start(swarmCooldown)
 		$CursedResetTimer.one_shot = true
 		isCursed = true
 		$Status.start_weak(curseDuration)
@@ -50,3 +63,19 @@ func _on_attack_cooldown_timer_timeout() -> void:
 func _on_cursed_reset_timer_timeout() -> void:
 	isCursed = true
 	$Status.start_weak(curseDuration)
+
+
+func _on_swarm_timer_timeout() -> void:
+	if swarmCount < maxSwarms:
+		var newSwarm = swarmScene.instantiate()
+		newSwarm.position = self.position
+		newSwarm.dmg = swarmDmg
+		newSwarm.tetherDistance = swarmMaxDist
+		newSwarm.speed = randf_range(swarmSpeedMin, swarmSpeedMax)
+		newSwarm.wanderCooldown = swarmWanderTimer
+		$AttackContainer.add_child(newSwarm)
+
+		swarmCount += 1
+		if swarmCount > maxSwarms: swarmCount = maxSwarms
+
+	$SwarmTimer.start(swarmCooldown)

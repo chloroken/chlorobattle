@@ -19,3 +19,4 @@ var isPossessAttack = false
 var isBooAttack = false
 var isEmpAttack = false
 var isCauldronAttack = false
+var isFrogAttack = false

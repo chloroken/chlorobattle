@@ -5,6 +5,8 @@ var basePawn
 @export var globuleAttack: Resource
 var globuleCountMin = 10
 var globuleCountMax = 10
+var globuleSpeedMin = 50
+var globuleSpeedMax = 100
 
 var antimatterDuration = 3.0
 var direction: Vector2
@@ -38,6 +40,6 @@ func _on_fizzle_timer_timeout() -> void:
 		newAttack.position = self.position
 		newAttack.attackName = "Globule"
 		newAttack.direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
-		newAttack.speed = randf_range(25, 50)
+		newAttack.speed = randf_range(globuleSpeedMin, globuleSpeedMax)
 		basePawn.get_node("AttackContainer").add_child(newAttack)
 	queue_free()

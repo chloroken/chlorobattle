@@ -3,6 +3,7 @@ extends "res://pawns/_base/attack/base_attack.gd"
 @export var purpleAttack: Resource
 
 func _ready() -> void:
+	mummyCenter = true
 	attackName = "Glyph"
 	
 	# Turn off collision while channeling
@@ -13,8 +14,8 @@ func _ready() -> void:
 
 	# Prepare visuals for channeling
 	modulate.a = 0.0
-	scale.x = 2.0
-	scale.y = 2.0
+	scale.x = 1.0
+	scale.y = 1.0
 	$GlyphCenterSprite.scale.x = 0.9
 	$GlyphCenterSprite.scale.y = 0.9
 
@@ -51,10 +52,11 @@ func _on_fizzle_timer_timeout() -> void:
 	queue_free()
 
 func _on_purple_attack_timer_timeout() -> void:
-	var pawnParent = get_parent().get_parent()
-	var newAttack = purpleAttack.instantiate()
-	newAttack.position = self.position
-	newAttack.dmg = pawnParent.dmg * 2
-	add_sibling(newAttack)
+	#var pawnParent = get_parent().get_parent()
+	#var newAttack = purpleAttack.instantiate()
+	#newAttack.position = self.position
+	#newAttack.dmg = pawnParent.dmg * 2
+	#add_sibling(newAttack)
 	set_collision_layer_value(2, true)
-	$GlyphCenterSprite.modulate.a = 0
+	#$GlyphCenterSprite.modulate.a = 0
+	pass

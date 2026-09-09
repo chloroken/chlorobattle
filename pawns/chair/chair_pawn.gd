@@ -37,7 +37,13 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	else: $Status.start_tanky(rushDur)
 
 	# Swing
-	var legCount = randi_range(1, 4)
+	var legCount = 1#randi_range(1, 4)
+	if randi_range(0, 1) == 1:
+		legCount += 1
+		if randi_range(0, 1) == 1:
+			legCount += 1
+			if randi_range(0, 1) == 1:
+				legCount += 1
 	var redwoodUsed = false
 	for i in legCount:
 		var newAttack = chairAttack.instantiate()

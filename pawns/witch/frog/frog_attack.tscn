@@ -2,10 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_yomnf"]
 [ext_resource type="Script" uid="uid://40h0bww6su8i" path="res://pawns/witch/frog/frog_attack.gd" id="2_fsyx8"]
+[ext_resource type="PackedScene" uid="uid://c3th1jfit2k1k" path="res://pawns/witch/frog/frog_splat.tscn" id="3_78pca"]
 [ext_resource type="Texture2D" uid="uid://5rnnyah7qqqs" path="res://pawns/witch/frog/frog_attack.png" id="3_h6nyr"]
 
 [node name="FrogAttack" unique_id=553809928 instance=ExtResource("1_yomnf")]
 script = ExtResource("2_fsyx8")
+splatScene = ExtResource("3_78pca")
 
 [node name="BaseSprite" parent="." index="0" unique_id=1865807943]
 texture = ExtResource("3_h6nyr")
@@ -14,5 +16,6 @@ texture = ExtResource("3_h6nyr")
 
 [node name="JumpDuration" type="Timer" parent="." index="4" unique_id=149212684]
 
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]
 [connection signal="timeout" from="DirectionChange" to="." method="_on_direction_change_timeout"]

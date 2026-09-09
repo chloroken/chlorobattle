@@ -6,8 +6,8 @@ func _ready() -> void:
 	# Prepare for visual effect
 	mummyCenter = true
 	modulate.a = 1.0
-	scale.x = 2.0
-	scale.y = 2.0
+	scale.x = 1.0
+	scale.y = 1.0
 	$BaseSprite.scale *= 0.9
 	
 	# Set visibility order

@@ -17,10 +17,12 @@ var blinkCount = 0
 @export var costumeSprite: Resource
 @export var baseSprite: Resource
 @export var warpSprite: Resource
+@export var warpParticle: Resource
 var warpActive = false
 var warpVoidTimer = 100
 var warpCooldown = 10
 var warpTravelSpeed = 100
+var warpParticleRate = 0.05
 
 # Cauldron attack variables
 @export var cauldronAttack: Resource
@@ -39,6 +41,7 @@ func _ready() -> void:
 		start_attack_cooldown()
 		start_cauldron_cooldown()
 		$WarpCooldownTimer.one_shot = true
+		$WarpParticleTimer.one_shot = true
 
 func start_attack_cooldown() -> void:
 	var blinkCooldown = asp * aspMod * randf_range(blinkCooldownMin, blinkCooldownMax)
@@ -139,6 +142,7 @@ func _on_area_exited(area: Area2D) -> void:
 		if !attacksDisabled:
 			if !warpActive && $WarpCooldownTimer.is_stopped():
 				warpActive = true
+				$WarpParticleTimer.start(warpParticleRate)
 				$Status.start_void(warpVoidTimer)
 				$AttackCooldownTimer.stop()
 				$BlinkDelayTimer.stop()
@@ -147,6 +151,7 @@ func _on_area_exited(area: Area2D) -> void:
 				$GUI.visible = false
 			elif warpActive:
 				warpActive = false
+				$WarpParticleTimer.stop()
 				$WarpCooldownTimer.start(warpCooldown)
 				$Status.stop_void()
 				$Status.start_void(0.1)
@@ -177,6 +182,12 @@ func _physics_process(delta: float) -> void:
 		# Move Pawn
 		position += direction * spd * statusSpdMod * delta
 		rotation = Vector2.RIGHT.angle()
+
+func _on_warp_particle_timer_timeout() -> void:
+	var newParticle = warpParticle.instantiate()
+	newParticle.position = position
+	$AttackContainer.add_child(newParticle)
+	$WarpParticleTimer.start(warpParticleRate)
 
 ############
 # CAULDRON #

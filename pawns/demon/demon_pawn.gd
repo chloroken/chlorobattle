@@ -19,7 +19,7 @@ var soulColorVariance = 0.8
 
 @export var demonSprite: Resource
 var demonFormCooldown = 30.0
-var demonFormDuration = 3.0
+var demonFormDuration = 4.0
 var demonSoulCooldownReduction = 1.0
 var demonSoulAttackCooldown = 0.1
 var demonFormActive = false

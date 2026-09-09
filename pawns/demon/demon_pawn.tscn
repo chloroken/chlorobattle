@@ -6,18 +6,20 @@
 [ext_resource type="Texture2D" uid="uid://b32scpw6afnr1" path="res://pawns/demon/demon_child.png" id="3_kf6gs"]
 [ext_resource type="Texture2D" uid="uid://bkc0xhdqydhl5" path="res://pawns/demon/demon_pawn.png" id="5_twb7f"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="6_ltkxq"]
+[ext_resource type="Texture2D" uid="uid://d84a5jl4g225" path="res://pawns/demon/demon_pawn_costume.png" id="6_pxssu"]
+[ext_resource type="Texture2D" uid="uid://cr3sdx11crp78" path="res://pawns/demon/demon_child_costume.png" id="7_6mqor"]
 
 [node name="MetaPawn" unique_id=1877646274 instance=ExtResource("1_4cw5o")]
 script = ExtResource("2_wn50k")
 girlSprite = ExtResource("3_kf6gs")
 soulAttack = ExtResource("3_06sf5")
 demonSprite = ExtResource("5_twb7f")
-demonArray = Array[Resource]([ExtResource("5_twb7f")])
+demonArray = Array[Resource]([ExtResource("5_twb7f"), ExtResource("6_pxssu")])
 hp = 330.0
 dmg = 10.0
 pen = 0.6
 spd = 40.0
-spriteArray = Array[Resource]([ExtResource("3_kf6gs")])
+spriteArray = Array[Resource]([ExtResource("3_kf6gs"), ExtResource("7_6mqor")])
 
 [node name="DemonLabel" type="Label" parent="." index="0" unique_id=1076885017]
 offset_left = -20.0

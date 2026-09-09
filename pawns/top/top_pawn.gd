@@ -18,7 +18,7 @@ var sprintSpdBonus = 0.5
 # Bolt variables
 @export var boltAttack: PackedScene
 var boltCountMin = 3
-var boltCountMax = 7
+var boltCountMax = 5
 var boltArc = 0.75
 var boltSpeedMin = 200
 var boltSpeedMax = 300

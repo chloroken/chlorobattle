@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c3th1jfit2k1k"]
+
+[ext_resource type="Script" uid="uid://bh2kcl2cg8jon" path="res://pawns/witch/frog/frog_splat.gd" id="1_bo3gh"]
+[ext_resource type="Texture2D" uid="uid://dr0uw41ht5hgm" path="res://pawns/witch/frog/frog_splat.png" id="2_j7rbs"]
+
+[node name="FrogSplat" type="Node2D" unique_id=1398875245]
+script = ExtResource("1_bo3gh")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1034188362]
+texture = ExtResource("2_j7rbs")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1533847853]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

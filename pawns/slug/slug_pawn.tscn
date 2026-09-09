@@ -8,7 +8,7 @@
 [node name="SlugPawn" unique_id=1048959576 instance=ExtResource("1_a6a5s")]
 script = ExtResource("2_8633t")
 slugAttack = ExtResource("3_tqnmo")
-hp = 300.0
+hp = 320.0
 def = 0.5
 dmg = 15.0
 pen = 0.4

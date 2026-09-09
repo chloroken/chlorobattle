@@ -13,8 +13,8 @@ costumeSprite = ExtResource("4_hkhsh")
 baseSprite = ExtResource("2_twiy4")
 hp = 405.0
 def = 0.4
-dmg = 40.0
-pen = 0.1
+dmg = 30.0
+pen = 0.2
 spd = 25.0
 spriteArray = Array[Resource]([ExtResource("2_twiy4"), ExtResource("4_hkhsh")])
 
