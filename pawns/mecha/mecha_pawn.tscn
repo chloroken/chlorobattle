@@ -22,10 +22,10 @@ jetCostumeSprite = ExtResource("8_liye1")
 walkerBaseSprite = ExtResource("7_gv64d")
 walkerCostumeSprite = ExtResource("9_nynqg")
 jetSpriteArray = Array[Resource]([ExtResource("3_u4lmt"), ExtResource("8_liye1")])
-hp = 420.0
+hp = 430.0
 def = 0.4
 dmg = 20.0
-pen = 0.1
+pen = 0.2
 spd = 30.0
 spriteArray = Array[Resource]([ExtResource("7_gv64d"), ExtResource("9_nynqg")])
 

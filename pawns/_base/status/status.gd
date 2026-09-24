@@ -144,6 +144,9 @@ func stop_scared() -> void:
 	$ScaredStatusTimer.stop()
 func try_scared(body) -> void:
 	if !$ScaredStatusTimer.is_stopped():
+		if basePawn.type == "ram":
+			if basePawn.isCharging:
+				return
 		basePawn.new_direction() # to trigger parkour/styles
 		basePawn.direction = -basePawn.position.direction_to(body.position)
 

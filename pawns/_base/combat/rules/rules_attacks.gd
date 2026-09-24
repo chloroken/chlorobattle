@@ -18,7 +18,7 @@ func _ready() -> void:
 func combat_pawn(attack) -> void:
 	get_parent().add_attack_to_hitlist(attack)
 	var attacker = attack.get_parent().get_parent()
-	guaranteed_effects(attacker)
+	guaranteed_effects(attack, attacker)
 	if accuracy_check(attacker):
 		var damage = on_hit_effects(attacker)
 		damage = mitigation_phase(damage, attack, attacker)
@@ -32,9 +32,15 @@ func combat_pawn(attack) -> void:
 # PHASES #
 ##########
 
-func guaranteed_effects(attacker) -> void:
+func guaranteed_effects(attack, attacker) -> void:
 	styles.style_berserk_trigger(attacker)
 
+	if attack.isRamAttack:
+		var par = attack.get_parent().get_parent()
+		attack.dmg = max(par.dmg, min(par.hornChargeMax, par.hornChargeSpeedModifier * par.spd * par.statusSpdMod))
+		if !attacker.get_node("Status").get_node("DisarmedStatusTimer").is_stopped():
+			attack.dmg *= attacker.hornDisarmMultiplier
+			
 func accuracy_check(attacker) -> bool:	
 	var hitChance = 100
 
@@ -48,9 +54,10 @@ func accuracy_check(attacker) -> bool:
 
 	var hitRoll = randi_range(1, 100)
 	if hitRoll > hitChance:
-		attacker.direction = attacker.new_direction()
-		basePawn.board.combat_log("[" + str(attacker.username) + "] missed an attack.")
-		return(false)
+		if !basePawn.type == "ram":
+			attacker.direction = attacker.new_direction()
+			basePawn.board.combat_log("[" + str(attacker.username) + "] missed an attack.")
+			return(false)
 
 	return(true)
 

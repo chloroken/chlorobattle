@@ -7,4 +7,5 @@ func _ready() -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.username == basePawn.username: return
+	if area.type == "ram": return
 	area.direction = area.position.direction_to(position)

@@ -20,3 +20,4 @@ var isBooAttack = false
 var isEmpAttack = false
 var isCauldronAttack = false
 var isFrogAttack = false
+var isRamAttack = false

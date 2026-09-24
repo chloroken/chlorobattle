@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bmeikvmxbjgay"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_1gk15"]
+[ext_resource type="Script" uid="uid://c1eb4kudvp4kw" path="res://pawns/ram/ram_attack/ram_attack.gd" id="2_uyhmu"]
+[ext_resource type="Texture2D" uid="uid://bi1j52gq08enu" path="res://pawns/ram/ram_attack/ram_horns.png" id="3_hvyu3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p47nc"]
+size = Vector2(15, 44.375)
+
+[node name="RamAttack" unique_id=553809928 instance=ExtResource("1_1gk15")]
+script = ExtResource("2_uyhmu")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("3_hvyu3")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+position = Vector2(15.5, -0.1875)
+shape = SubResource("RectangleShape2D_p47nc")
+
+[node name="HornRainbowTimer" type="Timer" parent="." index="3" unique_id=789062807]
+
+[connection signal="timeout" from="HornRainbowTimer" to="." method="_on_horn_rainbow_timer_timeout"]

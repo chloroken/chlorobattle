@@ -13,6 +13,7 @@ var center
 @export var mecha: PackedScene
 @export var mummy: PackedScene
 @export var pirate: PackedScene
+@export var ram: PackedScene
 @export var ship: PackedScene
 @export var slug: PackedScene
 @export var top: PackedScene
@@ -63,6 +64,7 @@ func spawn_pawn(pawn, attacksDisabled) -> void:
 	elif pawn.type == "mecha": pawnType = mecha
 	elif pawn.type == "mummy": pawnType = mummy
 	elif pawn.type == "pirate": pawnType = pirate
+	elif pawn.type == "ram": pawnType = ram
 	elif pawn.type == "ship": pawnType = ship
 	elif pawn.type == "slug": pawnType = slug
 	elif pawn.type == "top": pawnType = top
@@ -102,6 +104,7 @@ func get_pawn_type(message: String):
 	elif "cyclone" in message: return("mecha") # ALIAS
 	elif "mummy" in message: return("mummy")
 	elif "pirate" in message: return("pirate")
+	elif "ram" in message: return("ram")
 	elif "ship" in message: return("ship")
 	elif "slug" in message: return("slug")
 	elif "top" in message: return("top")
@@ -109,7 +112,7 @@ func get_pawn_type(message: String):
 	elif "flicker" in message: return("witch") # ALIAS
 	else: return(choose_random_pawn())
 func choose_random_pawn() -> String:
-	var allPawnTypes = ["candle", "cat", "chair", "demon", "fish", "ghost", "mecha", "mummy", "pirate", "ship", "slug", "top", "witch"]
+	var allPawnTypes = ["candle", "cat", "chair", "demon", "fish", "ghost", "mecha", "mummy", "pirate", "ram", "ship", "slug", "top", "witch"]
 	var i = randi_range(0, allPawnTypes.size() - 1)
 	return(allPawnTypes[i])
 func get_pawn_style(message: String):
