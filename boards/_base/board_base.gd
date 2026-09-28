@@ -16,6 +16,7 @@ var center
 @export var ram: PackedScene
 @export var ship: PackedScene
 @export var slug: PackedScene
+@export var tree: PackedScene
 @export var top: PackedScene
 @export var witch: PackedScene
 
@@ -25,8 +26,8 @@ class Pawn:
 	var type = ""
 	var style = ""
 	var item = ""
-	var costume = 0
-	var team = ""
+	#var costume = 0
+	#var team = ""
 	var damageTaken = 0
 	var damageDealt = 0
 	var damageHealed = 0
@@ -38,18 +39,18 @@ func _ready() -> void:
 	$Sounds.get_node("BoardChime").panning_strength = 0.0
 	$Sounds.get_node("BoardChime").play()
 
-func register_pawn(username: String, type: String, style = "random", item = "random", costume = 1) -> Pawn:
+func register_pawn(username: String, type: String, style = "random", item = "random") -> Pawn:#, costume = 1
 	var newPawn = Pawn.new()
 	var pawnList = get_parent().pawnList
 	newPawn.username = username
 	newPawn.type = type
 	newPawn.style = style
 	newPawn.item = item
-	newPawn.team = ""
+	#newPawn.team = ""
 
-	var pawnXp = get_parent().get_xp(username, type)
-	if pawnXp >= 100: newPawn.costume = costume
-	else: newPawn.costume = 1
+	#var pawnXp = get_parent().get_xp(username, type)
+	#if pawnXp >= 100: newPawn.costume = costume
+	#else: newPawn.costume = 1
 
 	pawnList.append(newPawn)
 	return(newPawn)
@@ -67,6 +68,7 @@ func spawn_pawn(pawn, attacksDisabled) -> void:
 	elif pawn.type == "ram": pawnType = ram
 	elif pawn.type == "ship": pawnType = ship
 	elif pawn.type == "slug": pawnType = slug
+	elif pawn.type == "tree": pawnType = tree
 	elif pawn.type == "top": pawnType = top
 	elif pawn.type == "witch": pawnType = witch
 
@@ -78,8 +80,8 @@ func spawn_pawn(pawn, attacksDisabled) -> void:
 	newPawn.type = pawn.type
 	newPawn.style = pawn.style
 	newPawn.item = pawn.item
-	newPawn.team = pawn.team
-	newPawn.costume = pawn.costume
+	#newPawn.team = pawn.team
+	#newPawn.costume = pawn.costume
 	newPawn.board = self
 	activePawns.append(newPawn)
 	if attacksDisabled: newPawn.attacksDisabled = true
@@ -108,11 +110,12 @@ func get_pawn_type(message: String):
 	elif "ship" in message: return("ship")
 	elif "slug" in message: return("slug")
 	elif "top" in message: return("top")
+	elif "tree" in message: return("tree")
 	elif "witch" in message: return("witch")
 	elif "flicker" in message: return("witch") # ALIAS
 	else: return(choose_random_pawn())
 func choose_random_pawn() -> String:
-	var allPawnTypes = ["candle", "cat", "chair", "demon", "fish", "ghost", "mecha", "mummy", "pirate", "ram", "ship", "slug", "top", "witch"]
+	var allPawnTypes = ["candle", "cat", "chair", "demon", "fish", "ghost", "mecha", "mummy", "pirate", "ram", "ship", "slug", "top", "tree", "witch"]
 	var i = randi_range(0, allPawnTypes.size() - 1)
 	return(allPawnTypes[i])
 func get_pawn_style(message: String):
@@ -122,14 +125,15 @@ func get_pawn_style(message: String):
 	elif "mighty" in message: return("mighty")
 	elif "parkour" in message: return("parkour")
 	elif "slayer" in message: return("slayer")
+	elif "snowball" in message: return("snowball")
 	else: return(choose_random_style())
 func choose_random_style() -> String:
-	var allStyleTypes = ["berserk", "bully", "parkour", "mighty", "slayer"]
+	var allStyleTypes = ["berserk", "bully", "parkour", "mighty", "slayer", "snowball"]
 	var i = randi_range(0, allStyleTypes.size() - 1)
 	return(allStyleTypes[i])
 func get_pawn_item(message: String):
-	if "antimatter" in message: return("antimatter")
-	elif "dice" in message: return("dice")
+	#if "antimatter" in message: return("antimatter")
+	if "dice" in message: return("dice")
 	elif "flask" in message: return("flask")
 	elif "glue" in message: return("glue")
 	elif "killbot" in message: return("killbot")
@@ -140,19 +144,20 @@ func get_pawn_item(message: String):
 	elif "vial" in message: return("smoke") # ALIAS
 	elif "tire" in message: return("tire")
 	elif "tyre" in message: return("tire") # ALIAS
+	elif "treat" in message: return("treat")
 	else: return(choose_random_item())
 func choose_random_item() -> String:
-	var allItemTypes = ["antimatter", "dice", "flask", "glue", "killbot", "map", "milkshake", "skates", "smoke", "tire"]
+	var allItemTypes = ["dice", "flask", "glue", "killbot", "map", "milkshake", "skates", "smoke", "tire", "treat"]
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])
-func get_pawn_costume(message: String) -> int:
-	if "1" in message: return(1)
-	elif "2" in message: return(2)
-	elif "3" in message: return(3)
-	elif "4" in message: return(4)
-	elif "5" in message: return(5)
-	elif "6" in message: return(6)
-	elif "7" in message: return(7)
-	elif "8" in message: return(8)
-	elif "9" in message: return(9)
-	else: return(0)
+#func get_pawn_costume(message: String) -> int:
+	#if "1" in message: return(1)
+	#elif "2" in message: return(2)
+	#elif "3" in message: return(3)
+	#elif "4" in message: return(4)
+	#elif "5" in message: return(5)
+	#elif "6" in message: return(6)
+	#elif "7" in message: return(7)
+	#elif "8" in message: return(8)
+	#elif "9" in message: return(9)
+	#else: return(0)

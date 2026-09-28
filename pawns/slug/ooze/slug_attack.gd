@@ -24,7 +24,7 @@ func _physics_process(_delta: float) -> void:
 
 	# Scale damage & color based on duration
 	var decayRatio = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
-	dmg = ceil(baseDmg * decayRatio)
+	dmg = max(baseDmg / 2, ceil(baseDmg * decayRatio))
 	$DamageLabel.text = str(int(dmg))
 	$BaseSprite.modulate.b = 1 - decayRatio
 
@@ -40,8 +40,9 @@ func _physics_process(_delta: float) -> void:
 # Clean up
 func _on_fizzle_timer_timeout() -> void:
 	var basePawn = get_parent().get_parent()
-	basePawn.slug_regen()
-	var newHeal = healEffect.instantiate()
-	newHeal.position = basePawn.position
-	add_sibling(newHeal)
+	if basePawn.get_node("SlugRespawnTimer").is_stopped():
+		basePawn.slug_regen()
+		var newHeal = healEffect.instantiate()
+		newHeal.position = basePawn.position
+		add_sibling(newHeal)
 	self.queue_free()

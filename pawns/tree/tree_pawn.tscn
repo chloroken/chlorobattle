@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bfh8kg7cp5jpr"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_d0t2m"]
+[ext_resource type="PackedScene" uid="uid://db5nkvmy871hu" path="res://pawns/tree/leaf_attack/leaf_attack.tscn" id="2_y6dbx"]
+[ext_resource type="Script" uid="uid://b0h6kt3syhtmg" path="res://pawns/tree/tree_pawn.gd" id="2_ysaub"]
+[ext_resource type="Texture2D" uid="uid://x6g3nt5dpu3a" path="res://pawns/tree/tree_pawn.png" id="3_y6dbx"]
+[ext_resource type="PackedScene" uid="uid://bupq0sf1qdeuf" path="res://pawns/tree/seed_attack/seed_attack.tscn" id="4_uc7hh"]
+
+[node name="TreePawn" unique_id=1877646274 instance=ExtResource("1_d0t2m")]
+script = ExtResource("2_ysaub")
+leafAttack = ExtResource("2_y6dbx")
+seedAttack = ExtResource("4_uc7hh")
+hp = 410.0
+def = 0.5
+dmg = 25.0
+pen = 0.1
+spd = 0.0
+spriteArray = Array[Resource]([ExtResource("3_y6dbx")])
+
+[node name="SeedCooldownTimer" type="Timer" parent="." index="9" unique_id=1849912847]
+
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="SeedCooldownTimer" to="." method="_on_seed_cooldown_timer_timeout"]

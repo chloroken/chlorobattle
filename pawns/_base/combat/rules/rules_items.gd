@@ -36,10 +36,11 @@ func damage_phase(attacker, attackerUsername, area, pawn) -> void:
 	pawn.hp -= finalDmg
 	pawn.damageTaken += finalDmg
 	attacker.damageDealt += finalDmg
-	board.combat_log("[" + str(attackerUsername) + "] hit [" + str(pawn.username) + "] for " + "%0.2f" % finalDmg + " (" + str(area.attackName) + ")")
+	board.combat_log("[[color=#FDFD97]" + str(attackerUsername) + "[/color]] hit [[color=#FEB144]" + str(pawn.username) + "[/color]] for " + "%0.2f" % finalDmg + " ([color=cyan]" + str(area.attackName) + "[/color])")
 func damage_effects(attacker, attack) -> void:
 	status.try_scared(attack)
-	items.item_try_killbot_stack(attacker, attack)
+	items.try_killbot_bleed(attack)
+	items.try_killbot_stack(attacker, attack)
 	items.try_tire_stuck(attack)
 	items.try_smoke_effect(attack, attacker)
 	items.try_skate_blade(attacker, attack)

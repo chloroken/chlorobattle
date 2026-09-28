@@ -33,8 +33,8 @@ func apply_status_damage(damage, attacker, victim, dotName) -> void:
 	var combatLogMsg = ""
 	if is_instance_valid(attacker):
 		attacker.damageDealt += damage
-		combatLogMsg = "[" + str(attacker.username) + "] hit [" + str(victim.username) + "] for " + str("%0.2f" % damage) + " (" + str(dotName) + ")"
+		combatLogMsg = "[[color=#FDFD97]" + str(attacker.username) + "[/color]] hit [[color=#FEB144]" + str(victim.username) + "[/color]] for " + str("%0.2f" % damage) + " ([color=#FF6663]" + str(dotName) + "[/color])"
 	else:
-		combatLogMsg = "[" + str(victim.username) + "] took " + str("%0.2f" % damage) + " damage (" + str(dotName) + ")"
+		combatLogMsg = "[[color=#FEB144]" + str(victim.username) + "[/color]] took " + str("%0.2f" % damage) + " damage ([color=#FF6663]" + str(dotName) + "[/color])"
 	victim.board.combat_log(combatLogMsg)
 	victim.get_node("Combat").clean_up_pawn(attacker)

@@ -58,9 +58,9 @@ func _ready() -> void:
 	direction = position.direction_to(center).rotated(randf_range(-1.0, 1.0))
 	$AttackCooldownTimer.one_shot = true
 
-	if costume > spriteArray.size(): costume = spriteArray.size()
-	activeSprite = spriteArray[costume-1]
-	$PawnSprite.texture = activeSprite
+	#if costume > spriteArray.size(): costume = spriteArray.size()
+	#activeSprite = spriteArray[costume-1]
+	$PawnSprite.texture = spriteArray[0]
 
 	z_as_relative = false
 	z_index = get_node("/root/main").layerPawn

@@ -3,30 +3,44 @@ extends "res://pawns/_base/attack/base_attack.gd"
 # Physics variables
 var speed
 var direction: Vector2
+var globuleColorArray = ["normal", "light", "dark"]
+var globuleColor
 
 # Bounce variables
 var boardSize
 var disableBounceDuration = 0.1
 
 func _ready() -> void:
+	globuleColor = globuleColorArray.pick_random()
+	
 	scale *= Vector2.ONE * randf_range(0.5, 1.0)
 
 	# Flag as single-target attack
 	areaAttack = false
 
-	# Adjust projectile colors 
-	$BaseSprite.modulate.r = 0
-	$BaseSprite.modulate.g = randf_range(0.4, 0.6)
-	$BaseSprite.modulate.b = randf_range(0.5, 0.8)
+	# Adjust projectile colors
+	var globuleDurTimer = 2.0
+	match globuleColor:
+		"normal":
+			$BaseSprite.modulate = Color.DODGER_BLUE
+			speed = 25
+		"light":
+			$BaseSprite.modulate = Color.CYAN
+			dmg *= 2
+			speed = 50
+		"dark":
+			$BaseSprite.modulate = Color.STEEL_BLUE
+			dmg /= 2
+			speed = 10
 
 	# Set visibility order
 	z_as_relative = false
 	z_index = get_node("/root/main").layerAir
 
 	# Start timers
-	var maxDuration = get_parent().get_parent().projectileDuration
-	var minDuration = maxDuration / 2
-	$FizzleTimer.start(randf_range(minDuration, maxDuration))
+	#var maxDuration = get_parent().get_parent().projectileDuration
+	#var minDuration = maxDuration / 2
+	$FizzleTimer.start(globuleDurTimer)
 
 func _process(_delta: float) -> void:
 	if $FizzleTimer.get_time_left() < 0.25:

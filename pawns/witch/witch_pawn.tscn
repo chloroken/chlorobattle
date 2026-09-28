@@ -8,24 +8,22 @@
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="6_4plck"]
 [ext_resource type="Texture2D" uid="uid://d07impsuqfnpe" path="res://pawns/witch/witch_broom.png" id="6_sgj38"]
 [ext_resource type="PackedScene" uid="uid://c811ab5hta8us" path="res://pawns/witch/particle/witch_particle.tscn" id="7_6su0n"]
-[ext_resource type="PackedScene" uid="uid://bv4lfom6kl1nh" path="res://pawns/witch/cauldron/cauldron_attack.tscn" id="7_sf3w4"]
 [ext_resource type="PackedScene" uid="uid://b0b6t85388d50" path="res://pawns/witch/frog/frog_attack.tscn" id="8_sgj38"]
 
 [node name="WitchPawn" unique_id=1877646274 instance=ExtResource("1_wh3ex")]
 script = ExtResource("2_4ghe6")
 blinkScene = ExtResource("3_vbbgf")
 costumeSprite = ExtResource("4_41qmo")
-baseSprite = ExtResource("3_a1r21")
+baseSprite = ExtResource("4_41qmo")
 warpSprite = ExtResource("6_sgj38")
 warpParticle = ExtResource("7_6su0n")
-cauldronAttack = ExtResource("7_sf3w4")
 frogAttack = ExtResource("8_sgj38")
 hp = 360.0
 def = 0.3
 dmg = 50.0
 pen = 0.4
 spd = 30.0
-spriteArray = Array[Resource]([ExtResource("3_a1r21"), ExtResource("4_41qmo")])
+spriteArray = Array[Resource]([ExtResource("4_41qmo"), ExtResource("4_41qmo")])
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("3_a1r21")

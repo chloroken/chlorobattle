@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bupq0sf1qdeuf"]
+
+[ext_resource type="Script" uid="uid://c8n8sa5kd0h0c" path="res://pawns/tree/seed_attack/seed_attack.gd" id="1_egi55"]
+[ext_resource type="PackedScene" uid="uid://cjyrm0ct4uh2k" path="res://pawns/tree/seed_attack/seed_particle/seed_particle.tscn" id="2_wamx3"]
+[ext_resource type="Texture2D" uid="uid://2cuql5071q6" path="res://pawns/tree/seed_attack/seed_attack.png" id="2_y1sa7"]
+
+[node name="SeedAttack" type="Node2D" unique_id=1239895823]
+script = ExtResource("1_egi55")
+particleScene = ExtResource("2_wamx3")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1022901200]
+texture = ExtResource("2_y1sa7")
+
+[node name="ParticleTimer" type="Timer" parent="." unique_id=1127519130]
+
+[connection signal="timeout" from="ParticleTimer" to="." method="_on_particle_timer_timeout"]

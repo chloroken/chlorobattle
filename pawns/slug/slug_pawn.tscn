@@ -8,7 +8,6 @@
 [node name="SlugPawn" unique_id=1048959576 instance=ExtResource("1_a6a5s")]
 script = ExtResource("2_8633t")
 slugAttack = ExtResource("3_tqnmo")
-hp = 320.0
 def = 0.5
 dmg = 20.0
 pen = 0.4
@@ -18,5 +17,8 @@ spriteArray = Array[Resource]([ExtResource("2_qfyav")])
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
 texture = ExtResource("2_qfyav")
 
+[node name="SlugRespawnTimer" type="Timer" parent="." index="9" unique_id=339132613]
+
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="SlugRespawnTimer" to="." method="_on_slug_respawn_timer_timeout"]

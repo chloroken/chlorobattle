@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var killbotSaw: Resource
 @export var killbotAttack: PackedScene
+var attackName = "Killbot"
 var destination
 var follow = null
 var killbotStacks = 1
@@ -86,6 +87,10 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	newSaw.attackName = "Killbot"
 	newSaw.duration = get_parent().get_parent().get_node("Items").killbotSawDuration
 	add_sibling(newSaw)
+	if killbotStacks >= killbotMaxStacks:
+		newSaw.modulate.r = 1.0
+		newSaw.modulate.b = 0.0
+		newSaw.modulate.g = 0.0
 	$AttackCooldownTimer.start(randf_range(attackCooldownMin, attackCooldownMax))
 	#var newBullet = killbotAttack.instantiate()
 	#add_sibling(newBullet)

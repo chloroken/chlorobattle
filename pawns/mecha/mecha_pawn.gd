@@ -14,11 +14,13 @@ var bombCooldownMin = 2.0
 var bombCooldownMax = 3.0
 var bombConeArc = 0.25
 var bombConeMin = 0.0
-var bombSpeedMod = 10.0
+var bombSpeedMin = 50
+var bombSpeedMax = 100
+var bombSpeedMod = 1.0
 var bombSpeedIncrement = 3.0
 var bombStartingIncrement = 5.0
 var bombDuration = 0.5
-var bombCount = 3
+var bombCount = 6
 
 # Melee variables
 @export var whirlwindAttack: PackedScene
@@ -40,10 +42,10 @@ func _ready() -> void:
 	
 	# Pick a random form to start in
 	if randi_range(0, 1) == 1:
-		$PawnSprite.texture = spriteArray[costume-1]
+		$PawnSprite.texture = spriteArray[0]
 		mechaForm = true
 	else:
-		$PawnSprite.texture = jetSpriteArray[costume-1]
+		$PawnSprite.texture = jetSpriteArray[0]
 		mechaForm = false
 
 	# Start attack cycle
@@ -64,8 +66,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	start_attack_cooldown()
 	if disarm_check(): return
 
-	# Melee attack
-	if mechaForm:
+	if !mechaForm:
 		var newAttack = whirlwindAttack.instantiate()
 		newAttack.position = self.position
 		newAttack.dmg = self.dmg * whirlwindDmgMod
@@ -74,15 +75,14 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		$AttackContainer.add_child(newAttack)
 		$Status.start_tanky(walkerTankyDuration)
 
-	# Jet attack
-	else:
+	elif mechaForm:
 		for i in bombCount:
 			var newAttack = bombAttack.instantiate()
 			newAttack.position = self.position
 			newAttack.dmg = self.dmg
-			var newAtkArc = randf_range(bombConeMin, bombConeArc)
-			newAttack.direction = self.direction.rotated(newAtkArc)
-			newAttack.speed = self.spd * (i+bombStartingIncrement) * bombSpeedIncrement / 2
+			#var newAtkArc = randf_range(bombConeMin, bombConeArc)
+			newAttack.direction = Vector2.RIGHT.rotated(randf_range(0, TAU))#self.direction.rotated(newAtkArc)
+			newAttack.speed = randf_range(bombSpeedMin, bombSpeedMax)
 			newAttack.duration = bombDuration
 			$AttackContainer.add_child(newAttack)
 		#var newAtkArc = randf_range(bombConeMin, bombConeArc)
@@ -123,10 +123,10 @@ func _process(_delta: float) -> void:
 	# Turn to face direction in Jet form
 	if !mechaForm:
 		$PawnSprite.rotation = direction.angle()
-		$PawnSprite.texture = jetSpriteArray[costume-1]
+		$PawnSprite.texture = jetSpriteArray[0]
 		#$PawnSprite.texture = jetFormSprite
 	else:
-		$PawnSprite.texture = spriteArray[costume-1]
+		$PawnSprite.texture = spriteArray[0]
 		$PawnSprite.rotation = 0.0
 		#$PawnSprite.texture = mechaFormSprite
 

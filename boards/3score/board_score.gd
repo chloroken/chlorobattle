@@ -32,22 +32,23 @@ func _process(_delta: float) -> void:
 func call_pawn_scores() -> void:
 	var i = 1
 	for pawn in get_parent().scoreList:
-		var winnerBonus = int(floor(sqrt(get_parent().scoreList.size())))
-		var xpToAdd = 1
-		if !get_parent().testingMode:
-			if i == 1: xpToAdd += winnerBonus
-			get_parent().add_xp(pawn.username, pawn.type, xpToAdd)
-		var pawnXp = get_parent().get_xp(pawn.username, pawn.type)
+		#var winnerBonus = int(floor(sqrt(get_parent().scoreList.size())))
+		#var xpToAdd = 1
+		#if !get_parent().testingMode:
+			#if i == 1: xpToAdd += winnerBonus
+			#get_parent().add_xp(pawn.username, pawn.type, xpToAdd)
+		#var pawnXp = get_parent().get_xp(pawn.username, pawn.type)
 		
 		$UI.get_node("ScoreContainer/PlacementLabel").text += str(i) + "\n"
 		#$UI.get_node("ScoreContainer/UsernameLabel").text += str(pawn.username) + "\n"
-		if pawn.team == "blue": $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color.DEEP_SKY_BLUE)
-		elif pawn.team == "gold": $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color.DARK_GOLDENROD)
-		else: $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color("white"))
+		#if pawn.team == "blue": $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color.DEEP_SKY_BLUE)
+		#elif pawn.team == "gold": $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color.DARK_GOLDENROD)
+		#else: $UI.get_node("ScoreContainer/UsernameLabel").push_color(Color("white"))
+		$UI.get_node("ScoreContainer/UsernameLabel").push_color(Color("white"))
 		$UI.get_node("ScoreContainer/UsernameLabel").add_text(str(pawn.username + "\n"))
 		$UI.get_node("ScoreContainer/UsernameLabel").pop()
-		$UI.get_node("ScoreContainer/LevelLabel").text += str(int(floor(sqrt(pawnXp)))) + "\n"
-		$UI.get_node("ScoreContainer/XpLabel").text += "+" + str(xpToAdd) + " (" + str(pawnXp) + ")\n"
+		#$UI.get_node("ScoreContainer/LevelLabel").text += str(int(floor(sqrt(pawnXp)))) + "\n"
+		#$UI.get_node("ScoreContainer/XpLabel").text += "+" + str(xpToAdd) + " (" + str(pawnXp) + ")\n"
 		$UI.get_node("ScoreContainer/PawnLabel").text += str(pawn.type) + "\n"
 		$UI.get_node("ScoreContainer/StyleLabel").text += str(pawn.style) + "\n"
 		$UI.get_node("ScoreContainer/ItemLabel").text += str(pawn.item) + "\n"

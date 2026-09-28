@@ -22,7 +22,7 @@ func combat_pawn(attack) -> void:
 	if accuracy_check(attacker):
 		var damage = on_hit_effects(attacker)
 		damage = mitigation_phase(damage, attack, attacker)
-		damage = modifier_phase(damage, attacker)
+		damage = modifier_phase(attack, damage, attacker)
 		damage_phase(damage, attacker, attack)
 		damage_effects(attack, attacker)
 	get_parent().clean_up_attack(attack)
@@ -37,10 +37,10 @@ func guaranteed_effects(attack, attacker) -> void:
 
 	if attack.isRamAttack:
 		var par = attack.get_parent().get_parent()
-		attack.dmg = max(par.dmg, min(par.hornChargeMax, par.hornChargeSpeedModifier * par.spd * par.statusSpdMod))
+		attack.dmg = max(par.dmg, min(par.chargeSpeedMax, par.chargeMovespeedModifier * par.spd * par.statusSpdMod))
 		if !attacker.get_node("Status").get_node("DisarmedStatusTimer").is_stopped():
-			attack.dmg *= attacker.hornDisarmMultiplier
-			
+			attack.dmg *= attacker.hornDisarmDamageMultiplier
+
 func accuracy_check(attacker) -> bool:	
 	var hitChance = 100
 
@@ -54,9 +54,9 @@ func accuracy_check(attacker) -> bool:
 
 	var hitRoll = randi_range(1, 100)
 	if hitRoll > hitChance:
-		if !basePawn.type == "ram":
+		if basePawn.type != "ram":
 			attacker.direction = attacker.new_direction()
-			basePawn.board.combat_log("[" + str(attacker.username) + "] missed an attack.")
+			basePawn.board.combat_log("[[color=#FDFD97]" + str(attacker.username) + "[/color]] missed an attack.")
 			return(false)
 
 	return(true)
@@ -73,13 +73,17 @@ func mitigation_phase(onHitDamage, attack, attacker) -> float:
 	var realHit = (baseHit - actualDefended)
 	return(realHit)
 
-func modifier_phase(baseHit, attacker) -> float:
+func modifier_phase(attack, baseHit, attacker) -> float:
 	if !attacker.get_node("Status").get_node("WeakStatusTimer").is_stopped(): baseHit /= 2
 	baseHit += items.item_check_dice(attacker, baseHit)
 	baseHit += styles.style_mighty_trigger(attacker, baseHit)
+	baseHit += styles.style_snowball_trigger(baseHit, attacker)
 	baseHit *= status.tanky_reduce_damage()
+	if attack.isEmberAttack:
+		if !attack.isBlueEmberAttack:
+			if !status.get_node("HazyStatusTimer").is_stopped():
+				baseHit *= attacker.emberHazyMultiplier
 	baseHit += styles.style_slayer_trigger(attacker)
-	#var board = get_parent().get_parent().get_parent()
 	var finalHit = baseHit * (board.globalDmgMod / board.dmgModDuration)
 	return(finalHit)
 
@@ -87,7 +91,17 @@ func damage_phase(damage, attacker, attack) -> void:
 	basePawn.hp -= damage
 	basePawn.damageTaken += damage
 	attacker.damageDealt += damage
-	basePawn.board.combat_log("[" + str(attacker.username) + "] hit [" + str(basePawn.username) + "] for " + "%0.2f" % damage + " (" + str(attack.attackName) + ")")
+	
+	if basePawn.hp > 0:
+		if attacker.style == "slayer":
+			attacker.get_node("Styles").add_slayer_charge()
+	else:
+		if attacker.style == "slayer":
+			attacker.get_node("Styles").slayer_discharge(attacker)
+		elif attacker.style == "snowball":
+			attacker.get_node("Styles").add_snowball_charge()
+
+	basePawn.board.combat_log("[[color=#FDFD97]" + str(attacker.username) + "[/color]] hit [[color=#FEB144]" + str(basePawn.username) + "[/color]] for " + "%0.2f" % damage + " ([color=#FF6663]" + str(attack.attackName) + "[/color])")
 
 func damage_effects(attack, attacker) -> void:
 
@@ -95,6 +109,7 @@ func damage_effects(attack, attacker) -> void:
 	status.try_scared(attack)
 	items.item_try_skating()
 	items.item_try_glue(attacker)
+	#items.item_try_killbot(attacker)
 	items.item_try_map()
 
 	# Meta reaper passive
@@ -146,5 +161,9 @@ func damage_effects(attack, attacker) -> void:
 		var lazyDuration = attacker.cauldronLazyDuration
 		basePawn.get_node("Status").start_lazy(lazyDuration)
 
-	if attack.isFrogAttack:
-		attack.create_splat()
+	if attack.isPurpleFrogAttack:
+		status.start_weak(attacker.purpleFrogWeakDuration)
+
+	if attack.isBlueEmberAttack:
+		var hazyDuration = attacker.blueEmberHazyDur
+		basePawn.get_node("Status").start_hazy(hazyDuration)

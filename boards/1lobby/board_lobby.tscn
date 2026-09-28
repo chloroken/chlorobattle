@@ -22,53 +22,58 @@ visible = false
 [node name="Wheel2" parent="Sprites" parent_id_path=PackedInt32Array(1877396279) index="3" unique_id=930049616]
 visible = false
 
-[node name="TitleLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="0" unique_id=2134437413]
+[node name="TitleLabel" type="RichTextLabel" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="0" unique_id=1260007367]
+texture_filter = 1
+offset_top = -65.0
 offset_right = 1440.0
-offset_bottom = 126.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+offset_bottom = 168.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 25
-theme_override_constants/shadow_outline_size = 50
-theme_override_fonts/font = ExtResource("3_icr0c")
-theme_override_font_sizes/font_size = 92
-text = " ~ chlorobattle ~"
+theme_override_constants/outline_size = 32
+theme_override_fonts/normal_font = ExtResource("3_icr0c")
+theme_override_font_sizes/normal_font_size = 96
+bbcode_enabled = true
+autowrap_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 2
 
-[node name="JoinerCount" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="1" unique_id=89089589]
-offset_right = 1440.0
-offset_bottom = 960.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 25
-theme_override_fonts/font = ExtResource("4_k6luq")
-theme_override_font_sizes/font_size = 96
-text = " 0"
+[node name="TitleColorTimer" type="Timer" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="1" unique_id=1362898138]
+one_shot = true
 
-[node name="TimerLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="2" unique_id=33690586]
+[node name="TimerLabel" type="RichTextLabel" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="2" unique_id=920777307]
+texture_filter = 1
 custom_minimum_size = Vector2(720, 50)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -720.0
-offset_top = -480.0
-offset_right = 720.0
-offset_bottom = 480.0
+offset_left = -705.0
+offset_top = -465.0
+offset_right = 735.0
+offset_bottom = 495.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 25
-theme_override_fonts/font = ExtResource("4_k6luq")
-theme_override_font_sizes/font_size = 96
-text = "60"
-horizontal_alignment = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/normal_font = ExtResource("6_8svab")
+bbcode_enabled = true
+text = " 60"
 
-[node name="JoinLogLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="3" unique_id=1383857322]
+[node name="JoinerCount" type="RichTextLabel" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="3" unique_id=432620382]
+texture_filter = 1
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 1455.0
+offset_bottom = 975.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/normal_font = ExtResource("5_3mka6")
+bbcode_enabled = true
+text = "
+ 0"
+
+[node name="JoinLogLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="4" unique_id=1383857322]
+visible = false
 offset_left = 4.0
 offset_top = -2.0
 offset_right = 1444.0
@@ -81,87 +86,105 @@ theme_override_font_sizes/font_size = 14
 vertical_alignment = 2
 clip_text = true
 
-[node name="CheatSheetLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="4" unique_id=1526615179]
+[node name="JoinLogRichLabel" type="RichTextLabel" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="5" unique_id=685720119]
+texture_filter = 1
+offset_left = 4.0
+offset_top = -2.0
+offset_right = 1444.0
+offset_bottom = 958.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/normal_font = ExtResource("6_8svab")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+vertical_alignment = 2
+
+[node name="CheatSheetLabel" type="RichTextLabel" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="6" unique_id=968197123]
+texture_filter = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 477.0
-offset_top = -659.0
-offset_right = 1917.0
-offset_bottom = 301.0
+offset_left = -175.245
+offset_top = -757.06
+offset_right = 1264.7501
+offset_bottom = 202.94
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("5_3mka6")
-theme_override_font_sizes/font_size = 18
-text = "PAWNS:
-• Candle
-• Cat
-• Chair
-• Demon
-• Fish
-• Ghost
-• Mecha
-• Mummy
-• Pirate
-• Ram
-• Ship
-• Slug
-• Top
-• Witch"
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("6_8svab")
+bbcode_enabled = true
+text = "~[color=#FF6663]PAWNS[/color]~
+Candle
+Cat
+Chair
+Demon
+Fish
+Ghost
+Mecha
+Mummy
+Pirate
+Ram
+Ship
+Slug
+Top
+Tree
+Witch"
+horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CheatSheetLabel2" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="5" unique_id=1699195022]
+[node name="CheatSheetLabel2" type="RichTextLabel" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="7" unique_id=2051132152]
+texture_filter = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 580.0
-offset_top = -607.0
-offset_right = 2020.0
-offset_bottom = 353.0
+offset_left = -83.0
+offset_top = -724.0
+offset_right = 1357.0
+offset_bottom = 236.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("5_3mka6")
-theme_override_font_sizes/font_size = 18
-text = "STYLES:
-• Berserk
-• Bully
-• Mighty
-• Parkour
-• Slayer
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("6_8svab")
+bbcode_enabled = true
+text = "~[color=#CC99C9]STYLES[/color]~
+Berserk
+Bully
+Mighty
+Parkour
+Slayer
+Snowball
 
-ITEMS:
-• Antimatter
-• Dice
-• Glue
-• Flask
-• Killbot
-• Map
-• Milkshake
-• Skates
-• Smoke
-• Tire"
+~[color=#9EC1CF]ITEMS[/color]~
+Dice
+Glue
+Flask
+Killbot
+Map
+Milkshake
+Skates
+Smoke
+Tire
+Treat"
+horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InstructionLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="6" unique_id=1544000160]
+[node name="InstructionLabel" type="RichTextLabel" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="8" unique_id=529859030]
 offset_right = 1440.0
 offset_bottom = 955.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 15
-theme_override_fonts/font = ExtResource("4_k6luq")
-theme_override_font_sizes/font_size = 28
-text = "!join <pawn> <style> <item>"
+theme_override_fonts/normal_font = ExtResource("4_k6luq")
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[color=slate_gray]![/color]join [color=#FF6663]pawn[/color] [color=#CC99C9]style[/color] [color=#9EC1CF]item[/color]"
 horizontal_alignment = 1
 vertical_alignment = 2
 
 [connection signal="timeout" from="Timers/LobbyTimer" to="." method="_on_lobby_timer_timeout"]
+[connection signal="timeout" from="UI/TitleColorTimer" to="." method="_on_title_color_timer_timeout"]

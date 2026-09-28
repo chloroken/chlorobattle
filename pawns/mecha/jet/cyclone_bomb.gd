@@ -21,9 +21,9 @@ func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 
 	# Explode any bomb that's out of the arena
-	if position.distance_to(center) > get_parent().get_parent().get_parent().boardRadius:
-		get_parent().get_parent().make_explosion(self.position)
-		self.queue_free()
+	#if position.distance_to(center) > get_parent().get_parent().get_parent().boardRadius:
+		#get_parent().get_parent().make_explosion(self.position)
+		#self.queue_free()
 
 # Make an explosion
 func _on_fizzle_timer_timeout() -> void:

@@ -16,14 +16,14 @@ var catStaggerDuration = 0.1
 var catYarnLazyDuration = 10.0
 var catMeowDamage = 20
 
-var catGemRedCooldownMin = 4
-var catGemRedCooldownMax = 5
+var catGemRedCooldownMin = 4.0
+var catGemRedCooldownMax = 6.0
 var catGemRedReady = false # causes bleed
-var catGemBlueCooldownMin = 8
-var catGemBlueCooldownMax = 10
+var catGemBlueCooldownMin = 8.0
+var catGemBlueCooldownMax = 10.0
 var catGemBlueReady = false # jumps away
-var catGemYellowCooldownMin = 12
-var catGemYellowCooldownMax = 15
+var catGemYellowCooldownMin = 12.0
+var catGemYellowCooldownMax = 15.0
 var catGemYellowReady = false # meow cone
 
 # have a normal sprite and a costume
@@ -97,6 +97,25 @@ func _on_attack_cooldown_timer_timeout() -> void:
 				newAttack.scale *= catSwipeRedScale
 				newAttack2.redSwipe = true
 				newAttack2.scale *= catSwipeRedScale
+
+				var newAttack3 = catSwipe.instantiate()
+				newAttack3.extraPaw = true
+				newAttack3.position = position + Vector2.LEFT * catRotateDistance
+				newAttack3.dmg = self.dmg
+				newAttack3.swipeDir = 1
+				newAttack3.redSwipe = true
+				newAttack3.scale *= catSwipeRedScale
+				$AttackContainer.add_child(newAttack3)
+
+				var newAttack4 = catSwipe.instantiate()
+				newAttack4.extraPaw = true
+				newAttack4.position = position + Vector2.LEFT * catRotateDistance
+				newAttack4.dmg = self.dmg
+				newAttack4.swipeDir = -1
+				newAttack4.redSwipe = true
+				newAttack4.scale *= catSwipeRedScale
+				$AttackContainer.add_child(newAttack4)
+				
 				$Gem1Timer.start(randf_range(catGemRedCooldownMin, catGemRedCooldownMax))
 
 			$AttackContainer.add_child(newAttack)

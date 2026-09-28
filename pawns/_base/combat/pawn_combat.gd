@@ -30,8 +30,8 @@ func attack_hit(attack) -> void:
 	if basePawn.hitList.has(attack): return
 	var attacker = attack.get_parent().get_parent()
 	if attacker.username == basePawn.username: return
-	var mainBoard = get_parent().get_parent().get_parent()
-	if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
+	#var mainBoard = get_parent().get_parent().get_parent()
+	#if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
 	$Pawn.combat_pawn(attack)
 func item_hit(attack) -> void:
 	if !basePawn.get_node("Status/VoidStatusTimer").is_stopped():
@@ -42,8 +42,8 @@ func item_hit(attack) -> void:
 	if basePawn.hitList.has(attack): return
 	var attacker = attack.get_parent().get_parent()
 	if attacker.username == basePawn.username: return
-	var mainBoard = get_parent().get_parent().get_parent()
-	if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
+	#var mainBoard = get_parent().get_parent().get_parent()
+	#if mainBoard.teamsEnabled && basePawn.team == attacker.team: return
 	$Item.combat_item(attack, basePawn)
 func style_touch(victim) -> void:
 	if basePawn.attacksDisabled: return
@@ -51,8 +51,8 @@ func style_touch(victim) -> void:
 	if !victim.get_node("Status").get_node("VoidStatusTimer").is_stopped(): return
 	if !victim.get_collision_layer_value(1): return
 	if victim.username == basePawn.username: return
-	var mainBoard = get_parent().get_parent().get_parent()
-	if mainBoard.teamsEnabled && basePawn.team == victim.team: return
+	#var mainBoard = get_parent().get_parent().get_parent()
+	#if mainBoard.teamsEnabled && basePawn.team == victim.team: return
 	$Style.bully_touch(victim)
 
 #######################
@@ -68,6 +68,8 @@ func clean_up_attack(attack) -> void:
 func clean_up_pawn(attacker) -> void:
 	var pawns = basePawn.get_parent().get_parent().pawnList
 	if basePawn.hp <= 0:
+		if basePawn.type == "slug":
+			if basePawn.try_revive(): return
 		basePawn.get_parent().get_node("DeathSound").play()# tie to board
 		if attacker == null:
 			pawn_death_no_source(basePawn)
@@ -75,8 +77,8 @@ func clean_up_pawn(attacker) -> void:
 		for i in range(0, pawns.size()):
 			if pawns[i].username == basePawn.username:
 				attacker.killCount += 1
-				if attacker.style == "slayer":
-					attacker.get_node("Styles").add_slayer_charge()
+				if attacker.style == "snowball":
+					attacker.get_node("Styles").add_snowball_charge()
 				pawn_death(basePawn, attacker, attacker.username, i)
 				break
 func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
@@ -85,7 +87,7 @@ func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
 	make_tombstone(pawn)
 	update_scoreboard(board, pawn)
 	mainBoard.pawnList.remove_at(pawnIndex)
-	board.kill_feed("[" + str(killer) + "] eliminated [" + str(pawn.username) + "]")
+	board.kill_feed("[[color=#FDFD97]" + str(killer) + "[/color]] ☠ [[color=#FEB144]" + str(pawn.username) + "[/color]]")
 	board.activePawns.erase(pawn)
 	pawn.queue_free()
 	
@@ -95,17 +97,17 @@ func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
 		update_scoreboard(board, attackingPawn)
 		mainBoard.switch_board("score")
 	# Or if teams are enabled, and only one is left, end game
-	elif mainBoard.teamsEnabled:
-		var oneTeamLeft = true
-		var pawnTeam = mainBoard.pawnList[0].team
-		for p in mainBoard.pawnList:
-			if pawnTeam != p.team:
-				oneTeamLeft = false
-				break
-		if oneTeamLeft:
-			for p in board.activePawns:
-				update_scoreboard(board, p)
-			mainBoard.switch_board("score")
+	#elif mainBoard.teamsEnabled:
+		#var oneTeamLeft = true
+		#var pawnTeam = mainBoard.pawnList[0].team
+		#for p in mainBoard.pawnList:
+			#if pawnTeam != p.team:
+				#oneTeamLeft = false
+				#break
+		#if oneTeamLeft:
+			#for p in board.activePawns:
+				#update_scoreboard(board, p)
+			#mainBoard.switch_board("score")
 func pawn_death_no_source(pawn) -> void:
 	var board = get_parent().get_parent()
 	var mainBoard = board.get_parent()
@@ -117,7 +119,7 @@ func pawn_death_no_source(pawn) -> void:
 		if pawns[i].username == pawn.username:
 			pawnIndex = i
 	mainBoard.pawnList.remove_at(pawnIndex)
-	board.kill_feed("[" + str(pawn.username) + "] was eliminated")
+	board.kill_feed("[[color=#FEB144]" + str(pawn.username) + "[/color]] was eliminated")
 	board.activePawns.erase(pawn)
 	pawn.queue_free()
 
@@ -126,17 +128,17 @@ func pawn_death_no_source(pawn) -> void:
 	if mainBoard.pawnList.size() <= 1:
 		mainBoard.switch_board("score")
 	# Or if teams are enabled, and only one is left, end game
-	elif mainBoard.teamsEnabled:
-		var oneTeamLeft = true
-		var pawnTeam = mainBoard.pawnList[0].team
-		for p in mainBoard.pawnList:
-			if pawnTeam != p.team:
-				oneTeamLeft = false
-				break
-		if oneTeamLeft:
-			for p in board.activePawns:
-				update_scoreboard(board, p)
-			mainBoard.switch_board("score")
+	#elif mainBoard.teamsEnabled:
+	#	var oneTeamLeft = true
+	#	var pawnTeam = mainBoard.pawnList[0].team
+	#	for p in mainBoard.pawnList:
+	#		if pawnTeam != p.team:
+	#			oneTeamLeft = false
+	#			break
+	#	if oneTeamLeft:
+	#		for p in board.activePawns:
+	#			update_scoreboard(board, p)
+	#		mainBoard.switch_board("score")
 	
 func make_tombstone(pawn) -> void:
 	var newTombstone = tombstone.instantiate()
@@ -151,7 +153,7 @@ func update_scoreboard(board, pawn) -> void:
 	newScore.type = pawn.type
 	newScore.style = pawn.style
 	newScore.item = pawn.item
-	newScore.team = pawn.team
+	#newScore.team = pawn.team
 	newScore.damageTaken = pawn.damageTaken
 	newScore.damageDealt = pawn.damageDealt
 	newScore.damageHealed = pawn.damageHealed

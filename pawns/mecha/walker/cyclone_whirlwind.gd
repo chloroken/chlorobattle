@@ -12,7 +12,7 @@ func _ready() -> void:
 
 	# Set visibility order
 	z_as_relative = false
-	z_index = get_node("/root/main").layerAir
+	z_index = get_node("/root/main").layerPawnBehind
 
 func _process(delta: float) -> void:
 	$BaseSprite.modulate.a = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
 	scale.y = 1.5 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 	rotation += rotationSpeed * delta
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	position = get_parent().get_parent().position
 	#position += Vector2.RIGHT.rotated(direction) * speed * delta
 

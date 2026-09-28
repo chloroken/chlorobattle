@@ -33,16 +33,18 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	# Determine length of attack
 	var rushDur = randf_range(swingDurMin, swingDurMax)
 	var statusType = randi_range(0, 1)
-	if statusType == 0: $Status.start_sprint(rushDur)
-	else: $Status.start_tanky(rushDur)
+	if statusType == 0:
+		$Status.start_sprint(rushDur)
+	else:
+		$Status.start_tanky(rushDur)
 
 	# Swing
 	var legCount = 1
-	if randi_range(0, 2) == 0:
+	if randi_range(0, 1) == 0:
 		legCount += 1
-		if randi_range(0, 2) == 0:
+		if randi_range(0, 1) == 0:
 			legCount += 1
-			if randi_range(0, 2) == 0:
+			if randi_range(0, 1) == 0:
 				legCount += 1
 	var redwoodUsed = false
 	for i in legCount:
@@ -51,6 +53,7 @@ func _on_attack_cooldown_timer_timeout() -> void:
 		newAttack.dmg = self.dmg
 		newAttack.rotation = TAU / legCount * i
 		newAttack.attackName = "Swing"
+		newAttack.areaAttack = false
 		newAttack.swingDur = rushDur
 		newAttack.swingDir = 1
 		newAttack.swingSpd = 10
@@ -62,9 +65,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 			newAttack.get_node("BaseSprite").modulate = redwoodColor
 			newAttack.dmg *= redwoodDmg
 			newAttack.attackName = "Redwood"
-
+			newAttack.areaAttack = true
 		$AttackContainer.add_child(newAttack)
-
 	$RushDurationTimer.start(rushDur)
 
 func _on_rush_duration_timer_timeout() -> void:

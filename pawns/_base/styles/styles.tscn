@@ -21,7 +21,14 @@ texture = ExtResource("3_wk0y4")
 
 [node name="MightyChargeTimer" type="Timer" parent="." unique_id=1767579079]
 
+[node name="SlayerCooldownTimer" type="Timer" parent="." unique_id=2095511221]
+
+[node name="SnowballCooldownTimer" type="Timer" parent="." unique_id=1799243411]
+
+[node name="SnowballFreeChargeTimer" type="Timer" parent="." unique_id=1536051757]
+
 [connection signal="timeout" from="BerserkResetTimer" to="." method="_on_berserk_reset_timer_timeout"]
 [connection signal="timeout" from="BullyResetTimer" to="." method="_on_bully_reset_timer_timeout"]
 [connection signal="timeout" from="ParkourResetTimer" to="." method="_on_parkour_reset_timer_timeout"]
 [connection signal="timeout" from="MightyChargeTimer" to="." method="_on_mighty_charge_timer_timeout"]
+[connection signal="timeout" from="SnowballFreeChargeTimer" to="." method="_on_snowball_free_charge_timer_timeout"]

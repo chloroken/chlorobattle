@@ -11,7 +11,7 @@ func _ready() -> void:
 
 func monster_hit(area) -> void:
 	# Hit validation
-	if !area.get_collision_layer_value(2): return
+	if !area.get_collision_layer_value(2): return #only pawn attacks
 	if hitList.has(area): return
 	if !area.areaAttack: area.queue_free()
 	else: hitList.append(area)
@@ -22,7 +22,7 @@ func monster_hit(area) -> void:
 	if dmgTaken > baseMonster.hp: dmgTaken = baseMonster.hp
 	baseMonster.hp -= dmgTaken
 	#attackingPawn.damageDealt += dmgTaken
-	board.combat_log("[" + str(attackingPawn.username) + "] hit [" + str(baseMonster.monsterName) + "] for " + str("%0.2f" % dmgTaken) + " (" + str(area.attackName) + ")")
+	board.combat_log("[[color=#FDFD97]" + str(attackingPawn.username) + "[/color]] hit [[color=#FEB144]" + str(baseMonster.monsterName) + "[/color]] for " + str("%0.2f" % dmgTaken) + " ([color=#FF6663]" + str(area.attackName) + "[/color])")
 
 	#Monster death procedure
 	if baseMonster.hp <= 0:
@@ -30,5 +30,8 @@ func monster_hit(area) -> void:
 		if hpToHeal > 0:
 			attackingPawn.hp += hpToHeal
 			attackingPawn.damageHealed += hpToHeal
-			board.combat_log("[" + str(attackingPawn.username) + "] healed for " + str("%0.2f" % hpToHeal) + " (" + str(baseMonster.monsterName) + ")")
+			board.combat_log("[[color=#FDFD97]" + str(attackingPawn.username) + "[/color]] healed for " + str("%0.2f" % hpToHeal) + " ([color=#9EE09E]" + str(baseMonster.monsterName) + "[/color])")
+		if attackingPawn.item == "treat":
+			attackingPawn.get_node("Items").activate_treat(baseMonster.monsterName)
+		
 		baseMonster.queue_free()

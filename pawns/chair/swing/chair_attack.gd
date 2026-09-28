@@ -19,11 +19,11 @@ func _ready() -> void:
 	$FizzleTimer.start(swingDur)
 
 func _physics_process(delta: float) -> void:
-	
+
 	# Attack swing
 	rotation += swingDir * swingSpd * delta
 	position = get_parent().get_parent().position
-	
+
 	# Scale growth
 	var scaleAmt = $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time()
 	scale.x = 0.5 + 0.5 * (scaleMod - scaleAmt * scaleMod)

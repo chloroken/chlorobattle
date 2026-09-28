@@ -9,7 +9,7 @@ var globalDmgReciprocal = 3.34
 var killFeedText = []
 var killFeedLineCount = 60
 var combatLogText = []
-var combatLogLineCount = 60
+var combatLogLineCount = 70
 var startingPlayerCount
 
 func _ready() -> void:
@@ -36,7 +36,7 @@ func _process(_delta: float) -> void:
 
 	# Label showing "global damage modifer" (to delay instakills at start)
 	globalDmgMod = min(dmgModDuration, $Timers.get_node("ArenaCloseTimer").get_wait_time() - $Timers.get_node("ArenaCloseTimer").get_time_left())
-	$UI.get_node("DamageModTimer").text =  " " + str(int(globalDmgMod * globalDmgReciprocal)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
+	$UI.get_node("DamageModTimer").text =  "Damage: " + str(int(globalDmgMod * globalDmgReciprocal)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
 	if globalDmgMod >= dmgModDuration:
 		$UI.get_node("DamageModTimer").modulate.a *= 0.99
 
@@ -82,9 +82,9 @@ func combat_log(msg: String) -> void:
 	combatLogText.push_front(msg)
 	var newString = ""
 	# Iterate backwards
-	for i in range(min(combatLogLineCount - 1, combatLogText.size() - 1), -1, -1):
-		newString += "\n" + combatLogText[i]
-	$UI.get_node("CombatLogLabel").text = newString
+	for i in range(min(combatLogLineCount - 1,combatLogText.size()) - 1, -1, -1):
+		newString += "" + combatLogText[i] + "\n"
+	$UI.get_node("CombatLogRichLabel").text = newString
 	debug_log(msg)
 func debug_log(msg) -> void:
 	print(msg)

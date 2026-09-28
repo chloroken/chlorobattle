@@ -1,13 +1,17 @@
 extends "res://pawns/_base/base_pawn.gd"
 
-
 # Splash variables
 @export var grouperAttack: PackedScene
-var diveSpeedDuration = 2.0
+var diveDuration = 2.0
 var splashCooldownMin = 5.0
 var splashCooldownMax = 6.0
-var splashScaleMin = 2.0
+var splashScaleMin = 1.5
 var splashScaleMax = 2.0
+var splashChainChance = 0.2
+var splashChainDelay = 0.1
+var splashChaining = false
+var diveChainDuration = 0.5
+var flopThreshold = 0.8
 
 # Bubble variables
 @export var grouperBubble: PackedScene
@@ -39,17 +43,34 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	#splash_attack()
 
 	# Hide pawn & sprint
-	$Status.start_void(diveSpeedDuration)
-	$Status.start_sprint(diveSpeedDuration)
-
-	# Start timers
 	$BubbleTimer.start(bubbleTimer)
-	$AttackDurationTimer.start(diveSpeedDuration)
+	if splashChaining:
+		$Status.start_void(diveChainDuration)
+		$Status.start_sprint(diveChainDuration)
+		$AttackDurationTimer.start(diveChainDuration)
+	else:
+		$Status.start_void(diveDuration)
+		$Status.start_sprint(diveDuration)
+		$AttackDurationTimer.start(diveDuration)
+	splashChaining = false
 
 func _on_attack_duration_timer_timeout() -> void:
 	splash_attack()
-	$BubbleTimer.stop()
-	$Status.start_stuck(1.0, self)
+	var chainChance = randf_range(0, 1)
+	if chainChance < splashChainChance:
+		$AttackCooldownTimer.start(splashChainDelay)
+
+		# this is the flop mechanic
+		var curDist = position.distance_to(center)
+		if curDist > (flopThreshold * board.boardRadius):
+			direction = new_direction()
+		else:
+			direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
+
+		splashChaining = true
+	else:
+		$BubbleTimer.stop()
+		$Status.start_stuck(1.0, self)
 
 func splash_attack() -> void:
 	var newAttack = grouperAttack.instantiate()

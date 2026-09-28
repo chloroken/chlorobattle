@@ -11,11 +11,13 @@ func _on_area_entered(area: Area2D) -> void:
 	if basePawn.attacksDisabled: return
 	if area == self: return
 	if area.type == "ghost": return
+	if area.type == "slug":
+		if !area.get_node("SlugRespawnTimer").is_stopped():
+			return
 	if area.isPossessed: return
 	#if area.team == basePawn.team: return #need to rework this, as ffa has everyone on same team
 	if !basePawn.get_node("PossessDurationTimer").is_stopped(): return
 	if !basePawn.get_node("PossessCooldownTimer").is_stopped(): return
-	
 	basePawn.get_node("PossessDurationTimer").start(basePawn.possessDuration)
 	basePawn.get_node("Status").start_void(basePawn.possessDuration)
 	basePawn.possessTarget = area

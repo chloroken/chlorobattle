@@ -49,7 +49,7 @@ func _on_antimatter_cooldown_timer_timeout() -> void:
 	var antiMatterCooldown = randf_range(antimatterCooldownMin, antimatterCooldownMax)
 	$AntimatterCooldownTimer.start(antiMatterCooldown)
 
-	basePawn.board.combat_log("[" + basePawn.username + "] entered the void (Antimatter)")
+	basePawn.board.combat_log("[[color=#FDFD97]" + basePawn.username + "[/color]] entered the void ([color=cyan]Antimatter[/color])")
 
 func _on_antimatter_duration_timer_timeout() -> void:
 	var statusDuration = $AntimatterCooldownTimer.get_time_left()
@@ -68,12 +68,13 @@ func _on_antimatter_duration_timer_timeout() -> void:
 @export var diceEffect: PackedScene
 var diceSides = 6
 var diceDuration = 3.0
+var diceChancePercent = 20
 
 func item_check_dice(attackingPawn, baseHit) -> float:
 	var dmgToAdd = 0
 	#if body.isPersistentSummon == true: return(dmgToAdd)
 	if attackingPawn.item != "dice": return(dmgToAdd)
-	if randi_range(1, 4) == 1:
+	if randi_range(1, 100) <= diceChancePercent:
 		dmgToAdd = item_roll_dice(baseHit, attackingPawn)
 	return(dmgToAdd)
 	
@@ -88,7 +89,7 @@ func item_roll_dice(baseHit, attackingPawn) -> float:
 		newDie.diceChoice = dieRoll
 		hitMod += dieRoll
 	var diceMod = 1.0 + hitMod * 0.1
-	basePawn.board.combat_log("[" + str(attackingPawn.username) + "] multiplied damage by " + str(diceMod) + " (Dice)")
+	basePawn.board.combat_log("[[color=#FDFD97]" + str(attackingPawn.username) + "[/color]] multiplied damage by " + str(diceMod) + " ([color=cyan]Dice[/color])")
 	return(baseHit * diceMod - baseHit)
 
 #########
@@ -123,7 +124,7 @@ func _on_flask_cooldown_timer_timeout() -> void:
 ########
 
 var glueSlowDuration = 1.0
-var glueStuckChance = 10
+var glueStuckChance = 20
 var glueStuckDuration = 5.0
 var glueStuckDamage = 25
 
@@ -133,7 +134,7 @@ func item_try_glue(attackingPawn) -> void:
 	# Apply slow
 	var status = basePawn.get_node("Status")
 	status.start_slow(glueSlowDuration)
-	basePawn.board.combat_log("[" + str(attackingPawn.username) + "] slowed [" + str(basePawn.username) + "] (Glue)")
+	basePawn.board.combat_log("[[color=#FDFD97]" + str(attackingPawn.username) + "[/color]] slowed [[color=#FEB144]" + str(basePawn.username) + "[/color]] ([color=cyan]Glue[/color])")
 
 	# Chance to apply stuck
 	var diceRoll = randi_range(1, glueStuckChance)
@@ -142,7 +143,7 @@ func item_try_glue(attackingPawn) -> void:
 		var stuckDamage = min(basePawn.hp, glueStuckDamage)
 		basePawn.hp -= stuckDamage
 		attackingPawn.damageDealt += stuckDamage
-		basePawn.board.combat_log("[" + str(attackingPawn.username) + "] stuck [" + str(basePawn.username) + "] for " + str(stuckDamage) + " (Glue)")
+		basePawn.board.combat_log("[[color=#FDFD97]" + str(attackingPawn.username) + "[/color]] stuck [[color=#FEB144]" + str(basePawn.username) + "[/color]] for " + str(stuckDamage) + " ([color=cyan]Glue[/color])")
 	
 
 ###########
@@ -158,10 +159,11 @@ var killbotStackMax = 3
 var killbotStackSize = 0.25 
 var killbotStackDamage = 5
 var killbotStackAttackSpeed = 25
-var killbotStackResetTimer = 10.0
+var killbotStackResetTimer = 15.0
 var killbotFollowMin = 20
 var killbotFollowMax = 100
 var killbotSawDuration = 1.0
+var killbotBleedDuration = 5.0
 
 func item_spawn_killbot() -> void:
 	var newBot = killbot.instantiate()
@@ -182,9 +184,9 @@ func item_spawn_killbot() -> void:
 	newBot.followDistanceMax = killbotFollowMax
 	basePawn.get_node("AttackContainer").add_child(newBot)
 
-	basePawn.board.combat_log("[" + basePawn.username + "] brought a friend (Killbot)")
+	basePawn.board.combat_log("[[color=#FDFD97]" + basePawn.username + "[/color]] brought a friend ([color=cyan]Killbot[/color])")
 
-func item_try_killbot_stack(attackingPawn, body) -> void:
+func try_killbot_stack(attackingPawn, body) -> void:
 	if attackingPawn.item != "killbot": return
 	if body.killbotParent == null: return
 	var dadbot = body.killbotParent
@@ -192,6 +194,14 @@ func item_try_killbot_stack(attackingPawn, body) -> void:
 	dadbot.get_node("KillbotStackTimer").start(dadbot.killbotStackTimer)
 	if dadbot.killbotStacks > dadbot.killbotMaxStacks:
 		dadbot.killbotStacks = dadbot.killbotMaxStacks
+
+func try_killbot_bleed(attack) -> void:
+	var attacker = attack.get_parent().get_parent()
+	if attacker.item != "killbot": return
+	var dadbot = attack.killbotParent
+	var status = basePawn.get_node("Status")
+	if dadbot.killbotStacks == dadbot.killbotMaxStacks:
+		status.start_bleed(killbotBleedDuration, attacker)
 
 #######
 # MAP #
@@ -242,7 +252,7 @@ func item_try_map() -> void:
 		$MapCooldownTimer.start(mapCooldown)
 		newMap.get_node("FizzleTimer").start(mapCooldown)
 
-		basePawn.board.combat_log("[" + str(basePawn.username) + "] teleported away (Map)")
+		basePawn.board.combat_log("[[color=#FDFD97]" + str(basePawn.username) + "[/color]] teleported away ([color=cyan]Map[/color])")
 
 func item_map_blink() -> Vector2:
 	var newPos = basePawn.position
@@ -324,7 +334,7 @@ func item_try_skating() -> void:
 		# Redirect to nearest wall
 		basePawn.new_direction() # to trigger parkour/styles
 		basePawn.direction = -basePawn.position.direction_to(center)
-		basePawn.board.combat_log("[" + str(basePawn.username) + "] changed directions (Skates)")
+		basePawn.board.combat_log("[[color=#FDFD97]" + str(basePawn.username) + "[/color]] changed directions ([color=cyan]Skates[/color])")
 
 		# Make blades
 		for i in skateBladeCount:
@@ -343,13 +353,15 @@ func try_skate_blade(attacker, attack) -> void:
 #########
 
 @export var smokeItem: Resource
-var smokeDamage = 20
+var smokeDamage = 10
 var smokeThrowCooldownMin = 5.0
 var smokeThrowCooldownMax = 10.0
 var smokeThrowSpeed = 5.0
 var smokeThrowDuration = 1.0
-var smokeFumeDuration = 5.0
-var smokeCloudHazyDuration = 5.0
+var smokeFumeDuration = 6.0
+var smokeCloudHazyDuration = 6.0
+var smokeCloudSlowDuration = 6.0
+var smokeCloudWeakDuration = 6.0
 var smokeBoxLength = 50
 var smokeMinLength = 50
 var smokeScaleMax = 2.0
@@ -363,7 +375,7 @@ func _on_smoke_attack_timer_timeout() -> void:
 	get_parent().get_node("AttackContainer").add_child(newAttack)
 	$SmokeAttackTimer.start(randf_range(smokeThrowCooldownMin, smokeThrowCooldownMax))
 
-	basePawn.board.combat_log("[" + str(basePawn.username) + "] tossed some chemicals (Smoke)")
+	basePawn.board.combat_log("[[color=#FDFD97]" + str(basePawn.username) + "[/color]] tossed a smoke bomb ([color=cyan]Smoke[/color])")
 func good_smoke_destination() -> Vector2:
 	var boardRadius = get_parent().get_parent().boardRadius
 	var newOffset = Vector2(randf_range(-smokeBoxLength, smokeBoxLength), randf_range(-smokeBoxLength, smokeBoxLength))
@@ -376,6 +388,8 @@ func try_smoke_effect(body, attackingPawn) -> bool:
 	if body.isSmokeAttack:
 		var pawnItems = body.get_parent().get_parent().get_node("Items")
 		basePawn.get_node("Status").start_hazy(pawnItems.smokeCloudHazyDuration)
+		basePawn.get_node("Status").start_slow(pawnItems.smokeCloudSlowDuration)
+		basePawn.get_node("Status").start_weak(pawnItems.smokeCloudWeakDuration)
 		#basePawn.get_node("Status").start_bleed(pawnItems.smokeCloudHazyDuration, attackingPawn)
 	return(false)
 
@@ -389,7 +403,7 @@ var tireCooldownMax = 10.0
 var tireBaseSpeed = 200
 var tireBounceCap = 3
 var tireSpeedMod = 0.75
-var tireDmgBase = 30
+var tireDmgBase = 60
 var tireDmgMod = 5
 var tireStuckDuration = 3.0
 
@@ -406,7 +420,7 @@ func _on_tire_attack_timer_timeout() -> void:
 	newAttack.stuckDuration = tireStuckDuration
 	get_parent().get_node("AttackContainer").add_child(newAttack)
 
-	basePawn.board.combat_log("[" + str(basePawn.username) + "] lost a wheel (Tire)")
+	basePawn.board.combat_log("[[color=#FDFD97]" + str(basePawn.username) + "[/color]] lost a wheel ([color=cyan]Tire[/color])")
 
 func try_tire_stuck(attack) -> void:
 	if attack.isTireAttack:
@@ -414,3 +428,28 @@ func try_tire_stuck(attack) -> void:
 		var randomCooldown = randf_range(tireCooldownMin, tireCooldownMax)
 		var attackingPawnItems = attack.get_parent().get_parent().get_node("Items")
 		attackingPawnItems.get_node("TireAttackTimer").start(randomCooldown)
+
+#########
+# TREAT #
+#########
+
+@export var treatAttack: Resource
+var spiritsPerSmall = 2
+var spiritsPerMedium = 5
+var spiritPerLarge = 10
+var treatDamage = 10
+
+func activate_treat(monster) -> void:
+	var treatCount = 0
+	match monster:
+		"Worm": treatCount = spiritsPerSmall
+		"Snake": treatCount = spiritsPerMedium
+		"Fiend": treatCount = spiritPerLarge
+
+	for i in treatCount:
+		var newTreat = treatAttack.instantiate()
+		newTreat.position = basePawn.position
+		newTreat.attackName = "Treat"
+		newTreat.basePawn = basePawn
+		newTreat.dmg = treatDamage
+		get_parent().get_node("AttackContainer").add_child(newTreat)

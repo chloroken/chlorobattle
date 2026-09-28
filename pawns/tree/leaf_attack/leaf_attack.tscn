@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://db5nkvmy871hu"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_y46jw"]
+[ext_resource type="Texture2D" uid="uid://r3d4kiglgfqj" path="res://pawns/tree/leaf_attack/leaf_attack.png" id="2_8l61w"]
+[ext_resource type="Script" uid="uid://fk1s136vr2xr" path="res://pawns/tree/leaf_attack/leaf_attack.gd" id="2_cyf84"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cyf84"]
+radius = 8.0
+
+[node name="LeafAttack" unique_id=553809928 instance=ExtResource("1_y46jw")]
+script = ExtResource("2_cyf84")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("2_8l61w")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("CircleShape2D_cyf84")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

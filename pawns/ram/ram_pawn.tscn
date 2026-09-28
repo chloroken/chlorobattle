@@ -19,6 +19,7 @@ spriteArray = Array[Resource]([ExtResource("3_qqup0")])
 [node name="HornSpeedIntervalTimer" type="Timer" parent="." index="10" unique_id=1744976093]
 
 [node name="HornChargeLabel" type="Label" parent="." index="11" unique_id=380277210]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

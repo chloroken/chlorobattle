@@ -22,7 +22,10 @@ func _ready() -> void:
 			$ParkourResetTimer.one_shot = true
 			$ParkourResetTimer.start(parkourChargeLossTime)
 		elif basePawn.style == "slayer":
-			add_slayer_charge()
+			$SlayerCooldownTimer.one_shot = true
+		elif basePawn.style == "snowball":
+			$SnowballCooldownTimer.one_shot = true
+			$SnowballFreeChargeTimer.start(snowballFreeChargeCooldown)
 
 ###########
 # BERSERK #
@@ -173,7 +176,7 @@ func style_mighty_trigger(attackingPawn, baseHit) -> float:
 				chargeToDelete.queue_free()
 	var mightyAmt = baseHit * mightyMod - baseHit
 	if mightyAmt > 0:
-		attackingPawn.board.combat_log("[" + str(attackingPawn.username) + "] gained " + str("%0.2f" % mightyAmt) + " bonus damage (Mighty)")
+		attackingPawn.board.combat_log("[[color=#FDFD97]" + str(attackingPawn.username) + "[/color]] gained " + str("%0.2f" % mightyAmt) + " bonus damage ([color=#CC99C9]Mighty[/color])")
 	return(mightyAmt)
 func _on_mighty_charge_timer_timeout() -> void:
 	if mightyChargeCount < mightyChargeCap:
@@ -191,19 +194,64 @@ func _on_mighty_charge_timer_timeout() -> void:
 ##########
 
 var slayerColor = Color.MEDIUM_PURPLE
-var slayerMultiplier = 0.01
+var slayerMultiplier = 0.05
+var slayerCooldown = 10.0
+var slayerChargeMax = 5
 func add_slayer_charge() -> void:
+	if basePawn.style != "slayer": return
+	if activeStyleCharges.size() > 5: return
+	if $SlayerCooldownTimer.is_stopped():
+		var newCharge = styleCharge.instantiate()
+		newCharge.position = get_parent().position
+		newCharge.particleColor = slayerColor
+		get_parent().get_node("AttackContainer").add_child(newCharge)
+		activeStyleCharges.append(newCharge)
+		newCharge.get_node("StyleChargeSprite").modulate = slayerColor
+		$SlayerCooldownTimer.start(slayerCooldown)
+	
+func style_slayer_trigger(attacker) -> float:
+	if attacker.get_node("Styles").get_node("SlayerCooldownTimer").is_stopped():
+		if attacker.style == "slayer":
+			var curHp = get_parent().baseHp - get_parent().hp
+			var slayerAmount = curHp * attacker.get_node("Styles").activeStyleCharges.size() * attacker.get_node("Styles").slayerMultiplier
+			if slayerAmount > 0:
+				attacker.board.combat_log("[[color=#FDFD97]" + str(attacker.username) + "[/color]] gained " + str("%0.2f" % slayerAmount) + " bonus damage ([color=#CC99C9]Slayer[/color])")
+				return(slayerAmount)
+	return(0)
+func slayer_discharge(attacker) -> void:
+	if attacker.get_node("Styles").activeStyleCharges.size() > 0:
+		for i in attacker.get_node("Styles").activeStyleCharges.size():
+			var chargeToDelete = attacker.get_node("Styles").activeStyleCharges.pop_front()
+			chargeToDelete.queue_free()
+
+############
+# SNOWBALL #
+############
+
+var snowballColor = Color.WHITE
+var snowballMultiplier = 0.2
+var snowballCooldown = 1.0
+var snowballFreeChargeCooldown = 60.0
+func add_snowball_charge() -> void:
+	if $SnowballCooldownTimer.is_stopped():
+		var newCharge = styleCharge.instantiate()
+		newCharge.position = get_parent().position
+		newCharge.particleColor = snowballColor
+		get_parent().get_node("AttackContainer").add_child(newCharge)
+		activeStyleCharges.append(newCharge)
+		newCharge.get_node("StyleChargeSprite").modulate = snowballColor
+	else: $SnowballCooldownTimer.start(snowballCooldown)
+func style_snowball_trigger(baseHit, attacker) -> float:
+	if attacker.style == "snowball":
+		var bonusDmg = baseHit * attacker.get_node("Styles").activeStyleCharges.size() * attacker.get_node("Styles").snowballMultiplier
+		if bonusDmg > 0:
+			attacker.board.combat_log("[[color=#FDFD97]" + str(attacker.username) + "[/color]] gained " + str("%0.2f" % bonusDmg) + " bonus damage ([color=#CC99C9]Snowball[/color])")
+			return(bonusDmg)
+	return(0)
+func _on_snowball_free_charge_timer_timeout() -> void:
 	var newCharge = styleCharge.instantiate()
 	newCharge.position = get_parent().position
-	newCharge.particleColor = slayerColor
+	newCharge.particleColor = snowballColor
 	get_parent().get_node("AttackContainer").add_child(newCharge)
 	activeStyleCharges.append(newCharge)
-	newCharge.get_node("StyleChargeSprite").modulate = slayerColor
-func style_slayer_trigger(attackingPawn) -> float:
-	#if body.isPersistentSummon == false:
-	if attackingPawn.style == "slayer":
-		var slayerAmount = (get_parent().baseHp - get_parent().hp) * slayerMultiplier * (attackingPawn.killCount + 1)
-		if slayerAmount > 0:
-			attackingPawn.board.combat_log("[" + str(attackingPawn.username) + "] gained " + str("%0.2f" % slayerAmount) + " bonus damage (Slayer)")
-			return(slayerAmount)
-	return(0)
+	newCharge.get_node("StyleChargeSprite").modulate = snowballColor

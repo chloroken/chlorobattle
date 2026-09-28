@@ -63,12 +63,12 @@ func _on_demon_cooldown_timer_timeout() -> void:
 	$Status.stop_scared()
 	demonFormActive = true
 	start_attack_cooldown()
-	$PawnSprite.texture = demonArray[costume-1]
+	$PawnSprite.texture = demonArray[0]
 	$DemonDurationTimer.start(demonFormDuration)
 
 func _on_demon_duration_timer_timeout() -> void:
 	demonFormActive = false
-	$PawnSprite.texture = spriteArray[costume-1]
+	$PawnSprite.texture = spriteArray[0]
 	$Status.start_scared(girlScaredDuration)
 	$DemonCooldownTimer.start(demonFormCooldown)
 

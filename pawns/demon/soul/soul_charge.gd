@@ -22,7 +22,7 @@ func _process(delta: float) -> void:
 		var amountToHeal = min(pawn.baseHp - pawn.hp, pawn.soulReturnHeal)
 		pawn.hp += amountToHeal
 		pawn.damageHealed += amountToHeal
-		var logOutput = "[" + str(pawn.username) + "] healed for " + str(int(amountToHeal)) + " (Reaper)"
+		var logOutput = "[[color=#FDFD97]" + str(pawn.username) + "[/color]] healed for " + str("%0.2f" % amountToHeal) + " ([color=#9EE09E]Reaper[/color])"
 		pawn.get_parent().combat_log(logOutput)
 
 		queue_free()

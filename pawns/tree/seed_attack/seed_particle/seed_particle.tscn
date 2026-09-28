@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cjyrm0ct4uh2k"]
+
+[ext_resource type="Script" uid="uid://bmfq88r1tae53" path="res://pawns/tree/seed_attack/seed_particle/seed_particle.gd" id="1_y1888"]
+[ext_resource type="Texture2D" uid="uid://3hv2aol3wu8s" path="res://pawns/tree/seed_attack/seed_particle/seed_particle.png" id="2_tt3mx"]
+
+[node name="SeedParticle" type="Node2D" unique_id=1148898374]
+script = ExtResource("1_y1888")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=952402780]
+texture = ExtResource("2_tt3mx")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=545078597]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

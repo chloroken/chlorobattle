@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://d2mn3nlatfxkh" path="res://pawns/_base/items/milkshake/item_milkshake.tscn" id="6_bfx2f"]
 [ext_resource type="PackedScene" uid="uid://82aq5p3vwun7" path="res://pawns/_base/items/smoke/item_smoke.tscn" id="6_oqdkr"]
 [ext_resource type="PackedScene" uid="uid://t0a841qmypk6" path="res://pawns/_base/items/skates/item_skates.tscn" id="6_x221r"]
+[ext_resource type="PackedScene" uid="uid://mfcvb83u4csj" path="res://pawns/_base/items/treat/treat_attack.tscn" id="12_6q8um"]
 
 [node name="Items" type="Node2D" unique_id=1930655975]
 script = ExtResource("1_hxr07")
@@ -24,6 +25,7 @@ milkshakeLure = ExtResource("6_5gn1p")
 skatesBlade = ExtResource("6_x221r")
 smokeItem = ExtResource("6_oqdkr")
 tireAttack = ExtResource("5_2hvhd")
+treatAttack = ExtResource("12_6q8um")
 
 [node name="AntimatterCooldownTimer" type="Timer" parent="." unique_id=262835339]
 

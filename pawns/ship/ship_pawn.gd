@@ -2,8 +2,7 @@ extends "res://pawns/_base/base_pawn.gd"
 
 # Ship variables
 @export var shipRing: PackedScene
-var antimatterCountMin = 2
-var antimatterCountMax = 3
+var antimatterCountMin = 2#obsolete?
 var projectileAttackSpeedMin = 3.0
 var projectileAttackSpeedMax = 4.0
 var antimatterSlowDuration = 1.0
@@ -12,22 +11,28 @@ var overheatDuration = 2.0
 var ringDuration = 0.25
 #proj count min = 10
 #proj count max = 20
+var antimatterStagger = 0.5
+var antimatterCountCur = 3
+var antimatterCountMax = 3
 
 # Projectile variables
 @export var shipAttack: PackedScene
-var projectileArc = 0.3
+var projectileArc = 0.2
 var projectileOffset = 20
 var projectileDuration = 2.0
-var projectileSpdMin = 1.5
-var projectileSpdMax = 2.5
+var projectileSpdMin = 1.25
+var projectileSpdMax = 1.75
 var projectileScaleMin = 0.5
 var projectileScaleMax = 1.0
 
 # emp attack
 @export var empAttack: Resource
+var empCountMax = 3
+var empCountCur = 3
+var empPulseDelay = 0.1
 var empCooldownMin = 5.0
 var empCooldownMax = 10.0
-var empDuration = 2.0
+var empDuration = 1.0
 var empDisarmDuration = 3.0
 
 @export var antimatterAttack: PackedScene
@@ -56,7 +61,12 @@ func _on_emp_cooldown_timer_timeout() -> void:
 	newEmp.duration = empDuration
 	newEmp.dmg = self.dmg
 	$AttackContainer.add_child(newEmp)
-	start_emp_cooldown()
+	if empCountCur > 1:
+		empCountCur -= 1
+		$EmpCooldownTimer.start(empPulseDelay)
+	else:
+		empCountCur = empCountMax
+		start_emp_cooldown()
 
 func start_attack_cooldown() -> void:
 	var attackCooldown = randf_range (projectileAttackSpeedMin, projectileAttackSpeedMax)
@@ -64,19 +74,24 @@ func start_attack_cooldown() -> void:
 	$AttackCooldownTimer.start(antimatterCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:
-	start_attack_cooldown()
+	if antimatterCountCur > 1:
+		$AttackCooldownTimer.start(antimatterStagger)
+		antimatterCountCur -= 1
+	else:
+		antimatterCountCur = antimatterCountMax
+		start_attack_cooldown()
+		
 	if disarm_check(): return
 	$Status.start_slow(antimatterSlowDuration)
-
 	var antimatterCount = randf_range(antimatterCountMin, antimatterCountMax)
-	for i in antimatterCount:
-		var newAttack = antimatterAttack.instantiate()
-		newAttack.position = self.position
-		newAttack.baseSpeed = spd*randf_range(2, 3)
-		var newDir = self.direction
-		newDir = newDir.rotated(randf_range(-projectileArc, projectileArc))
-		newAttack.direction = newDir
-		$AttackContainer.add_child(newAttack)
+	#for i in antimatterCount:
+	var newAttack = antimatterAttack.instantiate()
+	newAttack.position = self.position
+	newAttack.baseSpeed = spd*randf_range(2, 3)
+	var newDir = self.direction
+	newDir = newDir.rotated(randf_range(-projectileArc, projectileArc))
+	newAttack.direction = newDir
+	$AttackContainer.add_child(newAttack)
 	
 	# Launch projectile
 	#var newAttack = shipAttack.instantiate()

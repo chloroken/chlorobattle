@@ -16,7 +16,7 @@ var scoreList = []
 var testingMode = false # disables end-of-game, xp
 var repeatPlay = true # starts new game after scoreboard
 var repeatTime = 30
-var teamsEnabled = false # splits players into two random teams
+#var teamsEnabled = false # splits players into two random teams
 var maxPlayers = 30
 
 # Drawing layers

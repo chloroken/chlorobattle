@@ -51,8 +51,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 
 func _process(_delta: float) -> void:
 	if $PossessCooldownTimer.is_stopped():
-		$PawnSprite.texture = hauntArray[costume-1]
-	else: $PawnSprite.texture = spriteArray[costume-1]
+		$PawnSprite.texture = hauntArray[0]
+	else: $PawnSprite.texture = spriteArray[0]
 
 func _physics_process(delta: float) -> void:
 	super(delta)
@@ -79,8 +79,8 @@ func _on_possess_duration_timer_timeout() -> void:
 	var hpToHeal = min(baseHp - hp, hpToDeal)
 	hp += hpToHeal
 	damageHealed += hpToHeal
-	board.combat_log("[" + str(username) + "] hit [" + str(possessTarget.username) + "] for " + str(int(hpToDeal)) + " (Purge)")
-	board.combat_log("[" + str(username) + "] healed for " + str(int(hpToHeal)) + " (Purge)")
+	board.combat_log("[[color=#FDFD97]" + str(username) + "[/color]] hit [[color=#FEB144]" + str(possessTarget.username) + "[/color]] for " + str(int(hpToDeal)) + " ([color=#FEB144]Purge[/color])")
+	board.combat_log("[[color=#FDFD97]" + str(username) + "[/color]] healed for " + str(int(hpToHeal)) + " ([color=#9EE09E]Purge[/color])")
 	possessTarget.isPossessed = false
 	possessTarget.get_node("Combat").clean_up_pawn(self)
 	possessTarget = self

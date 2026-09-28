@@ -24,12 +24,21 @@ var warpCooldown = 10
 var warpTravelSpeed = 100
 var warpParticleRate = 0.05
 
+
+var frogDurationMin = 10.0
+var frogDurationMax = 20.0
+var greenFrogSickChancePercent = 50
+var greenFrogSickDuration = 8.0
+var purpleFrogChancePercent = 50
+var purpleFrogDamageMultiplier = 0.5
+var purpleFrogWeakDuration = 8.0
+
 # Cauldron attack variables
-@export var cauldronAttack: Resource
-var cauldronCooldownMin = 10.0
-var cauldronCooldownMax = 15.0
-var cauldronFizzleDuration = 10.0
-var cauldronLazyDuration = 5.0
+#@export var cauldronAttack: Resource
+#var cauldronCooldownMin = 10.0
+#var cauldronCooldownMax = 15.0
+#var cauldronFizzleDuration = 10.0
+#var cauldronLazyDuration = 5.0
 
 # Frog attack variables
 @export var frogAttack: Resource
@@ -39,7 +48,7 @@ func _ready() -> void:
 
 	if !attacksDisabled:
 		start_attack_cooldown()
-		start_cauldron_cooldown()
+		#start_cauldron_cooldown()
 		$WarpCooldownTimer.one_shot = true
 		$WarpParticleTimer.one_shot = true
 
@@ -47,9 +56,9 @@ func start_attack_cooldown() -> void:
 	var blinkCooldown = asp * aspMod * randf_range(blinkCooldownMin, blinkCooldownMax)
 	$AttackCooldownTimer.start(blinkCooldown)
 
-func start_cauldron_cooldown() -> void:
-	var cauldronCooldown = asp * aspMod * randf_range(cauldronCooldownMin, cauldronCooldownMax)
-	$CauldronCooldownTimer.start(cauldronCooldown)
+#func start_cauldron_cooldown() -> void:
+	#var cauldronCooldown = asp * aspMod * randf_range(cauldronCooldownMin, cauldronCooldownMax)
+	#$CauldronCooldownTimer.start(cauldronCooldown)
 
 func _on_attack_cooldown_timer_timeout() -> void:
 	if disarm_check():
@@ -61,12 +70,18 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	recursive_attack_routine()
 
 func recursive_attack_routine() -> void:
-	
 	# Make a frog
 	var newFrog = frogAttack.instantiate()
 	newFrog.position = position
 	newFrog.dmg = self.dmg
 	newFrog.attackName = "Frog"
+	newFrog.duration = randf_range(frogDurationMin, frogDurationMax)
+
+	var purpleFrogRoll = randi_range(1, 100)
+	if purpleFrogRoll >= purpleFrogChancePercent:
+		newFrog.dmg *= purpleFrogDamageMultiplier
+		newFrog.isPurpleFrogAttack = true
+		
 	$AttackContainer.add_child(newFrog)
 
 	# Drop an attack at feet
@@ -93,8 +108,15 @@ func recursive_attack_routine() -> void:
 		# Make a frog
 		var newFrog2 = frogAttack.instantiate()
 		newFrog2.position = position
-		newFrog2.dmg = self.dmg * blinkDmgMod
+		newFrog2.dmg = self.dmg
 		newFrog2.attackName = "Frog"
+		newFrog2.duration = randf_range(frogDurationMin, frogDurationMax)
+
+		var purpleFrogRoll2 = randi_range(1, 100)
+		if purpleFrogRoll2 >= purpleFrogChancePercent:
+			newFrog2.dmg *= purpleFrogDamageMultiplier
+			newFrog2.isPurpleFrogAttack = true
+			
 		$AttackContainer.add_child(newFrog2)
 		
 		#var newBlink2 = blinkScene.instantiate()
@@ -156,7 +178,7 @@ func _on_area_exited(area: Area2D) -> void:
 				$Status.stop_void()
 				$Status.start_void(0.1)
 				start_attack_cooldown()
-				$PawnSprite.texture = spriteArray[costume-1]
+				$PawnSprite.texture = spriteArray[0]
 				direction = new_direction()
 				$GUI.visible = true
 			else:
@@ -193,10 +215,10 @@ func _on_warp_particle_timer_timeout() -> void:
 # CAULDRON #
 ############
 
-func _on_cauldron_cooldown_timer_timeout() -> void:
-	var newCauldron = cauldronAttack.instantiate()
-	newCauldron.position = position
-	newCauldron.dmg = self.dmg
-	newCauldron.attackName = "Cauldron"
-	newCauldron.duration = cauldronFizzleDuration
-	$AttackContainer.add_child(newCauldron)
+#func _on_cauldron_cooldown_timer_timeout() -> void:
+	#var newCauldron = cauldronAttack.instantiate()
+	#newCauldron.position = position
+	#newCauldron.dmg = self.dmg
+	#newCauldron.attackName = "Cauldron"
+	#newCauldron.duration = cauldronFizzleDuration
+	#$AttackContainer.add_child(newCauldron)

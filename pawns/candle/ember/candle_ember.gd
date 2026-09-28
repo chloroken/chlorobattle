@@ -1,22 +1,29 @@
 extends "res://pawns/_base/attack/base_attack.gd"
 
-@export var emberAttack: PackedScene
+#@export var emberAttack: PackedScene
 var destination
 var speed
 var basePawn
-var emberScale
+var decayStart = 0.25
+var decayRate = 10.0
+
+@export var blueEmberSprite: Resource
+@export var blueLightSprite: Resource
 
 func _ready() -> void:
 	attackName = "Ember"
 	areaAttack = false
 	basePawn = get_parent().get_parent()
-	scale = Vector2.ONE * emberScale
-	
+
+	if isBlueEmberAttack:
+		$BaseSprite.texture = blueEmberSprite
+		$EmberLightSprite.texture = blueLightSprite
+		$FizzleTimer.start(basePawn.blueEmberDurMod * randf_range(basePawn.emberDurationMin, basePawn.emberDurationMax))
+	else:
+		$FizzleTimer.start(randf_range(basePawn.emberDurationMin, basePawn.emberDurationMax))
+
 	# Prevent hits until ember lands
 	set_collision_layer_value(2, false)
-
-	# Start timer
-	$FizzleTimer.start(randf_range(basePawn.emberDurationMin, basePawn.emberDurationMax))
 
 	# Set visibility layer
 	z_as_relative = false
@@ -31,7 +38,9 @@ func _process(delta: float) -> void:
 	# Re-enable hits & shrink size
 	else:
 		set_collision_layer_value(2, true)
-		scale = Vector2.ONE * emberScale * max(0.5, $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time())
+
+	if $FizzleTimer.get_time_left() < $FizzleTimer.get_wait_time() * decayStart:
+		modulate.a -= delta * decayRate
 
 # Arson spread mechanic
 func _on_fizzle_timer_timeout() -> void:
@@ -49,8 +58,7 @@ func new_ember() -> void:
 	newAttack.destination = good_ember_position()
 	newAttack.dmg = self.dmg
 	newAttack.speed = speed
-	var randomScale = Vector2.ONE * randf_range(basePawn.emberScaleMin, basePawn.emberScaleMax)
-	newAttack.emberScale = randomScale
+	if isBlueEmberAttack: newAttack.isBlueEmberAttack = true
 	add_sibling(newAttack)
 
 func good_ember_position() -> Vector2:

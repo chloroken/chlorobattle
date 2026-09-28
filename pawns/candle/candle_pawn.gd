@@ -3,14 +3,18 @@ extends "res://pawns/_base/base_pawn.gd"
 @export var emberAttack: PackedScene
 var emberCooldownMin = 0.1
 var emberCooldownMax = 1.0
-var emberScaleMax = 1.0
-var emberScaleMin = 0.5
 var emberDurationMin = 3.0
 var emberDurationMax = 5.0
 var emberPositionOffset = 50
 var emberThrowDistMod = 1
 var emberThrowSpeed = 250
 var emberSpreadOffset = 25
+var emberHazyMultiplier = 1.5
+
+var blueEmberChance = 20
+var blueEmberScale = 2.0
+var blueEmberHazyDur = 8.0
+var blueEmberDurMod = 2.0
 
 func _ready() -> void:
 	super()
@@ -30,9 +34,15 @@ func new_ember_attack() -> void:
 	var newAttack = emberAttack.instantiate()
 	newAttack.position = position
 	newAttack.destination = good_ember_position()
-	newAttack.dmg = self.dmg
 	newAttack.speed = emberThrowSpeed
-	newAttack.emberScale = Vector2.ONE * randf_range(emberScaleMin, emberScaleMax)
+	newAttack.dmg = self.dmg
+
+	var blueEmberRoll = randi_range(1, 100)
+	if blueEmberRoll <= blueEmberChance:
+		newAttack.isBlueEmberAttack = true
+	else:
+		newAttack.isEmberAttack = true
+
 	$AttackContainer.add_child(newAttack)
 
 func good_ember_position() -> Vector2:

@@ -40,6 +40,6 @@ func _on_fizzle_timer_timeout() -> void:
 		newAttack.position = self.position
 		newAttack.attackName = "Globule"
 		newAttack.direction = Vector2.RIGHT.rotated(randf_range(0, TAU))
-		newAttack.speed = randf_range(globuleSpeedMin, globuleSpeedMax)
+		#newAttack.speed = randf_range(globuleSpeedMin, globuleSpeedMax)
 		basePawn.get_node("AttackContainer").add_child(newAttack)
 	queue_free()

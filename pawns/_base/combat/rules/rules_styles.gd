@@ -31,7 +31,7 @@ func bully_touch(victim) -> void:
 	victim.hp -= finalHit
 	victim.damageTaken += finalHit
 	get_parent().get_parent().damageDealt += finalHit
-	board.combat_log("[" + str(get_parent().get_parent().username) + "] hit [" + str(victim.username) + "] for " +  str("%0.2f" % finalHit) + " (Bully)")
+	board.combat_log("[[color=#FDFD97]" + str(get_parent().get_parent().username) + "[/color]] hit [[color=#FEB144]" + str(victim.username) + "[/color]] for " +  str("%0.2f" % finalHit) + " ([color=#CC99C9]Bully[/color])")
 	get_parent().clean_up_pawn(victim)
 	victim.get_node("Combat").clean_up_pawn(basePawn)
 
