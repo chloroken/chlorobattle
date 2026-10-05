@@ -1,73 +1,78 @@
 extends "res://pawns/_base/base_pawn.gd"
 
-# Swing variables
-@export var chairAttack: PackedScene
-var swingDurMin = 1.0
-var swingDurMax = 2.0
+@export var swingAttackScene: PackedScene
+var swingAttackName = "Swing"
+var swingDurationMin = 1.0
+var swingDurationMax = 2.0
 var swingCooldownMin = 2.0
-var swingCooldownMax = 3.0
+var swingCooldownMax = 4.0
+var swingMaxLegs = 4
+var swingRotateSpeed = 10
+var swingScaleModifier = 1.25
 
-# Redwood variables
+var swingRedwoodName = "Redwood"
 var redwoodChance = 10
-var redwoodDmg = 1.5
+var redwoodDmg = 2.0
 var redwoodColor = Color(1.0, 0.25, 0.25, 1.0)
 
-@export var costumeSprite: Resource
-@export var baseSprite: Resource
 func _ready() -> void:
 	super()
 
 	if !attacksDisabled:
-		start_attack_cooldown()
-		$RushDurationTimer.one_shot = true
-
-func start_attack_cooldown() -> void:
-	var cooldown = asp * aspMod * randf_range(swingCooldownMin, swingCooldownMax)
-	$AttackCooldownTimer.start(cooldown)
+		$SwingDurationTimer.one_shot = true
+		new_attack_cycle(swingCooldownMin, swingCooldownMax)
 
 func _on_attack_cooldown_timer_timeout() -> void:
-	if disarm_check():
-		start_attack_cooldown()
-		return
+	var swingDuration = randf_range(swingDurationMin, swingDurationMax)
+	new_attack_cycle(swingCooldownMin + swingDuration, swingCooldownMax + swingDuration)
+	if disarm_check(): return
 
-	# Determine length of attack
-	var rushDur = randf_range(swingDurMin, swingDurMax)
-	var statusType = randi_range(0, 1)
-	if statusType == 0:
-		$Status.start_sprint(rushDur)
-	else:
-		$Status.start_tanky(rushDur)
+	leg_generation_procedure(swingDuration)
+	swing_apply_status(swingDuration)
+	$SwingDurationTimer.start(swingDuration)
 
-	# Swing
-	var legCount = 1
-	if randi_range(0, 1) == 0:
-		legCount += 1
-		if randi_range(0, 1) == 0:
-			legCount += 1
-			if randi_range(0, 1) == 0:
-				legCount += 1
+func swing_apply_status(swingDuration) -> void:
+	var buffChoice = randi_range(0, 1)
+	if !buffChoice: $Status.start_sprint(swingDuration)
+	else: $Status.start_tanky(swingDuration)
+
+func leg_generation_procedure(swingDuration) -> void:
+	var legCount = calculate_swing_leg_count()
 	var redwoodUsed = false
 	for i in legCount:
-		var newAttack = chairAttack.instantiate()
-		newAttack.position = self.position
-		newAttack.dmg = self.dmg
-		newAttack.rotation = TAU / legCount * i
-		newAttack.attackName = "Swing"
-		newAttack.areaAttack = false
-		newAttack.swingDur = rushDur
-		newAttack.swingDir = 1
-		newAttack.swingSpd = 10
-		newAttack.scaleMod = 1.25
-
-		# Redwood
-		if randi_range(1, redwoodChance) == 1 && !redwoodUsed:
+		var newAttack = create_swing_leg(legCount, i, swingDuration)
+		if check_for_redwood(redwoodUsed, newAttack):
 			redwoodUsed = true
-			newAttack.get_node("BaseSprite").modulate = redwoodColor
-			newAttack.dmg *= redwoodDmg
-			newAttack.attackName = "Redwood"
-			newAttack.areaAttack = true
 		$AttackContainer.add_child(newAttack)
-	$RushDurationTimer.start(rushDur)
 
-func _on_rush_duration_timer_timeout() -> void:
-	start_attack_cooldown()
+func calculate_swing_leg_count() -> int:
+	var legCount = 1
+	for i in swingMaxLegs - 1:
+		if randi_range(0, 1) == 0:
+			legCount += 1
+		else:
+			break
+	return(legCount)
+
+func create_swing_leg(legCount, i, swingDuration) -> Variant:
+	var newAttack = swingAttackScene.instantiate()
+	newAttack.position = self.position
+	newAttack.dmg = self.dmg
+	newAttack.rotation = TAU / legCount * i
+	newAttack.attackName = swingAttackName
+	newAttack.areaAttack = false
+	newAttack.swingDur = swingDuration
+	newAttack.swingDir = 1
+	newAttack.swingSpd = swingRotateSpeed
+	newAttack.scaleMod = swingScaleModifier
+	return(newAttack)
+
+func check_for_redwood(redwoodUsed, newAttack) -> bool:
+	if randi_range(1, redwoodChance) == 1 && !redwoodUsed:
+		redwoodUsed = true
+		newAttack.get_node("BaseSprite").modulate = redwoodColor
+		newAttack.dmg *= redwoodDmg
+		newAttack.attackName = swingRedwoodName
+		newAttack.areaAttack = true
+		return(true)
+	return(false)

@@ -1,4 +1,4 @@
-extends "res://pawns/_base/attack/base_attack.gd"
+extends "res://pawns/_base/base_attack.gd"
 
 var birdType
 var direction
@@ -6,7 +6,6 @@ var speed
 var returning = false
 var growDistance = 64
 
-var basePawn
 var center
 var boardRadius
 
@@ -25,7 +24,7 @@ func _ready() -> void:
 	$BaseSprite.modulate = greenColor
 
 	# Set visibility order
-	z_as_relative = false
+	
 	z_index = get_node("/root/main").layerAir
 
 func _physics_process(delta: float) -> void:

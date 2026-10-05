@@ -1,0 +1,11 @@
+REFACTOR+REWORK PROGRESS:
+	DONE:
+		candle cat chair demon fish ghost mecha mummy tree ship witch
+	REFACTOR:
+		ram top pirate
+	TODO:
+		pawn combat gui items status styles tombstone
+		board lobby arena score
+		monsters worm snake fiend
+		combat log / msgs
+		arena art / ui

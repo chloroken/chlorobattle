@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://vfvqnpv1y8dc"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/base_attack.tscn" id="1_anm1k"]
+[ext_resource type="Script" uid="uid://bifhk8q4c2xd6" path="res://pawns/mummy/glyph/mummy_glyph.gd" id="2_8h4c7"]
+[ext_resource type="Texture2D" uid="uid://bufte3yr8lttk" path="res://pawns/mummy/glyph/sprites/mummy_attack.png" id="4_jb4ov"]
+[ext_resource type="Texture2D" uid="uid://c8ffqr5kkr06t" path="res://pawns/mummy/glyph/sprites/mummy_outline.png" id="5_0awov"]
+[ext_resource type="Texture2D" uid="uid://cg1hjpe8v11fm" path="res://pawns/mummy/glyph/sprites/mummy_attack_center.png" id="6_l5fli"]
+[ext_resource type="Texture2D" uid="uid://ccklorheg6ftq" path="res://pawns/mummy/glyph/sprites/mummy_attack_inner.png" id="7_efncc"]
+[ext_resource type="Texture2D" uid="uid://enm5ilit5p88" path="res://pawns/mummy/glyph/sprites/mummy_attack_outer.png" id="8_hlqoe"]
+[ext_resource type="Texture2D" uid="uid://bijmqppumr67w" path="res://pawns/mummy/glyph/sprites/mummy_attack_stones.png" id="9_e0jkq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_db3jq"]
+radius = 64.0
+
+[node name="GlyphAttack" unique_id=1314532855 instance=ExtResource("1_anm1k")]
+script = ExtResource("2_8h4c7")
+
+[node name="ChannelDurationTimer" type="Timer" parent="." index="0" unique_id=1854749944]
+
+[node name="BaseSprite" parent="." index="1" unique_id=1865807943]
+visible = false
+texture = ExtResource("4_jb4ov")
+
+[node name="Outline" type="Sprite2D" parent="BaseSprite" index="0" unique_id=2128750225]
+texture = ExtResource("5_0awov")
+
+[node name="BaseCollider" parent="." index="2" unique_id=867063161]
+shape = SubResource("CircleShape2D_db3jq")
+
+[node name="FizzleTimer" parent="." index="3" unique_id=930558460]
+wait_time = 4.0
+one_shot = true
+autostart = true
+
+[node name="GlyphCenterSprite" type="Sprite2D" parent="." index="4" unique_id=1266533714]
+texture = ExtResource("6_l5fli")
+
+[node name="GlyphInnerSprite" type="Sprite2D" parent="." index="5" unique_id=1216613873]
+texture = ExtResource("7_efncc")
+
+[node name="GlyphOuterSprite" type="Sprite2D" parent="." index="6" unique_id=436822355]
+texture = ExtResource("8_hlqoe")
+
+[node name="GlyphRocksSprite" type="Sprite2D" parent="." index="7" unique_id=649566685]
+visible = false
+texture = ExtResource("9_e0jkq")
+
+[connection signal="timeout" from="ChannelDurationTimer" to="." method="_on_channel_duration_timer_timeout"]
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

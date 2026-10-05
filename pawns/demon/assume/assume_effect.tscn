@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dtp4j5kjg0a14"]
+
+[ext_resource type="Script" uid="uid://cwv8xjo8wv1so" path="res://pawns/demon/assume/assume_effect.gd" id="1_12dic"]
+[ext_resource type="Texture2D" uid="uid://mkyy181gxmjb" path="res://pawns/demon/assume/assume_effect.png" id="1_v2vww"]
+
+[node name="AssumeEffect" type="Node2D" unique_id=343399946]
+modulate = Color(0.2509804, 1, 1, 1)
+script = ExtResource("1_12dic")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1496242222]
+texture = ExtResource("1_v2vww")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1130471778]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

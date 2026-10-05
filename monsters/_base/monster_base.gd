@@ -12,6 +12,8 @@ var rot
 var hitList = []
 var center
 
+var hasRevived = false
+
 func _ready() -> void:
 	center = get_parent().get_parent().center
 	rot = randf_range(0, TAU)
@@ -19,8 +21,8 @@ func _ready() -> void:
 	position = get_parent().get_parent().center
 
 	# Set visibility order
-	z_as_relative = false
-	z_index = get_node("/root/main").layerPawnBehind
+	
+	
 
 func _process(_delta: float) -> void:
 	$MonsterSprite.rotation = rot

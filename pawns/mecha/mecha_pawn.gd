@@ -1,146 +1,107 @@
 extends "res://pawns/_base/base_pawn.gd"
 
-# Form variables
-@export var jetFormSprite: Resource
-@export var mechaFormSprite: Resource
-var mechaForm = false
-var formSwapTimer = 7.0
-var formSwapVariance = 1.0
+@export var jetFormSprite: Texture
+@export var glaiveAttackScene: PackedScene
+var glaiveCooldownMin = 4.0
+var glaiveCooldownMax = 5.0
+var glaiveDmgMod = 3.0
+var glaiveRotationSpeed = 10.0
 
-# Jet variables
-@export var bombAttack: PackedScene
-@export var bombExplosion: PackedScene
-var bombCooldownMin = 2.0
-var bombCooldownMax = 3.0
-var bombConeArc = 0.25
-var bombConeMin = 0.0
-var bombSpeedMin = 50
-var bombSpeedMax = 100
-var bombSpeedMod = 1.0
-var bombSpeedIncrement = 3.0
-var bombStartingIncrement = 5.0
-var bombDuration = 0.5
-var bombCount = 6
+@export var walkerFormSprite: Texture
+var mechaWalkerFormActive = false
+var mechaFormSwapTimer = 7.0
+var mechaFormSwapVariance = 1.0
 
-# Melee variables
-@export var whirlwindAttack: PackedScene
-var whirlwindCooldownMin = 3.0
-var whirlwindCooldownMax = 4.0
-var whirlwindDmgMod = 4.0
-var walkerTankyDuration = 1.0
-
-
-@export var jetBaseSprite: Resource
-@export var jetCostumeSprite: Resource
-@export var walkerBaseSprite: Resource
-@export var walkerCostumeSprite: Resource
-
-@export var jetSpriteArray: Array[Resource]
+@export var missileAttackScene: PackedScene
+@export var missileExplosionScene: PackedScene
+var missileCooldownMin = 2.0
+var missileCooldownMax = 3.0
+var missileSpeedMin = 50
+var missileSpeedMax = 100
+var missileDurationMin = 1.0
+var missileDurationMax = 2.0
+var missileCount = 5
+var missileBoardGrace = 1.05
 
 func _ready() -> void:
 	super()
-	
-	# Pick a random form to start in
-	if randi_range(0, 1) == 1:
-		$PawnSprite.texture = spriteArray[0]
-		mechaForm = true
-	else:
-		$PawnSprite.texture = jetSpriteArray[0]
-		mechaForm = false
-
-	# Start attack cycle
+	choose_initial_form()
 	if !attacksDisabled:
-		$FormSwapTimer.one_shot = true
-		$FormSwapTimer.start(0.1)
-		start_attack_cooldown()
+		enable_form_cycling()
+		mecha_form_specific_attack_cycle()
 
-func start_attack_cooldown() -> void:
-	if mechaForm:
-		var mechaAttackCooldown = randf_range(whirlwindCooldownMin, whirlwindCooldownMax)
-		$AttackCooldownTimer.start(asp * aspMod * mechaAttackCooldown)
+# Forms
+func choose_initial_form() -> void:
+	if randi_range(0, 1) == 1:
+		$PawnSprite.texture = walkerFormSprite
+		mechaWalkerFormActive = true
 	else:
-		var jetAttackCooldown = randf_range(bombCooldownMin, bombCooldownMax)
-		$AttackCooldownTimer.start(asp * aspMod * jetAttackCooldown)
+		$PawnSprite.texture = jetFormSprite
+		mechaWalkerFormActive = false
+func enable_form_cycling() -> void:
+	$FormSwapTimer.one_shot = true
+	$FormSwapTimer.start(0.1)
+func _on_form_swap_timer_timeout() -> void:
+	var cooldownVariance = randf_range(-mechaFormSwapVariance, mechaFormSwapVariance)
+	apply_form_switching_status(cooldownVariance)
+	form_switch_attack_cycle_reset()
+	mechaWalkerFormActive = !mechaWalkerFormActive
+	$FormSwapTimer.start(mechaFormSwapTimer + cooldownVariance)
+func form_switch_attack_cycle_reset() -> void:
+	if !attacksDisabled:
+		$AttackCooldownTimer.start(.01)
+func apply_form_switching_status(cooldownVariance) -> void:
+	if mechaWalkerFormActive:
+		$Status.start_sprint(mechaFormSwapTimer + cooldownVariance)
+	else:
+		$Status.start_slow(mechaFormSwapTimer + cooldownVariance)
+func _physics_process(delta: float) -> void:
+	super(delta)
+	set_proper_form_sprite()
+func set_proper_form_sprite() -> void:
+	if !mechaWalkerFormActive:
+		$PawnSprite.rotation = direction.angle()
+		$PawnSprite.texture = jetFormSprite
+	else:
+		$PawnSprite.texture = walkerFormSprite
+		$PawnSprite.rotation = 0.0
 
+# Attacks
+func mecha_form_specific_attack_cycle() -> void:
+	if mechaWalkerFormActive:
+		new_attack_cycle(missileCooldownMin, missileCooldownMax)
+	elif !mechaWalkerFormActive:
+		new_attack_cycle(glaiveCooldownMin, glaiveCooldownMax)
 func _on_attack_cooldown_timer_timeout() -> void:
-	start_attack_cooldown()
+	mecha_form_specific_attack_cycle()
 	if disarm_check(): return
-
-	if !mechaForm:
-		var newAttack = whirlwindAttack.instantiate()
+	determine_attack_to_use()
+func determine_attack_to_use() -> void:
+	if !mechaWalkerFormActive:
+		new_glaive_attack()
+	elif mechaWalkerFormActive:
+		new_missile_volley()
+func new_glaive_attack() -> void:
+	var newAttack = glaiveAttackScene.instantiate()
+	newAttack.position = self.position
+	newAttack.dmg = self.dmg * glaiveDmgMod
+	newAttack.attackName = "Glaive"
+	newAttack.rotationSpeed = glaiveRotationSpeed
+	$AttackContainer.add_child(newAttack)
+func new_missile_volley() -> void:
+	for i in missileCount:
+		var newAttack = missileAttackScene.instantiate()
 		newAttack.position = self.position
-		newAttack.dmg = self.dmg * whirlwindDmgMod
-		newAttack.attackName = "Glaive"
-		newAttack.direction = randf_range(0, TAU)
+		newAttack.dmg = self.dmg
+		newAttack.direction = Vector2.RIGHT.rotated(randf_range(0, TAU))#self.direction.rotated(newAtkArc)
+		newAttack.speed = randf_range(missileSpeedMin, missileSpeedMax)
+		newAttack.duration = randf_range(missileDurationMin, missileDurationMax)
+		newAttack.boardGrace = missileBoardGrace
 		$AttackContainer.add_child(newAttack)
-		$Status.start_tanky(walkerTankyDuration)
-
-	elif mechaForm:
-		for i in bombCount:
-			var newAttack = bombAttack.instantiate()
-			newAttack.position = self.position
-			newAttack.dmg = self.dmg
-			#var newAtkArc = randf_range(bombConeMin, bombConeArc)
-			newAttack.direction = Vector2.RIGHT.rotated(randf_range(0, TAU))#self.direction.rotated(newAtkArc)
-			newAttack.speed = randf_range(bombSpeedMin, bombSpeedMax)
-			newAttack.duration = bombDuration
-			$AttackContainer.add_child(newAttack)
-		#var newAtkArc = randf_range(bombConeMin, bombConeArc)
-#
-		## Guided bomb 1
-		#var newAttack = bombAttack.instantiate()
-		#newAttack.position = self.position
-		#newAttack.dmg = self.dmg
-		#newAttack.direction = self.direction.rotated(newAtkArc)
-		#newAttack.speed = self.spd * bombSpeedMod
-		#newAttack.duration = bombDuration
-		#$AttackContainer.add_child(newAttack)
-#
-		## Guided bomb 2
-		#var newAttack2 = bombAttack.instantiate()
-		#newAttack2.position = self.position
-		#newAttack2.dmg = self.dmg
-		#newAttack2.direction = self.direction.rotated(-newAtkArc)
-		#newAttack2.speed = self.spd * bombSpeedMod
-		#newAttack2.duration = bombDuration
-		#$AttackContainer.add_child(newAttack2)
-
-# Called by bombs when they expire
 func make_explosion(loc: Vector2) -> void:
-	var newAttack = bombExplosion.instantiate()
+	var newAttack = missileExplosionScene.instantiate()
 	newAttack.position = loc
 	newAttack.dmg = self.dmg
-	newAttack.attackName = "Bomb"
+	newAttack.attackName = "Missile"
 	newAttack.areaAttack = true
 	$AttackContainer.add_child(newAttack)
-
-#################
-# FORM SWAPPING #
-#################
-
-func _process(_delta: float) -> void:
-	
-	# Turn to face direction in Jet form
-	if !mechaForm:
-		$PawnSprite.rotation = direction.angle()
-		$PawnSprite.texture = jetSpriteArray[0]
-		#$PawnSprite.texture = jetFormSprite
-	else:
-		$PawnSprite.texture = spriteArray[0]
-		$PawnSprite.rotation = 0.0
-		#$PawnSprite.texture = mechaFormSprite
-
-func _on_form_swap_timer_timeout() -> void:
-	
-	# Calculate next form duration
-	var form_offset_variance = randf_range(-formSwapVariance, formSwapVariance)
-	$FormSwapTimer.start(formSwapTimer + form_offset_variance)
-	
-	# Flip forms
-	if mechaForm:
-		if !attacksDisabled: $AttackCooldownTimer.start(.01)
-		$Status.start_sprint(formSwapTimer + form_offset_variance)
-	else:
-		if !attacksDisabled: $AttackCooldownTimer.start(.01)
-		$Status.start_slow(formSwapTimer + form_offset_variance)
-	mechaForm = !mechaForm

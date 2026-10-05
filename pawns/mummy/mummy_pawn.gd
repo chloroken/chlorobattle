@@ -1,81 +1,75 @@
 extends "res://pawns/_base/base_pawn.gd"
 
-# Glyph variables
-@export var glyphAttack: Resource
-var glyphChannelDur = 2.0
-var glyphAttackDur = 3.0
+@export var glyphAttackScene: PackedScene
+var glyphAttackName = "Glyph"
+var glyphChannelDuration = 2.0
+var glyphAttackDuration = 3.0
 var glyphCooldownMin = 6.0
 var glyphCooldownMax = 8.0
-var innerRotateSpeed = .25
-var outerRotateSpeed = .50
-var glyphDisarmDuration = 2.0 # used in base pawn
-var purpleDuration = 1.0
+var glyphInnerRotationSpeed = 0.25
+var glyphOuterRotationSpeed = 0.50
+var glyphDisarmDuration = 3.0
 
-# Curse variables
-var curseDuration = 99999
-var curseResetTimer = 10 # used in base pawn
-var cursePassDuration = 5.0 # used in base pawn
-
-# Swarm variables
-@export var swarmScene: Resource
-var swarmCount = 0
-var maxSwarms = 5
-var swarmCooldown = 5.0
-var swarmDmg = 25
+@export var swarmAttackScene: Resource
+var swarmAttackName = "Swarm"
+var swarmCurrentCount = 0
+var swarmMaxCount = 5
+var swarmFixedCooldown = 5.0
+var swarmDamageMultiplier = 0.25
+var swarmWeakDuration = 5.0
+var swarmSickDuration = 5.0
 var swarmMaxDist = 64
+var swarmScaleMin = 0.75
+var swarmScaleMax = 1.25
 var swarmSpeedMin = 50
 var swarmSpeedMax = 100
 var swarmWanderTimer = 3.0
 
-@export var costumeSprite: Resource
-@export var baseSprite: Resource
-
 func _ready() -> void:
 	super()
-
-	# Start attack cycle
 	if !attacksDisabled: 
 		$SwarmTimer.one_shot = true
-		$SwarmTimer.start(swarmCooldown)
-		$CursedResetTimer.one_shot = true
-		isCursed = true
-		$Status.start_weak(curseDuration)
-		start_attack_cooldown()
+		$SwarmTimer.start(swarmFixedCooldown)
+		new_attack_cycle(glyphCooldownMin, glyphCooldownMax)
 
-func start_attack_cooldown() -> void:
-	var glyphCooldown = asp * aspMod * randf_range(glyphCooldownMin, glyphCooldownMax)
-	$AttackCooldownTimer.start(glyphCooldown)
-
+# Glyph
 func _on_attack_cooldown_timer_timeout() -> void:
-	start_attack_cooldown()
+	new_attack_cycle(glyphCooldownMin, glyphCooldownMax)
 	if disarm_check(): return
-
-	# Glyph attack
-	var newAttack = glyphAttack.instantiate()
+	new_glyph_attack()
+	set_glyph_channel_statuses()
+func new_glyph_attack() -> void:
+	var newAttack = glyphAttackScene.instantiate()
 	newAttack.position = self.position
 	newAttack.dmg = self.dmg
+	newAttack.attackName = glyphAttackName
+	newAttack.isGlyphAttack = true
+	newAttack.channelDuration = glyphChannelDuration
+	newAttack.glyphDuration = glyphAttackDuration
 	$AttackContainer.add_child(newAttack)
+func set_glyph_channel_statuses() -> void:
+	$Status.start_stuck(glyphChannelDuration, self)
+	$Status.start_void(glyphChannelDuration)
 
-	# Set statuses
-	$Status.start_stuck(glyphChannelDur, self)
-	$Status.start_void(glyphChannelDur)
-
-func _on_cursed_reset_timer_timeout() -> void:
-	isCursed = true
-	$Status.start_weak(curseDuration)
-
-
+# Swarm
 func _on_swarm_timer_timeout() -> void:
-	if swarmCount < maxSwarms:
-		var newSwarm = swarmScene.instantiate()
-		newSwarm.position = self.position
-		newSwarm.dmg = swarmDmg
-		newSwarm.tetherDistance = swarmMaxDist
-		newSwarm.speed = randf_range(swarmSpeedMin, swarmSpeedMax)
-		newSwarm.wanderCooldown = swarmWanderTimer
-		$AttackContainer.add_child(newSwarm)
-
-		swarmCount += 1
-		if swarmCount > maxSwarms: swarmCount = maxSwarms
-
-	$SwarmTimer.start(swarmCooldown)
+	$SwarmTimer.start(swarmFixedCooldown)
+	if disarm_check(): return
+	if swarmCurrentCount >= swarmMaxCount: return
+	new_swarm_attack()
+	increment_swarm_count()
+func new_swarm_attack() -> void:
+	var newSwarm = swarmAttackScene.instantiate()
+	newSwarm.position = self.position
+	newSwarm.dmg = self.dmg * swarmDamageMultiplier
+	newSwarm.tetherDistance = swarmMaxDist
+	newSwarm.speed = randf_range(swarmSpeedMin, swarmSpeedMax)
+	newSwarm.wanderCooldown = swarmWanderTimer
+	newSwarm.attackName = swarmAttackName
+	newSwarm.areaAttack = false
+	newSwarm.isSwarmAttack = true
+	newSwarm.scaleMod = randf_range(swarmScaleMin, swarmScaleMax)
+	$AttackContainer.add_child(newSwarm)
+func increment_swarm_count() -> void:
+	swarmCurrentCount += 1
+	if swarmCurrentCount > swarmMaxCount: swarmCurrentCount = swarmMaxCount

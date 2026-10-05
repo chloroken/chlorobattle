@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://qjonte0obwms"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_wh3ex"]
+[ext_resource type="Script" uid="uid://yfr8d0pc16v5" path="res://pawns/witchOld/witch_pawn.gd" id="2_4ghe6"]
+[ext_resource type="PackedScene" uid="uid://c3esoh24ik3nr" path="res://pawns/witchOld/blink/blink_attack.tscn" id="3_vbbgf"]
+[ext_resource type="Texture2D" uid="uid://drgp0bwm0al3f" path="res://assets/costume_archive/witch_costume.png" id="4_41qmo"]
+[ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="6_4plck"]
+[ext_resource type="Texture2D" uid="uid://d07impsuqfnpe" path="res://pawns/witchOld/witch_broom.png" id="6_sgj38"]
+[ext_resource type="PackedScene" uid="uid://c811ab5hta8us" path="res://pawns/witchOld/particle/witch_particle.tscn" id="7_6su0n"]
+[ext_resource type="PackedScene" uid="uid://b0b6t85388d50" path="res://pawns/witchOld/frog/frog_attack.tscn" id="8_sgj38"]
+
+[node name="WitchPawn" unique_id=1877646274 instance=ExtResource("1_wh3ex")]
+script = ExtResource("2_4ghe6")
+blinkScene = ExtResource("3_vbbgf")
+costumeSprite = ExtResource("4_41qmo")
+baseSprite = ExtResource("4_41qmo")
+warpSprite = ExtResource("6_sgj38")
+warpParticle = ExtResource("7_6su0n")
+frogAttack = ExtResource("8_sgj38")
+hp = 360.0
+def = 0.3
+dmg = 50.0
+pen = 0.4
+spd = 30.0
+
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+texture = ExtResource("4_41qmo")
+
+[node name="BlinkCountLabel" type="Label" parent="." index="4" unique_id=1739131060]
+z_index = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -69.58
+offset_right = 21.0
+offset_bottom = -24.580002
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("6_4plck")
+theme_override_font_sizes/font_size = 16
+text = "6x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BlinkRevealTimer" type="Timer" parent="." index="5" unique_id=26426019]
+wait_time = 3.0
+one_shot = true
+
+[node name="BlinkDelayTimer" type="Timer" parent="." index="6" unique_id=1080117146]
+wait_time = 0.1
+one_shot = true
+
+[node name="CauldronCooldownTimer" type="Timer" parent="." index="7" unique_id=1165712855]
+
+[node name="WarpCooldownTimer" type="Timer" parent="." index="8" unique_id=1215683184]
+one_shot = true
+
+[node name="WarpParticleTimer" type="Timer" parent="." index="9" unique_id=1465400341]
+
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="BlinkDelayTimer" to="." method="_on_blink_delay_timer_timeout"]
+[connection signal="timeout" from="CauldronCooldownTimer" to="." method="_on_cauldron_cooldown_timer_timeout"]
+[connection signal="timeout" from="WarpParticleTimer" to="." method="_on_warp_particle_timer_timeout"]

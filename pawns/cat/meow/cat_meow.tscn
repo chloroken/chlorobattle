@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bcq5r3by2fbon"]
 
-[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attack/base_attack.tscn" id="1_a3wlo"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/base_attack.tscn" id="1_a3wlo"]
 [ext_resource type="Script" uid="uid://xio0cu7cl3gn" path="res://pawns/cat/meow/cat_meow.gd" id="2_chhvj"]
 [ext_resource type="Texture2D" uid="uid://bp7eht8g75un4" path="res://pawns/cat/meow/cat_meow.png" id="2_l00cp"]
 
@@ -8,6 +8,7 @@
 size = Vector2(24, 6)
 
 [node name="MeowAttack" unique_id=553809928 instance=ExtResource("1_a3wlo")]
+collision_mask = 32
 script = ExtResource("2_chhvj")
 
 [node name="BaseSprite" parent="." index="0" unique_id=1865807943]
@@ -16,4 +17,5 @@ texture = ExtResource("2_l00cp")
 [node name="BaseCollider" parent="." index="1" unique_id=867063161]
 shape = SubResource("RectangleShape2D_l00cp")
 
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
 [connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

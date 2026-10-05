@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://d0lk68f6gmvnp"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/base_attack.tscn" id="1_pv7dr"]
+[ext_resource type="Script" uid="uid://byjixodhbsdpl" path="res://pawns/fish/splash/fish_splash.gd" id="2_62mda"]
+[ext_resource type="Texture2D" uid="uid://bn4djh3ptwo5s" path="res://pawns/fish/splash/fish_splash_outline.png" id="3_3v81g"]
+[ext_resource type="Texture2D" uid="uid://dd1yep5md6s18" path="res://pawns/fish/splash/fish_splash.png" id="3_sunw3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_62mda"]
+radius = 64.070274
+
+[node name="SplashAttack" unique_id=1314532855 instance=ExtResource("1_pv7dr")]
+script = ExtResource("2_62mda")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("3_sunw3")
+
+[node name="OutlineSprite" type="Sprite2D" parent="." index="1" unique_id=433850303]
+texture = ExtResource("3_3v81g")
+
+[node name="BaseCollider" parent="." index="2" unique_id=867063161]
+visible = false
+shape = SubResource("CircleShape2D_62mda")
+
+[node name="FizzleTimer" parent="." index="3" unique_id=930558460]
+wait_time = 0.75
+autostart = true
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

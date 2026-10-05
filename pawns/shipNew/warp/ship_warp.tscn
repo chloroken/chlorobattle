@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://crusb477120mf"]
+
+[ext_resource type="Script" uid="uid://c6sojtl6o1cyh" path="res://pawns/shipNew/warp/ship_warp.gd" id="1_7grpm"]
+[ext_resource type="Texture2D" uid="uid://cl0p85n6fiyfb" path="res://pawns/witchOld/particle/witch_particle.png" id="2_ibdup"]
+
+[node name="WarpEffect" type="Node2D" unique_id=1483664544]
+script = ExtResource("1_7grpm")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1527959772]
+texture = ExtResource("2_ibdup")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1749163322]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

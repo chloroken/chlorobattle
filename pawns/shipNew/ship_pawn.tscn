@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://2v3odo7hamqu"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_8jb3r"]
+[ext_resource type="Texture2D" uid="uid://iey1hrubhwsy" path="res://pawns/shipNew/ship_pawn.png" id="2_i1u8j"]
+[ext_resource type="Script" uid="uid://bk581pgecswxx" path="res://pawns/shipNew/ship_pawn.gd" id="2_rxkby"]
+[ext_resource type="PackedScene" uid="uid://cx8dqt1mkk6ef" path="res://pawns/shipNew/ring/ship_ring.tscn" id="3_rxkby"]
+[ext_resource type="PackedScene" uid="uid://d3j5mxyy5s2hm" path="res://pawns/shipNew/emp/ship_emp.tscn" id="4_lnckw"]
+[ext_resource type="PackedScene" uid="uid://crusb477120mf" path="res://pawns/shipNew/warp/ship_warp.tscn" id="5_jple4"]
+
+[node name="ShipPawn" unique_id=1877646274 instance=ExtResource("1_8jb3r")]
+script = ExtResource("2_rxkby")
+ringAttackScene = ExtResource("3_rxkby")
+empAttackScene = ExtResource("4_lnckw")
+warpParticleScene = ExtResource("5_jple4")
+hp = 390.0
+def = 0.3
+dmg = 20.0
+pen = 0.3
+spd = 50.0
+
+[node name="EmpCooldownTimer" type="Timer" parent="." index="0" unique_id=124412704]
+
+[node name="WarpCooldownTimer" type="Timer" parent="." index="1" unique_id=1528817653]
+
+[node name="WarpParticleTimer" type="Timer" parent="." index="2" unique_id=286800235]
+
+[node name="PawnSprite" parent="." index="3" unique_id=181134308]
+texture = ExtResource("2_i1u8j")
+
+[connection signal="timeout" from="EmpCooldownTimer" to="." method="_on_emp_cooldown_timer_timeout"]
+[connection signal="timeout" from="WarpParticleTimer" to="." method="_on_warp_particle_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

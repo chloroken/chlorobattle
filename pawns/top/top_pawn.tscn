@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://f2i4r8ktardt" path="res://pawns/top/top_pawn.gd" id="1_04y0m"]
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_ksjeq"]
-[ext_resource type="Texture2D" uid="uid://c8om8ie5uynlo" path="res://pawns/top/top_pawn.png" id="2_bwwx6"]
 [ext_resource type="PackedScene" uid="uid://b4sfbkn4gf6cx" path="res://pawns/top/spark/top_attack.tscn" id="2_ruyh0"]
 [ext_resource type="PackedScene" uid="uid://6sfptx51mytb" path="res://pawns/top/bolt/bolt_attack.tscn" id="4_datse"]
 [ext_resource type="Texture2D" uid="uid://xx63m2u2ye7v" path="res://pawns/top/top_pawn2.png" id="5_uxg4q"]
@@ -15,11 +14,10 @@ hp = 440.0
 def = 0.6
 dmg = 20.0
 pen = 0.2
-spd = 50.0
-spriteArray = Array[Resource]([ExtResource("5_uxg4q")])
+spd = 60.0
 
 [node name="PawnSprite" parent="." index="0" unique_id=181134308]
-texture = ExtResource("2_bwwx6")
+texture = ExtResource("5_uxg4q")
 
 [node name="DischargeLabel" type="Label" parent="." index="9" unique_id=1867178906]
 offset_left = -24.0

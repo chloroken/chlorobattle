@@ -1,4 +1,4 @@
-extends "res://pawns/_base/attack/base_attack.gd"
+extends "res://pawns/_base/base_attack.gd"
 
 var parentPawn
 var direction: Vector2
@@ -24,7 +24,7 @@ func _ready() -> void:
 	$BaseSprite.modulate.g = randf_range(0.8, 1.0)
 	
 	# Set visibility order
-	z_as_relative = false
+	
 	z_index = get_node("/root/main").layerAir
 
 func _physics_process(delta: float) -> void:

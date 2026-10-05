@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://x1pfke2unlov"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/base_attack.tscn" id="1_shtu3"]
+[ext_resource type="Script" uid="uid://dfar6w8cdc53l" path="res://pawns/slug/slime/slug_slime.gd" id="2_n5fr6"]
+[ext_resource type="PackedScene" uid="uid://7v0gbdt6t85o" path="res://pawns/slug/slime/absorb/slug_absorb.tscn" id="3_yg0xg"]
+[ext_resource type="Texture2D" uid="uid://m2yrvtw7hwkl" path="res://pawns/slug/slime/slug_slime.png" id="4_strpi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lmhw8"]
+radius = 6.2499995
+
+[node name="SlimeAttack" unique_id=1314532855 instance=ExtResource("1_shtu3")]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("2_n5fr6")
+absorbScene = ExtResource("3_yg0xg")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("4_strpi")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+scale = Vector2(8, 8)
+shape = SubResource("CircleShape2D_lmhw8")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

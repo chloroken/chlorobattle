@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://crh2qlcijypen"]
+
+[ext_resource type="Script" uid="uid://cmsgdkmns5dih" path="res://pawns/_styles/styles.gd" id="1_aq176"]
+[ext_resource type="PackedScene" uid="uid://brb6i5u1uth2i" path="res://pawns/_styles/_charges/style_charge.tscn" id="2_15mpe"]
+[ext_resource type="Texture2D" uid="uid://dhi1t62xhq12m" path="res://pawns/_styles/bully/bully_circle.png" id="3_wk0y4"]
+
+[node name="Styles" type="Node2D" unique_id=1278996150]
+script = ExtResource("1_aq176")
+styleCharge = ExtResource("2_15mpe")
+
+[node name="BerserkResetTimer" type="Timer" parent="." unique_id=1577950863]
+
+[node name="BullyCircle" type="Sprite2D" parent="." unique_id=1141557251]
+modulate = Color(1, 1, 1, 0)
+z_index = -1
+texture = ExtResource("3_wk0y4")
+
+[node name="BullyResetTimer" type="Timer" parent="." unique_id=1339769289]
+
+[node name="ParkourResetTimer" type="Timer" parent="." unique_id=1795582147]
+
+[node name="MightyChargeTimer" type="Timer" parent="." unique_id=1767579079]
+
+[node name="SlayerCooldownTimer" type="Timer" parent="." unique_id=2095511221]
+
+[node name="SnowballCooldownTimer" type="Timer" parent="." unique_id=1799243411]
+
+[node name="SnowballFreeChargeTimer" type="Timer" parent="." unique_id=1536051757]
+
+[connection signal="timeout" from="BerserkResetTimer" to="." method="_on_berserk_reset_timer_timeout"]
+[connection signal="timeout" from="BullyResetTimer" to="." method="_on_bully_reset_timer_timeout"]
+[connection signal="timeout" from="ParkourResetTimer" to="." method="_on_parkour_reset_timer_timeout"]
+[connection signal="timeout" from="MightyChargeTimer" to="." method="_on_mighty_charge_timer_timeout"]
+[connection signal="timeout" from="SnowballFreeChargeTimer" to="." method="_on_snowball_free_charge_timer_timeout"]

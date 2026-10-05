@@ -2,6 +2,7 @@ extends Node2D
 
 var boardRadius
 var center
+var baseRadius = 360
 
 # Load Pawns into inspector
 @export var candle: PackedScene

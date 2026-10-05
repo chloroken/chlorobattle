@@ -20,10 +20,11 @@ var baseHp
 
 # Combat variables
 var attacksDisabled = false
+var redirectImmunity = false
 var hitList = []
 var voidHitList = []
-var isCursed = false
-var isPossessed = false
+#var isCursed = false
+var isHaunted = false
 
 # Movement variables
 var board
@@ -46,27 +47,34 @@ var slowSpeed = 0.5
 var stuckSpeed = 0.0
 var wanderRadians = 1.0
 
-# Costumes
-var activeSprite: Resource
-@export var spriteArray: Array[Resource]
-
 func _ready() -> void:
 	board = get_parent()
 	main = get_tree().get_root().get_node("main")
 	center = get_tree().get_root().get_node("main").position
 	baseHp = hp
 	direction = position.direction_to(center).rotated(randf_range(-1.0, 1.0))
-	$AttackCooldownTimer.one_shot = true
 
 	#if costume > spriteArray.size(): costume = spriteArray.size()
 	#activeSprite = spriteArray[costume-1]
-	$PawnSprite.texture = spriteArray[0]
+	#$PawnSprite.texture = spriteArray[0]
 
-	z_as_relative = false
+	
 	z_index = get_node("/root/main").layerPawn
+
+	$AttackCooldownTimer.one_shot = true
+	#if !attacksDisabled:
+		#start_attack_cooldown()
+
+##########
+# COMBAT #
+##########
+
 func disarm_check() -> bool:
 	if $Status.get_node("DisarmedStatusTimer").is_stopped(): return(false)
 	return(true)
+func new_attack_cycle(cooldownMin, cooldownMax) -> void:
+	var attackCooldown = asp * aspMod * randf_range(cooldownMin, cooldownMax)
+	$AttackCooldownTimer.start(attackCooldown)
 
 ############
 # MOVEMENT #

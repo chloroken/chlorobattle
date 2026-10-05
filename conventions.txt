@@ -1,0 +1,34 @@
+CONVENTIONS
+
+Pawn Code:
+	Pawn Variables:
+		- attackNameDescription (for all variables)
+		- nameAttackScene (for packedscene references)
+	Attack Variables:
+		- isAttackFlag
+		- attacks only contain effect variables
+	all @exports typed as narrow as possible
+Pawn Nodes:
+	- Custom nodes above inherited nodes
+	- $NamePawn (e.g., ChairPawn)
+	- $AttackDescriptionTimer (e.g., $MeowCooldownTimer)
+	- $AttackContainer (holds attacks/effects)
+	Attack Nodes:
+		$NameAttack
+
+~~~~~~~~~~~~~~
+
+Setup Routines:
+	_ready:
+		super()
+		if !attacksDisabled
+			new_attack_cycle(cdMin, cdMax)
+Attack Routines:
+	_attack_cooldown_timeout():
+	
+		# The order depends on pawn mechanics
+		# For fixed cycles, new_attack_cycle can go above
+		# For dynamic cycles, it must go in disarm_check() block
+		new_attack_cycle(cdMin, cdMax)
+		if disarm_check(): return
+		<attack function>

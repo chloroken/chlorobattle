@@ -14,6 +14,9 @@ dmg = 20.0
 spd = 1.0
 spriteArray = Array[Resource]([ExtResource("3_qqup0")])
 
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+texture = ExtResource("3_qqup0")
+
 [node name="HornChargeTimer" type="Timer" parent="." index="9" unique_id=45519615]
 
 [node name="HornSpeedIntervalTimer" type="Timer" parent="." index="10" unique_id=1744976093]

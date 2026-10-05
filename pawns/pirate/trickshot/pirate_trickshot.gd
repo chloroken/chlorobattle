@@ -1,4 +1,4 @@
-extends "res://pawns/_base/attack/base_attack.gd"
+extends "res://pawns/_base/base_attack.gd"
 
 var direction
 var speed
@@ -7,7 +7,6 @@ var maxBounces
 var spinSpeed = 10
 var particleInterval = 0.01
 var particleContainer = []
-var basePawn
 
 @export var trickshotParticle: Resource
 
@@ -17,7 +16,7 @@ func _ready() -> void:
 	basePawn = get_parent().get_parent()
 
 	# Set visibility order
-	z_as_relative = false
+	
 	z_index = get_node("/root/main").layerAir
 
 func _physics_process(delta: float) -> void:

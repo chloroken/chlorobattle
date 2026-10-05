@@ -1,4 +1,4 @@
-extends "res://pawns/_base/attack/base_attack.gd"
+extends "res://pawns/_base/base_attack.gd"
 
 var parentPawn
 var direction
@@ -29,7 +29,7 @@ func _ready() -> void:
 	# Randomize color
 
 	# Set visibility order
-	z_as_relative = false
+	
 	z_index = get_node("/root/main").layerGround
 	
 	# Start timers

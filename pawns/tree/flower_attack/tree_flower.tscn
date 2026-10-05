@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bok6dsvrnwwh1"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/base_attack.tscn" id="1_xhn5i"]
+[ext_resource type="Texture2D" uid="uid://c0v7h03n65s5e" path="res://pawns/tree/flower_attack/tree_flower.png" id="2_2yeup"]
+[ext_resource type="Script" uid="uid://cr3tpd8dgtsd3" path="res://pawns/tree/flower_attack/tree_flower.gd" id="2_wvoo7"]
+
+[node name="FlowerAttack" unique_id=553809928 instance=ExtResource("1_xhn5i")]
+script = ExtResource("2_wvoo7")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("2_2yeup")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

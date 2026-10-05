@@ -20,10 +20,10 @@ var hornDisarmDamageMultiplier = 0.5
 
 func _ready() -> void:
 	super()
-	print("what")
 
 	# Start attack cycle
 	if !attacksDisabled:
+		redirectImmunity = true
 		$HornChargeTimer.stop()
 		$HornChargeTimer.one_shot = true
 		$HornSpeedIntervalTimer.stop()

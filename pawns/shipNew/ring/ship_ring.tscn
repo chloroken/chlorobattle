@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cx8dqt1mkk6ef"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/base_attack.tscn" id="1_tf8t4"]
+[ext_resource type="Script" uid="uid://corl5cxeb0g0j" path="res://pawns/shipNew/ring/ship_ring.gd" id="2_r85v2"]
+[ext_resource type="Texture2D" uid="uid://bnc7ytcdocq6u" path="res://pawns/shipNew/ring/ship_ring.png" id="3_8ee0s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8ee0s"]
+radius = 8.0
+
+[node name="RingAttack" unique_id=553809928 instance=ExtResource("1_tf8t4")]
+collision_mask = 32
+script = ExtResource("2_r85v2")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("3_8ee0s")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("CircleShape2D_8ee0s")
+
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

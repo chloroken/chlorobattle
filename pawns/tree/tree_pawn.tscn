@@ -3,19 +3,32 @@
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_d0t2m"]
 [ext_resource type="PackedScene" uid="uid://db5nkvmy871hu" path="res://pawns/tree/leaf_attack/leaf_attack.tscn" id="2_y6dbx"]
 [ext_resource type="Script" uid="uid://b0h6kt3syhtmg" path="res://pawns/tree/tree_pawn.gd" id="2_ysaub"]
-[ext_resource type="Texture2D" uid="uid://x6g3nt5dpu3a" path="res://pawns/tree/tree_pawn.png" id="3_y6dbx"]
 [ext_resource type="PackedScene" uid="uid://bupq0sf1qdeuf" path="res://pawns/tree/seed_attack/seed_attack.tscn" id="4_uc7hh"]
+[ext_resource type="Texture2D" uid="uid://cqkxx0pxvuvqv" path="res://pawns/tree/tree_pawn_spring.png" id="5_dng8e"]
+[ext_resource type="Texture2D" uid="uid://biq8023vajm45" path="res://pawns/tree/tree_pawn_summer.png" id="6_7g7uo"]
+[ext_resource type="PackedScene" uid="uid://bok6dsvrnwwh1" path="res://pawns/tree/flower_attack/tree_flower.tscn" id="7_7g7uo"]
+[ext_resource type="Texture2D" uid="uid://dbe1khabvu4yv" path="res://pawns/tree/tree_pawn_fall.png" id="7_d57oe"]
+[ext_resource type="PackedScene" uid="uid://djsv1l7efgdb" path="res://pawns/tree/fruit_attack/tree_fruit.tscn" id="7_qu21t"]
+[ext_resource type="Texture2D" uid="uid://g8qqwau8wcbq" path="res://pawns/tree/tree_pawn_winter.png" id="8_qu21t"]
 
 [node name="TreePawn" unique_id=1877646274 instance=ExtResource("1_d0t2m")]
 script = ExtResource("2_ysaub")
-leafAttack = ExtResource("2_y6dbx")
 seedAttack = ExtResource("4_uc7hh")
-hp = 410.0
+seasonSpringSkin = ExtResource("5_dng8e")
+flowerAttackScene = ExtResource("7_7g7uo")
+seasonSummerSkin = ExtResource("6_7g7uo")
+fruitAttackScene = ExtResource("7_qu21t")
+seasonFallSkin = ExtResource("7_d57oe")
+leafAttackScene = ExtResource("2_y6dbx")
+seasonWinterSkin = ExtResource("8_qu21t")
+hp = 400.0
 def = 0.5
-dmg = 25.0
+dmg = 10.0
 pen = 0.1
 spd = 0.0
-spriteArray = Array[Resource]([ExtResource("3_y6dbx")])
+
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+texture = ExtResource("5_dng8e")
 
 [node name="SeedCooldownTimer" type="Timer" parent="." index="9" unique_id=1849912847]
 

@@ -17,13 +17,13 @@ func _ready() -> void:
 
 	# Create bot Pawns to test with
 	#for i in 2:
-		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), "treat")
+		#register_pawn("Bot " + str(i+1), "ship", choose_random_style(), choose_random_item())
 	# Create specific test bots
 
 	# 1v1s
-	#register_pawn("dank_gr4vy", "chair", "mighty", "map")
-	#register_pawn("themadzster", "mecha", "mighty", "milkshake")
-	
+	#register_pawn("estr0", "mecha", "mighty", "tire")
+	#register_pawn("chloro", "ship", "berserk", "glue")
+
 	# All pawns for testing
 	register_pawn("candle", "candle", choose_random_style(), choose_random_item())
 	register_pawn("cat", "cat", choose_random_style(), choose_random_item())

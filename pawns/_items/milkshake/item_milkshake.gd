@@ -1,0 +1,21 @@
+extends Node2D
+
+var duration
+var shakeScaleMod = 2.0
+
+# Set visibility order
+func _ready() -> void:
+	$FizzleTimer.start(duration)
+	
+	
+	
+
+# Grow sprite
+func _process(_delta: float) -> void:
+	var shakeScale = 0.5 + 0.5 * shakeScaleMod * (1 - $FizzleTimer.get_time_left() / $FizzleTimer.get_wait_time())
+	$MilkshakeSprite.scale.x = shakeScale
+	$MilkshakeSprite.scale.y = shakeScale
+
+# Clean up
+func _on_fizzle_timer_timeout() -> void:
+	queue_free()

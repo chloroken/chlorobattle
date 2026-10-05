@@ -1,17 +1,16 @@
-extends "res://pawns/_base/attack/base_attack.gd"
+extends "res://pawns/_base/base_attack.gd"
 
+var duration
 var direction
 var speed
-var speedMin = 50
-var speedMax = 75
-var durationMin = 3.0
-var durationMax = 5.0
 
 func _ready() -> void:
-	attackName = "Meow"
-	areaAttack = false
-	speed = randf_range(speedMin, speedMax)
-	$FizzleTimer.start(randf_range(durationMin, durationMax))
+	super()
+
+	random_meow_color()
+	$FizzleTimer.start(duration)
+
+func random_meow_color() -> void:
 	$BaseSprite.modulate = Color(randf(), randf(), randf())
 
 func _physics_process(delta: float) -> void:
@@ -19,3 +18,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_fizzle_timer_timeout() -> void:
 	queue_free()
+
+func _on_area_exited(area: Area2D) -> void:
+	if area.get_collision_layer_value(6):
+		direction = (position.direction_to(basePawn.center) + direction).normalized()

@@ -7,18 +7,18 @@
 [ext_resource type="Texture2D" uid="uid://cyw7q2e5nbcy1" path="res://boards/_base/graphics/board_art_3.png" id="3_4ni8t"]
 [ext_resource type="PackedScene" uid="uid://dk3ihalobur6n" path="res://pawns/cat/cat_pawn.tscn" id="3_crhpq"]
 [ext_resource type="PackedScene" uid="uid://hbkaf6ui8o53" path="res://pawns/chair/chair_pawn.tscn" id="3_cwgni"]
-[ext_resource type="PackedScene" uid="uid://qjonte0obwms" path="res://pawns/witch/witch_pawn.tscn" id="5_2j0hf"]
 [ext_resource type="PackedScene" uid="uid://cy8cwk5ifbgne" path="res://pawns/demon/demon_pawn.tscn" id="5_kjwhi"]
 [ext_resource type="PackedScene" uid="uid://ck0eynkg55hxa" path="res://pawns/fish/fish_pawn.tscn" id="6_cwgni"]
 [ext_resource type="PackedScene" uid="uid://ce3ii6a2ekgb5" path="res://pawns/ghost/ghost_pawn.tscn" id="7_crhpq"]
 [ext_resource type="PackedScene" uid="uid://dadae3e4ikfp6" path="res://pawns/mecha/mecha_pawn.tscn" id="7_cwgni"]
 [ext_resource type="PackedScene" uid="uid://dxpy0mtjt02en" path="res://pawns/mummy/mummy_pawn.tscn" id="8_1wt1d"]
 [ext_resource type="PackedScene" uid="uid://brk1m57ccp1ef" path="res://pawns/pirate/pirate_pawn.tscn" id="9_0qca2"]
-[ext_resource type="PackedScene" uid="uid://58lj5q30abqo" path="res://pawns/ship/ship_pawn.tscn" id="10_ia5kr"]
 [ext_resource type="PackedScene" uid="uid://diq0kcarpj873" path="res://pawns/ram/ram_pawn.tscn" id="11_2j0hf"]
 [ext_resource type="PackedScene" uid="uid://ddxj6u8lafeel" path="res://pawns/slug/slug_pawn.tscn" id="11_wega7"]
 [ext_resource type="PackedScene" uid="uid://b34t2uaa0o3nq" path="res://pawns/top/top_pawn.tscn" id="12_pbqqs"]
+[ext_resource type="PackedScene" uid="uid://2v3odo7hamqu" path="res://pawns/shipNew/ship_pawn.tscn" id="12_tma3s"]
 [ext_resource type="PackedScene" uid="uid://bfh8kg7cp5jpr" path="res://pawns/tree/tree_pawn.tscn" id="14_tma3s"]
+[ext_resource type="PackedScene" uid="uid://cj0sn5eak32q5" path="res://pawns/witchNew/witch_pawn.tscn" id="16_tma3s"]
 
 [node name="BoardBase" type="Node2D" unique_id=1844479333]
 script = ExtResource("1_4ni8t")
@@ -32,11 +32,11 @@ mecha = ExtResource("7_cwgni")
 mummy = ExtResource("8_1wt1d")
 pirate = ExtResource("9_0qca2")
 ram = ExtResource("11_2j0hf")
-ship = ExtResource("10_ia5kr")
+ship = ExtResource("12_tma3s")
 slug = ExtResource("11_wega7")
 tree = ExtResource("14_tma3s")
 top = ExtResource("12_pbqqs")
-witch = ExtResource("5_2j0hf")
+witch = ExtResource("16_tma3s")
 
 [node name="Collider" parent="." unique_id=359442345 instance=ExtResource("1_aert6")]
 collision_layer = 32

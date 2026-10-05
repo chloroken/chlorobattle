@@ -1,4 +1,4 @@
-extends "res://pawns/_base/attack/base_attack.gd"
+extends "res://pawns/_base/base_attack.gd"
 
 # make them flash rainbow colors
 # make them potentially grow as the charge goes on?
@@ -14,7 +14,7 @@ func _ready() -> void:
 	#$HornRainbowTimer.start(hornColorInterval)
 
 	# Set visibility order
-	z_as_relative = false
+	
 	z_index = get_node("/root/main").layerPawnFront
 
 func _physics_process(_delta: float) -> void:

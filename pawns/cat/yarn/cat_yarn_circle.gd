@@ -1,11 +1,7 @@
 extends Area2D
 
-var basePawn
-
-func _ready() -> void:
-	basePawn = get_parent().get_parent()
-
 func _on_area_entered(area: Area2D) -> void:
+	if area.redirectImmunity: return
+	var basePawn = get_parent().get_parent()
 	if area.username == basePawn.username: return
-	if area.type == "ram": return
 	area.direction = area.position.direction_to(position)

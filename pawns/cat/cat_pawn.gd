@@ -1,149 +1,187 @@
 extends "res://pawns/_base/base_pawn.gd"
 
-@export var catSwipe: Resource
-@export var catMeow: Resource
-@export var catYarn: Resource
+@export var swipeAttackScene: Resource
+var swipeAttackName = "Swipe"
+var swipeCooldownMin = 2.0
+var swipeCooldownMax = 3.0
+var swipeDuration = 1.0
+var swipeRotateDistance = 48
+var gemRedCooldownMin = 4.0
+var gemRedCooldownMax = 6.0
+var gemRedReady = false
+var swipeBleedDuration = 5.0
+var swipeRedScale = 2.0
 
-var catSwipeCooldownMin = 2.0
-var catSwipeCooldownMax = 3.0
-var catSwipeDuration = 1.0
-var catRotateDistance = 48
-var catSwipeRedScale = 2.0
+@export var yarnAttackScene: Resource
+var yarnAttackName = "Yarn"
+var yarnIsAreaAttack = false
+var gemYellowCooldownMin = 12.0
+var gemYellowCooldownMax = 15.0
+var gemYellowReady = false
+var yarnDuration = 10.0
+var yarnLazyDuration = 10.0
+var yarnOffset = 16
 
-var catSwipeBleedDuration = 5.0
-var catMeowDuration = 2.5
-var catStaggerDuration = 0.1
-var catYarnLazyDuration = 10.0
-var catMeowDamage = 20
-
-var catGemRedCooldownMin = 4.0
-var catGemRedCooldownMax = 6.0
-var catGemRedReady = false # causes bleed
-var catGemBlueCooldownMin = 8.0
-var catGemBlueCooldownMax = 10.0
-var catGemBlueReady = false # jumps away
-var catGemYellowCooldownMin = 12.0
-var catGemYellowCooldownMax = 15.0
-var catGemYellowReady = false # meow cone
-
-# have a normal sprite and a costume
-# check for costume
-@export var costumeSprite: Resource
-@export var baseSprite: Resource
+@export var meowAttackScene: Resource
+var meowAttackName = "Meow"
+var meowIsAreaAttack = false
+var gemPurpleCooldownMin = 8.0
+var gemPurpleCooldownMax = 10.0
+var gemPurpleReady = false
+var meowDamageMultiplier = 0.5
+var meowArcWidth = 0.75
+var meowDurationMin = 2.5
+var meowDurationMax = 5.0
+var meowSpeedMin = 50
+var meowSpeedMax = 100
+var meowPeriodDuration = 2.5
+var meowStaggerInterval = 0.1
 
 func _ready() -> void:
 	super()
 	if !attacksDisabled:
-		start_attack_cooldown()
-		$SwipeTimer.one_shot = true
-		$Gem1Timer.one_shot = true
-		$Gem2Timer.one_shot = true
-		$Gem3Timer.one_shot = true
-		$Gem1Timer.start(randf_range(catGemRedCooldownMin, catGemRedCooldownMax))
-		$Gem2Timer.start(randf_range(catGemBlueCooldownMin, catGemBlueCooldownMax))
-		$Gem3Timer.start(randf_range(catGemYellowCooldownMin, catGemYellowCooldownMax))
-		$MeowStaggerTimer.one_shot = true
-		$MeowDurationTimer.one_shot = true
-
+		new_attack_cycle(swipeCooldownMin, swipeCooldownMax)
+		start_cat_timers()
+func start_cat_timers() -> void:
+	$SwipeTimer.one_shot = true
+	$Gem1Timer.one_shot = true
+	$Gem2Timer.one_shot = true
+	$Gem3Timer.one_shot = true
+	$MeowStaggerTimer.one_shot = true
+	$MeowDurationTimer.one_shot = true
+	$Gem1Timer.start(randf_range(gemRedCooldownMin, gemRedCooldownMax))
+	$Gem2Timer.start(randf_range(gemPurpleCooldownMin, gemPurpleCooldownMax))
+	$Gem3Timer.start(randf_range(gemYellowCooldownMin, gemYellowCooldownMax))
 func _process(_delta: float) -> void:
 	if !attacksDisabled:
-		if $Gem1Timer.is_stopped(): $Gem1Sprite.modulate = Color.INDIAN_RED
-		else: $Gem1Sprite.modulate = Color.WHITE
-		if $Gem2Timer.is_stopped(): $Gem2Sprite.modulate = Color.GOLD
-		else: $Gem2Sprite.modulate = Color.WHITE
-		if $Gem3Timer.is_stopped(): $Gem3Sprite.modulate = Color.MEDIUM_PURPLE
-		else: $Gem3Sprite.modulate = Color.WHITE
-
+		update_cat_gem_sprites()
 func _physics_process(delta: float) -> void:
 	super(delta)
+	swipe_rotation_physics()
+func update_cat_gem_sprites() -> void:
+		if $Gem1Timer.is_stopped():
+			$Gem1Sprite.modulate = Color.INDIAN_RED
+			$Gem1Sprite.modulate.a = 1.0
+		else:
+			$Gem1Sprite.modulate.a = 0.0
+		if $Gem2Timer.is_stopped():
+			$Gem2Sprite.modulate = Color.GOLD
+			$Gem2Sprite.modulate.a = 1.0
+		else:
+			$Gem2Sprite.modulate.a = 0.0
+		if $Gem3Timer.is_stopped():
+			$Gem3Sprite.modulate = Color.MEDIUM_PURPLE
+			$Gem3Sprite.modulate.a = 1.0
+		else:
+			$Gem3Sprite.modulate.a = 0.0
+func swipe_rotation_physics() -> void:
 	if !$SwipeTimer.is_stopped():
 		var ratio = $SwipeTimer.get_time_left() / $SwipeTimer.get_wait_time()
 		$PawnSprite.rotation = ratio * 2 * PI
 
-func start_attack_cooldown() -> void:
-	var swipeCooldown = asp * aspMod * randf_range(catSwipeCooldownMin, catSwipeCooldownMax)
-	$AttackCooldownTimer.start(swipeCooldown)
-
+# Attack routine
 func _on_attack_cooldown_timer_timeout() -> void:
-	if disarm_check():
-		start_attack_cooldown()
-		return
-	
-	if $Gem3Timer.is_stopped() && $MeowDurationTimer.is_stopped():
-		$MeowDurationTimer.start(catMeowDuration)
-		$MeowStaggerTimer.start(catStaggerDuration)
-		$Status.start_stuck(catMeowDuration, self)
-	else:
-		if $Gem2Timer.is_stopped():
-			var newAttack = catYarn.instantiate()
-			newAttack.position = good_yarn_position() + position
-			newAttack.dmg = self.dmg
-			$Gem2Timer.start(randf_range(catGemBlueCooldownMin, catGemBlueCooldownMax))
-			$AttackContainer.add_child(newAttack)
-			start_attack_cooldown()
-		else:
-			var newAttack = catSwipe.instantiate()
-			newAttack.position = position + Vector2.LEFT * catRotateDistance
-			newAttack.dmg = self.dmg
-			newAttack.swipeDir = 1
+	new_attack_cycle(swipeCooldownMin, swipeCooldownMax)
+	if disarm_check(): return
+	if !try_meow_attack():
+		if !try_yarn_attack():
+			swipe_attack()
 
-			var newAttack2 = catSwipe.instantiate()
-			newAttack2.position = position + Vector2.LEFT * catRotateDistance
-			newAttack2.dmg = self.dmg
-			newAttack2.swipeDir = -1
+# Swipe attack
+func swipe_attack() -> void:
+	$SwipeTimer.start(swipeDuration)
+	var swipes = []
 
-			if $Gem1Timer.is_stopped():
-				newAttack.redSwipe = true
-				newAttack.scale *= catSwipeRedScale
-				newAttack2.redSwipe = true
-				newAttack2.scale *= catSwipeRedScale
+	# Paw 1
+	var newAttack1 = swipeAttackScene.instantiate()
+	newAttack1.swipeDir = 1
+	swipes.append(newAttack1)
+	$AttackContainer.add_child(newAttack1)
 
-				var newAttack3 = catSwipe.instantiate()
-				newAttack3.extraPaw = true
-				newAttack3.position = position + Vector2.LEFT * catRotateDistance
-				newAttack3.dmg = self.dmg
-				newAttack3.swipeDir = 1
-				newAttack3.redSwipe = true
-				newAttack3.scale *= catSwipeRedScale
-				$AttackContainer.add_child(newAttack3)
+	# Paw 2
+	var newAttack2 = swipeAttackScene.instantiate()
+	swipes.append(newAttack2)
+	newAttack2.swipeDir = -1
+	$AttackContainer.add_child(newAttack2)
 
-				var newAttack4 = catSwipe.instantiate()
-				newAttack4.extraPaw = true
-				newAttack4.position = position + Vector2.LEFT * catRotateDistance
-				newAttack4.dmg = self.dmg
-				newAttack4.swipeDir = -1
-				newAttack4.redSwipe = true
-				newAttack4.scale *= catSwipeRedScale
-				$AttackContainer.add_child(newAttack4)
-				
-				$Gem1Timer.start(randf_range(catGemRedCooldownMin, catGemRedCooldownMax))
+	# Red swipe check
+	if $Gem1Timer.is_stopped():
+		$Gem1Timer.start(randf_range(gemRedCooldownMin, gemRedCooldownMax))
+		var redSwipes = []
+		redSwipes.append(newAttack1)
+		redSwipes.append(newAttack2)
 
-			$AttackContainer.add_child(newAttack)
-			$AttackContainer.add_child(newAttack2)
-			$SwipeTimer.start(catSwipeDuration)
-			start_attack_cooldown()
+		# Paw 3
+		var newAttack3 = swipeAttackScene.instantiate()
+		swipes.append(newAttack3)
+		redSwipes.append(newAttack3)
+		newAttack3.extraPaw = true
+		newAttack3.swipeDir = 1
+		$AttackContainer.add_child(newAttack3)
 
+		# Paw 4
+		var newAttack4 = swipeAttackScene.instantiate()
+		swipes.append(newAttack4)
+		redSwipes.append(newAttack4)
+		newAttack4.extraPaw = true
+		newAttack4.swipeDir = -1
+		$AttackContainer.add_child(newAttack4)
+
+		# Convert to red paws
+		for redPaw in redSwipes:
+			redPaw.redSwipe = true
+			redPaw.scale *= swipeRedScale
+			redPaw.isRedSwipeAttack = true
+
+	# Finalize paws
+	for paw in swipes:
+		paw.dmg = self.dmg
+		paw.position = self.position
+		paw.attackName = swipeAttackName
+
+# Yarn attack
+func try_yarn_attack() -> bool:
+	if $Gem2Timer.is_stopped():
+		var newAttack = yarnAttackScene.instantiate()
+		newAttack.attackName = yarnAttackName
+		newAttack.isYarnAttack = true
+		newAttack.areaAttack = yarnIsAreaAttack
+		newAttack.position = good_yarn_position() + position
+		newAttack.dmg = self.dmg
+		$Gem2Timer.start(randf_range(gemPurpleCooldownMin, gemPurpleCooldownMax))
+		$AttackContainer.add_child(newAttack)
+		return(true)
+	return(false)
 func good_yarn_position() -> Vector2:
 	var boardRadius = board.boardRadius
 	var newPos = try_yarn_position()
 	while newPos.distance_to(center) > boardRadius:
 		newPos = try_yarn_position()
 	return(newPos)
-
 func try_yarn_position() -> Vector2:
-	var offset = 16
+	var offset = yarnOffset
 	return(Vector2(randf_range(-offset, offset), randf_range(-offset, offset)))
 
+# Meow attack
+func try_meow_attack() -> bool:
+	if $Gem3Timer.is_stopped() && $MeowDurationTimer.is_stopped():
+		$MeowDurationTimer.start(meowPeriodDuration)
+		$MeowStaggerTimer.start(meowStaggerInterval)
+		$Status.start_stuck(meowPeriodDuration, self)
+		return(true)
+	return(false)
 func _on_meow_stagger_timer_timeout() -> void:
-	var newAttack = catMeow.instantiate()
+	var newAttack = meowAttackScene.instantiate()
 	newAttack.position = position
-	newAttack.dmg = catMeowDamage
-	newAttack.direction = direction.rotated(randf_range(-0.75, 0.75))
+	newAttack.attackName = meowAttackName
+	newAttack.areaAttack = meowIsAreaAttack
+	newAttack.dmg = self.dmg * meowDamageMultiplier
+	newAttack.speed = randf_range(meowSpeedMin, meowSpeedMax)
+	newAttack.duration = randf_range(meowDurationMin, meowDurationMax)
+	newAttack.direction = direction.rotated(randf_range(-meowArcWidth, meowArcWidth))
 	newAttack.rotation = randf_range(0, TAU)
 	$AttackContainer.add_child(newAttack)
-	$MeowStaggerTimer.start(catStaggerDuration)
-
+	$MeowStaggerTimer.start(meowStaggerInterval)
 func _on_meow_duration_timer_timeout() -> void:
 	$MeowStaggerTimer.stop()
-	$Gem3Timer.start(randf_range(catGemYellowCooldownMin, catGemYellowCooldownMax))
-	start_attack_cooldown()
+	$Gem3Timer.start(randf_range(gemYellowCooldownMin, gemYellowCooldownMax))

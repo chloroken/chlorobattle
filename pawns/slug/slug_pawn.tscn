@@ -3,22 +3,28 @@
 [ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_a6a5s"]
 [ext_resource type="Script" uid="uid://cl2oiya2peikt" path="res://pawns/slug/slug_pawn.gd" id="2_8633t"]
 [ext_resource type="Texture2D" uid="uid://hy5kxurtvq1s" path="res://pawns/slug/slug_pawn.png" id="2_qfyav"]
-[ext_resource type="PackedScene" uid="uid://x1pfke2unlov" path="res://pawns/slug/ooze/slug_attack.tscn" id="3_tqnmo"]
+[ext_resource type="PackedScene" uid="uid://x1pfke2unlov" path="res://pawns/slug/slime/slug_slime.tscn" id="3_p314h"]
+[ext_resource type="Texture2D" uid="uid://b1fbm447b22ut" path="res://pawns/slug/slug_pawn_shell.png" id="4_7ec24"]
 
 [node name="SlugPawn" unique_id=1048959576 instance=ExtResource("1_a6a5s")]
 script = ExtResource("2_8633t")
-slugAttack = ExtResource("3_tqnmo")
+slimeAttackScene = ExtResource("3_p314h")
+normalSpriteScene = ExtResource("2_qfyav")
+shellSpriteScene = ExtResource("4_7ec24")
+hp = 110.0
 def = 0.5
 dmg = 20.0
 pen = 0.4
 spd = 20.0
-spriteArray = Array[Resource]([ExtResource("2_qfyav")])
 
-[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+[node name="SlugRespawnTimer" type="Timer" parent="." index="0" unique_id=339132613]
+
+[node name="SlugShellTimer" type="Timer" parent="." index="1" unique_id=1518129334]
+
+[node name="PawnSprite" parent="." index="2" unique_id=181134308]
 texture = ExtResource("2_qfyav")
 
-[node name="SlugRespawnTimer" type="Timer" parent="." index="9" unique_id=339132613]
-
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
-[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
 [connection signal="timeout" from="SlugRespawnTimer" to="." method="_on_slug_respawn_timer_timeout"]
+[connection signal="timeout" from="SlugShellTimer" to="." method="_on_slug_shell_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]

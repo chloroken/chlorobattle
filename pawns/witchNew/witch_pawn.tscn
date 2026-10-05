@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cj0sn5eak32q5"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_34qtf"]
+[ext_resource type="Script" uid="uid://by3wwkfvib07y" path="res://pawns/witchNew/witch_pawn.gd" id="2_j0e12"]
+[ext_resource type="Texture2D" uid="uid://b1d5aud0dw8pl" path="res://pawns/witchNew/witch_pawn.png" id="2_x50i4"]
+[ext_resource type="PackedScene" uid="uid://b4mx4bdjwrh7v" path="res://pawns/witchNew/frog/witch_frog.tscn" id="3_fj2da"]
+[ext_resource type="PackedScene" uid="uid://d25tm16wbky7a" path="res://pawns/witchNew/spider/witch_spider.tscn" id="4_720c1"]
+
+[node name="WitchPawn" unique_id=1877646274 instance=ExtResource("1_34qtf")]
+script = ExtResource("2_j0e12")
+frogAttackScene = ExtResource("3_fj2da")
+spiderAttackScene = ExtResource("4_720c1")
+hp = 380.0
+def = 0.3
+dmg = 40.0
+pen = 0.4
+spd = 30.0
+
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+texture = ExtResource("2_x50i4")
+
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
