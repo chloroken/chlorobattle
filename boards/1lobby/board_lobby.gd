@@ -11,35 +11,35 @@ func _ready() -> void:
 	super()
 
 	# LET TWITCH COOK
-	#VerySimpleTwitch.get_token_and_login_chat()
-	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
+	VerySimpleTwitch.get_token_and_login_chat()
+	VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	#register_pawn("YouTube", choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create bot Pawns to test with
 	#for i in 2:
-		#register_pawn("Bot " + str(i+1), "ship", choose_random_style(), choose_random_item())
+		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 	# Create specific test bots
 
 	# 1v1s
-	#register_pawn("estr0", "mecha", "mighty", "tire")
-	#register_pawn("chloro", "ship", "berserk", "glue")
+	#register_pawn("chloro", "ship", "berserk", "skates")
+	#register_pawn("fara", "demon", "berserk", "glue")
 
 	# All pawns for testing
-	register_pawn("candle", "candle", choose_random_style(), choose_random_item())
-	register_pawn("cat", "cat", choose_random_style(), choose_random_item())
-	register_pawn("chair", "chair", choose_random_style(), choose_random_item())
-	register_pawn("demon", "demon", choose_random_style(), choose_random_item())
-	register_pawn("fish", "fish", choose_random_style(), choose_random_item())
-	register_pawn("ghost", "ghost", choose_random_style(), choose_random_item())
-	register_pawn("mecha", "mecha", choose_random_style(), choose_random_item())
-	register_pawn("mummy", "mummy", choose_random_style(), choose_random_item())
-	register_pawn("pirate", "pirate", choose_random_style(), choose_random_item())
-	register_pawn("ram", "ram", choose_random_style(), choose_random_item())
-	register_pawn("ship", "ship", choose_random_style(), choose_random_item())
-	register_pawn("slug", "slug", choose_random_style(), choose_random_item())
-	register_pawn("top", "top", choose_random_style(), choose_random_item())
-	register_pawn("tree", "tree", choose_random_style(), choose_random_item())
-	register_pawn("witch", "witch", choose_random_style(), choose_random_item())
+	#register_pawn("candle", "candle", choose_random_style(), choose_random_item())
+	#register_pawn("cat", "cat", choose_random_style(), choose_random_item())
+	#register_pawn("chair", "chair", choose_random_style(), choose_random_item())
+	#register_pawn("demon", "demon", choose_random_style(), choose_random_item())
+	#register_pawn("fish", "fish", choose_random_style(), choose_random_item())
+	#register_pawn("ghost", "ghost", choose_random_style(), choose_random_item())
+	#register_pawn("mecha", "mecha", choose_random_style(), choose_random_item())
+	#register_pawn("mummy", "mummy", choose_random_style(), choose_random_item())
+	#register_pawn("pirate", "pirate", choose_random_style(), choose_random_item())
+	#register_pawn("ram", "ram", choose_random_style(), choose_random_item())
+	#register_pawn("ship", "ship", choose_random_style(), choose_random_item())
+	#register_pawn("slug", "slug", choose_random_style(), choose_random_item())
+	#register_pawn("top", "top", choose_random_style(), choose_random_item())
+	#register_pawn("tree", "tree", choose_random_style(), choose_random_item())
+	#register_pawn("witch", "witch", choose_random_style(), choose_random_item())
 
 	# Spawn Pawns made above
 	for pawn in get_parent().pawnList:

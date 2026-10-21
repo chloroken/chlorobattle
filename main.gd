@@ -11,6 +11,7 @@ extends Node2D
 var currentBoard = "lobby"
 var pawnList = []
 var scoreList = []
+var finalEvents = []
 
 # Mode flags
 var testingMode = false # disables end-of-game, xp

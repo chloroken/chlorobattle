@@ -199,7 +199,7 @@ var slayerCooldown = 10.0
 var slayerChargeMax = 5
 func add_slayer_charge() -> void:
 	if basePawn.style != "slayer": return
-	if activeStyleCharges.size() > 5: return
+	if activeStyleCharges.size() >= 5: return
 	if $SlayerCooldownTimer.is_stopped():
 		var newCharge = styleCharge.instantiate()
 		newCharge.position = get_parent().position

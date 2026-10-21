@@ -1,6 +1,7 @@
 extends "res://boards/_base/board_base.gd"
 
 var maxPawnScores = 16
+var maxEventLines = 30
 
 func _ready() -> void:
 	super()
@@ -23,6 +24,12 @@ func _ready() -> void:
 
 	# Calculate scores for scoreboard
 	call_pawn_scores()
+
+	# pull final combat log events
+	for i in maxEventLines:
+	#for i in get_parent().finalEvents.size(): # all lines
+		var line = get_parent().finalEvents.pop_front()
+		$UI.get_node("EventLabel").text += line + "\n"
 
 func _process(_delta: float) -> void:
 	if !get_parent().repeatPlay: $UI.get_node("AutoplayLabel").text = ""

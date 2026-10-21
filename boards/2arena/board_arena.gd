@@ -79,7 +79,22 @@ func kill_feed(msg: String) -> void:
 	$UI.get_node("KillFeedLabel").text = newString
 	debug_log(msg)
 func combat_log(msg: String) -> void:
-	combatLogText.push_front(msg)
+	var timeStamp = ""
+	
+	var seconds = int(Time.get_ticks_msec() / 1000)
+
+	var hours = int(seconds / 3600)
+	var minutes = str(floor((seconds % 3600) / 60))
+	var remainingSeconds = str(int(seconds % 60))
+	
+	if minutes.length() == 1:
+		minutes = "0" + minutes
+	if remainingSeconds.length() == 1:
+		remainingSeconds = "0" + remainingSeconds
+
+	timeStamp = "[color=#767676]" + str(minutes) + ":" + str(remainingSeconds) + "[/color]"
+
+	combatLogText.push_front(timeStamp + " " + msg)
 	var newString = ""
 	# Iterate backwards
 	for i in range(min(combatLogLineCount - 1,combatLogText.size()) - 1, -1, -1):

@@ -107,6 +107,7 @@ func get_pawn_type(message: String):
 	elif "cyclone" in message: return("mecha") # ALIAS
 	elif "mummy" in message: return("mummy")
 	elif "pirate" in message: return("pirate")
+	elif "goat" in message: return("ram") # ALIAS
 	elif "ram" in message: return("ram")
 	elif "ship" in message: return("ship")
 	elif "slug" in message: return("slug")

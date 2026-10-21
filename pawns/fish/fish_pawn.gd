@@ -5,8 +5,8 @@ var splashDiveDuration = 2.0
 
 var splashCooldownMin = 5.0
 var splashCooldownMax = 6.0
-var splashScaleMin = 0.25
-var splashScaleMax = 0.5
+var splashScaleMin = 0.5
+var splashScaleMax = 0.75
 var splashDuration = 0.75
 
 var flopChainChance = 0.75

@@ -4,6 +4,7 @@ var duration
 var baseSpeed
 var direction
 var speedDecay
+var ringBounceModifier
 
 func _ready() -> void:
 	super()
@@ -26,6 +27,6 @@ func _on_area_exited(area: Area2D) -> void:
 	if area.get_collision_layer_value(6):
 		direction = ring_bounce()
 func ring_bounce() -> Vector2:
-	return((position.direction_to(basePawn.center) + direction/2).normalized())
+	return((position.direction_to(basePawn.center) + direction/2 + Vector2.ONE*basePawn.ringBounceModifier).normalized())
 func _on_fizzle_timer_timeout() -> void:
 	queue_free()

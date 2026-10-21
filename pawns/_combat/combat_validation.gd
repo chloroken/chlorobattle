@@ -46,6 +46,7 @@ func style_touch(victim) -> void:
 #######################
 # CLEAN UP PROCEDURES #
 #######################
+# move to own script/basePawn
 
 func add_attack_to_hitlist(attack) -> void:
 	if attack.areaAttack:
@@ -71,34 +72,25 @@ func clean_up_pawn(attacker) -> void:
 				break
 func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
 	var board = get_parent().get_parent()
-	var mainBoard = board.get_parent()
+	var main = board.get_parent()
 	make_tombstone(pawn)
 	update_scoreboard(board, pawn)
-	mainBoard.pawnList.remove_at(pawnIndex)
+	main.pawnList.remove_at(pawnIndex)
 	board.kill_feed("[[color=#FDFD97]" + str(killer) + "[/color]] ☠ [[color=#FEB144]" + str(pawn.username) + "[/color]]")
 	board.activePawns.erase(pawn)
 	pawn.queue_free()
-	
+
 	# If this is the last pawn, end game
-	if mainBoard.testingMode: return
-	if mainBoard.pawnList.size() <= 1:
+	if main.testingMode: return
+	if main.pawnList.size() <= 1:
 		update_scoreboard(board, attackingPawn)
-		mainBoard.switch_board("score")
-	# Or if teams are enabled, and only one is left, end game
-	#elif mainBoard.teamsEnabled:
-		#var oneTeamLeft = true
-		#var pawnTeam = mainBoard.pawnList[0].team
-		#for p in mainBoard.pawnList:
-			#if pawnTeam != p.team:
-				#oneTeamLeft = false
-				#break
-		#if oneTeamLeft:
-			#for p in board.activePawns:
-				#update_scoreboard(board, p)
-			#mainBoard.switch_board("score")
+		for event in board.combatLogText:
+			main.finalEvents.append(event)
+		main.switch_board("score")
+
 func pawn_death_no_source(pawn) -> void:
 	var board = get_parent().get_parent()
-	var mainBoard = board.get_parent()
+	var main = board.get_parent()
 	var pawns = basePawn.get_parent().get_parent().pawnList
 	make_tombstone(pawn)
 	update_scoreboard(board, pawn)
@@ -106,27 +98,27 @@ func pawn_death_no_source(pawn) -> void:
 	for i in range(0, pawns.size()):
 		if pawns[i].username == pawn.username:
 			pawnIndex = i
-	mainBoard.pawnList.remove_at(pawnIndex)
+	main.pawnList.remove_at(pawnIndex)
 	board.kill_feed("[[color=#FEB144]" + str(pawn.username) + "[/color]] was eliminated")
 	board.activePawns.erase(pawn)
 	pawn.queue_free()
 
 	# If this is the last pawn, end game
-	if mainBoard.testingMode: return
-	if mainBoard.pawnList.size() <= 1:
-		mainBoard.switch_board("score")
+	if main.testingMode: return
+	if main.pawnList.size() <= 1:
+		main.switch_board("score")
 	# Or if teams are enabled, and only one is left, end game
-	#elif mainBoard.teamsEnabled:
+	#elif main.teamsEnabled:
 	#	var oneTeamLeft = true
-	#	var pawnTeam = mainBoard.pawnList[0].team
-	#	for p in mainBoard.pawnList:
+	#	var pawnTeam = main.pawnList[0].team
+	#	for p in main.pawnList:
 	#		if pawnTeam != p.team:
 	#			oneTeamLeft = false
 	#			break
 	#	if oneTeamLeft:
 	#		for p in board.activePawns:
 	#			update_scoreboard(board, p)
-	#		mainBoard.switch_board("score")
+	#		main.switch_board("score")
 	
 func make_tombstone(pawn) -> void:
 	var newTombstone = tombstone.instantiate()

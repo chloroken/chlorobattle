@@ -6,11 +6,12 @@ var seasonBaseAttackCooldownMin = 1.0
 var seasonBaseAttackCooldownMax = 2.0
 
 @export var seedAttack: Resource
-var seedCooldownMin = 10.0
-var seedCooldownMax = 15.0
-var seedBoardMinDistRatio = 0.2
+var seedCooldownMin = 5.0
+var seedCooldownMax = 8.0
 var seedBoardBufferDist = 0.8
 var seedTravelSpeed = 100.0
+var seedTravelMaxDist = 80
+var seedTravelMinDist = 20
 
 @export var seasonSpringSkin: Resource
 @export var flowerAttackScene: Resource
@@ -44,9 +45,13 @@ var fallLeafList = []
 
 func _ready() -> void:
 	super()
+
 	if !attacksDisabled:
 		new_attack_cycle(seasonBaseAttackCooldownMin * get_seasonal_attack_speed(), seasonBaseAttackCooldownMax * get_seasonal_attack_speed())
 		start_seed_cooldown()
+	else:
+		seasonCurrentSeason = randi_range(0, 3)
+		advance_season()
 
 func advance_season() -> void:
 	seasonCurrentSeason += 1
@@ -54,12 +59,12 @@ func advance_season() -> void:
 		seasonCurrentSeason = 0
 	match seasonCurrentSeason:
 		0:
-			$Status.stop_void()
+			$Status.stop_tanky()
 			$PawnSprite.texture = seasonSpringSkin
 		1: $PawnSprite.texture = seasonSummerSkin
 		2: $PawnSprite.texture = seasonFallSkin
 		3:
-			$Status.start_void(999)
+			$Status.start_tanky(999)
 			$PawnSprite.texture = seasonWinterSkin
 func get_seasonal_attack_speed() -> float:
 	match seasonCurrentSeason:
@@ -125,13 +130,19 @@ func _on_seed_cooldown_timer_timeout() -> void:
 	$AttackContainer.add_child(newSeed)
 	start_seed_cooldown()
 func try_seed_pos() -> Vector2:
-	var newPos = position
-	var boardRadius = get_parent().boardRadius
-	while position.distance_to(newPos) < boardRadius * seedBoardMinDistRatio:
-		var ranX = randf_range(-boardRadius, boardRadius)
-		var ranY = randf_range(-boardRadius, boardRadius)
-		newPos = get_parent().center + Vector2(ranX, ranY)
+	var newPos = new_seed_pos()
+	var seedDist = position.distance_to(newPos)
+	while seedDist > seedTravelMaxDist || seedDist < seedTravelMinDist:
+		newPos = new_seed_pos()
+		seedDist = position.distance_to(newPos)
 	return(newPos)
+func new_seed_pos() -> Vector2:
+	var newPos
+	var ranX = randf_range(-seedTravelMaxDist, seedTravelMaxDist)
+	var ranY = randf_range(-seedTravelMaxDist, seedTravelMaxDist)
+	newPos = position + Vector2(ranX, ranY)
+	return(newPos)
+
 func seed_relocate(destination) -> void:
 	position = destination
 	for leaf in fallLeafList:

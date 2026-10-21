@@ -136,6 +136,15 @@ text = "RATIO
 "
 horizontal_alignment = 1
 
+[node name="EventLabel" type="RichTextLabel" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="3" unique_id=1059061178]
+offset_top = 789.0
+offset_right = 1440.0
+offset_bottom = 960.0
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+horizontal_alignment = 2
+vertical_alignment = 2
+
 [node name="AutoplayTimer" type="Timer" parent="." index="5" unique_id=267100275]
 wait_time = 30.0
 

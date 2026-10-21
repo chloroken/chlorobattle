@@ -30,7 +30,7 @@ var unleashHalfHealthProc = false
 var assumeSoulArray = []
 var assumeCooldownMin = 8.0
 var assumeCooldownMax = 12.0
-var assumeHealPercent = 1
+var assumeHealAmount = 0.01
 var assumeDelayDuration = 1.0
 var assumeSoulColor = Color.INDIAN_RED
 var assumeCurrentSoul = null
@@ -124,3 +124,11 @@ func _on_assume_duration_timer_timeout() -> void:
 	assumeSoulArray.erase(assumeCurrentSoul)
 	assumeCurrentSoul.queue_free()
 	assumeCurrentSoul = null
+	assume_heal_demon()
+
+func assume_heal_demon() -> void:
+	var amountToHeal = baseHp * assumeHealAmount
+	hp += amountToHeal
+	damageHealed += amountToHeal
+	var logOutput = "[[color=#FDFD97]" + str(username) + "[/color]] healed for " + str("%0.2f" % amountToHeal) + " ([color=#9EE09E]Assume[/color])"
+	get_parent().combat_log(logOutput)

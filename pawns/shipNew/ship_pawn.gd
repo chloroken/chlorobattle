@@ -8,6 +8,7 @@ var ringDurationMin = 10.0
 var ringDurationMax = 12.0
 var ringSpeed = 500
 var ringSpeedDecay = 0.999
+var ringBounceModifier = 0.1
 
 @export var empAttackScene: PackedScene
 var empAttackName = "Ring"
@@ -47,6 +48,7 @@ func new_ring_attack() -> void:
 	newRing.speedDecay = ringSpeedDecay
 	newRing.direction = self.direction
 	newRing.dmg = self.dmg
+	newRing.ringBounceModifier = self.ringBounceModifier
 	$AttackContainer.add_child(newRing)
 
 # EMP
@@ -70,7 +72,9 @@ func _on_emp_cooldown_timer_timeout() -> void:
 func _on_area_exited(area: Area2D) -> void:
 	if self.is_queued_for_deletion(): return
 	if !area.get_collision_layer_value(6): return
-	if attacksDisabled: return
+	if attacksDisabled: 
+		direction = new_direction()
+		return
 	trigger_warp()
 func trigger_warp() -> void:
 	if !warpActive && $WarpCooldownTimer.is_stopped():
@@ -87,6 +91,8 @@ func trigger_warp() -> void:
 		$Status.start_void(0.1)
 		direction = new_direction()
 		$GUI.visible = true
+	else:
+		direction = new_direction()
 func _physics_process(delta: float) -> void:
 	super(delta)
 	$PawnSprite.rotation = direction.angle()
