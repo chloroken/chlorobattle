@@ -7,7 +7,7 @@ func _ready() -> void:
 	modulate.a = 0.0
 
 func _on_area_entered(area: Area2D) -> void:
-	if basePawn.attacksDisabled: return
+	if basePawn.inLobby: return
 	if haunt_on_cooldown_or_active(): return
 	if haunt_target_ineligible(area): return
 	start_haunting(area)

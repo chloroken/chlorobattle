@@ -5,7 +5,7 @@ var activeStyleCharges = []
 var basePawn
 func _ready() -> void:
 	basePawn = get_parent()
-	if !basePawn.attacksDisabled:
+	if !basePawn.inLobby:
 		# Start style timers
 		if basePawn.style == "berserk":
 			$BerserkResetTimer.one_shot = true
@@ -116,7 +116,7 @@ func style_parkour_trigger(attacker) -> float:
 	if attacker.style != "parkour": return(0)
 	return(attacker.get_node("Styles").parkourChargeCount * attacker.get_node("Styles").parkourDamagePerCharge)
 func style_parkour_add_charge() -> void:
-	if basePawn.attacksDisabled: return
+	if basePawn.inLobby: return
 	if basePawn.style != "parkour": return
 	
 	# Dont add charges while stuck from an enemy
@@ -195,7 +195,7 @@ func _on_mighty_charge_timer_timeout() -> void:
 
 var slayerColor = Color.MEDIUM_PURPLE
 var slayerMultiplier = 0.05
-var slayerCooldown = 10.0
+var slayerCooldown = 5.0
 var slayerChargeMax = 5
 func add_slayer_charge() -> void:
 	if basePawn.style != "slayer": return
@@ -229,7 +229,7 @@ func slayer_discharge(attacker) -> void:
 ############
 
 var snowballColor = Color.WHITE
-var snowballMultiplier = 0.2
+var snowballMultiplier = 0.3
 var snowballCooldown = 1.0
 var snowballFreeChargeCooldown = 60.0
 func add_snowball_charge() -> void:

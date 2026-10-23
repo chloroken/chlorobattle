@@ -24,7 +24,7 @@ var hauntTankyDuration = 2.0
 
 func _ready() -> void:
 	super()
-	if !attacksDisabled:
+	if !inLobby:
 		$AttackCooldownTimer.one_shot = true
 		$HauntDurationTimer.one_shot = true
 		$HauntCooldownTimer.one_shot = true

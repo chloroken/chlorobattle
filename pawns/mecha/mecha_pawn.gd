@@ -26,7 +26,7 @@ var missileBoardGrace = 1.05
 func _ready() -> void:
 	super()
 	choose_initial_form()
-	if !attacksDisabled:
+	if !inLobby:
 		enable_form_cycling()
 		mecha_form_specific_attack_cycle()
 
@@ -48,7 +48,7 @@ func _on_form_swap_timer_timeout() -> void:
 	mechaWalkerFormActive = !mechaWalkerFormActive
 	$FormSwapTimer.start(mechaFormSwapTimer + cooldownVariance)
 func form_switch_attack_cycle_reset() -> void:
-	if !attacksDisabled:
+	if !inLobby:
 		$AttackCooldownTimer.start(.01)
 func apply_form_switching_status(cooldownVariance) -> void:
 	if mechaWalkerFormActive:

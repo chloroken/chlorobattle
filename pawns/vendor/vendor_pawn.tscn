@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://deybjetvt3mcq"]
+
+[ext_resource type="PackedScene" uid="uid://cscvlfussb7b3" path="res://pawns/_base/base_pawn.tscn" id="1_vblme"]
+[ext_resource type="Script" uid="uid://c146ayewo871t" path="res://pawns/vendor/vendor_pawn.gd" id="2_vkqml"]
+[ext_resource type="PackedScene" uid="uid://oc4m32768tcv" path="res://pawns/vendor/soda/soda_attack.tscn" id="3_ms1e2"]
+[ext_resource type="Texture2D" uid="uid://cmb76f5ejwn02" path="res://pawns/vendor/vendor_pawn.png" id="3_vgeel"]
+
+[node name="VendorPawn" unique_id=1877646274 instance=ExtResource("1_vblme")]
+script = ExtResource("2_vkqml")
+sodaAttackScene = ExtResource("3_ms1e2")
+hp = 390.0
+def = 0.3
+dmg = 10.0
+pen = 0.1
+spd = 30.0
+
+[node name="PawnSprite" parent="." index="0" unique_id=181134308]
+position = Vector2(0, 16)
+texture = ExtResource("3_vgeel")
+offset = Vector2(0, -16)
+
+[node name="WobbleTimer" type="Timer" parent="." index="9" unique_id=1328672926]
+
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_cooldown_timer_timeout"]
+[connection signal="timeout" from="WobbleTimer" to="." method="_on_wobble_timer_timeout"]

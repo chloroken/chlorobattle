@@ -2,19 +2,16 @@ extends "res://pawns/_base/base_pawn.gd"
 
 @export var hornScene: Resource
 
-# Charge channel period
-var isCharging = false
-var chargeChannelDelayTimer = 3.0
-var chargeInitialSpeedBoost = 20.0
+var channelDelayTimer = 3.0
+var channelSpeedBoost = 20.0
 
-# Charge variables
+var isCharging = false
 var chargeSpeedIncreaseInterval = 0.1
 var chargeSpeedMultiplier = 1.05
 var chargeSpeedMax = 120.0
 var chargeMovespeedModifier = 1.0
 var chargeSpeedMin = 1.0
 
-# Horns variables
 var activeHorns
 var hornDisarmDamageMultiplier = 0.5
 
@@ -22,7 +19,7 @@ func _ready() -> void:
 	super()
 
 	# Start attack cycle
-	if !attacksDisabled:
+	if not inLobby:
 		redirectImmunity = true
 		$HornChargeTimer.stop()
 		$HornChargeTimer.one_shot = true
@@ -31,7 +28,7 @@ func _ready() -> void:
 		new_direction()
 		#$HornChargeTimer.start()
 	else:
-		spd = 20
+		spd = channelSpeedBoost
 
 func _physics_process(delta: float) -> void:
 	statusSpdMod = normalSpeed
@@ -56,10 +53,10 @@ func _physics_process(delta: float) -> void:
 func new_direction() -> Vector2:
 	$Styles.style_parkour_add_charge()
 
-	if !attacksDisabled:
+	if not inLobby:
 		$Status.stop_tanky()
 		isCharging = false
-		$HornChargeTimer.start(chargeChannelDelayTimer * asp)
+		$HornChargeTimer.start(channelDelayTimer * asp)
 		$HornSpeedIntervalTimer.stop()
 		chargeMovespeedModifier = chargeSpeedMin
 
@@ -75,7 +72,7 @@ func _on_horn_charge_timer_timeout() -> void:
 	newHorns.rotation = direction.angle()
 	$AttackContainer.add_child(newHorns)
 	activeHorns = newHorns
-	chargeMovespeedModifier = chargeInitialSpeedBoost
+	chargeMovespeedModifier = channelSpeedBoost
 
 func _on_horn_speed_interval_timer_timeout() -> void:
 

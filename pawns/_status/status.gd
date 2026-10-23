@@ -63,7 +63,6 @@ func stop_bleed() -> void:
 ############
 # DISARMED #
 ############
-
 @export var disarmedIcon: Resource
 func start_disarmed(timer: float) -> void:
 	if $DisarmedStatusTimer.get_time_left() > timer: return
@@ -76,7 +75,6 @@ func stop_disarmed() -> void:
 #########
 # DRUNK #
 #########
-
 @export var drunkIcon: Resource
 @export var drunkEffect: Resource
 var drunkMissChance = 20
@@ -222,16 +220,18 @@ func stop_stuck() -> void:
 #########
 
 @export var tankyIcon: Resource
-var tankyDamageReduction = 0.50
+var tankyDamageReduction = 0.5
 func start_tanky(timer: float) -> void:
-	if $TankyStatusTimer.get_time_left() > timer: return
+	if $TankyStatusTimer.get_time_left() > timer:
+		return
 	$TankyStatusTimer.start(timer)
 	enable_status_icon(timer, tankyIcon)
 func stop_tanky() -> void:
 	disable_status_icon(tankyIcon)
 	$TankyStatusTimer.stop()
 func tanky_reduce_damage() -> float:
-	if $TankyStatusTimer.is_stopped(): return(1.0)
+	if $TankyStatusTimer.is_stopped():
+		return(1.0)
 	return(1.0 - tankyDamageReduction)
 
 ########

@@ -81,7 +81,9 @@ func modifier_phase(attack, baseHit, attacker) -> float:
 	baseHit += styles.style_snowball_trigger(baseHit, attacker)
 	baseHit *= status.tanky_reduce_damage()
 	baseHit += styles.style_slayer_trigger(attacker)
-	var finalHit = baseHit * (board.globalDmgMod / board.dmgModDuration)
+	var finalHit = baseHit
+	if !board.get_parent().duelMode:
+		finalHit = baseHit * (board.globalDmgMod / board.dmgModDuration)
 	return(finalHit)
 
 func damage_phase(damage, attacker, attack) -> void:
@@ -156,14 +158,14 @@ func damage_effects(attack, attacker) -> void:
 	if attack.isSwarmAttack:
 		status.start_weak(attacker.swarmWeakDuration)
 		status.start_sick(attacker.swarmSickDuration, attacker)
-	
+
 	if basePawn.type == "slug":
+		basePawn.get_node("SlugShellTimer").start(basePawn.shellCooldown)
+		basePawn.get_node("PawnSprite").texture = basePawn.normalSpriteScene
 		if basePawn.shellActive:
 			status.stop_tanky()
-			basePawn.get_node("PawnSprite").texture = basePawn.normalSpriteScene
-			basePawn.get_node("SlugShellTimer").start(basePawn.shellCooldown)
 			basePawn.shellActive = false
-	
+
 	if attack.isSpiderAttack:
 		status.start_bleed(attacker.spiderBleedDuration, attacker)
 		status.start_sick(attacker.spiderSickDuration, attacker)

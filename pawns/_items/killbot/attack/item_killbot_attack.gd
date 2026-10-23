@@ -19,7 +19,6 @@ func _ready() -> void:
 	# Start timers
 	$FizzleTimer.start(attackDuration)
 
-# Move bullet forward
 func _physics_process(delta: float) -> void:
 	global_position += direction * speed * delta;
 

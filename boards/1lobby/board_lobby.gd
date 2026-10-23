@@ -9,6 +9,8 @@ var uiFadeSpeed = 0.005
 
 func _ready() -> void:
 	super()
+	if get_parent().duelMode:
+		lobbyTimer = 30.0
 
 	# LET TWITCH COOK
 	VerySimpleTwitch.get_token_and_login_chat()
@@ -16,13 +18,13 @@ func _ready() -> void:
 	#register_pawn("YouTube", choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create bot Pawns to test with
-	#for i in 2:
+	#for i in 1:
 		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
 	# Create specific test bots
 
 	# 1v1s
-	#register_pawn("chloro", "ship", "berserk", "skates")
-	#register_pawn("fara", "demon", "berserk", "glue")
+	#register_pawn("chloro", "candle", "berserk", "map")
+	#register_pawn("ulmo", choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# All pawns for testing
 	#register_pawn("candle", "candle", choose_random_style(), choose_random_item())
@@ -39,6 +41,7 @@ func _ready() -> void:
 	#register_pawn("slug", "slug", choose_random_style(), choose_random_item())
 	#register_pawn("top", "top", choose_random_style(), choose_random_item())
 	#register_pawn("tree", "tree", choose_random_style(), choose_random_item())
+	#register_pawn("vendor", "vendor", choose_random_style(), choose_random_item())
 	#register_pawn("witch", "witch", choose_random_style(), choose_random_item())
 
 	# Spawn Pawns made above
@@ -104,6 +107,13 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Skip Lobby"):
 		proceed_to_arena()
 func _on_lobby_timer_timeout() -> void:
+	if get_parent().duelMode:
+		if activePawns.size() == 0:
+			register_pawn("Phillip", choose_random_pawn(), choose_random_style(), choose_random_item())
+			register_pawn("Philicia", choose_random_pawn(), choose_random_style(), choose_random_item())
+		elif activePawns.size() == 1:
+			register_pawn("Phil", choose_random_pawn(), choose_random_style(), choose_random_item())
+
 	proceed_to_arena()
 
 # Finish lobby, assign teams
@@ -128,9 +138,13 @@ func print_chatter_message(chatter: VSTChatter):
 		if pawn.username == username:
 			print(username + " is already registered")
 			return
-	var newPawn = register_pawn(str(username), get_pawn_type(message), get_pawn_style(message), get_pawn_item(message))#, get_pawn_costume(message))
+	var pawnType = get_pawn_type(message)
+	var newPawn = register_pawn(str(username), pawnType, get_pawn_style(message), get_pawn_item(message))#, get_pawn_costume(message))
 	spawn_pawn(newPawn, true)
 	update_joined_pawn_label(newPawn)
+	
+	if get_parent().duelMode && activePawns.size() >= 2:
+		proceed_to_arena()
 func update_joined_pawn_label(newPawn) -> void:
 	var logMsg = "[color=#FDFD97]" + newPawn.username + "[/color] — [color=#FF6663]" + newPawn.type + "[/color] — [color=#CC99C9]" + newPawn.style + "[/color] — [color=#9EC1CF]" + newPawn.item + "[/color]" #+ "(" + str(get_parent().get_xp(newPawn.username, newPawn.type)) + ")" 
 	print(logMsg)

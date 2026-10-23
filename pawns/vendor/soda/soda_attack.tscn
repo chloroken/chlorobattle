@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://oc4m32768tcv"]
+
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/base_attack.tscn" id="1_mxp6f"]
+[ext_resource type="Texture2D" uid="uid://b3vvru32gd4jf" path="res://pawns/vendor/soda/soda_attack.png" id="2_nfi7h"]
+[ext_resource type="Script" uid="uid://xcv6ki0o6fmi" path="res://pawns/vendor/soda/soda_attack.gd" id="2_vurk2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vurk2"]
+size = Vector2(10, 6)
+
+[node name="SodaAttack" unique_id=553809928 instance=ExtResource("1_mxp6f")]
+script = ExtResource("2_vurk2")
+
+[node name="BaseSprite" parent="." index="0" unique_id=1865807943]
+texture = ExtResource("2_nfi7h")
+
+[node name="BaseCollider" parent="." index="1" unique_id=867063161]
+shape = SubResource("RectangleShape2D_vurk2")
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

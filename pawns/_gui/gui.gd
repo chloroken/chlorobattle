@@ -5,7 +5,7 @@ var basePawn
 # Disable most of GUI in Lobby (for show purposes)
 func _ready() -> void:
 	basePawn = get_parent()
-	if basePawn.attacksDisabled:
+	if basePawn.inLobby:
 		$HitpointLabel.visible = false
 		$HitpointLabelBlack.visible = false
 		$HitpointLabelRed.visible = false

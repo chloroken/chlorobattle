@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://b34t2uaa0o3nq" path="res://pawns/top/top_pawn.tscn" id="12_pbqqs"]
 [ext_resource type="PackedScene" uid="uid://2v3odo7hamqu" path="res://pawns/shipNew/ship_pawn.tscn" id="12_tma3s"]
 [ext_resource type="PackedScene" uid="uid://bfh8kg7cp5jpr" path="res://pawns/tree/tree_pawn.tscn" id="14_tma3s"]
+[ext_resource type="PackedScene" uid="uid://deybjetvt3mcq" path="res://pawns/vendor/vendor_pawn.tscn" id="16_d8g17"]
 [ext_resource type="PackedScene" uid="uid://cj0sn5eak32q5" path="res://pawns/witchNew/witch_pawn.tscn" id="16_tma3s"]
 
 [node name="BoardBase" type="Node2D" unique_id=1844479333]
@@ -36,6 +37,7 @@ ship = ExtResource("12_tma3s")
 slug = ExtResource("11_wega7")
 tree = ExtResource("14_tma3s")
 top = ExtResource("12_pbqqs")
+vendor = ExtResource("16_d8g17")
 witch = ExtResource("16_tma3s")
 
 [node name="Collider" parent="." unique_id=359442345 instance=ExtResource("1_aert6")]

@@ -25,7 +25,7 @@ var bubbleSizeMax = 0.5
 
 func _ready() -> void:
 	super()
-	if !attacksDisabled:
+	if !inLobby:
 		$AttackCooldownTimer.one_shot = true
 		$AttackDurationTimer.one_shot = true
 		new_attack_cycle(splashCooldownMin, splashCooldownMax)
@@ -38,18 +38,14 @@ func _on_attack_cooldown_timer_timeout() -> void:
 # Dive
 func dive_or_flop() -> void:
 	if flopChaining:
-		dive_for_flop()
+		flippy_floppy(flopDiveDuration)
 	else:
-		dive_for_splash()
+		flippy_floppy(splashDiveDuration)
 	$BubbleTimer.start(bubbleTimer)
-func dive_for_splash() -> void:
-	$Status.start_void(splashDiveDuration)
-	$Status.start_sprint(splashDiveDuration)
-	$AttackDurationTimer.start(splashDiveDuration)
-func dive_for_flop() -> void:
-	$Status.start_void(flopDiveDuration)
-	$Status.start_sprint(flopDiveDuration)
-	$AttackDurationTimer.start(flopDiveDuration)
+func flippy_floppy(dur) -> void:
+	$Status.start_void(dur)
+	$Status.start_sprint(dur)
+	$AttackDurationTimer.start(dur)
 
 # Splash
 func _on_attack_duration_timer_timeout() -> void:

@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://d2mn3nlatfxkh" path="res://pawns/_items/milkshake/item_milkshake.tscn" id="6_bfx2f"]
 [ext_resource type="PackedScene" uid="uid://82aq5p3vwun7" path="res://pawns/_items/smoke/item_smoke.tscn" id="6_oqdkr"]
 [ext_resource type="PackedScene" uid="uid://t0a841qmypk6" path="res://pawns/_items/skates/item_skates.tscn" id="6_x221r"]
-[ext_resource type="PackedScene" uid="uid://mfcvb83u4csj" path="res://pawns/_items/treat/treat_attack.tscn" id="12_6q8um"]
+[ext_resource type="PackedScene" uid="uid://mfcvb83u4csj" path="res://pawns/_items/scythe/scythe_attack.tscn" id="9_82qks"]
 
 [node name="Items" type="Node2D" unique_id=1930655975]
 script = ExtResource("1_hxr07")
@@ -22,10 +22,10 @@ mapBlinkEffect = ExtResource("4_xhuj0")
 mapBombEffect = ExtResource("5_lmbgv")
 milkshakeEffect = ExtResource("6_bfx2f")
 milkshakeLure = ExtResource("6_5gn1p")
+scytheAttackScene = ExtResource("9_82qks")
 skatesBlade = ExtResource("6_x221r")
 smokeItem = ExtResource("6_oqdkr")
 tireAttack = ExtResource("5_2hvhd")
-treatAttack = ExtResource("12_6q8um")
 
 [node name="AntimatterCooldownTimer" type="Timer" parent="." unique_id=262835339]
 
@@ -46,6 +46,8 @@ one_shot = true
 [node name="MilkshakeCooldownTimer" type="Timer" parent="." unique_id=1315755876]
 wait_time = 5.0
 one_shot = true
+
+[node name="ScytheCooldownTimer" type="Timer" parent="." unique_id=1974509392]
 
 [node name="SkateCooldownTimer" type="Timer" parent="." unique_id=1149037548]
 

@@ -36,7 +36,7 @@ func item_hit(attack) -> void:
 	if attacker.username == basePawn.username: return
 	$Item.combat_item(attack, basePawn)
 func style_touch(victim) -> void:
-	if basePawn.attacksDisabled: return
+	if basePawn.inLobby: return
 	if basePawn.style != "bully": return
 	if !victim.get_node("Status").get_node("VoidStatusTimer").is_stopped(): return
 	if !victim.get_collision_layer_value(1): return
@@ -58,7 +58,8 @@ func clean_up_pawn(attacker) -> void:
 	var pawns = basePawn.get_parent().get_parent().pawnList
 	if basePawn.hp <= 0:
 		if basePawn.type == "slug":
-			if basePawn.try_revive(): return
+			if basePawn.try_revive():
+				return
 		basePawn.get_parent().get_node("DeathSound").play()# tie to board
 		if attacker == null:
 			pawn_death_no_source(basePawn)
@@ -70,6 +71,9 @@ func clean_up_pawn(attacker) -> void:
 					attacker.get_node("Styles").add_snowball_charge()
 				pawn_death(basePawn, attacker, attacker.username, i)
 				break
+		for pawn in basePawn.board.activePawns:
+			if pawn.get_node("Items").itemArray.has("scythe"):
+				pawn.get_node("Items").player_died_new_scythe()
 func pawn_death(pawn, attackingPawn, killer: String, pawnIndex: int) -> void:
 	var board = get_parent().get_parent()
 	var main = board.get_parent()

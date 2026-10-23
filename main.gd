@@ -14,6 +14,7 @@ var scoreList = []
 var finalEvents = []
 
 # Mode flags
+var duelMode = true
 var testingMode = false # disables end-of-game, xp
 var repeatPlay = true # starts new game after scoreboard
 var repeatTime = 30

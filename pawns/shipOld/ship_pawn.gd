@@ -44,7 +44,7 @@ func _ready() -> void:
 	$RingTimer.set_wait_time(ringDuration)
 	$RingTimer.start()
 
-	if !attacksDisabled:
+	if !inLobby:
 		#$OverheatDurationTimer.one_shot = true
 		#$BurstDurationTimer.one_shot = true
 		#$BurstDurationTimer.start(burstDuration)

@@ -3,7 +3,7 @@ extends "res://pawns/_base/base_attack.gd"
 var direction
 var speed
 var startPos
-var fizzleRatio = 0.8
+var fizzleRatio = 1.2
 
 func _ready() -> void:
 	super()

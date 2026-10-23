@@ -1,5 +1,6 @@
 extends "res://pawns/_base/base_pawn.gd"
 
+
 var seasonCurrentSeason = 0
 var seasonMaxSeasons = 4
 var seasonBaseAttackCooldownMin = 1.0
@@ -8,6 +9,7 @@ var seasonBaseAttackCooldownMax = 2.0
 @export var seedAttack: Resource
 var seedCooldownMin = 5.0
 var seedCooldownMax = 8.0
+var seedCooldownCur: float
 var seedBoardBufferDist = 0.8
 var seedTravelSpeed = 100.0
 var seedTravelMaxDist = 80
@@ -45,44 +47,40 @@ var fallLeafList = []
 
 func _ready() -> void:
 	super()
-
-	if !attacksDisabled:
-		new_attack_cycle(seasonBaseAttackCooldownMin * get_seasonal_attack_speed(), seasonBaseAttackCooldownMax * get_seasonal_attack_speed())
+	if not inLobby:
+		var attackSpeed = get_seasonal_attack_speed()
+		var minCooldown = seasonBaseAttackCooldownMin * attackSpeed
+		var maxCooldown = seasonBaseAttackCooldownMax * attackSpeed
+		new_attack_cycle(minCooldown, maxCooldown)
 		start_seed_cooldown()
 	else:
-		seasonCurrentSeason = randi_range(0, 3)
+		seasonCurrentSeason = randi_range(0, seasonMaxSeasons - 1)
 		advance_season()
-
-func advance_season() -> void:
-	seasonCurrentSeason += 1
-	if seasonCurrentSeason >= seasonMaxSeasons:
-		seasonCurrentSeason = 0
-	match seasonCurrentSeason:
-		0:
-			$Status.stop_tanky()
-			$PawnSprite.texture = seasonSpringSkin
-		1: $PawnSprite.texture = seasonSummerSkin
-		2: $PawnSprite.texture = seasonFallSkin
-		3:
-			$Status.start_tanky(999)
-			$PawnSprite.texture = seasonWinterSkin
 func get_seasonal_attack_speed() -> float:
 	match seasonCurrentSeason:
-		0: return(springAttackSpeedMultiplier)
-		1: return(summerAttackSpeedMultiplier)
-		2: return(fallAttackSpeedMultiplier)
-		3: return(0)
+		0:
+			return(springAttackSpeedMultiplier)
+		1:
+			return(summerAttackSpeedMultiplier)
+		2:
+			return(fallAttackSpeedMultiplier)
+		3:
+			return(0)
 	return(1.0)
-
 func _on_attack_cooldown_timer_timeout() -> void:
-	new_attack_cycle(seasonBaseAttackCooldownMin * get_seasonal_attack_speed(), seasonBaseAttackCooldownMax * get_seasonal_attack_speed())
+	var cooldownMin = seasonBaseAttackCooldownMin * get_seasonal_attack_speed()
+	var cooldownMax = seasonBaseAttackCooldownMax * get_seasonal_attack_speed()
+	new_attack_cycle(cooldownMin, cooldownMax)
 	if disarm_check(): return
 	match seasonCurrentSeason:
-		0: spring_flower_attack()
-		1: summer_fruit_attack()
-		2: fall_leaf_attack()
-		3: pass
-
+		0:
+			spring_flower_attack()
+		1:
+			summer_fruit_attack()
+		2:
+			fall_leaf_attack()
+		3:
+			pass
 func spring_flower_attack() -> void:
 	var newFlower = flowerAttackScene.instantiate()
 	newFlower.position = self.position
@@ -115,10 +113,8 @@ func fall_leaf_attack() -> void:
 	$AttackContainer.add_child(newLeaf)
 	fallLeafList.append(newLeaf)
 
-# Seed
 func start_seed_cooldown() -> void:
-	var seedCooldown = randf_range(seedCooldownMin, seedCooldownMax)
-	$SeedCooldownTimer.start(seedCooldown)
+	$SeedCooldownTimer.start(randf_range(seedCooldownMin, seedCooldownMax))
 func _on_seed_cooldown_timer_timeout() -> void:
 	var seedPos = try_seed_pos()
 	while seedPos.distance_to(center) > get_parent().boardRadius * seedBoardBufferDist:
@@ -127,6 +123,7 @@ func _on_seed_cooldown_timer_timeout() -> void:
 	newSeed.position = self.position
 	newSeed.seedSpeed = seedTravelSpeed
 	newSeed.destination = seedPos
+	newSeed.connect("seed_finish", Callable(self, "seed_relocate"))
 	$AttackContainer.add_child(newSeed)
 	start_seed_cooldown()
 func try_seed_pos() -> Vector2:
@@ -142,10 +139,23 @@ func new_seed_pos() -> Vector2:
 	var ranY = randf_range(-seedTravelMaxDist, seedTravelMaxDist)
 	newPos = position + Vector2(ranX, ranY)
 	return(newPos)
-
 func seed_relocate(destination) -> void:
 	position = destination
 	for leaf in fallLeafList:
 		if leaf == null: continue
 		leaf.get_node("LeafChaseTimer").start(leaf.chaseTimer)
 	advance_season()
+func advance_season() -> void:
+	seasonCurrentSeason += 1 
+	if seasonCurrentSeason >= seasonMaxSeasons:
+		seasonCurrentSeason = 0
+	match seasonCurrentSeason:
+		0:
+			$PawnSprite.texture = seasonSpringSkin
+		1:
+			$PawnSprite.texture = seasonSummerSkin
+		2:
+			$PawnSprite.texture = seasonFallSkin
+		3:
+			$PawnSprite.texture = seasonWinterSkin
+			$Status.start_tanky($SeedCooldownTimer.get_time_left())

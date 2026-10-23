@@ -29,7 +29,7 @@ func _ready() -> void:
 	super()
 
 	# Start attack cycle
-	if !attacksDisabled:
+	if !inLobby:
 		start_attack_cooldown()
 		$GrogCooldownTimer.one_shot = true
 		start_grog_cooldown()

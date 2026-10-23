@@ -27,7 +27,7 @@ var swarmWanderTimer = 3.0
 
 func _ready() -> void:
 	super()
-	if !attacksDisabled: 
+	if !inLobby: 
 		$SwarmTimer.one_shot = true
 		$SwarmTimer.start(swarmFixedCooldown)
 		new_attack_cycle(glyphCooldownMin, glyphCooldownMax)

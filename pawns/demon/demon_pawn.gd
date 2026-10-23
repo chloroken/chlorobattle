@@ -38,7 +38,7 @@ var assumeCurrentSoul = null
 func _ready() -> void:
 	super()
 
-	if !attacksDisabled:
+	if !inLobby:
 		start_attack_cooldown()
 		$UnleashDurationTimer.one_shot = true
 		$UnleashCooldownTimer.one_shot = true

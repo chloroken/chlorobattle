@@ -33,7 +33,7 @@ var spiderSickDuration = 5.0
 
 func _ready() -> void:
 	super()
-	if !attacksDisabled:
+	if not inLobby:
 		new_attack_cycle(familiarCooldownMin, familiarCooldownMax)
 
 func _on_attack_cooldown_timer_timeout() -> void:
@@ -72,8 +72,6 @@ func new_frog_attack() -> void:
 	newFrog.wanderCooldownMin = frogWanderCooldownMin
 	newFrog.wanderCooldownMax = frogWanderCooldownMax
 	newFrog.speed = frogWanderSpeed
-	
-	
 	try_purple_frog(newFrog)
 	$AttackContainer.add_child(newFrog)
 func try_purple_frog(newFrog) -> void:

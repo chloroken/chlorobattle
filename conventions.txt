@@ -8,6 +8,7 @@ Pawn Code:
 		- isAttackFlag
 		- attacks only contain effect variables
 	all @exports typed as narrow as possible
+	avoid _process
 Pawn Nodes:
 	- Custom nodes above inherited nodes
 	- $NamePawn (e.g., ChairPawn)

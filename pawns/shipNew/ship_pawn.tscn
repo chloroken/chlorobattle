@@ -12,10 +12,10 @@ script = ExtResource("2_rxkby")
 ringAttackScene = ExtResource("3_rxkby")
 empAttackScene = ExtResource("4_lnckw")
 warpParticleScene = ExtResource("5_jple4")
-hp = 430.0
+hp = 440.0
 def = 0.3
-dmg = 20.0
-pen = 0.3
+dmg = 15.0
+pen = 0.4
 spd = 50.0
 
 [node name="EmpCooldownTimer" type="Timer" parent="." index="0" unique_id=124412704]

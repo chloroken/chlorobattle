@@ -39,7 +39,9 @@ var meowStaggerInterval = 0.1
 
 func _ready() -> void:
 	super()
-	if !attacksDisabled:
+	if username == "Parody_":
+		$PawnSprite.texture = costumeArray[0]
+	if !inLobby:
 		new_attack_cycle(swipeCooldownMin, swipeCooldownMax)
 		start_cat_timers()
 func start_cat_timers() -> void:
@@ -53,7 +55,7 @@ func start_cat_timers() -> void:
 	$Gem2Timer.start(randf_range(gemPurpleCooldownMin, gemPurpleCooldownMax))
 	$Gem3Timer.start(randf_range(gemYellowCooldownMin, gemYellowCooldownMax))
 func _process(_delta: float) -> void:
-	if !attacksDisabled:
+	if !inLobby:
 		update_cat_gem_sprites()
 func _physics_process(delta: float) -> void:
 	super(delta)

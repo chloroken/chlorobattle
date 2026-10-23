@@ -19,7 +19,7 @@ var aspMod = 1.0
 var baseHp
 
 # Combat variables
-var attacksDisabled = false
+var inLobby = false
 var redirectImmunity = false
 var hitList = []
 var voidHitList = []
@@ -47,23 +47,16 @@ var slowSpeed = 0.5
 var stuckSpeed = 0.0
 var wanderRadians = 1.0
 
+@export var costumeArray: Array[Texture] = []
+
 func _ready() -> void:
 	board = get_parent()
 	main = get_tree().get_root().get_node("main")
 	center = get_tree().get_root().get_node("main").position
 	baseHp = hp
 	direction = position.direction_to(center).rotated(randf_range(-1.0, 1.0))
-
-	#if costume > spriteArray.size(): costume = spriteArray.size()
-	#activeSprite = spriteArray[costume-1]
-	#$PawnSprite.texture = spriteArray[0]
-
-	
 	z_index = get_node("/root/main").layerPawn
-
 	$AttackCooldownTimer.one_shot = true
-	#if !attacksDisabled:
-		#start_attack_cooldown()
 
 ##########
 # COMBAT #

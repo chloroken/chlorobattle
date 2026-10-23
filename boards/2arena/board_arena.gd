@@ -2,6 +2,7 @@ extends "res://boards/_base/board_base.gd"
 
 @export var monsterSpawner: Resource
 var arenaCloseTimer = 240.0
+var duelCloseTimer = 80.0
 var minimumRadiusRatio = 0.25
 var dmgModDuration = 30
 var globalDmgMod = 30
@@ -20,7 +21,7 @@ func _ready() -> void:
 
 	# Start timers
 	$Timers.get_node("ArenaCloseTimer").one_shot = true
-	$Timers.get_node("ArenaCloseTimer").start(arenaCloseTimer)
+	$Timers.get_node("ArenaCloseTimer").start(duelCloseTimer)
 
 	$Sprites.get_node("Wheel1").modulate.a = 0.0
 	$Sprites.get_node("Wheel2").modulate.a = 0.0
@@ -33,17 +34,22 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	close_arena()
-
-	# Label showing "global damage modifer" (to delay instakills at start)
-	globalDmgMod = min(dmgModDuration, $Timers.get_node("ArenaCloseTimer").get_wait_time() - $Timers.get_node("ArenaCloseTimer").get_time_left())
-	$UI.get_node("DamageModTimer").text =  "Damage: " + str(int(globalDmgMod * globalDmgReciprocal)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
-	if globalDmgMod >= dmgModDuration:
-		$UI.get_node("DamageModTimer").modulate.a *= 0.99
-
-	# Label showing match duration timer (only after global damage mod is gone)
+	
 	var timeElapsed = int($Timers.get_node("ArenaCloseTimer").get_wait_time() - $Timers.get_node("ArenaCloseTimer").get_time_left())
-	if timeElapsed > dmgModDuration:
-		$UI.get_node("DurationTimer").modulate.a = min(1.0, (timeElapsed - dmgModDuration) * 0.1)
+	if !get_parent().duelMode:
+
+		# Label showing "global damage modifer" (to delay instakills at start)
+		globalDmgMod = min(dmgModDuration, $Timers.get_node("ArenaCloseTimer").get_wait_time() - $Timers.get_node("ArenaCloseTimer").get_time_left())
+		$UI.get_node("DamageModTimer").text =  "Damage: " + str(int(globalDmgMod * globalDmgReciprocal)) + "%"#str(int(globalDmgMod / dmgModDuration * 100)) + "%"
+		if globalDmgMod >= dmgModDuration:
+			$UI.get_node("DamageModTimer").modulate.a *= 0.99
+
+		# Label showing match duration timer (only after global damage mod is gone)
+		if timeElapsed > dmgModDuration:
+			$UI.get_node("DurationTimer").modulate.a = min(1.0, (timeElapsed - dmgModDuration) * 0.1)
+			$UI.get_node("DurationTimer").text = str(timeElapsed)
+	else:
+		#$UI.get_node("DurationTimer").modulate.a = min(1.0, (timeElapsed - dmgModDuration) * 0.1)
 		$UI.get_node("DurationTimer").text = str(timeElapsed)
 
 	# Label showing players remaining in the game
@@ -59,8 +65,8 @@ func close_arena() -> void:
 	var ratio = $Timers.get_node("ArenaCloseTimer").get_time_left() / $Timers.get_node("ArenaCloseTimer").get_wait_time()
 	var newRatio = max(minimumRadiusRatio, ratio)
 	$Collider.scale = Vector2.ONE * newRatio
-	$Sprites.get_node("Wheel1").scale = Vector2.ONE * newRatio * 0.9
-	$Sprites.get_node("Wheel2").scale = Vector2.ONE * newRatio * 0.9
+	$Sprites.get_node("Wheel1").scale = Vector2.ONE * newRatio
+	$Sprites.get_node("Wheel2").scale = Vector2.ONE * newRatio
 	boardRadius = $Collider.get_node("Shape").shape.get_radius() * newRatio
 
 	get_parent().get_node("cam").zoom.x = 2 - ratio

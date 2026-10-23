@@ -25,7 +25,7 @@ var arsonTriplicateChance = 5
 
 func _ready() -> void:
 	super()
-	if !attacksDisabled:
+	if !inLobby:
 		new_attack_cycle(emberCooldownMin, emberCooldownMax)
 func _on_attack_cooldown_timer_timeout() -> void:
 	new_attack_cycle(emberCooldownMin, emberCooldownMax)
@@ -53,13 +53,13 @@ func good_ember_position(origin) -> Vector2:
 	return(newPos)
 func try_ember_forward(origin) -> Vector2:
 	var mod = direction * spd * statusSpdMod * emberThrowDistMultiplier
-	return(origin + mod + random_vector2())
+	return(origin + mod + ember_offset())
 func good_ember_centered(origin) -> Vector2:
-	var newPos = origin + random_vector2()
+	var newPos = origin + ember_offset()
 	while newPos.distance_to(center) > board.boardRadius:
-		newPos = origin + random_vector2() 
+		newPos = origin + ember_offset() 
 	return(newPos)
-func random_vector2() -> Vector2:
+func ember_offset() -> Vector2:
 	var offsetX = randf_range(-emberThrowOffsetDistance, emberThrowOffsetDistance)
 	var offsetY = randf_range(-emberThrowOffsetDistance, emberThrowOffsetDistance)
 	return(Vector2(offsetX, offsetY))

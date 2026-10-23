@@ -18,7 +18,7 @@ var redwoodColor = Color(1.0, 0.25, 0.25, 1.0)
 func _ready() -> void:
 	super()
 
-	if !attacksDisabled:
+	if !inLobby:
 		$SwingDurationTimer.one_shot = true
 		new_attack_cycle(swingCooldownMin, swingCooldownMax)
 
@@ -27,8 +27,8 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	new_attack_cycle(swingCooldownMin + swingDuration, swingCooldownMax + swingDuration)
 	if disarm_check(): return
 
-	leg_generation_procedure(swingDuration)
 	swing_apply_status(swingDuration)
+	leg_generation_procedure(swingDuration)
 	$SwingDurationTimer.start(swingDuration)
 
 func swing_apply_status(swingDuration) -> void:

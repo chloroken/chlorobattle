@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bcq5r3by2fbon" path="res://pawns/cat/meow/cat_meow.tscn" id="4_0wvb4"]
 [ext_resource type="PackedScene" uid="uid://wl82qi588r33" path="res://pawns/cat/yarn/cat_yarn.tscn" id="5_5la14"]
 [ext_resource type="Texture2D" uid="uid://bh3nsau38xnnp" path="res://pawns/cat/cat_gem.png" id="5_cevvm"]
+[ext_resource type="Texture2D" uid="uid://bv68iq2rvrrec" path="res://assets/costume_archive/cat_parody_.png" id="6_whuo0"]
 
 [node name="CatPawn" unique_id=1877646274 instance=ExtResource("1_f4ok4")]
 script = ExtResource("2_leqn0")
@@ -18,6 +19,7 @@ def = 0.3
 dmg = 45.0
 pen = 0.2
 spd = 50.0
+costumeArray = [ExtResource("6_whuo0")]
 
 [node name="SwipeTimer" type="Timer" parent="." index="0" unique_id=757992085]
 

@@ -3,6 +3,7 @@ extends Node2D
 # Item initialization
 var basePawn
 var center: Vector2
+var itemArray = []
 func _ready() -> void:
 
 	# Useful shortcuts
@@ -10,27 +11,49 @@ func _ready() -> void:
 	center = basePawn.get_parent().center
 
 	# If an Item needs action at start of game, do it here
-	if !basePawn.attacksDisabled:
-		if basePawn.item == "antimatter":
+	if not basePawn.inLobby:
+		itemArray.append(basePawn.item)
+		
+		# check to see if vendor, if so, we'll need to read "style" as well
+		# vendor randomly add 2 items, and then check for those as well:~
+		#item + vendorItems array
+		if basePawn.type == "vendor":
+			var itemStrings = ["dice", "flask", "glue", "killbot", "map", "milkshake", "skates", "smoke", "scythe", "tire"]
+
+			var newItem = itemStrings.pick_random()
+			while itemArray.has(newItem):
+				newItem = itemStrings.pick_random()
+			itemArray.append(newItem)
+			print("vendor randomed: " + str(newItem))
+
+			var newItem2 = itemStrings.pick_random()
+			while itemArray.has(newItem2):
+				newItem2 = itemStrings.pick_random()
+			itemArray.append(newItem2)
+			print("vendor randomed: " + str(newItem2))
+		
+		if itemArray.has("antimatter"):
 			$AntimatterDurationTimer.one_shot = true
 			$AntimatterCooldownTimer.one_shot = true
 			$AntimatterCooldownTimer.start(randf_range(antimatterCooldownMin, antimatterCooldownMin))
-		elif basePawn.item == "flask":
+		if itemArray.has("flask"):
 			$FlaskCooldownTimer.one_shot = true
 			$FlaskCooldownTimer.start(randf_range(flaskCooldownMin, flaskCooldownMax))
-		elif basePawn.item == "killbot":
+		if itemArray.has("killbot"):
 			item_spawn_killbot()
-		elif basePawn.item == "milkshake":
+		if itemArray.has("milkshake"):
 			$MilkshakeCooldownTimer.one_shot = true
 			$MilkshakeCooldownTimer.start(randf_range(milkshakeCooldownMin, milkshakeCooldownMax))
-		elif basePawn.item == "skates":
+		if itemArray.has("skates"):
 			$SkateCooldownTimer.one_shot = true
-		elif basePawn.item == "smoke":
+		if itemArray.has("smoke"):
 			$SmokeAttackTimer.one_shot = true
 			$SmokeAttackTimer.start(randf_range(smokeThrowCooldownMin, smokeThrowCooldownMax))
-		elif basePawn.item == "tire":
+		if itemArray.has("tire"):
 			$TireAttackTimer.one_shot = true
 			$TireAttackTimer.start(randf_range(tireCooldownMin, tireCooldownMax)) 
+		if itemArray.has("scythe"):
+			$ScytheCooldownTimer.one_shot = true
 
 ##############
 # ANTIMATTER #
@@ -73,7 +96,8 @@ var diceChancePercent = 20
 func item_check_dice(attackingPawn, baseHit) -> float:
 	var dmgToAdd = 0
 	#if body.isPersistentSummon == true: return(dmgToAdd)
-	if attackingPawn.item != "dice": return(dmgToAdd)
+	if !attackingPawn.get_node("Items").itemArray.has("dice"):
+		return(dmgToAdd)
 	if randi_range(1, 100) <= diceChancePercent:
 		dmgToAdd = item_roll_dice(baseHit, attackingPawn)
 	return(dmgToAdd)
@@ -129,7 +153,8 @@ var glueStuckDuration = 5.0
 var glueStuckDamage = 25
 
 func item_try_glue(attackingPawn) -> void:
-	if attackingPawn.item != "glue": return
+	if !attackingPawn.get_node("Items").itemArray.has("glue"):
+		return
 
 	# Apply slow
 	var status = basePawn.get_node("Status")
@@ -140,7 +165,7 @@ func item_try_glue(attackingPawn) -> void:
 	var diceRoll = randi_range(1, glueStuckChance)
 	if diceRoll == 1:
 		status.start_stuck(glueStuckDuration, attackingPawn)
-		var stuckDamage = min(basePawn.hp, glueStuckDamage)
+		var stuckDamage = int(min(basePawn.hp, glueStuckDamage))
 		basePawn.hp -= stuckDamage
 		attackingPawn.damageDealt += stuckDamage
 		basePawn.board.combat_log("[[color=#FDFD97]" + str(attackingPawn.username) + "[/color]] stuck [[color=#FEB144]" + str(basePawn.username) + "[/color]] for " + str(stuckDamage) + " ([color=cyan]Glue[/color])")
@@ -187,8 +212,10 @@ func item_spawn_killbot() -> void:
 	basePawn.board.combat_log("[[color=#FDFD97]" + basePawn.username + "[/color]] brought a friend ([color=cyan]Killbot[/color])")
 
 func try_killbot_stack(attackingPawn, body) -> void:
-	if attackingPawn.item != "killbot": return
-	if body.killbotParent == null: return
+	if !attackingPawn.get_node("Items").itemArray.has("killbot"):
+		return
+	if body.killbotParent == null:
+		return
 	var dadbot = body.killbotParent
 	dadbot.killbotStacks += 1
 	dadbot.get_node("KillbotStackTimer").start(dadbot.killbotStackTimer)
@@ -197,8 +224,11 @@ func try_killbot_stack(attackingPawn, body) -> void:
 
 func try_killbot_bleed(attack) -> void:
 	var attacker = attack.get_parent().get_parent()
-	if attacker.item != "killbot": return
+	if !attacker.get_node("Items").itemArray.has("killbot"):
+		return
 	var dadbot = attack.killbotParent
+	if dadbot == null:
+		return
 	var status = basePawn.get_node("Status")
 	if dadbot.killbotStacks == dadbot.killbotMaxStacks:
 		status.start_bleed(killbotBleedDuration, attacker)
@@ -218,7 +248,7 @@ var mapExplosionDuration = 1.0
 var mapExplosionDamage = 25
 
 func item_try_map() -> void:
-	if basePawn.item == "map" && $MapCooldownTimer.is_stopped():
+	if itemArray.has("map") && $MapCooldownTimer.is_stopped():
 		
 		# Create a bomb at previous position
 		var newBomb = mapBombEffect.instantiate()
@@ -296,7 +326,7 @@ func _on_milkshake_cooldown_timer_timeout() -> void:
 
 func item_check_milkshake() -> void:
 	pass
-	if basePawn.item == "milkshake": pass
+	if itemArray.has("milkshake"): pass
 	#if basePawn.item == "milkshake" && basePawn.hp < milkshakeThreshold * basePawn.baseHp && !milkshakeUsed:
 		#basePawn.board.combat_log("[" + str(basePawn.username) + "] used [Milkshake]")
 		#milkshakeUsed = true
@@ -310,6 +340,38 @@ func _on_milkshake_delay_timer_timeout() -> void:
 	#basePawn.hp += milkshakePercent * basePawn.baseHp
 	#basePawn.board.combat_log("[" + str(basePawn.username) + "] finished [Milkshake]")
 
+##########
+# SCYTHE #
+##########
+
+@export var scytheAttackScene: Resource
+var spiritsPerSmall = 1
+var spiritsPerMedium = 3
+var spiritPerLarge = 5
+var scytheDamage = 25
+var scytheCooldown = 5.0
+
+func activate_scythe(monster) -> void:
+	var scytheCount = 0
+	match monster:
+		"Worm": scytheCount = spiritsPerSmall
+		"Snake": scytheCount = spiritsPerMedium
+		"Fiend": scytheCount = spiritPerLarge
+	for i in scytheCount:
+		new_scythe_spirit()
+
+func player_died_new_scythe() -> void:
+	if $ScytheCooldownTimer.is_stopped():
+		new_scythe_spirit()
+
+func new_scythe_spirit() -> void:
+	var newScythe = scytheAttackScene.instantiate()
+	newScythe.position = basePawn.position
+	newScythe.attackName = "Scythe"
+	newScythe.basePawn = basePawn
+	newScythe.dmg = scytheDamage
+	get_parent().get_node("AttackContainer").add_child(newScythe)
+	$ScytheCooldownTimer.start(scytheCooldown)
 
 ##########
 # SKATES #
@@ -325,7 +387,7 @@ var skateBladeCount = 2
 
 func item_try_skating() -> void:
 	if basePawn.is_queued_for_deletion(): return
-	if basePawn.item == "skates" && $SkateCooldownTimer.is_stopped():
+	if itemArray.has("skates") && $SkateCooldownTimer.is_stopped():
 
 		var status = get_parent().get_node("Status")
 		status.start_sprint(skateDuration)
@@ -408,7 +470,8 @@ var tireDmgMod = 5
 var tireStuckDuration = 3.0
 
 func item_try_tire(attackingPawn) -> void:
-	if attackingPawn.item != "tire": return
+	if !itemArray.has("tire"):
+		return
 	else:
 		attackingPawn.get_node("TireAttackTimer").start(randf_range(attackingPawn.tireCooldownMin, attackingPawn.tireCooldownMax))
 
@@ -428,28 +491,3 @@ func try_tire_stuck(attack) -> void:
 		var randomCooldown = randf_range(tireCooldownMin, tireCooldownMax)
 		var attackingPawnItems = attack.get_parent().get_parent().get_node("Items")
 		attackingPawnItems.get_node("TireAttackTimer").start(randomCooldown)
-
-#########
-# TREAT #
-#########
-
-@export var treatAttack: Resource
-var spiritsPerSmall = 2
-var spiritsPerMedium = 5
-var spiritPerLarge = 10
-var treatDamage = 10
-
-func activate_treat(monster) -> void:
-	var treatCount = 0
-	match monster:
-		"Worm": treatCount = spiritsPerSmall
-		"Snake": treatCount = spiritsPerMedium
-		"Fiend": treatCount = spiritPerLarge
-
-	for i in treatCount:
-		var newTreat = treatAttack.instantiate()
-		newTreat.position = basePawn.position
-		newTreat.attackName = "Treat"
-		newTreat.basePawn = basePawn
-		newTreat.dmg = treatDamage
-		get_parent().get_node("AttackContainer").add_child(newTreat)
