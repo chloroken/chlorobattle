@@ -14,7 +14,7 @@ var scoreList = []
 var finalEvents = []
 
 # Mode flags
-var duelMode = true
+var duelMode = false
 var testingMode = false # disables end-of-game, xp
 var repeatPlay = true # starts new game after scoreboard
 var repeatTime = 30
@@ -36,6 +36,10 @@ func _ready() -> void:
 	randomize()
 	$cam.make_current()
 	switch_board("lobby")
+	if duelMode:
+		repeatTime = 15
+	else:
+		repeatTime = 30
 func switch_board(board: String) -> void:
 	free_children()
 	var boardChoice = lobby

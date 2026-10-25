@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://3ykwu6msspwm"]
+
+[ext_resource type="Script" uid="uid://5ugl17p34rk3" path="res://pawns/_base/combat/combat_validation.gd" id="1_k2p8w"]
+[ext_resource type="PackedScene" uid="uid://crarr4hxisv6u" path="res://pawns/_base/tombstone/tombstone.tscn" id="2_c42yt"]
+[ext_resource type="Script" uid="uid://16va65ba4kjc" path="res://pawns/_base/combat/rules/rules_item.gd" id="4_mtfyt"]
+[ext_resource type="Script" uid="uid://bypakt1jg1a7t" path="res://pawns/_base/combat/rules/rules_attack.gd" id="5_47cgh"]
+[ext_resource type="Script" uid="uid://cei2jm6y423k1" path="res://pawns/_base/combat/rules/rules_style.gd" id="6_fh5hh"]
+[ext_resource type="PackedScene" uid="uid://bvxxiorpvm6s4" path="res://pawns/_base/attacks/miss/attack_miss.tscn" id="6_m5e8w"]
+[ext_resource type="Script" uid="uid://0h1lf818vflq" path="res://pawns/_base/combat/rules/rules_status.gd" id="7_ca118"]
+[ext_resource type="Script" uid="uid://d4ecvt5esprh" path="res://pawns/_base/combat/combat_clean_up.gd" id="8_c42yt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ko14k"]
+radius = 48.04165
+
+[node name="Combat" type="Node2D" unique_id=1691095016]
+script = ExtResource("1_k2p8w")
+
+[node name="CleanUp" type="Node" parent="." unique_id=533382821]
+script = ExtResource("8_c42yt")
+tombstone = ExtResource("2_c42yt")
+
+[node name="Item" type="Node2D" parent="." unique_id=726204718]
+script = ExtResource("4_mtfyt")
+
+[node name="Attack" type="Node" parent="." unique_id=1608365900]
+script = ExtResource("5_47cgh")
+missedAttackScene = ExtResource("6_m5e8w")
+
+[node name="Status" type="Node" parent="." unique_id=980758354]
+script = ExtResource("7_ca118")
+
+[node name="Style" type="Node2D" parent="." unique_id=779156937]
+script = ExtResource("6_fh5hh")
+
+[node name="BullyArea" type="Area2D" parent="Style" unique_id=1164595527]
+collision_layer = 0
+
+[node name="Collider" type="CollisionShape2D" parent="Style/BullyArea" unique_id=922941070]
+shape = SubResource("CircleShape2D_ko14k")
+
+[connection signal="area_entered" from="Style/BullyArea" to="." method="_on_bully_area_area_entered"]

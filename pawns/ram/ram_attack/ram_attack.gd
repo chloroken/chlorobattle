@@ -1,4 +1,4 @@
-extends "res://pawns/_base/base_attack.gd"
+extends "res://pawns/_base/attacks/base_attack.gd"
 
 # make them flash rainbow colors
 # make them potentially grow as the charge goes on?

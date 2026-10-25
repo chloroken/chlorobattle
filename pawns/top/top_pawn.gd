@@ -70,6 +70,8 @@ func top_hit_wall() -> void:
 	if $BoltCooldown.is_stopped():
 		new_bolt_attack()
 func new_bolt_attack() -> void:
+	if disarm_check():
+		return
 	var boltCount = randi_range(boltCountMin, boltCountMax)
 	for i in boltCount:
 		var newAttack = boltAttack.instantiate()

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bvxxiorpvm6s4"]
+
+[ext_resource type="Script" uid="uid://bkacjdlwg1ja3" path="res://pawns/_base/attacks/miss/attack_miss.gd" id="1_8evfl"]
+[ext_resource type="Texture2D" uid="uid://dwb2xnseorpvc" path="res://pawns/_base/attacks/miss/attack_miss.png" id="2_yp8s1"]
+
+[node name="MissedAttack" type="Node2D" unique_id=817232300]
+script = ExtResource("1_8evfl")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=437453559]
+texture = ExtResource("2_yp8s1")
+
+[node name="FizzleTimer" type="Timer" parent="." unique_id=1770849223]
+
+[connection signal="timeout" from="FizzleTimer" to="." method="_on_fizzle_timer_timeout"]

@@ -130,13 +130,14 @@ func get_pawn_style(message: String):
 	if "berserk" in message: return("berserk")
 	elif "berserker" in message: return("berserk") # ALIAS
 	elif "bully" in message: return("bully")
+	elif "burnout" in message: return("burnout")
 	elif "mighty" in message: return("mighty")
 	elif "parkour" in message: return("parkour")
 	elif "slayer" in message: return("slayer")
 	elif "snowball" in message: return("snowball")
 	else: return(choose_random_style())
 func choose_random_style() -> String:
-	var allStyleTypes = ["berserk", "bully", "parkour", "mighty", "slayer", "snowball"]
+	var allStyleTypes = ["berserk", "bully", "burnout", "parkour", "mighty", "slayer", "snowball"]
 	var i = randi_range(0, allStyleTypes.size() - 1)
 	return(allStyleTypes[i])
 func get_pawn_item(message: String):
@@ -147,8 +148,9 @@ func get_pawn_item(message: String):
 	elif "killbot" in message: return("killbot")
 	elif "map" in message: return("map")
 	elif "milkshake" in message: return("milkshake")
-	elif "treat" in message: return("treat") # ALIAS
+	elif "treat" in message: return("scythe") # ALIAS
 	elif "scythe" in message: return("scythe")
+	elif "shovel" in message: return("shovel")
 	elif "skates" in message: return("skates")
 	elif "smoke" in message: return("smoke")
 	elif "vial" in message: return("smoke") # ALIAS
@@ -156,17 +158,6 @@ func get_pawn_item(message: String):
 	elif "tyre" in message: return("tire") # ALIAS
 	else: return(choose_random_item())
 func choose_random_item() -> String:
-	var allItemTypes = ["dice", "flask", "glue", "killbot", "map", "milkshake", "scythe", "skates", "smoke", "tire"]
+	var allItemTypes = ["dice", "flask", "glue", "killbot", "map", "milkshake", "scythe", "shovel", "skates", "smoke", "tire"]
 	var i = randi_range(0, allItemTypes.size() - 1)
 	return(allItemTypes[i])
-#func get_pawn_costume(message: String) -> int:
-	#if "1" in message: return(1)
-	#elif "2" in message: return(2)
-	#elif "3" in message: return(3)
-	#elif "4" in message: return(4)
-	#elif "5" in message: return(5)
-	#elif "6" in message: return(6)
-	#elif "7" in message: return(7)
-	#elif "8" in message: return(8)
-	#elif "9" in message: return(9)
-	#else: return(0)

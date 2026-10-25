@@ -1,6 +1,7 @@
 extends "res://boards/_base/board_base.gd"
 
 var lobbyTimer = 60.0
+var lobbyDuelTimer = 30.0
 var lobbyJoiners = []
 var titleStringChar = 0
 var titleStringFlashReset = 3.0
@@ -10,21 +11,24 @@ var uiFadeSpeed = 0.005
 func _ready() -> void:
 	super()
 	if get_parent().duelMode:
-		lobbyTimer = 30.0
+		lobbyTimer = lobbyDuelTimer
+	
+	if not get_parent().duelMode:
+		$UI/DuelModeLabel.visible = false
 
 	# LET TWITCH COOK
-	VerySimpleTwitch.get_token_and_login_chat()
-	VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
+	#VerySimpleTwitch.get_token_and_login_chat()
+	#VerySimpleTwitch.chat_message_received.connect(print_chatter_message)
 	#register_pawn("YouTube", choose_random_pawn(), choose_random_style(), choose_random_item())
 
 	# Create bot Pawns to test with
-	#for i in 1:
-		#register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), choose_random_item())
+	for i in 8:
+		register_pawn("Bot " + str(i+1), choose_random_pawn(), choose_random_style(), "flask")
 	# Create specific test bots
 
 	# 1v1s
-	#register_pawn("chloro", "candle", "berserk", "map")
-	#register_pawn("ulmo", choose_random_pawn(), choose_random_style(), choose_random_item())
+	#register_pawn("amalmyr", "ship", "mighty", "scythe")
+	#register_pawn("damncampers", "pirate", "slayer", "dice")
 
 	# All pawns for testing
 	#register_pawn("candle", "candle", choose_random_style(), choose_random_item())
@@ -50,7 +54,10 @@ func _ready() -> void:
 		update_joined_pawn_label(pawn)
 
 	# Start lobby timer
-	$Timers.get_node("LobbyTimer").set_wait_time(lobbyTimer)
+	if get_parent().duelMode:
+		$Timers.get_node("LobbyTimer").set_wait_time(lobbyDuelTimer)
+	else:
+		$Timers.get_node("LobbyTimer").set_wait_time(lobbyTimer)
 	$Timers.get_node("LobbyTimer").start()
 	
 	$UI.get_node("TitleColorTimer").start(titleStringFlashSpeed)

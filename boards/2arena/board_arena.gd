@@ -21,7 +21,10 @@ func _ready() -> void:
 
 	# Start timers
 	$Timers.get_node("ArenaCloseTimer").one_shot = true
-	$Timers.get_node("ArenaCloseTimer").start(duelCloseTimer)
+	if get_parent().duelMode:
+		$Timers.get_node("ArenaCloseTimer").start(duelCloseTimer)
+	else:
+		$Timers.get_node("ArenaCloseTimer").start(arenaCloseTimer)
 
 	$Sprites.get_node("Wheel1").modulate.a = 0.0
 	$Sprites.get_node("Wheel2").modulate.a = 0.0
@@ -65,8 +68,8 @@ func close_arena() -> void:
 	var ratio = $Timers.get_node("ArenaCloseTimer").get_time_left() / $Timers.get_node("ArenaCloseTimer").get_wait_time()
 	var newRatio = max(minimumRadiusRatio, ratio)
 	$Collider.scale = Vector2.ONE * newRatio
-	$Sprites.get_node("Wheel1").scale = Vector2.ONE * newRatio
-	$Sprites.get_node("Wheel2").scale = Vector2.ONE * newRatio
+	$Sprites.get_node("Wheel1").scale = Vector2.ONE * newRatio * 0.9
+	$Sprites.get_node("Wheel2").scale = Vector2.ONE * newRatio * 0.9
 	boardRadius = $Collider.get_node("Shape").shape.get_radius() * newRatio
 
 	get_parent().get_node("cam").zoom.x = 2 - ratio
@@ -106,6 +109,6 @@ func combat_log(msg: String) -> void:
 	for i in range(min(combatLogLineCount - 1,combatLogText.size()) - 1, -1, -1):
 		newString += "" + combatLogText[i] + "\n"
 	$UI.get_node("CombatLogRichLabel").text = newString
-	debug_log(msg)
+	#debug_log(msg)
 func debug_log(msg) -> void:
 	print(msg)

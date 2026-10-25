@@ -1,4 +1,4 @@
-extends "res://pawns/_base/base_attack.gd"
+extends "res://pawns/_base/attacks/base_attack.gd"
 
 # Physics variables
 var speed

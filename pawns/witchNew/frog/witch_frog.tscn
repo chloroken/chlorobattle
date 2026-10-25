@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b4mx4bdjwrh7v"]
 
-[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/base_attack.tscn" id="1_eilfj"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attacks/base_attack.tscn" id="1_eilfj"]
 [ext_resource type="Script" uid="uid://dtgm1uisxg05g" path="res://pawns/witchNew/frog/witch_frog.gd" id="2_p8fkf"]
 [ext_resource type="Texture2D" uid="uid://bwagwnu7xf0hy" path="res://pawns/witchNew/frog/witch_frog.png" id="3_350sc"]
 

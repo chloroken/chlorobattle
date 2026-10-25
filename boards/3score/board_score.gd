@@ -29,7 +29,8 @@ func _ready() -> void:
 	for i in maxEventLines:
 	#for i in get_parent().finalEvents.size(): # all lines
 		var line = get_parent().finalEvents.pop_front()
-		$UI.get_node("EventLabel").text += line + "\n"
+		if not line == null:
+			$UI.get_node("EventLabel").text += line + "\n"
 
 func _process(_delta: float) -> void:
 	if !get_parent().repeatPlay: $UI.get_node("AutoplayLabel").text = ""

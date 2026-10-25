@@ -101,7 +101,7 @@ func haunt_custom_combat_log(hauntDamage) -> void:
 	board.combat_log("[[color=#FDFD97]" + str(username) + "[/color]] healed for " + str(int(hauntDamage)) + " ([color=#9EE09E]" + str(hauntAttackName) + "[/color])")
 func haunt_custom_clean_up_step() -> void:
 	hauntTarget.isHaunted = false
-	hauntTarget.get_node("Combat").clean_up_pawn(self)
+	hauntTarget.get_node("Combat").get_node("CleanUp").clean_up_pawn(self)
 func haunt_apply_buffs() -> void:
 	$Status.start_sprint(hauntSprintDuration)
 	$Status.start_tanky(hauntTankyDuration)

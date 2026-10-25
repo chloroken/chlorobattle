@@ -54,6 +54,8 @@ func slug_regen() -> void:
 func _on_slug_respawn_timer_timeout() -> void:
 	hp = baseHp
 	$GUI.visible = true
+	if style == "burnout":
+		$Styles.burnout_update_charges()
 func try_revive() -> bool:
 	if reviveLivesRemaining > 0 && $SlugRespawnTimer.is_stopped():
 		revive_slug()

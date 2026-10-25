@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://oc4m32768tcv"]
 
-[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/base_attack.tscn" id="1_mxp6f"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attacks/base_attack.tscn" id="1_mxp6f"]
 [ext_resource type="Texture2D" uid="uid://b3vvru32gd4jf" path="res://pawns/vendor/soda/soda_attack.png" id="2_nfi7h"]
 [ext_resource type="Script" uid="uid://xcv6ki0o6fmi" path="res://pawns/vendor/soda/soda_attack.gd" id="2_vurk2"]
 

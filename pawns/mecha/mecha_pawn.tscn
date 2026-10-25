@@ -7,6 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://dqjv85wi1dovf" path="res://pawns/mecha/missile/explosion/mecha_missile_explosion.tscn" id="4_l2oen"]
 [ext_resource type="Texture2D" uid="uid://b1qcahc0eabfe" path="res://pawns/mecha/mecha_pawn_walker.png" id="4_vvw07"]
 [ext_resource type="PackedScene" uid="uid://c4kqafy7ymmgh" path="res://pawns/mecha/glaive/mecha_glaive.tscn" id="5_rcuk4"]
+[ext_resource type="Texture2D" uid="uid://dvshhmwshxroi" path="res://assets/costume_archive/cyclone_plane_costume.png" id="8_liye1"]
+[ext_resource type="Texture2D" uid="uid://bhqrgkv4d6trn" path="res://assets/costume_archive/cyclone_mecha_costume.png" id="9_nynqg"]
+[ext_resource type="Texture2D" uid="uid://ybdq3txgdd3c" path="res://assets/costume_archive/mecha_costume1.png" id="10_k6rrj"]
+[ext_resource type="Texture2D" uid="uid://c8f6w2x2y4b6" path="res://assets/costume_archive/mecha_costum1a.png" id="11_pjdlw"]
 
 [node name="MechaPawn" unique_id=1877646274 instance=ExtResource("1_cmg7j")]
 script = ExtResource("2_cssyw")
@@ -20,6 +24,7 @@ def = 0.4
 dmg = 20.0
 pen = 0.2
 spd = 30.0
+costumeArray = Array[Texture]([ExtResource("8_liye1"), ExtResource("9_nynqg"), ExtResource("10_k6rrj"), ExtResource("11_pjdlw")])
 
 [node name="FormSwapTimer" type="Timer" parent="." index="0" unique_id=16919321]
 

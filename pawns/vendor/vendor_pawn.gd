@@ -13,7 +13,23 @@ func _ready() -> void:
 	super()
 	$WobbleTimer.start(wobbleDuration)
 	if not inLobby:
+		give_vendor_items()
 		new_attack_cycle(sodaCooldownMin, sodaCooldownMax)
+
+func give_vendor_items() -> void:
+	var itemStrings = ["dice", "flask", "glue", "killbot", "map", "milkshake", "skates", "shovel", "smoke", "scythe", "tire"]
+
+	var newItem = itemStrings.pick_random()
+	while $Items.itemArray.has(newItem):
+		newItem = itemStrings.pick_random()
+	$Items.itemArray.append(newItem)
+
+	var newItem2 = itemStrings.pick_random()
+	while $Items.itemArray.has(newItem2):
+		newItem2 = itemStrings.pick_random()
+	$Items.itemArray.append(newItem2)
+	board.combat_log("[[color=#FDFD97]" + str(username) + "[/color]] brought [[color=cyan]" + str(newItem).capitalize() + "[/color]] and [[color=cyan]" + str(newItem2).capitalize() + "[/color]]")
+
 func _on_attack_cooldown_timer_timeout() -> void:
 	new_attack_cycle(sodaCooldownMin, sodaCooldownMax)
 	if disarm_check():

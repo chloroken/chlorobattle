@@ -28,8 +28,9 @@ var trickshotDamageRamp = 25
 func _ready() -> void:
 	super()
 
-	# Start attack cycle
-	if !inLobby:
+	if username == "emmywinkle":
+		$PawnSprite.texture = costumeArray[0]
+	if not inLobby:
 		start_attack_cooldown()
 		$GrogCooldownTimer.one_shot = true
 		start_grog_cooldown()
@@ -58,6 +59,8 @@ func _on_grog_cooldown_timer_timeout() -> void:
 	start_grog_cooldown()
 
 func shoot_trickshot() -> void:
+	if disarm_check():
+		return
 	var newAttack2 = trickshotAttack.instantiate()
 	newAttack2.position = self.position
 	newAttack2.dmg = self.dmg * 2

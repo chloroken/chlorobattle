@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c2o2pouptkv0t" path="res://monsters/_base/spawner/monster_spawner.tscn" id="3_2ogqa"]
 [ext_resource type="AudioStream" uid="uid://cr6bhvej0b2xx" path="res://boards/2arena/board_arena.mp3" id="3_epplf"]
 [ext_resource type="FontFile" uid="uid://7btvaidie68o" path="res://assets/fonts/NexaHeavy.ttf" id="3_kkqx4"]
-[ext_resource type="AudioStream" uid="uid://c5efgrhkqu74x" path="res://pawns/_tombstone/tombstone.mp3" id="4_31rsc"]
+[ext_resource type="AudioStream" uid="uid://c5efgrhkqu74x" path="res://pawns/_base/tombstone/tombstone.mp3" id="4_31rsc"]
 [ext_resource type="FontFile" uid="uid://ugg0akhswapu" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="4_epplf"]
 
 [node name="BoardArena" unique_id=1844479333 instance=ExtResource("1_cxbok")]

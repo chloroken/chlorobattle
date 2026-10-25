@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://djsv1l7efgdb"]
 
-[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/base_attack.tscn" id="1_y34fh"]
+[ext_resource type="PackedScene" uid="uid://c0isnoaybkehl" path="res://pawns/_base/attacks/base_attack.tscn" id="1_y34fh"]
 [ext_resource type="Script" uid="uid://dl0skaphc217l" path="res://pawns/tree/fruit_attack/tree_fruit.gd" id="2_36noy"]
 [ext_resource type="Texture2D" uid="uid://dqbk8vwdx04r5" path="res://pawns/tree/fruit_attack/tree_fruit.png" id="2_fqujg"]
 

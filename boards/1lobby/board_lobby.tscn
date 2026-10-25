@@ -116,8 +116,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_fonts/normal_font = ExtResource("6_8svab")
 bbcode_enabled = true
-text = "
-~[color=#FF6663]PAWNS[/color]~
+text = "~[color=#FF6663]PAWNS[/color]~
 Candle
 Cat
 Chair
@@ -154,9 +153,11 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_fonts/normal_font = ExtResource("6_8svab")
 bbcode_enabled = true
-text = "~[color=#CC99C9]STYLES[/color]~
+text = "
+~[color=#CC99C9]STYLES[/color]~
 Berserk
 Bully
+Burnout
 Mighty
 Parkour
 Slayer
@@ -170,6 +171,7 @@ Killbot
 Map
 Milkshake
 Scythe
+Shovel
 Skates
 Smoke
 Tire
@@ -188,6 +190,16 @@ bbcode_enabled = true
 text = "[color=slate_gray]![/color]join [color=#FF6663]pawn[/color] [color=#CC99C9]style[/color] [color=#9EC1CF]item[/color]"
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="DuelModeLabel" type="Label" parent="UI" parent_id_path=PackedInt32Array(1021448429) index="9" unique_id=399379910]
+offset_right = 1440.0
+offset_bottom = 960.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.19607843)
+theme_override_fonts/font = ExtResource("4_k6luq")
+theme_override_font_sizes/font_size = 96
+text = "Duel Mode"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="timeout" from="Timers/LobbyTimer" to="." method="_on_lobby_timer_timeout"]
 [connection signal="timeout" from="UI/TitleColorTimer" to="." method="_on_title_color_timer_timeout"]

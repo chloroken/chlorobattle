@@ -31,8 +31,8 @@ func monster_hit(area) -> void:
 			attackingPawn.hp += hpToHeal
 			attackingPawn.damageHealed += hpToHeal
 			board.combat_log("[[color=#FDFD97]" + str(attackingPawn.username) + "[/color]] healed for " + str("%0.2f" % hpToHeal) + " ([color=#9EE09E]" + str(baseMonster.monsterName) + "[/color])")
-		if !baseMonster.hasRevived && attackingPawn.get_node("Items").itemArray.has("treat"):
+		if !baseMonster.hasRevived && attackingPawn.get_node("Items").itemArray.has("scythe"):
 			baseMonster.hasRevived = true
-			attackingPawn.get_node("Items").activate_soulcatcher(baseMonster.monsterName)
+			attackingPawn.get_node("Items").activate_scythe(baseMonster.monsterName)
 
 		baseMonster.queue_free()

@@ -25,6 +25,12 @@ var missileBoardGrace = 1.05
 
 func _ready() -> void:
 	super()
+	if username == "Hayes909":
+		jetFormSprite = costumeArray[0]
+		walkerFormSprite = costumeArray[1]
+	elif username == "Amalmyr":
+		jetFormSprite = costumeArray[2]
+		walkerFormSprite = costumeArray[3]
 	choose_initial_form()
 	if !inLobby:
 		enable_form_cycling()
